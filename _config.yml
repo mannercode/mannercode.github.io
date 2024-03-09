@@ -20,11 +20,10 @@ theme: minima
 # If you want to use the latest Minima version on GitHub Pages, use the following setting and
 # add a line comment on "theme: minima" above.
 #remote_theme: jekyll/minima
+
 plugins:
-  - jekyll-feed
-# plugins:
-#   - jekyll-seo-tag
-#   - jekyll-plantuml
+  - jekyll-seo-tag
+  - jekyll-plantuml
 
 # Theme-specific settings
 
