@@ -22,6 +22,8 @@ jobs:
         with:
           ruby-version: 2.7
           bundler-cache: true
+      - name: Install plantuml
+        run: apt-get install -y default-jdk plantuml
       - name: Clone target branch
         run: |
           REMOTE_BRANCH="${REMOTE_BRANCH:-gh-pages}"

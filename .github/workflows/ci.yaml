@@ -25,5 +25,3 @@ jobs:
           bundler-cache: true
       - name: Run tests
         run: script/cibuild
-      - name: Run tests
-        run: apt-get install -y default-jdk plantuml
