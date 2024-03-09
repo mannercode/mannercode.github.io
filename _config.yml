@@ -24,6 +24,7 @@ theme: minima
 plugins:
   - jekyll-seo-tag
   - jekyll-plantuml
+
 # Theme-specific settings
 
 plantuml:
