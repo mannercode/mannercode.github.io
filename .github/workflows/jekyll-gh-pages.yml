@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install plantuml
-        run: apt-get install -y default-jdk plantuml
+        run: sudo apt-get install -y default-jdk plantuml
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Pages
