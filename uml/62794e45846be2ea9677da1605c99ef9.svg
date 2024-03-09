@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="236px" preserveAspectRatio="none" style="width:464px;height:236px;" version="1.1" viewBox="0 0 464 236" width="464px" zoomAndPan="magnify"><defs><filter height="300%" id="fcer2oqibsu5p" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><rect fill="#FEFECE" filter="url(#fcer2oqibsu5p)" height="36.2969" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="110" x="10" y="104.4453"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="90" x="20" y="127.4404">let count = 0</text><rect fill="#FEFECE" filter="url(#fcer2oqibsu5p)" height="36.2969" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="237" x="170" y="20"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="217" x="180" y="42.9951">function read() { return count }</text><path d="M120,122.5938 L130,122.5938 C145,122.5938 145,38.1484 160,38.1484 L170,38.1484 " fill="none" style="stroke: #A80036; stroke-width: 1.0;"/><rect fill="#FEFECE" filter="url(#fcer2oqibsu5p)" height="36.2969" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="283" x="170" y="76.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="263" x="180" y="99.292">function write() { console.log(count) }</text><path d="M120,122.5938 L130,122.5938 C145,122.5938 145,94.4453 160,94.4453 L170,94.4453 " fill="none" style="stroke: #A80036; stroke-width: 1.0;"/><rect fill="#FEFECE" filter="url(#fcer2oqibsu5p)" height="36.2969" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="236" x="170" y="132.5938"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="216" x="180" y="155.5889">function change() { count++ }</text><path d="M120,122.5938 L130,122.5938 C145,122.5938 145,150.7422 160,150.7422 L170,150.7422 " fill="none" style="stroke: #A80036; stroke-width: 1.0;"/><rect fill="#FEFECE" filter="url(#fcer2oqibsu5p)" height="36.2969" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="225" x="170" y="188.8906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="205" x="180" y="211.8857">function reset() { count = 0 }</text><path d="M120,122.5938 L130,122.5938 C145,122.5938 145,207.0391 160,207.0391 L170,207.0391 " fill="none" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e3c78a4c1a04b7f6da7de83978a499a1]
+@startmindmap
+* let count = 0
+** function read() { return count }
+** function write() { console.log(count) }
+** function change() { count++ }
+** function reset() { count = 0 }
+@endmindmap
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.10+7-Debian-1deb12u1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

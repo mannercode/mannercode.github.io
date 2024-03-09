@@ -1,0 +1,24 @@
+<footer class="site-footer h-card">
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        {%- if site.author %}
+        <ul class="contact-list">
+          {% if site.author.link -%}
+          <li><a class="p-name" href="{{ site.author.link }}">{{ site.author.link }}</a></li>
+          {% endif -%}
+          {% if site.author.email -%}
+          <li><a class="u-email" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
+          {%- endif %}
+        </ul>
+        {%- endif %}
+      </div>
+      <div class="footer-col">
+        <p>{{ site.description | escape }}</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
