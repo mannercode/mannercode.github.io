@@ -1,0 +1,25 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.122.1/containers/docker-existing-dockerfile
+{
+    "name": "${containerWorkspaceFolderBasename}",
+    "context": ".",
+    "dockerFile": "Dockerfile",
+    "runArgs": [
+        "--name",
+        "${containerWorkspaceFolderBasename}-vscode"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.live-server",
+                "jebbs.plantuml"
+            ],
+            "settings": {
+                "livePreview.portNumber": 3030,
+                "remote.downloadExtensionsLocally": true,
+                "plantuml.server": "https://www.plantuml.com/plantuml",
+                "plantuml.render": "PlantUMLServer"
+            }
+        }
+    }
+}
