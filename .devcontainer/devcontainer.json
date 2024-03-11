@@ -8,6 +8,7 @@
         "--name",
         "${containerWorkspaceFolderBasename}-vscode"
     ],
+    "postCreateCommand": "bundle install",
     "customizations": {
         "vscode": {
             "extensions": [
