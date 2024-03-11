@@ -210,6 +210,7 @@ function printFileDocument(doc: File) {
   }
 }
 ```
+언뜻 괜찮은 방법처럼 보인다.
 
 그런데 보통은 아래처럼 연결된 함수를 중첩해서 호출하기 마련이다.
 
