@@ -10,7 +10,7 @@ title:  본질 기반 해석(Essence-Based Interpretation, EBI)
 
 사용자에게 ‘상/하/좌/우’를 선택할 수 있는 방향키를 제공해야 한다. 4개 화살표의 모양은 동일하고 방향만 다르다. 이 때 4개의 화살표를 구현하는 방법이 두 가지 있다.
 
-### 1) 방법1 - 한 개의 이미지를 회전시켜서 재사용
+### 1.1 한 개의 이미지를 회전시켜서 재사용
 
 `방법1`은 한 개의 화살표 이미지(arrow.png)를 회전시켜서 구현하는 것이다. 위에서 화살표의 모양은 동일하다고 했기 때문에 구현에 문제는 없다.
 
@@ -24,9 +24,9 @@ title:  본질 기반 해석(Essence-Based Interpretation, EBI)
 ```
 
 ![방향키1](/assets/images/arrows1.svg) \
-*[그림-1] 한 개의 이미지를 회전시켜서 구성된 방향키*
+*[그림 1-1] 한 개의 이미지를 회전시켜서 구성된 방향키*
 
-### 2) 방법2 - 4개의 이미지를 사용
+### 1.2 4개의 이미지를 사용
 
 `방법2`는 상/하/좌/우에 해당하는 4개의 이미지를 사용하는 것이다.
 
@@ -40,13 +40,13 @@ title:  본질 기반 해석(Essence-Based Interpretation, EBI)
 ```
 
 ![방향키2](/assets/images/arrows2.svg) \
-*[그림-2] 상/하/좌/우 4개의 이미지로 구성된 방향키*
+*[그림 1-2] 상/하/좌/우 4개의 이미지로 구성된 방향키*
 
-### 1.3. 옳은 방법은 무엇일까?
+### 1.3 옳은 방법은 무엇일까?
 
 무엇이 옳은 것일까? 혹은 이 선택에 있어서 옳고 그름이 존재하긴 하는 걸까? 그저 개인의 철학에 따른 선택만이 있는 것은 아닐까?
 
-읽기 쉬운 코드를 추구한다면 `방법1`지만 효율성을 추구한다면 `방법2`일 것이다.
+읽기 쉬운 코드를 추구한다면 `방법1`이지만 효율성을 추구한다면 `방법2`일 것이다.
 
 읽기 쉬운 코드가 옳은가? 성능 효율적인 코드가 옳은가? 대체로 과거에는 성능 효율을 우선했겠지만 요즘처럼 하드웨어의 성능이 충분한 경우에는 읽기 쉬운 코드를 선호한다. 그런 이유로 읽기 쉬운 코드를 선택해야 할까?
 
@@ -59,10 +59,10 @@ title:  본질 기반 해석(Essence-Based Interpretation, EBI)
 그러나 사용자가 생각한 방향키는 *[그림-4]* 와 같이 키보드 구석에 고정되어 있는 4개의 방향키였을 것이다. 그리고 그런 사용자의 생각과 유사한 것은 `방법2`와 같이 4개의 이미지를 사용하는 것이다.
 
 ![방향키3](/assets/images/arrows3.svg) \
-*[그림-3] 무언가를 가리키는 용도의 화살표*
+*[그림 1-3] 무언가를 가리키는 용도의 화살표*
 
 ![방향키4](/assets/images/arrows4.svg) \
-*[그림-4] 서로 다른 모양의 화살표를 가지는 방향키*
+*[그림 1-4] 서로 다른 모양의 화살표를 가지는 방향키*
 
 사용자에게 보여지는 결과물은 같기 때문에 어떤 방법을 선택해도 큰 차이는 없다고 생각할지도 모르겠다.
 
@@ -74,7 +74,7 @@ title:  본질 기반 해석(Essence-Based Interpretation, EBI)
 
 화살표의 모양이 동일한 것은 그저 우연일 뿐이다. 이런 우연으로 생긴 상황을 구현에 반영하면 사용자의 생각과 멀어지게 된다. 다시 얘기하자면 사용자의 의도를 무시한 채 구현 편의성만을 추구하면 유지보수가 점점 더 어려워 지게 된다.
 
-### 4) 해석의 어려움
+### 1.4 해석의 어려움
 
 여러 방법을 두고 고민하게 되는 이유 중에 하나는 당연한 정보는 누락되기 때문이다.
 
@@ -99,6 +99,64 @@ title:  본질 기반 해석(Essence-Based Interpretation, EBI)
 > 만약 프로젝트 초기에 '결제금액'을 사용자 관점에서 별도의 객체로 설계했다면 이후의 많은 변경사항을 좀 더 유연하게 수용할 수 있었을 것이다.
 
 ## 2. REST API 디자인
+
+[그림 2-1]은 사용자가 영화 예매 서비스에서 상영 중인 영화/극장/시간을 선택하는 시퀀스 다이어그램이다.
+
+```plantuml
+' {% plantuml %}
+@startuml
+actor 사용자 as customer
+participant "Frontend" as front
+participant "Backend" as back
+
+customer -> front : 영화 예매 시스템에 접속
+front -> back : 상영 영화 목록 요청
+front <-- back : movies[]
+customer <-- front : 영화 목록 제공
+customer -> front : 영화 선택
+front -> back : 상영 극장 목록 요청
+front <-- back : theaters[]
+customer <-- front : 극장 목록 제공
+customer -> front : 극장 선택
+front -> back : 상영일 목록 요청
+front <-- back : showdates[]
+customer <-- front : 상영일 목록 제공
+@enduml
+' {% endplantuml %}
+```
+
+*[그림 2-1]*
+
+이 때 상영시간을 제공하는 REST API를 어떻게 디자인 해야 할까?
+
+REST API의 라우팅 디자인은 크게 `Shallow Routing`과 `Nested Routing`이 있다.
+
+`Shallow Routing`은 각 리소스를 독립적으로 관리할 수 있으므로 확장성이 좋다. 그러나 리소스 간의 관계를 명확하게 표현하지 않기 때문에 복잡한 계층 구조의 데이터를 표현하는데 어려움이 있다.
+
+`Nested Routing`은 리소스 간의 관계를 URL에서 명확하게 표현할 수 있으므로, 복잡한 리소스 구조를 표현하는데 적합하다. 그러나 중첩된 리소스 구조가 변경될 경우, URL도 함께 변경되어야 하므로 유연성이 제한된다.
+
+```sh
+# Shallow Routing
+/screening?movieId={movieId}&theaterId={theaterId}
+
+# Nested Routing
+/screening/movies/{movieId}/theaters/{theaterId}
+```
+
+두 방식 중에서 무엇을 선택할 것인지는 개념적인 관점에서 리소스의 구조가 중첩되는 것인지를 우선해서 판단해야 한다. 판단하기 어렵다면 `Shallow Routing`을 사용한다.
+
+만약, 경로가 `/screening/movies`가 아니라 `/screening/theaters`로 시작한다면 어떤 의미일까?
+
+```sh
+/screening/theaters/{theaterId}/movies/{movieId}
+```
+
+이것은 사용자 시나리오에서 극장을 먼저 선택하고 그 극장에서 상영 중인 영화를 선택한다는 뜻이다. 이렇게 `Nested Routing`는 사용자에게 구조적인 힌트를 제공한다.
+만약 이 예매 프로세스를 REST API로 표현하지 않고 `BookingProcess.ts`와 같은 코드로 표현하려고 하면 상태를 가지지 않는 HTTP의 특성 상 많은 어려움이 따를 것이다.
+
+거듭 얘기하지만 `Shallow Routing`이나 `Nested Routing`이 중요한 것이 아니다.
+분석과 구현의 개념이 일치되도록 하는 것이 중요하다. `Nested Routing`를 선택한다는 것은 분석 단계에서 예매 프로세스가 그렇게 정의된 것을 반영하는 것 뿐이다.
+기술적 우월성 보다 분석을 정확히 반영하는 것이 우선이다.
 
 REST API에는 크게 두 가지 디자인이 있다. shallow routing과 nested routing이다. 어느 쪽이 우월한 기술인가? 혹은 어떤 기술을 선택해야 하는가? 이것은 많은 논쟁이 있다.
 

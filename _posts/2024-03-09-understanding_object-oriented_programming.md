@@ -222,6 +222,7 @@ function printFileDocument(doc: File) {
   }
 }
 ```
+
 언뜻 괜찮은 방법처럼 보인다.
 
 그런데 보통은 아래처럼 중첩해서 함수를 호출하기 마련이다.
@@ -435,10 +436,11 @@ DocumentReadable <|.. FileDocument
 
 {% plantuml %}
 @startmindmap
+
 * let count = 0
-** function read() { return count }
+**function read() { return count }
 ** function write() { console.log(count) }
-** function change() { count++ }
+**function change() { count++ }
 ** function reset() { count = 0 }
 @endmindmap
 {% endplantuml %}
