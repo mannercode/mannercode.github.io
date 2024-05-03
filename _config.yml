@@ -27,7 +27,6 @@ plugins:
   - jekyll-plantuml
 
 # Theme-specific settings
-
 plantuml:
   output_format: svg
 
