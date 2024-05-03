@@ -434,13 +434,13 @@ DocumentReadable <|.. FileDocument
 
 아래의 그림에서 count 변수를 사용하는 read(), write(), change(), reset() 함수들은 서로 연결되어 있다. 특히 값을 변경하는 change(), reset() 함수는 다른 모든 함수에 직접적인 영향을 끼친다.
 
+<!-- markdownlint-disable MD032 MD037 -->
 {% plantuml %}
 @startmindmap
-
 * let count = 0
-**function read() { return count }
+** function read() { return count }
 ** function write() { console.log(count) }
-**function change() { count++ }
+** function change() { count++ }
 ** function reset() { count = 0 }
 @endmindmap
 {% endplantuml %}
@@ -460,7 +460,7 @@ MSA는 구조적으로 객체 지향 방식과 유사한 면이 많다.
 
 객체 지향의 핵심은 데이터와 함수를 하나의 객체로 묶는 것이다. MSA에서 서비스도 DB와 API를 하나로 묶어서 관리하고 각 서비스의 내부 구현과 DB는 외부에 노출되지 않는다. 이것은 서비스 내부의 변화가 외부에 영향을 미치지 않도록 하면서 유지보수성과 확장성에 큰 장점이 된다.
 
-<!-- {% plantuml %}
+{% plantuml %}
 @startditaa
 +-----------------+        +----------------------+
 |      Class      |        |    Microservice      |
@@ -474,7 +474,7 @@ MSA는 구조적으로 객체 지향 방식과 유사한 면이 많다.
 |                 |        |   + POST /resource   |
 +-----------------+        +----------------------+
 @endditaa
-{% endplantuml %} -->
+{% endplantuml %}
 
 OOP와 MSA가 구조적으로 유사하다는 사실에서 알 수 있듯이, OOP를 제대로 이해하지 못하면 MSA와 같은 아키텍처를 이해하고 올바르게 설계하는 것은 많이 어려운 일이 될 것이다.
 
