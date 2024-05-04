@@ -1,0 +1,21 @@
+@startuml
+
+@startditaa
+         "[file].txt"       "%5Bfile%5D.txt"
+             |           +-----------------------+
+             |           |  Save as received?    |
+             |           |                       v
+URL encoding |     +-----+----+            +-------------+
+             |     |          |            |             |
+             |     |          |            |  DataBase   |
+             +---->|  SERVER  |            |             |
+ "%5Bfile%5D.txt"  |          |            | o filename  |
+                   |          |            |          {s}|
+                   +-----+----+            +-------------+
+                         |                       ^
+                         |   Decode then save?   |
+                         +-----------------------+
+                                 "[file].txt"
+@endditaa
+
+@enduml

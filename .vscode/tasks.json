@@ -7,6 +7,11 @@
             "label": "Run",
             "type": "shell",
             "command": "bundle exec jekyll serve --livereload"
+        },
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "rm -rf ./_site ./uml;bundle exec jekyll build -t -V"
         }
     ]
 }

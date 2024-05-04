@@ -1,0 +1,11 @@
+@startuml
+
+@startmindmap
+* let count = 0
+** function read() { return count }
+** function write() { console.log(count) }
+** function change() { count++ }
+** function reset() { count = 0 }
+@endmindmap
+
+@enduml
