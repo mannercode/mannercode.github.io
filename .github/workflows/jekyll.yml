@@ -47,7 +47,6 @@ jobs:
       - name: Bundle install
         run: bundle install
       - name: Build with Jekyll
-        # Outputs to the './_site' directory by default
         run: bundle exec jekyll build -t -V --future
         env:
           JEKYLL_ENV: production
