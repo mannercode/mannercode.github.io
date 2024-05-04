@@ -1,3 +1,3 @@
-FROM ruby
+FROM ruby:bookworm
 RUN apt-get update && apt-get install -y plantuml
 RUN gem install bundler jekyll
