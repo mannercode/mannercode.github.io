@@ -28,7 +28,7 @@ plugins:
 
 # Theme-specific settings
 plantuml:
-  output_format: svg
+  output_format: png
 
 # If you want to link only specific pages in your header, use this and add the path to the pages
 # in order as they should show up.
