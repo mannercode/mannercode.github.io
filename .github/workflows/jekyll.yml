@@ -44,12 +44,13 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
-      - name: Bundle install
-        run: bundle install
-      - name: Build with Jekyll
-        run: bundle exec jekyll build -t -V
-        env:
-          JEKYLL_ENV: production
+      # ditaa svg 문제 때문에 로컬에서 빌드해서 올린다.
+      # - name: Bundle install
+      #   run: bundle install
+      # - name: Build with Jekyll
+      #   run: bundle exec jekyll build -t -V
+      #   env:
+      #     JEKYLL_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
