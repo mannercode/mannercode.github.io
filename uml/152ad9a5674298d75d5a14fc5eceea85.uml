@@ -1,0 +1,33 @@
+@startuml
+
+@startuml
+
+interface DocumentReadable {
+    +getChar() : string | null
+    +close() : void
+}
+
+class BufferDocument {
+    -buffer : string
+    -position : number
+    +constructor(buffer : string)
+    +getChar() : string | null
+}
+
+class FileDocument {
+    -stream : ReadStream
+    +constructor(filename : string)
+    +getChar() : string | null
+    +close() : void
+}
+
+package printDocument <<Cloud>> {
+}
+
+printDocument --> DocumentReadable : uses
+DocumentReadable <|.. BufferDocument
+DocumentReadable <|.. FileDocument
+
+@enduml
+
+@enduml
