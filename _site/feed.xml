@@ -1,27 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-05-04T10:13:25+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-05-05T20:50:09+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
 </subtitle><author><name>mannercode</name><email>hello@mannercode.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/03/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-03T00:00:00+00:00</published><updated>2024-05-03T00:00:00+00:00</updated><id>/2024/05/03/ebi</id><content type="html" xml:base="/2024/05/03/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
-<p>개발자라면 리팩토링과 디자인패턴을 공부하고 실제 프로젝트에 적용하려고 할 때 고민스러웠던 경험이 있을 것이다. 이 상황에서 어떤 패턴을 적용해야 할까? 어떤 구조가 옳은가? 사소하지만 그렇다고 그냥 넘어가기에는 이유가 명확하지 않은 그런 꺼림직한 경험들 말이다.</p>
+<p>나는 좋은 코드에 대해서 오랜시간 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작하더라도 더 좋은 구조나 이름에 대해서 끊임없이 고민하기도 했다.</p>
 
-<p>이런 문제들은 명확한 이유를 설명하지 못하고 정답이라는 것이 있을 것 같지도 않기 때문에 개인의 성향이나 스타일로 치부하게 된다.</p>
+<p>그럼에도 불구하고 선택의 순간에 명확히 답을 내리지 못하고 오늘은 A방법으로 구현했다가 내일은 B방법으로 구현하는 일이 오랜시간 지속됐다. 왜냐하면 두 방법 모두 장단점이 명확했기 때문에 어느 한 방법을 선택해도 아쉬움이 남기 때문이다. 여기서 방법은 디자인 패턴이 될 수도 있고 함수나 변수의 이름일 수도 있다.</p>
 
-<p>그런데 그게 최선일까? 이런 문제들의 해답이 정말 개인의 스타일에 좌우되어야 하는 걸까? 이것은 좋은 코드에 대해서 오랜시간 고민하면서 끊임없이 나를 괴롭히던 질문이었다. 디자인 패턴과 아키텍처, 개발 방법론에 두루 노력해도 이것은 쉽지 않은 문제였다. 그렇게 고민을 안고 여러 종류의 소프트웨어를 개발하다가 문득 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>에 대해서 깨닫게 됐는데 도메인 주도 개발(DDD)의 도움이 컸다.</p>
+<p>그 때의 나는 개발자로서 어느 정도 역량을 갖추고 있다고 생각했지만, 이런 선택의 고민은 아무리 경험과 노력을 쌓아도 좀처럼 사라지지 않을 것만 같았다. 이 부분 만큼은 정답이 존재하지 않고 개인의 성향에 따른 선택이 있을 뿐인, 예술의 영역은 아닐까? 하는 생각도 했다. 그 만큼 나에게는 넘기 힘든 벽처럼 보였다. 마치 디자인 패턴을 이해하지 못하는 개발자들이 디자인 패턴은 실무에서 쓸모없다고 치부하는 것과 같은 방어기재였을지도 모르겠다.</p>
 
-<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 도메인 주도 개발(DDD)과 비슷한 맥락을 가진다. 차이점이라면 DDD는 도메인에 기반한 체계적인 설계 방법론이다. 반면에 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 개발 과정에서 마주하는 선택의 순간마다 본질에 입각해 사고하고 판단해야 하는, 개발자가 견지해야 하는 일종의 원칙이다.</p>
+<p>그러다가 문득 내가 놓치고 있던 것을 깨달았는데 바로 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이다. <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 무언가를 바라볼 때 그 본질을 통찰하려는 노력이다.</p>
 
-<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>는 내가 만든 용어인데 왜 기존에 이런 개념을 정의하는 용어가 없었는지 의아하다. 너무 당연한 개념이라서 이름까지 붙일 필요가 없었다고 하기에는 많은 개발자들이 쉽게 간과하는 것 같다.</p>
+<p>이것은 <code class="language-plaintext highlighter-rouge">도메인 주도 디자인(DDD)</code>를 고민하다가 떠올린 개념인 만큼 <code class="language-plaintext highlighter-rouge">도메인 주도 디자인(DDD)</code>과 비슷한 맥락을 가진다. 그래서 굳이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이라는 거창한 이름으로 정의하려니 좀 창피하기도 하다. 그러나 나를 포함한 많은 개발자들이 이 개념의 존재를 보다 분명하게 인지하는데 도움이 되기를 바라는 마음으로 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>을 정의하고자 한다.</p>
 
 <p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 구체적인 방법론은 아니고 추상적인 개념에 가깝기 때문에 명료한 문장으로 설명하기가 어렵다. 그래서 몇 가지 사례를 통해서 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이 무엇인지 설명하고자 한다.</p>
 
 <h2 id="2-방향키의-구현">2. 방향키의 구현</h2>
 
-<p>사용자에게 ‘상/하/좌/우’를 선택할 수 있는 방향키를 제공해야 한다. 4개 화살표의 모양은 동일하고 방향만 다르다. 이 때 4개의 화살표를 구현하는 방법이 두 가지 있다.</p>
+<p>사용자에게 ‘상/하/좌/우’를 선택할 수 있는 방향키를 제공해야 한다. 4개 화살표의 모양은 동일하고 방향만 다르다. 이 때 방향키를 구현하는 방법이 두 가지 있다.</p>
 
 <h3 id="21-방법1---한-개의-이미지를-회전시켜서-재사용">2.1. 방법#1 - 한 개의 이미지를 회전시켜서 재사용</h3>
 
-<p><code class="language-plaintext highlighter-rouge">방법#1</code>은 한 개의 화살표 이미지(arrow.png)를 회전시켜서 구현하는 것이다. 위에서 화살표의 모양은 동일하다고 했기 때문에 구현에 문제는 없다.</p>
+<p><code class="language-plaintext highlighter-rouge">방법#1</code>은 한 개의 화살표 이미지(arrow.png)를 회전시켜서 구현하는 것이다. 화살표의 모양은 동일하기 때문에 쉽게 구현할 수 있다.</p>
 
-<p>이 방법은 저장 공간을 적게 차지하는 장점과 코드 가독성이 상대적으로 떨어진다는 단점이 있다.</p>
+<p>이 방법은 저장 공간을 적게 차지하는 장점이 있다. 그러나 코드 가독성이 상대적으로 떨어진다는 단점이 있다.</p>
 
 <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"0"</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"180"</span> <span class="nt">/&gt;</span>
@@ -30,13 +30,13 @@
 </code></pre></div></div>
 
 <p><img src="/assets/images/arrows1.svg" alt="방향키1" /> <br />
-<em>[그림 2-1] 한 개의 이미지를 회전시켜서 구성된 방향키</em></p>
+<em>[그림 2-1] 한 개의 이미지를 회전시켜서 구현한 방향키</em></p>
 
 <h3 id="22-방법2---4개의-이미지를-사용">2.2. 방법#2 - 4개의 이미지를 사용</h3>
 
 <p><code class="language-plaintext highlighter-rouge">방법#2</code>는 상/하/좌/우에 해당하는 4개의 이미지를 사용하는 것이다.</p>
 
-<p>이 방법은 방향만 다른 화살표 이미지를 관리하는 것이 번거로울 수 있고 공간도 더 많이 차지한다는 단점이 있다. 반면 코드의 가독성은 비교적 좋다.</p>
+<p>이 방법은 더 많은 이미지 리소스를 관리하는 번거로움과 저장 공간도 더 많이 차지한다는 단점이 있다. 반면 코드의 가독성은 비교적 좋다.</p>
 
 <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"up.png"</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"down.png"</span> <span class="nt">/&gt;</span>
@@ -45,21 +45,17 @@
 </code></pre></div></div>
 
 <p><img src="/assets/images/arrows2.svg" alt="방향키2" /> <br />
-<em>[그림 2-2] 상/하/좌/우 4개의 이미지로 구성된 방향키</em></p>
+<em>[그림 2-2] 상/하/좌/우 4개의 이미지로 구현한 방향키</em></p>
 
 <h3 id="23-옳은-방법은-무엇일까">2.3. 옳은 방법은 무엇일까?</h3>
 
-<p>무엇이 옳은 것일까? 혹은 이 선택에 있어서 옳고 그름이 존재하긴 하는 걸까? 그저 개인의 철학에 따른 선택만이 있는 것은 아닐까?</p>
-
-<p>읽기 쉬운 코드를 추구한다면 <code class="language-plaintext highlighter-rouge">방법#1</code>이지만 효율성을 추구한다면 <code class="language-plaintext highlighter-rouge">방법#2</code>일 것이다.</p>
+<p>무엇이 옳은 것일까? 혹은 이 선택에 있어서 옳고 그름이 존재하긴 하는 걸까? 그저 개인의 철학에 따른 선택만이 있는 것은 아닐까? 읽기 쉬운 코드를 추구한다면 <code class="language-plaintext highlighter-rouge">방법#1</code>이지만 효율성을 추구한다면 <code class="language-plaintext highlighter-rouge">방법#2</code>일 것이다.</p>
 
 <p>읽기 쉬운 코드가 옳은가? 성능 효율적인 코드가 옳은가? 대체로 과거에는 성능 효율을 우선했겠지만 요즘처럼 하드웨어의 성능이 충분한 경우에는 읽기 쉬운 코드를 선호한다. 그런 이유로 읽기 쉬운 코드를 선택해야 할까?</p>
 
 <p>아마도 많은 개발자들이 화살표의 모양이 같다는 것에 주목해서 <code class="language-plaintext highlighter-rouge">방법#1</code>처럼 이미지를 회전 시켜서 효율을 추구하는 방법을 선택했을 것이다.</p>
 
-<p>다양한 생각들이 있겠지만 우선적으로 고려해야 하는 것은 화살표의 의미다.</p>
-
-<p>만약 화살표가 <em>[그림 2-3]</em> 처럼 특정한 물체를 가리키는 용도라면 <code class="language-plaintext highlighter-rouge">방법#1</code>처럼 화살표를 회전시켜서 구현하는 것이 맞다.</p>
+<p>다양한 생각들이 있겠지만 우선적으로 고려해야 하는 것은 화살표의 의미다. 만약 화살표가 <em>[그림 2-3]</em> 처럼 특정한 물체를 가리키는 용도라면 <code class="language-plaintext highlighter-rouge">방법#1</code>처럼 화살표를 회전시켜서 구현하는 것이 맞다.</p>
 
 <p><img src="/assets/images/arrows3.svg" alt="방향키3" /> <br />
 <em>[그림 2-3] 무언가를 가리키는 용도의 화살표</em></p>
@@ -71,7 +67,7 @@
 
 <p>사용자에게 보여지는 결과물은 같기 때문에 어떤 방법을 선택해도 큰 차이는 없다고 생각할지도 모르겠다. 사용자의 생각을 무시한 채 단순히 구현 편의성만을 추구하면 어떻게 될까?</p>
 
-<p>사용자는 언제든지 화살표의 모양을 쉽게 변경할 수 있다고 생각한다. 왜냐하면 사용자는 당연히 4개의 이미지로 구성된 방향키라고 생각하기 때문이다. 이미지를 회전시켜서 성능을 최적화 하는 것은 지극히 개발자의 입장일 뿐이다. 그리고 어느날 사용자는 방향키의 모양을 <em>[그림 2-4]</em> 처럼 변경해 달라고 쉽게 요구할 수 있다. 키의 이미지를 변경하기만 하면 되니까 쉬운 작업이라고 생각할 것이다. 그러나 개발자는 구현 방법을 바꿔야 하는 큰 일이 된다.</p>
+<p>사용자는 언제든지 화살표의 모양을 쉽게 변경할 수 있다고 생각한다. 왜냐하면 사용자는 당연히 4개의 이미지로 구성된 방향키라고 생각하기 때문이다. 이미지를 회전시켜서 성능을 최적화 하는 것은 지극히 개발자의 입장일 뿐이다. 그리고 어느날 사용자는 방향키의 모양을 <em>[그림 2-4]</em> 처럼 변경해 달라고 가볍게 요구할 수 있다. 키의 이미지를 변경하기만 하면 되니까 쉬운 작업이라고 생각할 것이다. 그러나 개발자는 구현 방법을 바꿔야 하는 큰 일이 된다.</p>
 
 <p>화살표의 모양이 동일한 것은 그저 우연일 뿐이다. 이런 우연으로 생긴 상황을 구현에 반영하면 사용자의 생각과 멀어지게 된다. 다시 얘기하자면 사용자의 의도를 무시한 채 구현 편의성만을 추구하면 유지보수가 점점 더 어려워 지게 된다.</p>
 
@@ -87,7 +83,7 @@
 
 <p>만약 지금 상황에서 사용자의 의도를 정확히 파악할 수 없다면 어떻게 해야 할까? 혹은 어떻게 변경될지 예측할 수 없다면 어떻게 해야 할까?</p>
 
-<p><code class="language-plaintext highlighter-rouge">&lt;Up /&gt;&lt;Down /&gt;&lt;Left /&gt;&lt;Right /&gt;</code> 클래스로 정의해서 화살표의 요구사항이 어떻게 변경 되더라도 다른 곳에 영향이 없도록 하는 것이다.</p>
+<p><code class="language-plaintext highlighter-rouge">&lt;Up /&gt;&lt;Down /&gt;&lt;Left /&gt;&lt;Right /&gt;</code> 클래스로 정의해서 화살표의 요구사항이 어떻게 변경 되더라도 다른 곳에 영향이 없도록 하면 된다.</p>
 
 <blockquote>
   <p>쇼핑몰을 운영하는 회사에서 일할 때의 일이다. 회의 내용은 ‘쿠폰’을 어떻게 구현할 것인가에 대한 논의였다.</p>
@@ -102,14 +98,10 @@
 
   <p>물론, 이것은 쉽지 않은 일이기는 하다. 기본적으로 객체 지향 프로그래밍에 능숙해야 하는데 이것 부터가 쉽지 않다. 그리고 결제 기능이 언제 어떻게 변경될지 알 수 없기 때문에 아무리 실력있는 개발자라 하더라도 처음부터 ‘결제금액’을 객체로 만드는 것은 어려울 것이다.</p>
 
-  <p>그러나 이런 어려움에도 불구하고 경험과 실력을 갖춘 개발자라면 새로운 개념을 발견했을 때 적절한 리팩토링을 반복하면서 꾸준히 위기를 관리하고 본질에 다가가게 된다. 여기서 적절한 리팩토링이라는 것은 기술 부채를 쌓지 않고 그렇다고 오버 엔지니어링도 아닌 비용 효율적인 접근을 뜻한다.</p>
-
-  <p>그리고 방향키의 사례에서 봤던 것처럼 요구사항 이면의 본질을 파악하는 습관을 기른다면 본질에 다가가는 과정을 더 단축할 수 있게 된다.</p>
+  <p>그러나 방향키의 사례처럼, 요구사항 이면의 본질을 파악하는 습관을 기른다면 시행착오를 크게 줄일 수 있다.</p>
 </blockquote>
 
-<h2 id="3-rest-api-디자인">3. REST API 디자인</h2>
-
-<p>REST API의 라우팅 디자인은 크게 <code class="language-plaintext highlighter-rouge">Shallow Routing</code>과 <code class="language-plaintext highlighter-rouge">Nested Routing</code>이 있다. 어느 쪽이 더 좋은 선택일까?</p>
+<h2 id="3-rest-api의-shallow-routing-vs-nested-routing">3. REST API의 Shallow Routing vs Nested Routing</h2>
 
 <p>[그림 3-1]은 사용자가 영화 예매 서비스에서 상영 중인 영화/극장/시간을 선택하는 시퀀스 다이어그램이다. 여기에서 REST API의 라우팅을 어떻게 디자인 해야 할까?</p>
 
@@ -151,24 +143,22 @@
 
 <h3 id="33-옳은-방법은-무엇일까">3.3. 옳은 방법은 무엇일까?</h3>
 
-<p>두 기술의 장단점을 간단하게 살펴봤다. 그렇다면 유연성과 명확함 사이에서 어떤 방법을 선택해야 할까?</p>
+<p>두 REST API의 라우팅 디자인 방식의 장단점을 간단하게 살펴봤다. 그렇다면 <code class="language-plaintext highlighter-rouge">Shallow Routing</code>의 유연성과 <code class="language-plaintext highlighter-rouge">Nested Routing</code>의 명확함 사이에서 어떤 방법을 선택해야 할까?</p>
 
 <p>두 방식 중에서 무엇을 선택할 것인지는 개념적인 관점에서 영화 예매 프로세스를 더 잘 표현하는 것이 무엇인지를 봐야 한다.</p>
 
 <p>그런 면에서 <code class="language-plaintext highlighter-rouge">Nested Routing</code>은 티켓 구매 프로세스를 그대로 반영하고 있다.
 티켓 구매 프로세스가 영화 선택 후 극장을 선택해야 하듯이, <code class="language-plaintext highlighter-rouge">Nested Routing</code>도 영화를 지정하지 않으면 극장을 지정할 수 없다.
 즉, <code class="language-plaintext highlighter-rouge">Nested Routing</code>의 REST API가 티켓 구매 프로세스와 유사한 구조를 표현하고 있다.
-이 정도면 별도의 문서로 정리하지 않아도 티켓 구매 프로세스를 알 수 있을 것이다.</p>
+이 정도면 별도의 문서가 없어도 티켓 구매 프로세스를 알 수 있을 것이다.</p>
 
-<p>Shallow Routing과 Nested Routing 중에서 무엇이 좋은가에 대한 논쟁을 종종 보게된다.
-그러나 그런 논쟁은 무의미 하다. 중요한 것은 요구사항을 보다 정확히 반영하는 것이 무엇이냐인 것이다.
+<p><code class="language-plaintext highlighter-rouge">Shallow Routing</code>과 <code class="language-plaintext highlighter-rouge">Nested Routing</code> 중에서 무엇이 좋은가에 대한 논쟁을 종종 보게된다.
+그러나 그런 논쟁은 무의미하다. 중요한 것은 요구사항을 보다 정확히 반영하는 것이 무엇이냐인 것이다.
 기술적 관점에서 보면 답이 없는 문제를 가지고 논쟁을 하니 논쟁이 끝나지 않는 것이다.</p>
 
-<blockquote>
-  <p>한참 고민해도 답이 보이지 않는다면 답이 거기에 없는 것이다.</p>
-</blockquote>
+<p>“한참 고민해도 답이 보이지 않는다면, 답이 거기에 없는 것이다.”</p>
 
-<h3 id="34-상속과-포함composition">3.4. 상속과 포함(Composition)</h3>
+<h3 id="34-클래스의-상속과-포함composition">3.4. 클래스의 상속과 포함(Composition)</h3>
 
 <p><code class="language-plaintext highlighter-rouge">Shallow Routing</code>과 <code class="language-plaintext highlighter-rouge">Nested Routing</code>의 논쟁과 유사한 다른 논쟁으로 클래스의 상속과 포함(Composition)이 있다.</p>
 
@@ -178,11 +168,9 @@
 
 <p>위의 다이어그램에서 Dog는 Animal의 한 종류다. 이것은 상속으로 표현하는 것이 자연스럽다. 반면에 Engine은 Car를 구성하는 부품 중 하나이다. 이것은 포함으로 표현하는 것이 자연스럽다.</p>
 
-<h2 id="4-문서의-통합-vs-분리">4. 문서의 통합 vs 분리</h2>
+<h2 id="4-유사한-형식의-문서-구현-방법">4. 유사한 형식의 문서 구현 방법</h2>
 
-<p>외교부의 아포스티유/영사확인 문서 프로젝트를 진행할 때의 일이다.</p>
-
-<p>소득증명서와 같은 국내에서 발행되는 문서의 국외 사용을 위한 인증 방식이 두 가지 있는데 그것이 ‘아포스티유’와 ‘영사확인’이다.
+<p>소득증명서와 같은 국내에서 발행되는 문서의 국외 사용을 위한 인증 방식이 두 가지 있는데 ‘아포스티유’와 ‘영사확인’이다.
 영사확인이 일반적인 절차이고 아포스티유는 협약에 따라 영사확인 절차를 보다 보다 간소화 한 것이다.</p>
 
 <p>프로젝트의 목표는 이 두 문서를 암호화 하고 변조 여부를 확인할 수 있는 시스템을 구축하는 것이었다.</p>
@@ -218,34 +206,34 @@
 
 <p>프로그래머는 종종 구현 편의성을 우선하는 경향이 있다. 그 습관을 버리기가 쉽지 않을 것이다. 그러나 철저하게 도메인의 개념을 따라야 한다.</p>
 
-<h2 id="5-db-저장-방법">5. DB 저장 방법</h2>
+<h2 id="5-인코딩된-파일명의-저장">5. 인코딩된 파일명의 저장</h2>
 
 <p>사용자가 웹 브라우저로 <code class="language-plaintext highlighter-rouge">[file].txt</code> 파일을 업로드 하려고 한다.</p>
 
-<p>사용자가 업로드 하는 파일명이 한글이라서 URL encoding을 해서 서버에 전송해야 한다. 마찬가지로 사용자가 파일을 다운로드 받으려면 파일명을 URL encoding 해야 한다.</p>
+<p>사용자가 업로드 하는 파일명에 특수문자가 포함되어 있어서 URL encoding을 해서 서버에 전송해야 한다. 마찬가지로 사용자가 파일을 다운로드 받으려면 파일명을 URL encoding 해야 한다.</p>
 
 <p>그렇다면 서버는 DB에 인코딩된 문자열(<code class="language-plaintext highlighter-rouge">%5Bfile%5D.txt</code>)을 그대로 저장하는 것이 좋을까? 아니면 이것을 다시 디코딩해서 <code class="language-plaintext highlighter-rouge">[file].txt</code>로 저장하는 것이 좋을까?</p>
 
 <p><code class="language-plaintext highlighter-rouge">[file].txt</code>로 저장하면 사용자에게 파일을 전송할 때 다시 인코딩 해야 한다. 그렇다면 그냥 받은 그대로 <code class="language-plaintext highlighter-rouge">%5Bfile%5D.txt</code>으로 저장하는 것이 효율적이지 않을까?</p>
 
-<p>이것도 역시 답을 알기 위해서 사용자의 생각을 살펴봐야 한다.</p>
+<p>본질이 무엇인지 알기 위해서 사용자의 생각을 살펴봐야 한다.</p>
 
-<p>사용자가 업로드 한 파일명은 <code class="language-plaintext highlighter-rouge">[file].txt</code>이다. 사용자는 이것이 어떻게 변환되는지 모른다. 그러니까 저장할 때도 사용자의 생각에 맞춰서 <code class="language-plaintext highlighter-rouge">[file].txt</code>으로 저장하는 것이 옳다.</p>
+<p>사용자가 업로드 한 파일명은 <code class="language-plaintext highlighter-rouge">[file].txt</code>이다. 사용자는 이것이 변환된다고 생각하지 않은다. 그러니까 저장할 때도 사용자의 생각에 맞춰서 <code class="language-plaintext highlighter-rouge">[file].txt</code>으로 저장하는 것이 옳다.</p>
 
-<p>애초에 URL Encoding을 하는 이유는 ASCII 문자 집합의 일부만 전송 가능하다는 기술적 한계 때문이지 사용자의 요구사항과는 전혀 관련이 없다. 특정 기술의 한계 혹은 특성이 다른 영역에 영향을 주는 것은 좋은 구조가 아니다. 그러니까 HTML의 전송 과정에서 발생하는 기술적인 문제는 그 과정에서 해결해야 하는 것이지 그것을 DB까지 가져오면 두 개의 큰 영역이 서로 강하게 결합되는 안티-패턴이 된다.</p>
+<p>애초에 URL Encoding을 하는 이유는 ASCII 문자 집합의 일부만 전송 가능하다는 기술적 한계 때문이지 사용자의 요구사항은 아니다. 특정 기술의 한계 혹은 특성이 다른 영역에 영향을 주는 것은 좋은 구조가 아니다. 그러니까 HTML의 전송 과정에서 발생하는 기술적인 문제는 그 과정에서 해결해야 하는 것이지 그것을 DB까지 가져오면 두 개의 큰 영역이 서로 강하게 결합되는 안티-패턴이 된다.</p>
 
 <p>사용자의 의도를 더 정확하게 반영하는 것이 우선이고 최적화는 그 다음이다.</p>
 
-<p>다운로드 기능만을 고려한다면 받은 그대로 저장하는 것이 최선의 선택일 것이다. 그러나 기능이 확장되면서 파일 목록을 보여주거나 검색을 허용할 때는 원본 문자열(<code class="language-plaintext highlighter-rouge">[file].txt</code>)이 필요할 것이다. 왜냐하면 사용자는 파일명을 <code class="language-plaintext highlighter-rouge">[file].txt</code>으로 생각하기 때문이다. 그런데 저장을 <code class="language-plaintext highlighter-rouge">%5Bfile%5D.txt</code>으로 한다면 조회나 검색 기능을 구현할 때 얼마나 번거로울지 생각해 보라.</p>
+<p>다운로드 기능만을 고려한다면 받은 그대로 저장하는 것이 최선의 선택일 것이다. 그러나 기능이 확장되면서 파일 목록을 보여주거나 검색을 허용할 때는 원본 문자열(<code class="language-plaintext highlighter-rouge">[file].txt</code>)이 필요할 것이다. 왜냐하면 사용자는 파일명을 <code class="language-plaintext highlighter-rouge">[file].txt</code>으로 생각하기 때문이다. 그런데 저장을 <code class="language-plaintext highlighter-rouge">%5Bfile%5D.txt</code>으로 한다면 조회나 검색 기능을 구현할 때 어려움을 겪을 것이다.</p>
 
 <p>구현 편의성을 추구하면 이렇게 작은 변화에도 쉽게 흔들리게 되는 것이다.</p>
 
 <!-- markdownlint-disable MD034 -->
 <p><object data="/uml/543ff9861916ccb443624522babac381.svg" type="image/svg+xml" class="plantuml"></object></p>
 
-<h2 id="6-영화-예매-서비스의-장바구니-기능">6. 영화 예매 서비스의 장바구니 기능</h2>
+<h2 id="6-본질에-기반한-기능-정의">6. 본질에 기반한 기능 정의</h2>
 
-<p>보다 논리적인 레벨에서도 선택의 고민은 계속된다. 영화 예매 서비스를 개발한다고 할 때 여기에 장바구니 기능을 구현해야 할까? 전자상거래 서비스에서는 장바구니가 필수적인 기능이지만, 영화 예매 서비스에서도 꼭 필요할까?</p>
+<p>영화 예매 서비스를 개발한다고 할 때 여기에 장바구니 기능을 구현해야 할까? 전자상거래 서비스에서는 장바구니가 필수적인 기능이지만, 영화 예매 서비스에서도 꼭 필요할까?</p>
 
 <p>이 질문에 답하기 위해서는 실제 영화 예매 프로세스에서의 사용자 경험을 생각해 봐야 한다. 일반적으로 사용자가 영화를 예매할 때는 다음과 같은 순서로 진행된다.</p>
 
@@ -262,7 +250,7 @@
 
 <p>물론 “나중에 결제하기 위해 선택한 영화를 저장해 두는 기능이 있으면 좋겠다”라는 사용자 요구사항이 있을 수 있다. 하지만 이 경우에도 “장바구니”라는 개념을 그대로 가져오기보다는, 영화 예매 서비스의 맥락에 맞는 개념으로 재해석할 필요가 있다. 예를 들어, “관심 영화 저장” 또는 “예매 내역 저장” 등의 기능으로 제공하는 것이 더 적절할 수 있다.</p>
 
-<h2 id="7-프로젝트-이름">7. 프로젝트 이름</h2>
+<h2 id="7-본질에-기반한-네이밍">7. 본질에 기반한 네이밍</h2>
 
 <p>백엔드에 대한 기본적인 지식을 전달하기 위한 프로젝트로 영화 예매 서비스 개발을 시작하려고 한다. 프로젝트의 이름을 무엇이라고 해야 할까? 영화 예매니까 ticket-service이라고 하면 어떨까?</p>
 
@@ -270,62 +258,19 @@
 
 <p>이 경우처럼 코드가 아니어도 선택의 순간에는 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>가 필요하다. 나의 경우 매 순간 습관처럼 내가 인지한 정보의 본질이 무엇인지를 고민한다.</p>
 
-<h2 id="결론">결론</h2>
+<h2 id="8-결론">8. 결론</h2>
 
-<!-- 결과적으로 `본질 기반 해석(EBI)`는 현실의 개념과 구현을 일치시키려는 노력이다. 다만, 현실에서 피상적으로 드러난 특징이 아니라 숨겨진 본질을 통찰해야 한다는 것을 강조하는 것이다.
-현실에서 개념은 현재를 기반으로 확장/발전한다. 따라서 구현도 현실과 최대한 유사한 구조를 가져야 확장/발전이 수월하다.
+<p>지금까지 살펴본 사례들에서 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이 보여준 공통점은 ‘무엇(what)’이 아니라 ‘왜(why)’에 집중한다는 것이다. ‘무엇(what)’은 ‘왜(why)’에 도달하기 위한 방법 중에 하나일 뿐이다. 목적(why)은 쉽게 바뀌지 않지만 방법(what)은 여러 상황에 따라서 얼마든지 바뀔 수 있다.</p>
 
-몇 개의 사례를 늘어놨지만 `본질 기반 해석(EBI)`는 거의 매 순간 필요하다.
+<p>‘왜(why)’에 집중해야 하는 다른 중요한 이유는 분석 단계에서 사용자의 모든 생각을 문서로 정리할 수 없기 때문이다. 이것은 설계도 마찬가지인데 설계 단계에서 설계자의 모든 생각을 정리할 수 없다. 모든 요구사항과 설계를 최대한 반영한 것이 코드이기 때문이다. 어느 정도 빈틈이 있을 수 밖에 없고 그 빈틈은 굳이 말하지 않아도 알 것이라고 생각하는 것들이다. 문제는 사용자가 당연하게 생각하는 것들을 개발자는 전혀 다르게 받아들일 수 있다는 것이다.</p>
 
-개발을 하면서 몇 번의 뇌 구조가 바뀌게 되는데 그 중 한 번은 OOP를 깨달았을 때다. `본질 기반 해석(EBI)`는 그 다음 뇌구조가 바뀌는 순간이다.
+<p>그러나 ‘왜(why)’에 집중해서 사고하면 결국 같은 곳을 바라보기 때문에 의사소통에 다소의 빈틈이 있더라도 그 오차가 크지 않다. 이렇게 사용자와 개발자 간에 발생할 수 있는 생각의 차이를 줄이는 것이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>의 중요한 역할 중 하나이다.</p>
 
-결론입니다.
+<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(Essence-Based Interpretation, EBI)</code>은 너무 당연하고 원론적인 개념이라서 대상 범위나 구체적인 실천 방법을 정의하기가 어렵다. 그리고 개발에만 국한되는 것도 아니다.</p>
 
-`본질 기반 해석(EBI)`이 DDD와 비슷하다고 생각하실지 모르겠습니다.
-DDD는 복잡한 도메인 로직을 다른 부분과 분리하는 것이고 설계 단계의 이야기입니다.
-`본질 기반 해석(EBI)`은 요구사항 분석과 설계에서 당연하게 누락된 생각을 채우는 것으로 구현 단계의 이야기입니다.
+<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 도메인에 기반해야 한다는 점에서 도메인 주도 개발(DDD)과 비슷한 맥락을 가진다. 그러나 DDD는 보다 체계적이고 구체적인 설계 방법론으로 복잡하거나 변화가 잦은 도메인에 대응하는 것이 주 목적이다. 반면에 본질 기반 해석(EBI)은 구체적인 방법론이라기보다는, 소프트웨어 개발을 포함한 다양한 분야에 적용할 수 있는 일반적인 사고방식이라 할 수 있다.</p>
 
-분석 단계에서 사용자의 모든 생각을 문서로 정리할 수 없다.
-설계도 마찬가지인데 설계 단계에서 설계자의 모든 생각을 정리할 수 없다.
-모든 요구사항과 설계를 정리한 것이 코드이기 때문이다.
-
-어느 정도 빈틈이 있을 수 밖에 없고 그 빈틈은 굳이 말하지 않아도 알 것이라고 생각하는 것들이다.
-문제는 당연히 알 것이라고 생각하는 것 중에서 당연하지 않은 것이 있기 때문이다.
-다시 말하자면 사용자가 당연하게 생각하는 것들을 개발자는 전혀 다르게 받아들일 수 있다.
-
-이런 사용자와 개발자의 생각의 오차를 줄이려는 노력이 `본질 기반 해석(EBI)`이다.
-개발은 요구사항 분석을 바탕으로 설계하고 구현해야 한다.
-잘못된 분석을 기반으로 구현을 하면 얼마 안 가서 문제가 드러난다.
-그러나 잘못된 해석을 기반으로 구현을 해도 당장 문제가 되지는 않는다.
-문제가 되지 않는게 문제인데 프로젝트가 한참 진행된 후에 잘못을 인지하고 수정하려면 많은 노력이 필요하기 때문이다.
-
-`본질 기반 해석(EBI)`에 대해서 간단하게 설명했지만 중요한 개념이다.
-보통 소프트웨어 공학 관련 서적이나 자료들은 분석,설계,구현,검증 각각의 단계에 집중해서 설명을 하다보니
-요구사항 분석과 구현을 일치시키려는 `본질 기반 해석(EBI)`에 대해서는 그 개념과 존재가 분명하게 다뤄지지 않는 것 같다.
-
-`본질 기반 해석(EBI)`은 분석과 구현의 문제이지만 '해석' 자체는 다양한 단계에서 있을 수 있다.
-설계단계에서 '해석'이 필요한 경우도 있을 수 있다. 사용자 조차 제대로 알 수 없는 것들을 고려해야 하는 경우가 있다.
-예를 들면 이 프로젝트의 유지보수 기간에 따라서 설계가 달라질 수 있다. 물론 그 외에 개발인력과 개발비용 기간 등등 많은 요소들을 고려하게 된다.
-단순히 요구사항 분석을 바탕으로 설계하는 것이 아니라 그 외에 다양한 요소들을 통찰해서 설계에 반영해야 하는 것이다.
-이것에 굳이 이름을 붙이자면 '프로젝트 해석'이라고 해도 될지 모르겠다.
-
-### 왜 사용자 관점을 따라야 할까?
-
-우리가 개발하려는 것은 사용자가 사용하려는 것이다. 사용자의 생각이 변경될 때 현실을 기반으로 한다. 사용자가 방향키의 모양을 변경하기를 원한다면 사용자는 4개의 이미지로 이루어진 방향키를 전제로 어떻게 변경할 것인지를 고민할 것이다.
-
-다시 말하자면 사용자의 생각의 변화에 따라 코드를 변경해야 하는 것이라면 처음부터 코드가 사용자의 생각을 그대로 반영한 구조여야 하는 것이다.
-
-무엇을 해야 하느냐에 집중하는 것이 아니라 왜 해야 하는지에 집중해야 한다. 무엇은 언제든지 변할 수 있다. 그러나 그것을 하려는 이유는 변하지 않는다. 이유가 변하면 어떻게 하느냐고? 이유가 변경되거나 사라진다면 프로젝트 전체가 영향을 받는 것은 어쩔 수 없다.
-
-```txt
-이게 `본질 기반 해석(EBI)`라는 이름을 붙일 만한 개념인가? 그냥 당연한 이야기를 하는 건 아닌가?
-
-글쓴이의 의도를 짐작해보자면, `본질 기반 해석(EBI)`라는 용어를 도입한 이유는 소프트웨어 개발에서 본질을 파악하고 개념을 충실히 구현하는 것이 매우 중요함에도 불구하고, 간과되는 경우가 많기 때문일 것입니다.
-물론 제기하신 것처럼 `본질 기반 해석(EBI)`의 내용 자체는 어떻게 보면 당연한 이야기일 수 있습니다. 요구사항의 본질을 파악하고 도메인을 반영해서 설계하고 구현해야 한다는 것은 소프트웨어 개발의 기본 원칙이기도 합니다.
-하지만 실무에서는 이 기본이 지켜지지 않는 경우가 많습니다. 글에서 제시된 방향키, REST API, 문서 관리 시스템의 사례들이 그런 경우입니다. 개발자들은 종종 편의성, 효율성 등을 이유로 요구사항과 도메인의 본질을 간과하곤 합니다.
-`본질 기반 해석(EBI)`라는 용어를 도입함으로써 글쓴이는 이런 문제의식을 환기시키고, 본질과 개념에 충실할 것을 강조하고 싶었던 것 같습니다. 비록 새로운 개념은 아닐지라도 용어로 정의하고 강조함으로써 개발 과정에서 놓치지 말아야 할 원칙으로 자리매김하려 한 것으로 보입니다.
-따라서 `본질 기반 해석(EBI)`를 하나의 방법론이나 패러다임으로 보기는 어려울 수 있지만, 개발자들에게 본질과 개념의 중요성을 상기시키는 원칙이자 지침으로서는 의미가 있다고 생각합니다. 다만 용어의 생소함으로 인해 독자들이 어렵게 느낄 수 있으므로, 댓글 주신 것처럼 보다 쉽고 친숙한 용어를 사용하거나, 좀 더 자세한 설명을 덧붙이는 것이 좋겠습니다.
-``` -->]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[1. 소개]]></summary></entry><entry><title type="html">객체 지향 프로그래밍의 이해</title><link href="/2024/03/09/oop.html" rel="alternate" type="text/html" title="객체 지향 프로그래밍의 이해" /><published>2024-03-09T00:00:00+00:00</published><updated>2024-03-09T00:00:00+00:00</updated><id>/2024/03/09/oop</id><content type="html" xml:base="/2024/03/09/oop.html"><![CDATA[<blockquote>
+<p>좋은 코드를 고민하면서 얻게되는 사고방식의 변화는 생각보다 큰 가치를 지닌다. 좋은 코드를 향한 노력은 본질을 통찰해서 예측할 수 없는 변화에 대응할 수 있는 전략의 고민으로 이어진다. 이것은 다른 분야에서 쉽게 경험할 수 없는 소프트웨어 개발 만의 소중한 난관이다.</p>]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[1. 소개]]></summary></entry><entry><title type="html">객체 지향 프로그래밍의 이해</title><link href="/2024/03/09/oop.html" rel="alternate" type="text/html" title="객체 지향 프로그래밍의 이해" /><published>2024-03-09T00:00:00+00:00</published><updated>2024-03-09T00:00:00+00:00</updated><id>/2024/03/09/oop</id><content type="html" xml:base="/2024/03/09/oop.html"><![CDATA[<blockquote>
   <p>객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.</p>
 </blockquote>
 
