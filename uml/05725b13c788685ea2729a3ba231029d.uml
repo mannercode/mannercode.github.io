@@ -1,0 +1,16 @@
+@startuml
+
+@startuml
+class documents {
+    id : int
+    ...
+
+    type : consular | apostille
+}
+note right
+기존에는 documents 테이블에
+type으로 구분하여 저장하고 있었다
+end note
+@enduml
+
+@enduml

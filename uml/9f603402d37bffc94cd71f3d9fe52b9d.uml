@@ -1,0 +1,29 @@
+@startuml
+
+@startuml
+package "Inheritance" {
+    class Animal {
+        - int age
+        + void eat()
+    }
+
+    class Dog extends Animal {
+        + void bark()
+    }
+}
+
+package "Composition" {
+    class Car {
+        - Engine engine
+        + void start()
+    }
+
+    class Engine {
+        + void start()
+    }
+
+    Car *-- Engine
+}
+@enduml
+
+@enduml

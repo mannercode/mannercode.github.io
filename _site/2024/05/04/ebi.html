@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>본질 기반 해석(Essence-Based Interpretation, EBI) | Manner Code</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="본질 기반 해석(Essence-Based Interpretation, EBI)" />
+<meta name="author" content="mannercode" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. 소개" />
+<meta property="og:description" content="1. 소개" />
+<meta property="og:site_name" content="Manner Code" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-05-04T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="본질 기반 해석(Essence-Based Interpretation, EBI)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"mannercode"},"dateModified":"2024-05-04T00:00:00+00:00","datePublished":"2024-05-04T00:00:00+00:00","description":"1. 소개","headline":"본질 기반 해석(Essence-Based Interpretation, EBI)","mainEntityOfPage":{"@type":"WebPage","@id":"/2024/05/04/ebi.html"},"url":"/2024/05/04/ebi.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Manner Code" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Manner Code</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">본질 기반 해석(Essence-Based Interpretation, EBI)</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-05-04T00:00:00+00:00" itemprop="datePublished">
+        May 4, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="1-소개">1. 소개</h2>
+
+<p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
+
+<p>그럼에도 불구하고 선택의 순간에 명확히 답을 내리지 못하고 오늘은 A방법으로 구현했다가 내일은 B방법으로 구현하는 일이 오랜시간 지속됐다. 왜냐하면 두 방법 모두 장단점이 명확했기 때문에 어느 한 방법을 선택해도 아쉬움이 남기 때문이다. 여기서 방법은 디자인 패턴이 될 수도 있고 함수나 변수의 이름일 수도 있다.</p>
+
+<p>그 때의 나는 개발자로서 어느 정도 역량을 갖추고 있다고 생각했지만, 이런 선택의 고민은 아무리 많은 경험과 노력을 쌓아도 좀처럼 사라지지 않을 것만 같았다. 이 부분 만큼은 정답이 존재하지 않고 개인의 성향에 따른 선택이 있을 뿐인, 예술의 영역은 아닐까? 하는 생각도 했다. 그 만큼 나에게는 넘기 힘든 벽처럼 보였다. 마치 디자인 패턴을 이해하지 못하는 개발자들이 디자인 패턴은 실무에서 쓸모없다고 치부하는 것과 같은 방어기재였을지도 모르겠다.</p>
+
+<p>그러다 문득 내가 놓치고 있던 것을 깨달았다. 먼저 몇 가지 사례를 살펴보고 그것이 무엇인지 알아보려고 한다.</p>
+
+<h2 id="2-방향키의-구현">2. 방향키의 구현</h2>
+
+<p>사용자에게 ‘상/하/좌/우’를 선택할 수 있는 방향키를 제공해야 한다. 4개 화살표의 모양은 동일하고 방향만 다르다. 이 때 방향키를 구현하는 방법이 두 가지 있다.</p>
+
+<h3 id="21-방법1---한-개의-이미지를-회전시켜서-재사용">2.1. 방법#1 - 한 개의 이미지를 회전시켜서 재사용</h3>
+
+<p><code class="language-plaintext highlighter-rouge">방법#1</code>은 한 개의 화살표 이미지(arrow.png)를 회전시켜서 구현하는 것이다. 화살표의 모양은 동일하기 때문에 쉽게 구현할 수 있다.</p>
+
+<p>이 방법은 저장 공간을 적게 차지하는 장점이 있다. 그러나 코드 가독성이 상대적으로 떨어진다는 단점이 있다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"0"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"180"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"-90"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"90"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/arrows1.svg" alt="방향키1" /> <br />
+<em>[그림 2-1] 한 개의 이미지를 회전시켜서 구현한 방향키</em></p>
+
+<h3 id="22-방법2---4개의-이미지를-사용">2.2. 방법#2 - 4개의 이미지를 사용</h3>
+
+<p><code class="language-plaintext highlighter-rouge">방법#2</code>는 상/하/좌/우에 해당하는 4개의 이미지를 사용하는 것이다.</p>
+
+<p>이 방법은 더 많은 이미지 리소스를 관리하는 번거로움과 저장 공간도 더 많이 차지한다는 단점이 있다. 반면 코드의 가독성은 비교적 좋다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"up.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"down.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"let.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"right.png"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/arrows2.svg" alt="방향키2" /> <br />
+<em>[그림 2-2] 상/하/좌/우 4개의 이미지로 구현한 방향키</em></p>
+
+<h3 id="23-옳은-방법은-무엇일까">2.3. 옳은 방법은 무엇일까?</h3>
+
+<p>무엇이 옳은 것일까? 혹은 이 선택에 있어서 옳고 그름이 존재하긴 하는 걸까? 그저 개인의 철학에 따른 선택만이 있는 것은 아닐까? 읽기 쉬운 코드를 추구한다면 <code class="language-plaintext highlighter-rouge">방법#1</code>이지만 효율성을 추구한다면 <code class="language-plaintext highlighter-rouge">방법#2</code>일 것이다.</p>
+
+<p>읽기 쉬운 코드가 옳은가? 성능 효율적인 코드가 옳은가? 대체로 과거에는 성능 효율을 우선했겠지만 요즘처럼 하드웨어의 성능이 충분한 경우에는 읽기 쉬운 코드를 선호한다. 그런 이유로 읽기 쉬운 코드를 선택해야 할까?</p>
+
+<p>아마도 많은 개발자들이 화살표의 모양이 같다는 것에 주목해서 <code class="language-plaintext highlighter-rouge">방법#1</code>처럼 이미지를 회전 시켜서 효율을 추구하는 방법을 선택했을 것이다.</p>
+
+<p>다양한 생각들이 있겠지만 우선적으로 고려해야 하는 것은 화살표의 의미다. 만약 화살표가 <em>[그림 2-3]</em> 처럼 특정한 물체를 가리키는 용도라면 <code class="language-plaintext highlighter-rouge">방법#1</code>처럼 화살표를 회전시켜서 구현하는 것이 맞다.</p>
+
+<p><img src="/assets/images/arrows3.svg" alt="방향키3" /> <br />
+<em>[그림 2-3] 무언가를 가리키는 용도의 화살표</em></p>
+
+<p>그러나 사용자가 생각한 방향키는 <em>[그림 2-4]</em> 와 같이 키보드 구석에 고정되어 있는 4개의 방향키였을 것이다. 그리고 그런 사용자의 생각과 유사한 것은 <code class="language-plaintext highlighter-rouge">방법#2</code>와 같이 4개의 이미지를 사용하는 것이다.</p>
+
+<p><img src="/assets/images/arrows4.svg" alt="방향키4" /> <br />
+<em>[그림 2-4] 서로 다른 모양의 화살표를 가지는 방향키</em></p>
+
+<p>사용자에게 보여지는 결과물은 같기 때문에 어떤 방법을 선택해도 큰 차이는 없다고 생각할지도 모르겠다. 사용자의 생각을 무시한 채 단순히 구현 편의성만을 추구하면 어떻게 될까?</p>
+
+<p>사용자는 언제든지 화살표의 모양을 쉽게 변경할 수 있다고 생각한다. 왜냐하면 사용자는 당연히 4개의 이미지로 구성된 방향키라고 생각하기 때문이다. 이미지를 회전시켜서 성능을 최적화 하는 것은 지극히 개발자의 입장일 뿐이다. 그리고 어느날 사용자는 방향키의 모양을 <em>[그림 2-4]</em> 처럼 변경해 달라고 가볍게 요구할 수 있다. 키의 이미지를 변경하기만 하면 되니까 쉬운 작업이라고 생각할 것이다. 그러나 개발자는 구현 방법을 바꿔야 하는 큰 일이 된다.</p>
+
+<p>화살표의 모양이 동일한 것은 그저 우연일 뿐이다. 이런 우연으로 생긴 상황을 구현에 반영하면 사용자의 생각과 멀어지게 된다. 다시 얘기하자면 사용자의 의도를 무시한 채 구현 편의성만을 추구하면 유지보수가 점점 더 어려워 지게 된다.</p>
+
+<h3 id="24-해석의-어려움">2.4. 해석의 어려움</h3>
+
+<p>여러 방법을 두고 고민하게 되는 이유 중에 하나는 당연한 정보는 누락하기 때문이다.</p>
+
+<p>사용자가 방향키를 요구사항으로 언급했을 때는 키보드의 그 방향키라고 구체적으로 설명하지는 않았을 것이다. 사용자의 입장에서는 방향키라고 하면 당연히 키보드의 그것이라고 생각하기 때문이다.</p>
+
+<p>그러나 개발자 입장에서는 방향키에 대한 추가 정보가 없기 때문에 구현 방법을 선택하는 데 있어서 조금 더 고민하게 되는 것이다.</p>
+
+<p>이것이 해석의 어려운 부분인데 당연하다고 여겨 구체적 정의를 생략한 부분은, 개발 단계에서 개발자가 스스로 채워넣어야 한다. 그리고 개발자가 누락된 부분을 채우려면 요구사항이 그렇게 정의된 이유와 과정까지 모두 고려해야 하기 때문에 많은 경험과 통찰력이 필요하다.</p>
+
+<p>만약 지금 상황에서 사용자의 의도를 정확히 파악할 수 없다면 어떻게 해야 할까? 혹은 어떻게 변경될지 예측할 수 없다면 어떻게 해야 할까?</p>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;Up /&gt;&lt;Down /&gt;&lt;Left /&gt;&lt;Right /&gt;</code> 클래스로 정의해서 화살표의 요구사항이 어떻게 변경 되더라도 다른 곳에 영향이 없도록 하면 된다.</p>
+
+<blockquote>
+  <p>쇼핑몰을 운영하는 회사에서 일할 때의 일이다. 회의 내용은 ‘쿠폰’을 어떻게 구현할 것인가에 대한 논의였다.</p>
+
+  <p>당시 개발팀은 결제 금액을 ‘원’이라는 화폐 단위로만 다루고 있었다. DB에 저장된 금액 단위는 모두 ‘원’이었고, 코드에서 다루는 금액 단위 역시 ‘원’이었다. 사용자 관점에서의 ‘결제금액’이라는 개념은 고려되지 않은 채로 말이다.</p>
+
+  <p>이러한 상황에서 ‘포인트’ 개념을 도입하게 되었다. 다행히 당시에는 1point가 1원이라는 단순한 구조였기에 큰 문제없이 DB에 point 컬럼을 추가하는 것으로 대응할 수 있었다.</p>
+
+  <p>하지만 서비스가 확장되며 할인쿠폰, 등급별 혜택 등의 기능이 추가되면서 사용자가 인지하는 ‘결제금액’은 단순히 원으로 표현될 수 없는 복잡한 개념이 되어갔다. 기존의 ‘원’ 중심 구현방식으로는 사용자의 결제 flow를 온전히 반영할 수 없게 된 것이다.</p>
+
+  <p>만약 프로젝트 초기에 ‘결제금액’의 의미를 좀 더 깊이 생각했다면 이후의 많은 변경사항에 매끄럽게 대처할 수 있었을 것이다.</p>
+
+  <p>물론, 이것은 쉽지 않은 일이기는 하다. 기본적으로 객체 지향 프로그래밍에 능숙해야 하는데 이것 부터가 쉽지 않다. 그리고 결제 기능이 언제 어떻게 변경될지 알 수 없기 때문에 아무리 실력있는 개발자라 하더라도 처음부터 ‘결제금액’을 객체로 만드는 것은 어려울 것이다.</p>
+
+  <p>그러나 방향키의 사례처럼, 요구사항 이면의 본질을 파악하는 습관을 기른다면 시행착오를 크게 줄일 수 있다.</p>
+</blockquote>
+
+<h2 id="3-rest-api의-shallow-routing-vs-nested-routing">3. REST API의 Shallow Routing vs Nested Routing</h2>
+
+<p>[그림 3-1]은 사용자가 영화 예매 서비스에서 상영 중인 영화/극장/시간을 선택하는 시퀀스 다이어그램이다. 여기에서 REST API의 라우팅을 어떻게 디자인 해야 할까?</p>
+
+<p><object data="/uml/9eca4c0ba637d46c74f35ee2c77ca2cf.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p><em>[그림 3-1]</em></p>
+
+<h3 id="31-shallow-routing">3.1. Shallow Routing</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Shallow Routing</code> 형식으로 디자인 한다면 아래와 비슷한 형태가 될 것이다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 상영 영화 목록 요청</span>
+/movies?status<span class="o">=</span>showing
+
+<span class="c"># 상영 극장 목록 요청</span>
+/theaters?movieId<span class="o">={</span>movidId<span class="o">}</span>
+
+<span class="c"># 상영일 목록 요청</span>
+/showdates?movieId<span class="o">={</span>movieId<span class="o">}</span>&amp;theaterId<span class="o">={</span>theaterId<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Shallow Routing</code>은 각 리소스를 독립적으로 관리할 수 있으므로 확장성이 좋다. 그러나 리소스 간의 관계를 명확하게 표현하지 않기 때문에 복잡한 계층 구조의 데이터를 표현하는데 어려움이 있다.</p>
+
+<h3 id="32-nested-routing">3.2. Nested Routing</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Nested Routing</code> 형식으로 디자인 한다면 아래와 비슷한 형태가 될 것이다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 상영 영화 목록 요청</span>
+/showing/movies
+
+<span class="c"># 상영 극장 목록 요청</span>
+/showing/movies/<span class="o">{</span>movieId<span class="o">}</span>/theaters
+
+<span class="c"># 상영일 목록 요청</span>
+/showing/movies/<span class="o">{</span>movieId<span class="o">}</span>/theaters/<span class="o">{</span>theaterId<span class="o">}</span>/showdates
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Nested Routing</code>은 리소스 간의 관계를 URL에서 명확하게 표현할 수 있으므로, 복잡한 리소스 구조를 표현하는데 적합하다. 그러나 중첩된 리소스 구조가 변경될 경우, URL도 함께 변경되어야 하므로 유연성이 제한된다.</p>
+
+<h3 id="33-옳은-방법은-무엇일까">3.3. 옳은 방법은 무엇일까?</h3>
+
+<p>두 REST API의 라우팅 디자인 방식의 장단점을 간단하게 살펴봤다. 그렇다면 <code class="language-plaintext highlighter-rouge">Shallow Routing</code>의 유연성과 <code class="language-plaintext highlighter-rouge">Nested Routing</code>의 명확함 사이에서 어떤 방법을 선택해야 할까?</p>
+
+<p>두 방식 중에서 무엇을 선택할 것인지는 개념적인 관점에서 영화 예매 프로세스를 더 잘 표현하는 것이 무엇인지를 봐야 한다.</p>
+
+<p>그런 면에서 <code class="language-plaintext highlighter-rouge">Nested Routing</code>은 티켓 구매 프로세스를 그대로 반영하고 있다.
+티켓 구매 프로세스가 영화 선택 후 극장을 선택해야 하듯이, <code class="language-plaintext highlighter-rouge">Nested Routing</code>도 영화를 지정하지 않으면 극장을 지정할 수 없다.
+즉, <code class="language-plaintext highlighter-rouge">Nested Routing</code>의 REST API가 티켓 구매 프로세스와 유사한 구조를 표현하고 있다.
+이 정도면 별도의 문서가 없어도 티켓 구매 프로세스를 알 수 있을 것이다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Shallow Routing</code>과 <code class="language-plaintext highlighter-rouge">Nested Routing</code> 중에서 무엇이 좋은가에 대한 논쟁을 종종 보게된다.
+그러나 그런 논쟁은 무의미하다. 중요한 것은 요구사항을 보다 정확히 반영하는 것이 무엇이냐인 것이다.
+기술적 관점에서 보면 답이 없는 문제를 가지고 논쟁을 하니 논쟁이 끝나지 않는 것이다.</p>
+
+<p>“한참 고민해도 답이 보이지 않는다면, 답이 거기에 없는 것이다.”</p>
+
+<h3 id="34-클래스의-상속과-포함composition">3.4. 클래스의 상속과 포함(Composition)</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Shallow Routing</code>과 <code class="language-plaintext highlighter-rouge">Nested Routing</code>의 논쟁과 유사한 다른 논쟁으로 클래스의 상속과 포함(Composition)이 있다.</p>
+
+<p>유연성이 주는 장점 때문에 <code class="language-plaintext highlighter-rouge">Shallow Routing</code>이 기술적으로 우월하다는 대체적인 공감대와 마찬가지로 클래스도 가능하면 상속을 피하고 포함을 사용하는 것이 좋은 재사용 방법이라고 한다. 그러나 이것도 마찬가지로 도메인 개념을 더 잘 표현하는 것이 무엇인지를 고민해야 하는 것이지 기술적 우월성을 우선해서 고려하면 안 된다.</p>
+
+<p><object data="/uml/9f603402d37bffc94cd71f3d9fe52b9d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>위의 다이어그램에서 Dog는 Animal의 한 종류다. 이것은 상속으로 표현하는 것이 자연스럽다. 반면에 Engine은 Car를 구성하는 부품 중 하나이다. 이것은 포함으로 표현하는 것이 자연스럽다.</p>
+
+<h2 id="4-유사한-형식의-문서-구현-방법">4. 유사한 형식의 문서 구현 방법</h2>
+
+<p>소득증명서와 같은 국내에서 발행되는 문서의 국외 사용을 위한 인증 방식이 두 가지 있는데 ‘아포스티유’와 ‘영사확인’이다.
+영사확인이 일반적인 절차이고 아포스티유는 협약에 따라 영사확인 절차를 보다 보다 간소화 한 것이다.</p>
+
+<p>프로젝트의 목표는 이 두 문서를 암호화 하고 변조 여부를 확인할 수 있는 시스템을 구축하는 것이었다.</p>
+
+<p>아포스티유와 영사확인 문서는 항목이나 구조가 유사했기 때문에 기존에 구축된 서비스도 하나의 테이블을 공유하고 있었다.</p>
+
+<p><object data="/uml/05725b13c788685ea2729a3ba231029d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="41-초기-설계">4.1. 초기 설계</h3>
+
+<p>기존 시스템을 분석하는 과정에서 나는 영사확인과 아포스티유가 비슷해 보이는 것은 우연일 뿐이며 동일한 문서로 취급하면 안 될 것처럼 보였다. 만약 같은 문서라면 프로젝트 이름이 ‘아포스티유 &amp; 영사확인’은 아니었을 것이다.</p>
+
+<p>그에 반해서 back-end 담당자는 두 개로 분리할 필요가 없다는 주장을 하고 있었다.
+결국 타협점으로 REST API만 두 개로 분리하고 테이블 등은 하나로 구현하기로 했다.</p>
+
+<p><object data="/uml/ec5e5e2347907e077d1b58976807c9cf.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="42-설계-변경">4.2. 설계 변경</h3>
+
+<p>그런데 프로젝트가 진행되면서 두 문서의 차이가 구체화 되기 시작했다.
+아포스티유와 영사확인의 문서번호가 중복될 수 있어서 문서번호 체계가 달라졌다.
+그리고 서비스 기능이 확장 되면서 두 문서의 인터페이스는 점점 달라졌다.</p>
+
+<p>결국 테이블을 둘로 나누고 내부 구조도 분리하기로 결정했다.
+다행스럽게도 외부에 노출되는 API는 두 개로 분리되어 있었기 때문에 내부 구조를 변경하는 것은 비교적 수월했다.
+만약 분리하는 것이 부담스러워서 리팩토링을 피하려고 했다면 코드 곳곳에 if-else가 넘쳐나고 지옥으로 가는 문이 열렸을 것이다.</p>
+
+<p><object data="/uml/92b9f1fa32a97ec298a8c11ad6c7b8fc.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="43-이런-일이-발생한-이유">4.3. 이런 일이 발생한 이유</h3>
+
+<p>이 사례에서 두 문서의 형식이 같았던 것은 그저 우연일 뿐이었다. 사용자의 요구에 따라서 얼마든지 달라질 가능성이 있었다. 애초에 다른 문서이기 때문에 다른 이름이 붙은 것이라는 사실을 간과한 것이 문제였다.</p>
+
+<p>프로그래머는 종종 구현 편의성을 우선하는 경향이 있다. 그 습관을 버리기가 쉽지 않을 것이다. 그러나 철저하게 도메인의 개념을 따라야 한다.</p>
+
+<h2 id="5-인코딩된-파일명의-저장">5. 인코딩된 파일명의 저장</h2>
+
+<p>사용자가 웹 브라우저로 <code class="language-plaintext highlighter-rouge">[file].txt</code> 파일을 업로드 하려고 한다.</p>
+
+<p>사용자가 업로드 하는 파일명에 특수문자가 포함되어 있어서 URL encoding을 해서 서버에 전송해야 한다. 마찬가지로 사용자가 파일을 다운로드 받으려면 파일명을 URL encoding 해야 한다.</p>
+
+<p>그렇다면 서버는 DB에 인코딩된 문자열(<code class="language-plaintext highlighter-rouge">%5Bfile%5D.txt</code>)을 그대로 저장하는 것이 좋을까? 아니면 이것을 다시 디코딩해서 <code class="language-plaintext highlighter-rouge">[file].txt</code>로 저장하는 것이 좋을까?</p>
+
+<p><code class="language-plaintext highlighter-rouge">[file].txt</code>로 저장하면 사용자에게 파일을 전송할 때 다시 인코딩 해야 한다. 그렇다면 그냥 받은 그대로 <code class="language-plaintext highlighter-rouge">%5Bfile%5D.txt</code>으로 저장하는 것이 효율적이지 않을까?</p>
+
+<p>본질이 무엇인지 알기 위해서 사용자의 생각을 살펴봐야 한다.</p>
+
+<p>사용자가 업로드 한 파일명은 <code class="language-plaintext highlighter-rouge">[file].txt</code>이다. 사용자는 이것이 변환된다고 생각하지 않은다. 그러니까 저장할 때도 사용자의 생각에 맞춰서 <code class="language-plaintext highlighter-rouge">[file].txt</code>으로 저장하는 것이 옳다.</p>
+
+<p>애초에 URL Encoding은 ASCII 문자 집합의 제한 때문에 필요한 것이지, 사용자의 요구사항이 아니다. 특정 기술의 한계 혹은 특성이 다른 영역에 영향을 주는 것은 좋은 구조가 아니다. 그러니까 HTML의 전송 과정에서 발생하는 기술적인 문제는 그 과정에서 해결해야 하는 것이지 그것을 DB까지 가져오면 두 개의 큰 영역이 서로 강하게 결합되는 안티-패턴이 된다.</p>
+
+<p>사용자의 의도를 더 정확하게 반영하는 것이 우선이고 최적화는 그 다음이다.</p>
+
+<p>다운로드 기능만을 고려한다면 받은 그대로 저장하는 것이 최선의 선택일 것이다. 그러나 기능이 확장되면서 파일 목록을 보여주거나 검색을 허용할 때는 원본 문자열(<code class="language-plaintext highlighter-rouge">[file].txt</code>)이 필요할 것이다. 왜냐하면 사용자는 파일명을 <code class="language-plaintext highlighter-rouge">[file].txt</code>으로 생각하기 때문이다. 그런데 저장을 <code class="language-plaintext highlighter-rouge">%5Bfile%5D.txt</code>으로 한다면 조회나 검색 기능을 구현할 때 어려움을 겪을 것이다.</p>
+
+<p>구현 편의성을 추구하면 이렇게 작은 변화에도 쉽게 흔들리게 되는 것이다.</p>
+
+<!-- markdownlint-disable MD034 -->
+<p><object data="/uml/543ff9861916ccb443624522babac381.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="6-본질에-기반한-기능-정의">6. 본질에 기반한 기능 정의</h2>
+
+<p>영화 예매 서비스를 개발한다고 할 때 여기에 장바구니 기능을 구현해야 할까? 전자상거래 서비스에서는 장바구니가 필수적인 기능이지만, 영화 예매 서비스에서도 꼭 필요할까?</p>
+
+<p>이 질문에 답하기 위해서는 실제 영화 예매 프로세스에서의 사용자 경험을 생각해 봐야 한다. 일반적으로 사용자가 영화를 예매할 때는 다음과 같은 순서로 진행된다.</p>
+
+<ol>
+  <li>영화 선택</li>
+  <li>상영 시간 선택</li>
+  <li>좌석 선택</li>
+  <li>결제</li>
+</ol>
+
+<p>이 과정에서 우리는 “장바구니에 담기”와 같은 중간 단계를 발견할 수 없다. 사용자는 영화, 시간, 좌석을 선택하고 바로 결제를 진행한다.</p>
+
+<p>그렇다면 온라인 영화 예매 서비스에 장바구니 기능을 추가하는 것은 사용자의 실제 경험과는 거리가 먼 결정이 될 수 있다. 오히려 불필요한 복잡성을 야기하고, 온라인과 오프라인에서의 경험 간 일관성을 해칠 수 있다.</p>
+
+<p>물론 “나중에 결제하기 위해 선택한 영화를 저장해 두는 기능이 있으면 좋겠다”라는 사용자 요구사항이 있을 수 있다. 하지만 이 경우에도 “장바구니”라는 개념을 그대로 가져오기보다는, 영화 예매 서비스의 맥락에 맞는 개념으로 재해석할 필요가 있다. 예를 들어, “관심 영화 저장” 또는 “예매 내역 저장” 등의 기능으로 제공하는 것이 더 적절할 수 있다.</p>
+
+<h2 id="7-본질에-기반한-네이밍">7. 본질에 기반한 네이밍</h2>
+
+<p>백엔드에 대한 기본적인 지식을 전달하기 위한 프로젝트로 영화 예매 서비스 개발을 시작하려고 한다. 프로젝트의 이름을 무엇이라고 해야 할까? 영화 예매니까 ticket-service이라고 하면 어떨까?</p>
+
+<p>우리가 만들려고 하는 것은 ticket-service가 맞다. 그러나 왜 만들려고 하는가를 생각해 보면 backend-fundamentals이 더 좋은 선택이다. ticket-service는 백엔드의 기본적인 지식을 전달하기 위한 수단에 불과하다. 수단은 언제든지 변경될 수 있다.</p>
+
+<p>이 경우처럼 코드가 아니어도 선택의 순간에는 본질을 통찰하는 사고가 필요하다. 나의 경우 매 순간 습관처럼 내가 인지한 정보의 본질이 무엇인지를 고민한다.</p>
+
+<h2 id="8-결론">8. 결론</h2>
+
+<p>지금까지 살펴본 사례들이 보여준 공통점은 ‘무엇(what)’이 아니라 ‘왜(why)’에 집중한다는 것이다. ‘무엇(what)’은 ‘왜(why)’에 도달하기 위한 방법 중에 하나일 뿐이다. 목적(why)은 쉽게 바뀌지 않지만 방법(what)은 여러 상황에 따라서 얼마든지 바뀔 수 있다.</p>
+
+<p>나는 이 사고방식을 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이라고 정의했다. <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 무언가를 바라볼 때 그 본질을 통찰하려는 노력이다.</p>
+
+<p>이것은 <code class="language-plaintext highlighter-rouge">도메인 주도 디자인(DDD)</code>를 고민하다가 떠올린 개념인 만큼 <code class="language-plaintext highlighter-rouge">도메인 주도 디자인(DDD)</code>과 비슷한 맥락을 가진다. 그래서 굳이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이라는 거창한 이름으로 정의하려니 좀 창피하기도 하다. 그러나 나를 포함한 많은 개발자들이 이 개념의 존재를 보다 분명하게 인지하는데 도움이 되기를 바라는 마음으로 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>을 정의하고자 한다.</p>
+
+<p>‘왜(why)’에 집중해야 하는 다른 중요한 이유는 분석 단계에서 사용자의 모든 생각을 문서로 정리할 수 없기 때문이다. 이것은 설계도 마찬가지인데 설계 단계에서 설계자의 모든 생각을 정리할 수 없다. 모든 요구사항과 설계를 최대한 반영한 것이 코드이기 때문이다. 어느 정도 빈틈이 있을 수 밖에 없고 그 빈틈은 굳이 말하지 않아도 알 것이라고 생각하는 것들이다. 문제는 사용자가 당연하게 생각하는 것들을 개발자는 전혀 다르게 받아들일 수 있다는 것이다.</p>
+
+<p>그러나 ‘왜(why)’에 집중해서 사고하면 결국 같은 곳을 바라보기 때문에 의사소통에 다소의 빈틈이 있더라도 그 오차가 크지 않다. 이렇게 사용자와 개발자 간에 발생할 수 있는 생각의 차이를 줄이는 것이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>의 중요한 역할 중 하나이다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(Essence-Based Interpretation, EBI)</code>은 너무 당연하고 원론적인 개념이라서 대상 범위나 구체적인 실천 방법을 정의하기가 어렵다. 그리고 개발에만 국한되는 것도 아니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 도메인에 기반해야 한다는 점에서 도메인 주도 개발(DDD)과 비슷한 맥락을 가진다. 그러나 DDD는 보다 체계적이고 구체적인 설계 방법론으로 복잡하거나 변화가 잦은 도메인에 대응하는 것이 주 목적이다. 반면에 본질 기반 해석(EBI)은 구체적인 방법론이라기보다는, 소프트웨어 개발을 포함한 다양한 분야에 적용할 수 있는 일반적인 사고방식이라 할 수 있다.</p>
+
+<p>좋은 코드에 대한 고민은 사고방식의 변화를 가져오며, 이는 본질을 통찰하여 예측 불가능한 변화에 대응하는 전략으로 이어진다. 이는 소프트웨어 개발 특유의 소중한 도전이다.</p>
+
+  </div><script src="https://utteranc.es/client.js"
+    repo="mannercode/mannercode.github.io"
+    issue-term="pathname"
+    label="comment"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+  <a class="u-url" href="/2024/05/04/ebi.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <ul class="contact-list">
+          <li><a class="u-email" href="https://www.youtube.com/@mannercode">https://www.youtube.com/@mannercode</a></li>
+          <li><a class="u-email" href="https://github.com/mannercode">https://github.com/mannercode</a></li>
+          <li><a class="u-email" href="mailto:hello@mannercode.com">hello@mannercode.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
