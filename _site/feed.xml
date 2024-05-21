@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-05-20T23:47:47+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-05-21T01:22:26+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
 </subtitle><author><name>mannercode</name><email>hello@mannercode.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
 <p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
@@ -722,7 +722,9 @@
 
 <p>현대적인 개발 방법론의 근간에는 OOP가 있다. OOP를 깊이있게 이해하지 못하면 TDD, DDD, 애자일, MSA 등 현대적인 개발 방법을 공부해도 올바르게 사용하기 어려울 것이다. 실제로 MSA를 적용한 프로젝트는 많지만 성공 사례가 적은 이유이다.</p>
 
-<p>객체지향 프로그래밍에서 자주 사용하는 일반적인 패턴을 모아놓은 것이 디자인 패턴이다. 이것은 다음 기회에 다루겠다.</p>]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.]]></summary></entry><entry><title type="html">소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의</title><link href="/2024/02/03/pragmatism-principlism.html" rel="alternate" type="text/html" title="소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/pragmatism-principlism</id><content type="html" xml:base="/2024/02/03/pragmatism-principlism.html"><![CDATA[<p>과거 냉전 시대의 공산주의와 자유주의 만큼이나 양립할 수 없는 두 이념이 소프트웨어 개발에 존재한다. 원리주의와 실용주의가 그것이다. 소프트웨어 개발은 매우 복잡한 과정이며, 이 두 가지 이념은 각각 다른 방식으로 문제를 해결하려고 한다. 그렇기 때문에 이 두 이념은 소프트웨어 개발의 성공과 실패에 큰 영향을 미칠 수 있다.</p>
+<p>객체지향 프로그래밍에서 자주 사용하는 일반적인 패턴을 모아놓은 것이 디자인 패턴이다. 이것은 다음 기회에 다루겠다.</p>]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.]]></summary></entry><entry><title type="html">소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의</title><link href="/2024/02/03/pragmatism-principlism.html" rel="alternate" type="text/html" title="소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/pragmatism-principlism</id><content type="html" xml:base="/2024/02/03/pragmatism-principlism.html"><![CDATA[<p><object data="/uml/6623b76bfb081d35fb3f7f0e558e7de6.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>과거 냉전 시대의 공산주의와 자유주의 만큼이나 양립할 수 없는 두 이념이 소프트웨어 개발에 존재한다. 원리주의와 실용주의가 그것이다. 소프트웨어 개발은 매우 복잡한 과정이며, 이 두 가지 이념은 각각 다른 방식으로 문제를 해결하려고 한다. 그렇기 때문에 이 두 이념은 소프트웨어 개발의 성공과 실패에 큰 영향을 미칠 수 있다.</p>
 
 <p>원리주의자는 체계적인 소프트웨어 개발 이론을 기반으로 소프트웨어 개발을 진행해야 한다는 입장이다. 유지보수가 중요하고 멀리 보고 신중하게 코드를 작성한다. 반면, 실용주의자는 문제를 최대한 간단하게 해결하자는 입장이다. 초기에 많은 시간을 들여서 작업을 하느니 문제가 생길 때마다 대응하는 것이 효율적이라고 생각한다.</p>
 
@@ -886,6 +888,12 @@
 
 <h2 id="5-실용주의-팀장">5. 실용주의 팀장</h2>
 
+<p>많은 개발자들이 실용주의 팀장이 되는데 실용주의 팀원은 물론이고 원리주의 팀장도 실용주의 팀장이 될 수 있다. 실용주의 팀원이 실용주의 팀장이 되는 것은 자연스러운데, 원리주의 팀장이 실용주의 팀장이 되는 것은 무슨 말일까?</p>
+
+<p>원리주의 팀장이 OOP, 디자인 패턴, TDD, DDD, MSA 등 많은 개발 방법론과 아키텍처를 학습하지만 실제 프로젝트에 적용하기는 쉽지 않다. 이런 방법론과 아키텍처는 서로 이어져 있어서 프로젝트에 적용하려면 정말 많은 노력과 경험이 필요하다. 예를 들면 MSA(Microservices Architecture)를 올바르게 적용하려면 현대적인 개발 방법의 근간인 OOP와 디자인 패턴은 물론이고 DDD(Domain-Driven Design)를 잘 알아야 한다. 그런데 현실은 OOP와 디자인 패턴조차 제대로 깨닫지 못하는 경우가 보통이다. TDD(Test-Driven Development)도 OOP/디자인패턴은 기본이고 도메인에 대한 이해를 기반으로 한 유연한 설계가 가능해야 한다.</p>
+
+<p>이 정도 수준에 이르지 못하면 학습했던 개발 방법론을 실제 프로젝트에 적용하는 것은 힘들다. 프로젝트에 적용해 봤으나 결국 문제만 키우는 경험을 몇 번 하고나면 개발 방법론을 현실과 동떨어진 공허한 이론으로 여기게 된다.</p>
+
 <p>실용주의 팀장의 눈에 원리주의 팀원은 아직 현실을 모르고 그럴듯한 이론에 빠져서 헛된 일을 하는 것으로 보인다. 실용주의 팀장은 주변에서 개발 방법론의 중요성을 외치는 많은 동료들을 봐왔지만 개발 일정만 늦어질 뿐 딱히 품질이 좋아지는 경우를 본 적이 없다. 그래서 팀원의 노력을 시간 낭비로 보고 한심하게 여기기도 한다.</p>
 
 <h2 id="6-실용주의-관리자">6. 실용주의 관리자</h2>
@@ -992,7 +1000,6 @@
 
 이렇게 서로의 장점을 인정하고 통합하는 방식으로 일한다면, 원리주의자와 실용주의자 모두 조직 내에서 중요한 역할을 하며 살아남을 수 있습니다. 결국, 조직의 성공은 다양한 접근 방식을 포용하고, 각각의 강점을 최대한 활용하는 데에서 비롯됩니다.
 
-
 ## 결론
 
 결국 길은 한 곳에서 만난다고 하지만
@@ -1006,4 +1013,4 @@
 
 대체로 원리주의 팀장의 업그레이드 버전이다.
 
-자신을 과신하고 개발자를 불신하는 경우도 있었다. -->]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[과거 냉전 시대의 공산주의와 자유주의 만큼이나 양립할 수 없는 두 이념이 소프트웨어 개발에 존재한다. 원리주의와 실용주의가 그것이다. 소프트웨어 개발은 매우 복잡한 과정이며, 이 두 가지 이념은 각각 다른 방식으로 문제를 해결하려고 한다. 그렇기 때문에 이 두 이념은 소프트웨어 개발의 성공과 실패에 큰 영향을 미칠 수 있다.]]></summary></entry></feed>
+자신을 과신하고 개발자를 불신하는 경우도 있었다. -->]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[]]></summary></entry></feed>

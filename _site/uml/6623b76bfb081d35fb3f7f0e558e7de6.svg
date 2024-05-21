@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="315px" preserveAspectRatio="none" style="width:359px;height:315px;" version="1.1" viewBox="0 0 359 315" width="359px" zoomAndPan="magnify"><defs><filter height="300%" id="f19rlsf8lth8p9" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><ellipse cx="292.2696" cy="22.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="266.2696" y="27.1721">원리주의 팀원</text><ellipse cx="292.2696" cy="111.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="266.2696" y="116.1721">원리주의 팀장</text><ellipse cx="62.2696" cy="200.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="36.2696" y="205.1721">중도성향 팀장</text><ellipse cx="303.4264" cy="289.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="45.4264" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="60" x="273.4264" y="294.1721">원리주의 관리자</text><ellipse cx="177.2696" cy="200.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="151.2696" y="205.1721">실용주의 팀장</text><ellipse cx="177.2696" cy="111.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="151.2696" y="116.1721">실용주의 팀원</text><ellipse cx="177.4264" cy="289.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="45.4264" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="60" x="147.4264" y="294.1721">실용주의 관리자</text><ellipse cx="62.2696" cy="111.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="36.2696" y="116.1721">중도성향 팀원</text><ellipse cx="51.4264" cy="289.5236" fill="#FEFECE" filter="url(#f19rlsf8lth8p9)" rx="45.4264" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="60" x="21.4264" y="294.1721">중도성향 관리자</text><!--MD5=[cffb94870253ddb9df316ae87ed23d8d]
+link 원리주의 팀원 to 원리주의 팀장--><path d="M292.5,37.09 C292.5,51.69 292.5,75 292.5,91.43 " fill="none" id="원리주의 팀원-&gt;원리주의 팀장" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="292.5,96.71,296.5,87.71,292.5,91.71,288.5,87.71,292.5,96.71" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[df22e099127bee0fcc4a3b536f4a99be]
+link 원리주의 팀장 to 중도성향 팀장--><path d="M266.12,122.48 C223.42,138.63 139.39,170.42 93.76,187.68 " fill="none" id="원리주의 팀장-&gt;중도성향 팀장" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="88.93,189.5,98.7635,190.049,93.6052,187.7272,95.927,182.5688,88.93,189.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d4e5f4d954d7a89819e7deb1ca599fc7]
+link 원리주의 팀장 to 원리주의 관리자--><path d="M293.34,126.02 C295.28,157.04 300.06,233.42 302.3,269.3 " fill="none" id="원리주의 팀장-&gt;원리주의 관리자" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="302.64,274.69,306.0659,265.4562,302.3254,269.6999,298.0817,265.9595,302.64,274.69" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[cab93de5f2dfe11e0eec20b66793e2b0]
+link 실용주의 팀장 to 원리주의 관리자--><path d="M195.02,213.6 C217.52,229.13 256.59,256.11 281.19,273.1 " fill="none" id="실용주의 팀장-&gt;원리주의 관리자" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="285.31,275.94,280.1795,267.533,281.1965,273.0977,275.6318,274.1146,285.31,275.94" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e323fdbe671fe96b5807ae8e95f6ba3d]
+link 실용주의 팀원 to 실용주의 팀장--><path d="M177.5,126.09 C177.5,140.69 177.5,164 177.5,180.43 " fill="none" id="실용주의 팀원-&gt;실용주의 팀장" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="177.5,185.71,181.5,176.71,177.5,180.71,173.5,176.71,177.5,185.71" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[716856f51bc31dc8d0f7d8ca03581851]
+link 원리주의 팀장 to 실용주의 팀장--><path d="M276.02,124.96 C255.44,140.53 220.23,167.17 197.95,184.03 " fill="none" id="원리주의 팀장-&gt;실용주의 팀장" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="193.95,187.06,203.5411,184.8216,197.938,184.044,198.7155,178.4409,193.95,187.06" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[f81359edb9b2030c829554f53027e5c9]
+link 실용주의 팀장 to 실용주의 관리자--><path d="M177.5,215.09 C177.5,229.69 177.5,253 177.5,269.43 " fill="none" id="실용주의 팀장-&gt;실용주의 관리자" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="177.5,274.71,181.5,265.71,177.5,269.71,173.5,265.71,177.5,274.71" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[416062ee0db5a3bd6e72f6fb795e085c]
+link 중도성향 팀원 to 중도성향 팀장--><path d="M62.5,126.09 C62.5,140.69 62.5,164 62.5,180.43 " fill="none" id="중도성향 팀원-&gt;중도성향 팀장" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="62.5,185.71,66.5,176.71,62.5,180.71,58.5,176.71,62.5,185.71" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d2f2490ca61252c1c9a65305efb2d50f]
+link 중도성향 팀원 to 실용주의 팀장--><path d="M78.98,124.96 C99.56,140.53 134.77,167.17 157.05,184.03 " fill="none" id="중도성향 팀원-&gt;실용주의 팀장" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="161.05,187.06,156.2845,178.4409,157.062,184.044,151.4589,184.8216,161.05,187.06" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[7e73d304fff9a9b92053dea9302be4e8]
+link 실용주의 팀장 to 중도성향 관리자--><path d="M159.98,213.6 C137.48,229.13 98.41,256.11 73.81,273.1 " fill="none" id="실용주의 팀장-&gt;중도성향 관리자" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="69.69,275.94,79.3682,274.1146,73.8035,273.0977,74.8205,267.533,69.69,275.94" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[79c683d617cb4aec3ee4af866331ac82]
+link 중도성향 팀장 to 중도성향 관리자--><path d="M60.78,215.09 C58.92,229.78 55.95,253.28 53.87,269.72 " fill="none" id="중도성향 팀장-&gt;중도성향 관리자" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="53.21,275,58.3104,266.5747,53.839,270.0397,50.3739,265.5683,53.21,275" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[8a3898214a0cb3291a663d55515964a5]
+@startuml
+(원리주의 팀원) - -> (원리주의 팀장)
+(원리주의 팀장) - -> (중도성향 팀장)
+(원리주의 팀장) - -> (원리주의 관리자)
+(실용주의 팀장) - -> (원리주의 관리자)
+
+(실용주의 팀원) - -> (실용주의 팀장)
+(원리주의 팀장) - -> (실용주의 팀장)
+(실용주의 팀장) - -> (실용주의 관리자)
+
+(중도성향 팀원) - -> (중도성향 팀장)
+(중도성향 팀원) - -> (실용주의 팀장)
+
+(실용주의 팀장) - -> (중도성향 관리자)
+(중도성향 팀장) - -> (중도성향 관리자)
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.11+9-Debian-1deb12u1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
