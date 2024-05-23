@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-05-23T05:11:13+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-05-23T05:28:33+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
 </subtitle><author><name>mannercode</name><email>hello@mannercode.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
 <p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
@@ -929,11 +929,13 @@
 
 <p>당장은 실용주의 개발자의 주장이 그럴듯하게 들릴 것이다. 그런데 실용주의 개발을 계속했을 때 회사가 어떤 모습일지를 신중하게 생각해 봐야 한다.</p>
 
-<p>비교적 개발에 전념하는 원리주의 팀장은 당장 성과가 나오는 것이 아니고 자기 주장도 강하고 오버 엔지니어링으로 비용이 높아진다. 이런 시행착오를 회사가 감당하지 못하고 실용주의로 흐른다면 결국 실용주의 개발자만 남을 것이다. 실용주의 개발자가 다수를 차지한 상황에서 관리자가 품질에 문제의식을 느끼고 원리주의 개발자를 채용해봤자 기존에 자리잡은 실용주의 팀장들이 텃새를 버티기는 힘들 것이다.</p>
+<p>비교적 개발에 전념하는 원리주의 팀장은 당장 성과가 나오는 것이 아니고 자기 주장도 강하고 오버 엔지니어링으로 비용이 높아진다. 이런 시행착오를 회사가 감당하지 못하고 실용주의로 흐른다면 결국 실용주의 개발자만 남을 것이다. 실용주의 개발자가 다수를 차지한 상황에서 관리자가 품질에 문제의식을 느끼고 원리주의 개발자를 채용해봤자 기존에 자리잡은 실용주의 팀장들의 텃새를 버티기는 힘들 것이다.</p>
 
-<p>결국 회사가 개발하는 제품의 성격에 따라서 개발자의 성향을 선택해야 할 것이다. 자사 프로덕트라면 실용주의 개발자는 최소화 해야 한다. 단기 외주 프로젝트라면 원리주의 개발자를 최소화 해야 한다.</p>
+<p>그렇다고 원리주의 개발자가 다수를 차지하면 연구에 전념하거나 실험적인 기술을 도입하면서 생산성이 급격하게 떨어질 수 있다. 개발 방법론에 대한 이해도 완전하지 않기 때문에 소프트웨어 품질이 크게 좋아지지는 않을 것이다.</p>
 
-<p>기술부채가 쌓일수록 유지보수가 어려워지는 것처럼 당장 개발자가 부족하다는 이유로 채용 부채를 쌓게 되면 개발 조직의 유지가 어려워질 것이다.</p>
+<p>이런 문제를 해결하려면 적어도 한 명의 유능한 테크 리더가 있어야 한다.</p>
+
+<p>테크 리더를 확보할 수 없다면 결국 회사가 개발하는 제품의 성격에 따라서 개발자의 성향을 선택해야 할 것이다. 자사 프로덕트라면 실용주의 개발자는 최소화 해야 한다. 단기 외주 프로젝트라면 원리주의 개발자를 최소화 해야 한다. 기술부채가 쌓일수록 유지보수가 어려워지는 것처럼 당장 개발자가 부족하다는 이유로 채용 부채를 쌓게 되면 개발 조직의 유지가 어려워질 것이다.</p>
 
 <!-- ## 11. 회사의 기술력을 높이기 위해서, 소프트웨어 개발 회사로 살아남기 위해서
 
