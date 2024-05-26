@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-05-26T06:35:53+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-05-26T06:47:43+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
 </subtitle><author><name>mannercode</name><email>hello@mannercode.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
 <p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
@@ -968,6 +968,8 @@
 
 <p>이런 둘을 중재할 수 있는 것은 압도적인 경험과 역량을 갖춘 상위 기술 책임자 뿐이다. 정확하게는 상위 기술 책임자가 개발 팀장을 주도적으로 리드해야 한다. 개발 팀장들이 협의를 한다는 것은 상위 기술 책임자가 없기 때문이다. 문제는 일반적인 개발 팀장들이 납득할 수 있는 압도적인 경험과 역량을 갖춘 상위 기술 책임자를 찾는 것이 쉽지 않다는 것이다.</p>
 
+<p>상위 기술 책임자가 없는 상황에서 관리자가 둘을 직접 중재하는 것은 어렵고 그렇다고 어느 한 쪽을 편들자니 다른 쪽이 반발하는 것이 부담스럽다. 그러나 손실을 각오하고 프로젝트의 특성에 따라서 명확하게 한 쪽에 책임과 관한을 부여하는 것이 장기적으로 좋을 것이다. 단기 외주 프로젝트라면 실용주의 팀장이 리드하고 지속적인 개선이 필요한 자사 프로덕트라면 원리주의 팀장이 리드하도록 해야 한다.</p>
+
 <blockquote>
   <p>유럽에 본사를 둔 어느 회사에 근무했던 경험이다.</p>
 
@@ -977,8 +979,6 @@
 
   <p>이 회사에서 인터페이스를 포함한 설계에 대한 결정은 아키텍트 간에 이뤄졌기 때문에 개발팀 간에 불협화음을 찾기 어려웠다. 설계에 대해서 개발팀장과 아키텍트 사이에 의견이 다를 수는 있지만 설계 권한과 책임은 아키텍트에 있었기 때문에 문제가 되는 경우는 없었다.</p>
 </blockquote>
-
-<p>상위 기술 책임자가 없는 상황에서 관리자가 둘을 직접 중재하는 것은 어렵고 그렇다고 어느 한 쪽을 편들자니 다른 쪽이 반발하는 것이 부담스럽다. 그러나 손실을 각오하고 프로젝트의 특성에 따라서 명확하게 한 쪽에 책임과 관한을 부여하는 것이 장기적으로 좋을 것이다. 단기 외주 프로젝트라면 실용주의 팀장이 리드하고 지속적인 개선이 필요한 자사 프로덕트라면 원리주의 팀장이 리드하도록 해야 한다.</p>
 
 <h2 id="7-결론">7. 결론</h2>
 
