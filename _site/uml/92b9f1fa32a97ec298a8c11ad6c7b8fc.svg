@@ -12,7 +12,7 @@ entity Consular Table--><rect fill="#FEFECE" filter="url(#f19jr12dqcsx6v)" heigh
 link Apostille API to Apostille Service--><path d="M166.67,120 C184.48,120 204.82,120 223.96,120 " fill="none" id="Apostille API-&gt;Apostille Service" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="229.33,120,220.33,116,224.33,120,220.33,124,229.33,120" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[1c54d27d44042ee8aab9146f0edacfc3]
 link Consular API to Consular Service--><path d="M168.11,191 C185.13,191 204.35,191 222.57,191 " fill="none" id="Consular API-&gt;Consular Service" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="227.68,191,218.68,187,222.68,191,218.68,195,227.68,191" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[1b5d01c6125718d82d32a1a7af7f4183]
 link Apostille Service to Apostille Table--><path d="M361.64,120 C380.24,120 400.48,120 419.04,120 " fill="none" id="Apostille Service-&gt;Apostille Table" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="424.22,120,415.22,116,419.22,120,415.22,124,424.22,120" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[df111419ad2f0481bcd77ab1abede23a]
-link Consular Service to Consular Table--><path d="M363.22,191 C380.8,191 399.77,191 417.33,191 " fill="none" id="Consular Service-&gt;Consular Table" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="422.73,191,413.73,187,417.73,191,413.73,195,422.73,191" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[6391d7200c2f142184889648a993e319]
+link Consular Service to Consular Table--><path d="M363.22,191 C380.8,191 399.77,191 417.33,191 " fill="none" id="Consular Service-&gt;Consular Table" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="422.73,191,413.73,187,417.73,191,413.73,195,422.73,191" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[dbb8dc0539f32ca78e1c6541e27711ab]
 @startuml
 left to right direction
 
@@ -44,7 +44,7 @@ PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
 (GPL source distribution)
 Java Runtime: OpenJDK Runtime Environment
 JVM: OpenJDK 64-Bit Server VM
-Java Version: 17.0.11+9-Debian-1deb12u1
+Java Version: 17.0.12+7-Debian-2deb12u1
 Operating System: Linux
 Default Encoding: UTF-8
 Language: en
