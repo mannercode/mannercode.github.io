@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-08-29T21:46:55+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-08-30T19:32:43+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
 </subtitle><author><name>mannercode</name><email>hello@mannercode.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
 <p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
@@ -722,7 +722,7 @@
 
 <p>현대적인 개발 방법론의 근간에는 OOP가 있다. OOP를 깊이있게 이해하지 못하면 TDD, DDD, 애자일, MSA 등 현대적인 개발 방법을 공부해도 올바르게 사용하기 어려울 것이다. 실제로 MSA를 적용한 프로젝트는 많지만 성공 사례가 적은 이유이다.</p>
 
-<p>객체지향 프로그래밍에서 자주 사용하는 일반적인 패턴을 모아놓은 것이 디자인 패턴이다. 이것은 다음 기회에 다루겠다.</p>]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.]]></summary></entry><entry><title type="html">소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의</title><link href="/2024/02/03/principled-pragmatic.html" rel="alternate" type="text/html" title="소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/principled-pragmatic</id><content type="html" xml:base="/2024/02/03/principled-pragmatic.html"><![CDATA[<p><img src="/assets/images/principled-pragmatic.webp" alt="방향키3" /></p>
+<p>객체지향 프로그래밍에서 자주 사용하는 일반적인 패턴을 모아놓은 것이 디자인 패턴이다. 이것은 다음 기회에 다루겠다.</p>]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.]]></summary></entry><entry><title type="html">소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의</title><link href="/2024/02/03/principled-pragmatic.html" rel="alternate" type="text/html" title="소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/principled-pragmatic</id><content type="html" xml:base="/2024/02/03/principled-pragmatic.html"><![CDATA[<p><img src="/assets/images/principle-pragmatic.webp" alt="" /></p>
 
 <p>과거 냉전 시대의 공산주의와 자유주의처럼 양립할 수 없는 두 가지 이념이 소프트웨어 개발 분야에 존재한다. 바로 원리주의와 실용주의다. 소프트웨어 개발은 매우 복잡한 과정이며, 이 두 가지 이념은 각기 다른 방식으로 문제에 접근한다. 따라서 원리주의와 실용주의는 소프트웨어 개발의 성패를 좌우하는 중요한 요소라 할 수 있다.</p>
 
@@ -733,6 +733,8 @@
 <p>이 글에서는 극단적인 원리주의 개발자와 실용주의 개발자에 주목하고자 한다. 이들의 상반된 관점과 접근 방식, 그리고 협업 과정에서 발생하는 문제들을 살펴본다.</p>
 
 <h2 id="1-원리주의-팀원">1. 원리주의 팀원</h2>
+
+<p><img src="/assets/images/principle-member.webp" alt="" /></p>
 
 <p>성장 욕구와 열정이 넘치는 주니어 개발자라면 높은 확률로 원리주의 팀원이 될 것이다. 이런 원리주의 팀원이 원리주의 팀장을 만나면 행복하겠지만 현실은 원리주의 팀원과 실용주의 팀장의 조합이 더 많다.</p>
 
@@ -759,6 +761,8 @@
 </blockquote>
 
 <h2 id="2-원리주의-팀장">2. 원리주의 팀장</h2>
+
+<p><img src="/assets/images/principle-leader.webp" alt="" /></p>
 
 <p>원리주의 팀원의 열정이 계속 된다면 대체로 원리주의 팀장이 된다. 팀장이라고 했지만 프로젝트의 주도권을 갖고 개발하는 위치에 있다면 여기에 해당한다.</p>
 
@@ -820,6 +824,8 @@
 
 <h2 id="3-실용주의-팀원">3. 실용주의 팀원</h2>
 
+<p><img src="/assets/images/pragmatic-member.png" alt="" /></p>
+
 <p>원리주의 팀원은 회사 일을 성장의 기회로 삼으려고 하는 반면에 실용주의 팀원은 회사의 일을 경제 활동으로 받아들인다. 그래서 문제가 있을 때 원리주의 팀원은 과도한 노력을 기울이게 되고 실용주의 팀원은 최소한의 노력으로 문제를 해결하려고 한다.</p>
 
 <p>실용주의 팀원은 다양한 유형이 있다.</p>
@@ -843,6 +849,8 @@
 <p>실용주의 팀원은 효율을 우선하기 때문에 고민의 기회가 적다. 그러나 인간 관계든 개발이든 고민하는 만큼 성장할 수 있고 성장하는 만큼 차별화를 이룰 수 있다.</p>
 
 <h2 id="4-실용주의-팀장">4. 실용주의 팀장</h2>
+
+<p><img src="/assets/images/pragmatic-leader.webp" alt="" /></p>
 
 <p>많은 개발자들이 실용주의 팀장이 되는데 실용주의 팀원은 물론이고 원리주의 팀장도 실용주의 팀장이 될 수 있다. 실용주의 팀원이 실용주의 팀장이 되는 것은 자연스러운데, 원리주의 팀장이 실용주의 팀장이 되는 것은 무슨 말일까?</p>
 
@@ -873,6 +881,8 @@
 <p>떄로는 원인을 알 수 없는 버그로 많은 연구와 시행착오를 겪어야 할지도 모른다. 단순히 문제를 덮기 위한 코드를 작성한다면 대부분은 다른 형태로 더 큰 문제가 되어서 돌아온다.</p>
 
 <h2 id="5-마이크로-관리자">5. 마이크로 관리자</h2>
+
+<p><img src="/assets/images/micro-manager.webp" alt="" /></p>
 
 <p>마이크로 관리자(Micromanager)는 조직 내에서 구성원들의 업무 수행 과정에 지나치게 관여하고 통제하려 하는 관리자를 말한다.</p>
 
@@ -913,6 +923,8 @@
 </blockquote>
 
 <h2 id="6-원리주의-팀장과-실용주의-팀장의-갈등">6. 원리주의 팀장과 실용주의 팀장의 갈등</h2>
+
+<p><img src="/assets/images/principled-pragmatic-micro.webp" alt="" /></p>
 
 <p>한 프로젝트에서 원리주의 팀장과 실용주의 팀장이 원만한 협력 관계를 유지한다면, 이는 그들이 싸울 여력이 없을 정도로 큰 위협이 존재한다는 의미이다. 예를 들어, 고객의 심한 갑질이나 고압적인 마이크로 매니저와 같은 상황이 있을 수 있다.</p>
 
