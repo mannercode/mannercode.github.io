@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-08-30T19:32:43+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
-</subtitle><author><name>mannercode</name><email>hello@mannercode.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-09-01T00:39:12+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
 <p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
 
@@ -270,7 +270,7 @@
 
 <p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 도메인에 기반해야 한다는 점에서 도메인 주도 개발(DDD)과 비슷한 맥락을 가진다. 그러나 DDD는 보다 체계적이고 구체적인 설계 방법론으로 복잡하거나 변화가 잦은 도메인에 대응하는 것이 주 목적이다. 반면에 본질 기반 해석(EBI)은 구체적인 방법론이라기보다는, 소프트웨어 개발을 포함한 다양한 분야에 적용할 수 있는 일반적인 사고방식이라 할 수 있다.</p>
 
-<p>좋은 코드에 대한 고민은 사고방식의 변화를 가져오며, 이는 본질을 통찰하여 예측 불가능한 변화에 대응하는 전략으로 이어진다. 이는 소프트웨어 개발 특유의 소중한 도전이다.</p>]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[1. 소개]]></summary></entry><entry><title type="html">객체 지향 프로그래밍의 이해</title><link href="/2024/03/09/oop.html" rel="alternate" type="text/html" title="객체 지향 프로그래밍의 이해" /><published>2024-03-09T00:00:00+00:00</published><updated>2024-03-09T00:00:00+00:00</updated><id>/2024/03/09/oop</id><content type="html" xml:base="/2024/03/09/oop.html"><![CDATA[<blockquote>
+<p>좋은 코드에 대한 고민은 사고방식의 변화를 가져오며, 이는 본질을 통찰하여 예측 불가능한 변화에 대응하는 전략으로 이어진다. 이는 소프트웨어 개발 특유의 소중한 도전이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[1. 소개]]></summary></entry><entry><title type="html">객체 지향 프로그래밍의 이해</title><link href="/2024/03/09/oop.html" rel="alternate" type="text/html" title="객체 지향 프로그래밍의 이해" /><published>2024-03-09T00:00:00+00:00</published><updated>2024-03-09T00:00:00+00:00</updated><id>/2024/03/09/oop</id><content type="html" xml:base="/2024/03/09/oop.html"><![CDATA[<blockquote>
   <p>객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.</p>
 </blockquote>
 
@@ -722,7 +722,7 @@
 
 <p>현대적인 개발 방법론의 근간에는 OOP가 있다. OOP를 깊이있게 이해하지 못하면 TDD, DDD, 애자일, MSA 등 현대적인 개발 방법을 공부해도 올바르게 사용하기 어려울 것이다. 실제로 MSA를 적용한 프로젝트는 많지만 성공 사례가 적은 이유이다.</p>
 
-<p>객체지향 프로그래밍에서 자주 사용하는 일반적인 패턴을 모아놓은 것이 디자인 패턴이다. 이것은 다음 기회에 다루겠다.</p>]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.]]></summary></entry><entry><title type="html">소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의</title><link href="/2024/02/03/principled-pragmatic.html" rel="alternate" type="text/html" title="소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/principled-pragmatic</id><content type="html" xml:base="/2024/02/03/principled-pragmatic.html"><![CDATA[<p><img src="/assets/images/principle-pragmatic.webp" alt="" /></p>
+<p>객체지향 프로그래밍에서 자주 사용하는 일반적인 패턴을 모아놓은 것이 디자인 패턴이다. 이것은 다음 기회에 다루겠다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.]]></summary></entry><entry><title type="html">소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의</title><link href="/2024/02/03/principled-pragmatic.html" rel="alternate" type="text/html" title="소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/principled-pragmatic</id><content type="html" xml:base="/2024/02/03/principled-pragmatic.html"><![CDATA[<p><img src="/assets/images/principle-pragmatic.webp" alt="" /></p>
 
 <p>과거 냉전 시대의 공산주의와 자유주의처럼 양립할 수 없는 두 가지 이념이 소프트웨어 개발 분야에 존재한다. 바로 원리주의와 실용주의다. 소프트웨어 개발은 매우 복잡한 과정이며, 이 두 가지 이념은 각기 다른 방식으로 문제에 접근한다. 따라서 원리주의와 실용주의는 소프트웨어 개발의 성패를 좌우하는 중요한 요소라 할 수 있다.</p>
 
@@ -1010,4 +1010,4 @@
 
 <p>이런 문제를 해결하려면 적어도 한 명의 유능한 상위 기술 책임자가 있어야 한다. 상위 기술 책임자는 원리주의 개발자의 시행착오를 크게 줄일 수 있고 실용주의 개발자를 적재적소에 배치할 것이다.</p>
 
-<p>상위 기술 책임자를 확보할 수 없다면 결국 회사가 개발하는 제품의 성격에 따라서 개발자의 성향을 선택해야 할 것이다. 자사 프로덕트라면 실용주의 개발자는 최소화 해야 한다. 단기 외주 프로젝트라면 원리주의 개발자를 최소화 해야 한다. 기술부채가 쌓일수록 유지보수가 어려워지는 것처럼 당장 개발자가 부족하다는 이유로 채용 부채를 쌓게 되면 개발 조직의 유지가 어려워질 것이다.</p>]]></content><author><name>mannercode</name><email>hello@mannercode.com</email></author><summary type="html"><![CDATA[]]></summary></entry></feed>
+<p>상위 기술 책임자를 확보할 수 없다면 결국 회사가 개발하는 제품의 성격에 따라서 개발자의 성향을 선택해야 할 것이다. 자사 프로덕트라면 실용주의 개발자는 최소화 해야 한다. 단기 외주 프로젝트라면 원리주의 개발자를 최소화 해야 한다. 기술부채가 쌓일수록 유지보수가 어려워지는 것처럼 당장 개발자가 부족하다는 이유로 채용 부채를 쌓게 되면 개발 조직의 유지가 어려워질 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[]]></summary></entry></feed>
