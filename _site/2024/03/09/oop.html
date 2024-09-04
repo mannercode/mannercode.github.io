@@ -164,10 +164,6 @@
 
 <p>지금처럼 printDocument() 함수 하나만 변경하는 것이라면 문제가 되지 않는다. 그러나 printDocument() 외에 다른 함수가 있다면? 변경해야 하는 함수가 그 만큼 늘어난다.</p>
 
-<h3 id="21-중첩된-함수에서의-문제">2.1. 중첩된 함수에서의 문제</h3>
-
-<p>실제 프로젝트는 이것보다 더 길고 복잡한 코드인 경우가 많다. 이런 환경에서 관련된 모든 함수를 찾아서 변경하는 것은 쉽지 않다.</p>
-
 <div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="kd">const</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span>
     <span class="nf">printDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">)</span>
@@ -229,7 +225,15 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>if는 코드의 복잡도를 증가시키고 개발을 어렵게 한다. 그렇다고 if문을 제거하면 더 큰 부작용이 발생한다.</p>
+<p>if-else로 함수 마다 타입 체크를 하고 있다. 이 상황에서 HttpRequest를 HttpRequest2로 변경해야 한다면 어떨까?</p>
+
+<p>실제 프로젝트는 이것보다 더 길고 복잡한 코드인 경우가 많다. 이런 환경에서 관련된 모든 함수를 찾아서 변경하는 것은 쉽지 않을 것이다.</p>
+
+<p>직관적으로 생각해도 if가 없다면 개발자는 코드를 읽기만 하면 되지만 if가 들어가면 각각의 조건을 머리에 담아두고 읽게 된다. 즉, if는 코드의 복잡도를 증가시키고 개발을 어렵게 한다.</p>
+
+<blockquote>
+  <p>이 부분이 지식을 전달하기 어려운 예다. if-else로 고생한 경험이 없다면 위의 설명을 수긍하기 어렵다. 그렇다고 실제로 복잡한 코드를 모두 여기에 적을 수도 없다.</p>
+</blockquote>
 
 <h2 id="3-절차식-코드의-개선-방법">3. 절차식 코드의 개선 방법</h2>
 
@@ -289,9 +293,12 @@
 
     <span class="nf">printFileDocument</span><span class="p">(</span><span class="nx">report</span><span class="p">)</span>
 <span class="p">}</span>
+
 </code></pre></div></div>
 
 <p>확실히 if 문이 사라지긴 했다. 그러나 if를 피하기 위해서 ‘report를 생성하는 코드’를 반복하게 된다. 이럴거면 차라리 if를 사용하는 것이 낫다.</p>
+
+<p>혹시 <code class="language-plaintext highlighter-rouge">/* report를 생성하는 코드*/</code>를 함수로 만들면 if도 사라지고 중복 코드도 없앨 수 있다고 생각하는가? 실제 프로젝트에서는 <code class="language-plaintext highlighter-rouge">/* report를 생성하는 코드*/</code>가 Buffer나 File에 따라 조금씩 다른 경우가 많아서 코드를 그렇게 쉽게 떼어낼 수 없을 것이다.</p>
 
 <h3 id="32-실행-코드-전달하기">3.2. 실행 코드 전달하기</h3>
 
