@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-09-08T11:57:22+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-09-08T12:00:25+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
 <p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
@@ -674,10 +674,10 @@
   <p>코드를 변경할 때 그 영향이 어디까지 미치는 것인지 파악이 안 된다면 거의 반드시 버그를 만들고 있는 것이다.</p>
 </blockquote>
 
-<p>아래의 그림에서 count 변수를 사용하는 read(), write(), change(), reset() 함수들은 서로 연결되어 있다. 특히 값을 변경하는 change(), reset() 함수는 다른 모든 함수에 직접적인 영향을 끼친다.</p>
+<p>아래의 그림에서 count 변수를 사용하는 get(), print(), change(), reset() 함수들은 서로 연결되어 있다. 특히 값을 변경하는 change(), reset() 함수는 다른 모든 함수에 직접적인 영향을 끼친다.</p>
 
 <!-- markdownlint-disable MD032 MD037 -->
-<p><object data="/uml/62794e45846be2ea9677da1605c99ef9.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/b5f54719acf45d1cce02d4f86a605f26.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>반면에 <code class="language-plaintext highlighter-rouge">BufferDocument</code>의 <code class="language-plaintext highlighter-rouge">buffer</code>나 <code class="language-plaintext highlighter-rouge">position</code>을 사용하는 함수는 <code class="language-plaintext highlighter-rouge">BufferDocument</code> 클래스에만 존재할 수 있다.
 왜냐하면 두 프로퍼티(변수)가 비공개이기 때문에 외부에서의 접근이 원천적으로 차단되기 때문이다.</p>
