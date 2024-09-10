@@ -61,20 +61,23 @@
 
 <p>사용자에게 ‘상/하/좌/우’를 선택할 수 있는 방향키를 제공해야 한다. 4개 화살표의 모양은 동일하고 방향만 다르다. 이 때 방향키를 구현하는 방법이 두 가지 있다.</p>
 
+<p><img src="/assets/images/vector-arrows-buttons.jpg" alt="방향키1" /> <br />
+<em>[그림 2-1] 동일한 모양으로 구성된 방향키</em></p>
+
 <h3 id="21-방법1---한-개의-이미지를-회전시켜서-재사용">2.1. 방법#1 - 한 개의 이미지를 회전시켜서 재사용</h3>
 
 <p><code class="language-plaintext highlighter-rouge">방법#1</code>은 한 개의 화살표 이미지(arrow.png)를 회전시켜서 구현하는 것이다. 화살표의 모양은 동일하기 때문에 쉽게 구현할 수 있다.</p>
 
 <p>이 방법은 저장 공간을 적게 차지하는 장점이 있다. 그러나 코드 가독성이 상대적으로 떨어진다는 단점이 있다.</p>
 
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"0"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"180"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"-90"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"90"</span> <span class="nt">/&gt;</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"0"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"180"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"-90"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"90"</span> <span class="nt">/&gt;</span>
 </code></pre></div></div>
 
 <p><img src="/assets/images/arrows1.svg" alt="방향키1" /> <br />
-<em>[그림 2-1] 한 개의 이미지를 회전시켜서 구현한 방향키</em></p>
+<em>[그림 2-2] 한 개의 이미지를 회전시켜서 구현한 방향키</em></p>
 
 <h3 id="22-방법2---4개의-이미지를-사용">2.2. 방법#2 - 4개의 이미지를 사용</h3>
 
@@ -82,36 +85,36 @@
 
 <p>이 방법은 더 많은 이미지 리소스를 관리하는 번거로움과 저장 공간도 더 많이 차지한다는 단점이 있다. 반면 코드의 가독성은 비교적 좋다.</p>
 
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"up.png"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"down.png"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"let.png"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;View</span> <span class="na">src=</span><span class="s">"right.png"</span> <span class="nt">/&gt;</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"up.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"down.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"let.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"right.png"</span> <span class="nt">/&gt;</span>
 </code></pre></div></div>
 
 <p><img src="/assets/images/arrows2.svg" alt="방향키2" /> <br />
-<em>[그림 2-2] 상/하/좌/우 4개의 이미지로 구현한 방향키</em></p>
+<em>[그림 2-3] 상/하/좌/우 4개의 이미지로 구현한 방향키</em></p>
 
 <h3 id="23-옳은-방법은-무엇일까">2.3. 옳은 방법은 무엇일까?</h3>
 
-<p>무엇이 옳은 것일까? 혹은 이 선택에 있어서 옳고 그름이 존재하긴 하는 걸까? 그저 개인의 철학에 따른 선택만이 있는 것은 아닐까? 읽기 쉬운 코드를 추구한다면 <code class="language-plaintext highlighter-rouge">방법#1</code>이지만 효율성을 추구한다면 <code class="language-plaintext highlighter-rouge">방법#2</code>일 것이다.</p>
+<p>무엇이 옳은 것일까? 혹은 이 선택에 있어서 옳고 그름이 존재하긴 하는 걸까? 그저 개인의 철학에 따른 선택만이 있는 것은 아닐까? 효율성을 추구한다면 <code class="language-plaintext highlighter-rouge">방법#1</code>이지만 읽기 쉬운 코드를 추구한다면 <code class="language-plaintext highlighter-rouge">방법#2</code>일 것이다.</p>
 
 <p>읽기 쉬운 코드가 옳은가? 성능 효율적인 코드가 옳은가? 대체로 과거에는 성능 효율을 우선했겠지만 요즘처럼 하드웨어의 성능이 충분한 경우에는 읽기 쉬운 코드를 선호한다. 그런 이유로 읽기 쉬운 코드를 선택해야 할까?</p>
 
-<p>다양한 생각들이 있겠지만 우선적으로 고려해야 하는 것은 화살표의 의미다. 만약 화살표가 <em>[그림 2-3]</em> 처럼 특정한 물체를 가리키는 용도라면 <code class="language-plaintext highlighter-rouge">방법#1</code>처럼 화살표를 회전시켜서 구현하는 것이 맞다.</p>
+<p>다양한 생각들이 있겠지만 우선적으로 고려해야 하는 것은 화살표의 의미다. 만약 화살표가 <em>[그림 2-4]</em> 처럼 특정한 물체를 가리키는 용도라면 <code class="language-plaintext highlighter-rouge">방법#1</code>처럼 화살표를 회전시켜서 구현하는 것이 맞다.</p>
 
 <p><img src="/assets/images/arrows3.svg" alt="방향키3" /> <br />
-<em>[그림 2-3] 무언가를 가리키는 용도의 화살표</em></p>
+<em>[그림 2-4] 무언가를 가리키는 용도의 화살표</em></p>
 
-<p>그러나 사용자가 생각한 방향키는 <em>[그림 2-4]</em> 와 같이 키보드 구석에 고정되어 있는 4개의 방향키였을 것이다. 그리고 그런 사용자의 생각과 유사한 것은 <code class="language-plaintext highlighter-rouge">방법#2</code>와 같이 4개의 이미지를 사용하는 것이다.</p>
+<p>그러나 사용자가 생각한 방향키는 <em>[그림 2-5]</em> 와 같이 키보드 구석에 고정되어 있는 4개의 방향키였을 것이다. 그리고 그런 사용자의 생각과 유사한 것은 <code class="language-plaintext highlighter-rouge">방법#2</code>와 같이 4개의 이미지를 사용하는 것이다.</p>
 
 <p><img src="/assets/images/arrows4.svg" alt="방향키4" /> <br />
-<em>[그림 2-4] 서로 다른 모양의 화살표를 가지는 방향키</em></p>
+<em>[그림 2-5] 서로 다른 모양의 화살표를 가지는 방향키</em></p>
 
 <p>사용자에게 보여지는 결과물은 같기 때문에 어떤 방법을 선택해도 큰 차이는 없다고 생각할지도 모르겠다. 사용자의 생각을 무시한 채 단순히 구현 편의성만을 추구하면 어떻게 될까?</p>
 
 <p>사용자는 언제든지 화살표의 모양을 쉽게 변경할 수 있다고 생각한다. 왜냐하면 사용자는 당연히 4개의 이미지로 구성된 방향키라고 생각하기 때문이다. 이미지를 회전시켜서 성능을 최적화 하는 것은 지극히 개발자의 입장일 뿐이다. 그리고 어느날 사용자는 방향키의 모양을 <em>[그림 2-4]</em> 처럼 변경해 달라고 가볍게 요구할 수 있다. 키의 이미지를 변경하기만 하면 되니까 쉬운 작업이라고 생각할 것이다. 그러나 개발자는 구현 방법을 바꿔야 하는 큰 일이 된다.</p>
 
-<p>화살표의 모양이 동일한 것은 그저 우연일 뿐이다. 이런 우연으로 생긴 상황을 구현에 반영하면 사용자의 생각과 멀어지게 된다. 다시 얘기하자면 사용자의 의도를 무시한 채 구현 편의성만을 추구하면 유지보수가 점점 더 어려워 지게 된다.</p>
+<p>화살표의 모양이 동일한 것은 그저 우연일 뿐이다. 이런 우연으로 생긴 상황을 코드에 반영해서 구현하면 사용자의 생각이나 기대와 점점 멀어지게 된다. 다시 얘기하자면 사용자의 의도를 무시한 채 구현 편의성만을 추구하면 유지보수가 점점 더 어려워 지게 된다.</p>
 
 <h3 id="24-해석의-어려움">2.4. 해석의 어려움</h3>
 
@@ -125,23 +128,13 @@
 
 <p>만약 지금 상황에서 사용자의 의도를 정확히 파악할 수 없다면 어떻게 해야 할까? 혹은 어떻게 변경될지 예측할 수 없다면 어떻게 해야 할까?</p>
 
-<p><code class="language-plaintext highlighter-rouge">&lt;Up /&gt;&lt;Down /&gt;&lt;Left /&gt;&lt;Right /&gt;</code> 클래스로 정의해서 화살표의 요구사항이 어떻게 변경 되더라도 다른 곳에 영향이 없도록 하면 된다.</p>
+<p>아래처럼 <code class="language-plaintext highlighter-rouge">Up, Down, Left, Right</code> 클래스로 정의해서 화살표의 요구사항이 어떻게 변경 되더라도 다른 곳에 영향이 없도록 하면 된다.</p>
 
-<blockquote>
-  <p>쇼핑몰을 운영하는 회사에서 일할 때의 일이다. 회의 내용은 ‘쿠폰’을 어떻게 구현할 것인가에 대한 논의였다.</p>
-
-  <p>당시 개발팀은 결제 금액을 ‘원’이라는 화폐 단위로만 다루고 있었다. DB에 저장된 금액 단위는 모두 ‘원’이었고, 코드에서 다루는 금액 단위 역시 ‘원’이었다. 사용자 관점에서의 ‘결제금액’이라는 개념은 고려되지 않은 채로 말이다.</p>
-
-  <p>이러한 상황에서 ‘포인트’ 개념을 도입하게 되었다. 다행히 당시에는 1point가 1원이라는 단순한 구조였기에 큰 문제없이 DB에 point 컬럼을 추가하는 것으로 대응할 수 있었다.</p>
-
-  <p>하지만 서비스가 확장되며 할인쿠폰, 등급별 혜택 등의 기능이 추가되면서 사용자가 인지하는 ‘결제금액’은 단순히 원으로 표현될 수 없는 복잡한 개념이 되어갔다. 기존의 ‘원’ 중심 구현방식으로는 사용자의 결제 flow를 온전히 반영할 수 없게 된 것이다.</p>
-
-  <p>만약 프로젝트 초기에 ‘결제금액’의 의미를 좀 더 깊이 생각했다면 이후의 많은 변경사항에 매끄럽게 대처할 수 있었을 것이다.</p>
-
-  <p>물론, 이것은 쉽지 않은 일이기는 하다. 기본적으로 객체 지향 프로그래밍에 능숙해야 하는데 이것 부터가 쉽지 않다. 그리고 결제 기능이 언제 어떻게 변경될지 알 수 없기 때문에 아무리 실력있는 개발자라 하더라도 처음부터 ‘결제금액’을 객체로 만드는 것은 어려울 것이다.</p>
-
-  <p>그러나 방향키의 사례처럼, 요구사항 이면의 본질을 파악하는 습관을 기른다면 시행착오를 크게 줄일 수 있다.</p>
-</blockquote>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Up</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Down</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Left</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Right</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
 
 <h2 id="3-rest-api의-shallow-routing-vs-nested-routing">3. REST API의 Shallow Routing vs Nested Routing</h2>
 
@@ -250,6 +243,9 @@
 
 <h2 id="5-인코딩된-파일명의-저장">5. 인코딩된 파일명의 저장</h2>
 
+<!-- markdownlint-disable MD034 -->
+<p><object data="/uml/543ff9861916ccb443624522babac381.svg" type="image/svg+xml" class="plantuml"></object></p>
+
 <p>사용자가 웹 브라우저로 <code class="language-plaintext highlighter-rouge">[file].txt</code> 파일을 업로드 하려고 한다.</p>
 
 <p>사용자가 업로드 하는 파일명에 특수문자가 포함되어 있어서 URL encoding을 해서 서버에 전송해야 한다. 마찬가지로 사용자가 파일을 다운로드 받으려면 파일명을 URL encoding 해야 한다.</p>
@@ -270,9 +266,6 @@
 
 <p>구현 편의성을 추구하면 이렇게 작은 변화에도 쉽게 흔들리게 되는 것이다.</p>
 
-<!-- markdownlint-disable MD034 -->
-<p><object data="/uml/543ff9861916ccb443624522babac381.svg" type="image/svg+xml" class="plantuml"></object></p>
-
 <h2 id="6-본질에-기반한-기능-정의">6. 본질에 기반한 기능 정의</h2>
 
 <p>영화 예매 서비스를 개발한다고 할 때 여기에 장바구니 기능을 구현해야 할까? 전자상거래 서비스에서는 장바구니가 필수적인 기능이지만, 영화 예매 서비스에서도 꼭 필요할까?</p>
@@ -292,29 +285,19 @@
 
 <p>물론 “나중에 결제하기 위해 선택한 영화를 저장해 두는 기능이 있으면 좋겠다”라는 사용자 요구사항이 있을 수 있다. 하지만 이 경우에도 “장바구니”라는 개념을 그대로 가져오기보다는, 영화 예매 서비스의 맥락에 맞는 개념으로 재해석할 필요가 있다. 예를 들어, “관심 영화 저장” 또는 “예매 내역 저장” 등의 기능으로 제공하는 것이 더 적절할 수 있다.</p>
 
-<h2 id="7-본질에-기반한-네이밍">7. 본질에 기반한 네이밍</h2>
-
-<p>백엔드에 대한 기본적인 지식을 전달하기 위한 프로젝트로 영화 예매 서비스 개발을 시작하려고 한다. 프로젝트의 이름을 무엇이라고 해야 할까? 영화 예매니까 ticket-service이라고 하면 어떨까?</p>
-
-<p>우리가 만들려고 하는 것은 ticket-service가 맞다. 그러나 왜 만들려고 하는가를 생각해 보면 backend-fundamentals이 더 좋은 선택이다. ticket-service는 백엔드의 기본적인 지식을 전달하기 위한 수단에 불과하다. 수단은 언제든지 변경될 수 있다.</p>
-
-<p>이 경우처럼 코드가 아니어도 선택의 순간에는 본질을 통찰하는 사고가 필요하다. 나의 경우 매 순간 습관처럼 내가 인지한 정보의 본질이 무엇인지를 고민한다.</p>
-
-<h2 id="8-결론">8. 결론</h2>
+<h2 id="7-결론">7. 결론</h2>
 
 <p>지금까지 살펴본 사례들이 보여준 공통점은 ‘무엇(what)’이 아니라 ‘왜(why)’에 집중한다는 것이다. ‘무엇(what)’은 ‘왜(why)’에 도달하기 위한 방법 중에 하나일 뿐이다. 목적(why)은 쉽게 바뀌지 않지만 방법(what)은 여러 상황에 따라서 얼마든지 바뀔 수 있다.</p>
 
-<p>나는 이 사고방식을 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이라고 정의했다. <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 무언가를 바라볼 때 그 본질을 통찰하려는 노력이다.</p>
-
-<p>이것은 <code class="language-plaintext highlighter-rouge">도메인 주도 디자인(DDD)</code>를 고민하다가 떠올린 개념인 만큼 <code class="language-plaintext highlighter-rouge">도메인 주도 디자인(DDD)</code>과 비슷한 맥락을 가진다. 그래서 굳이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이라는 거창한 이름으로 정의하려니 좀 창피하기도 하다. 그러나 나를 포함한 많은 개발자들이 이 개념의 존재를 보다 분명하게 인지하는데 도움이 되기를 바라는 마음으로 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>을 정의하고자 한다.</p>
-
 <p>‘왜(why)’에 집중해야 하는 다른 중요한 이유는 분석 단계에서 사용자의 모든 생각을 문서로 정리할 수 없기 때문이다. 이것은 설계도 마찬가지인데 설계 단계에서 설계자의 모든 생각을 정리할 수 없다. 모든 요구사항과 설계를 최대한 반영한 것이 코드이기 때문이다. 어느 정도 빈틈이 있을 수 밖에 없고 그 빈틈은 굳이 말하지 않아도 알 것이라고 생각하는 것들이다. 문제는 사용자가 당연하게 생각하는 것들을 개발자는 전혀 다르게 받아들일 수 있다는 것이다.</p>
 
-<p>그러나 ‘왜(why)’에 집중해서 사고하면 결국 같은 곳을 바라보기 때문에 의사소통에 다소의 빈틈이 있더라도 그 오차가 크지 않다. 이렇게 사용자와 개발자 간에 발생할 수 있는 생각의 차이를 줄이는 것이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>의 중요한 역할 중 하나이다.</p>
+<p>그런데 ‘왜(why)’에 집중해서 사고하면 결국 같은 곳을 바라보기 때문에 의사소통에 다소의 빈틈이 있더라도 그 오차가 크지 않다. 이렇게 사용자와 개발자 간에 발생할 수 있는 생각의 차이를 줄이는 것이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>의 중요한 역할 중 하나이다.</p>
 
 <p><code class="language-plaintext highlighter-rouge">본질 기반 해석(Essence-Based Interpretation, EBI)</code>은 너무 당연하고 원론적인 개념이라서 대상 범위나 구체적인 실천 방법을 정의하기가 어렵다. 그리고 개발에만 국한되는 것도 아니다.</p>
 
-<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 도메인에 기반해야 한다는 점에서 도메인 주도 개발(DDD)과 비슷한 맥락을 가진다. 그러나 DDD는 보다 체계적이고 구체적인 설계 방법론으로 복잡하거나 변화가 잦은 도메인에 대응하는 것이 주 목적이다. 반면에 본질 기반 해석(EBI)은 구체적인 방법론이라기보다는, 소프트웨어 개발을 포함한 다양한 분야에 적용할 수 있는 일반적인 사고방식이라 할 수 있다.</p>
+<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 알고보면 당연한 이야기처럼 들린다. 그래서 굳이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이라는 거창한 이름으로 정의하려니 좀 창피하기도 하다. 그러나 나를 포함한 많은 개발자들이 이 개념의 존재를 보다 분명하게 인지하는데 도움이 되기를 바라는 마음으로 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>을 정의하고자 한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 도메인에 기반해야 한다는 점에서 <code class="language-plaintext highlighter-rouge">도메인 주도 개발(DDD)</code>과 비슷한 맥락을 가진다. 그러나 DDD는 보다 체계적이고 구체적인 설계 방법론으로 복잡하거나 변화가 잦은 도메인에 대응하는 것이 주 목적이다. 반면에 본질 기반 해석(EBI)은 구체적인 방법론이라기보다는, 소프트웨어 개발을 포함한 다양한 분야에 적용할 수 있는 일반적인 사고방식이라 할 수 있다. 정리하면 <code class="language-plaintext highlighter-rouge">도메인 주도 개발(DDD)</code>이 요구사항이 무엇인지를 파악하는 것에 주목하는 것이라면 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 요구사항을 정의한 이유가 무엇인지를 통찰하려는 노력이다.</p>
 
 <p>좋은 코드에 대한 고민은 사고방식의 변화를 가져오며, 이는 본질을 통찰하여 예측 불가능한 변화에 대응하는 전략으로 이어진다. 이는 소프트웨어 개발 특유의 소중한 도전이다.</p>
 
