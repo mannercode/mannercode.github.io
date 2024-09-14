@@ -1,6 +1,7 @@
 @startuml
 
 @startmindmap
+
 * let count = 0
 ** function get() { return count }
 ** function print() { printf("%d", count) }
