@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "소프트웨어 개발의 이념 전쟁: 원리주의와 실용주의"
+title: "소프트웨어 개발의 이념 전쟁: 개발자는 왜 그런가요?"
 ---
 
 ![](/assets/images/principle-pragmatic.webp)
