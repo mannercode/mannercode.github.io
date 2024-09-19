@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-09-18T21:12:33+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-09-19T11:38:58+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
 <p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
@@ -740,7 +740,7 @@
 
 <p>성장 욕구와 열정이 넘치는 주니어 개발자는 원리주의적 성향을 보일 가능성이 높다. 이런 원리주의 팀원이 원리주의 팀장을 만나면 행복하겠지만 현실은 원리주의 팀원과 실용주의 팀장의 조합이 더 많다.</p>
 
-<p>실용주의 팀장에 속한 원리주의 팀원은 개발팀에서 힘든 위치에 놓일 수 있다. 팀장에게 코드 리뷰를 기대하지 못하는 것은 당연하고 팀장이 일정을 재촉하기 때문에 코드 품질에 신경 쓸 여력도 없다. 일정에 여유가 있어서 리팩토링을 하더라도 팀장의 눈치를 봐야 한다. 문제가 발생하면 원리주의 팀원은 그 원인이 무엇인지 파악하고 올바르게 조치하기 위해서 노력한다. 그런데 실용주의 팀장이 원인을 무시하고 문제를 쉽게 해결할 수 있는 방법을 제시할 수 있다.</p>
+<p>실용주의 팀장에 속한 원리주의 팀원은 개발팀에서 힘든 위치에 놓일 수 있다. 팀장에게 코드 리뷰를 기대하지 못하는 것은 당연하고 팀장이 일정을 재촉하기 때문에 코드 품질에 신경 쓸 여력도 없다. 일정에 여유가 있어서 리팩토링을 하더라도 팀장의 눈치를 봐야 한다. 원리주의 팀원은 문제가 발생하면 그 원인이 무엇인지 파악하고 올바르게 조치하기 위해서 노력한다. 그런데 실용주의 팀장이 원인을 무시하고 문제를 쉽게 해결할 수 있는 방법을 제시할 수 있다.</p>
 
 <p>이런 일이 반복되면 원리주의 팀원은 답답함을 느낀다. 팀장의 역량과 책임감이 부족하다고 여기게 된다. 팀장에게서 배울 것이 없고 존경할 만한 업무 태도도 아니라고 생각하기 때문에 팀장을 무시하는 언행을 하기도 한다. 팀장도 그것을 느끼고 원리주의 팀원을 감정적으로 대한다. 원리주의 팀원은 정신적으로 점점 힘들어지고 결국 퇴사를 하게 된다. 그렇지만 회사를 옮겨도 결국 높은 확률로 실용주의 팀장을 만나게 되기 때문에 원리주의 팀원의 어려움은 쉽게 해결되지 않는다.</p>
 
