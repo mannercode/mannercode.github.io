@@ -10,7 +10,7 @@ youtube_username:  '@mannercode'
 # The `>` after `description:` means to ignore line-breaks until next key.
 # If you want to omit the line-break after the end of text, use `>-` instead.
 description: >
-  리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+  Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 
 # Build settings
 
