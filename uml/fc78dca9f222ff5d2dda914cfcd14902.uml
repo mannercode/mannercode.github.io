@@ -1,0 +1,22 @@
+@startuml
+
+@startuml
+actor customer
+participant “Frontend” as front
+participant “Backend” as back
+
+customer -> front : Access movie ticketing system
+front -> back : Request list of currently showing movies
+front <– back : movies[]
+customer <– front : Provide list of movies
+customer -> front : Select movie
+front -> back : Request list of theaters
+front <– back : theaters[]
+customer <– front : Provide list of theaters
+customer -> front : Select theater
+front -> back : Request list of show dates
+front <– back : showdates[]
+customer <– front : Provide list of show dates
+@enduml
+
+@enduml

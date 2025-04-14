@@ -1,5 +1,242 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-09-21T15:48:22+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
-</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">본질 기반 해석(Essence-Based Interpretation, EBI)</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석(Essence-Based Interpretation, EBI)" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-04-14T19:39:17+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">Essence-Based Interpretation</title><link href="/2024/05/04/ebi-en.html" rel="alternate" type="text/html" title="Essence-Based Interpretation" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi-en</id><content type="html" xml:base="/2024/05/04/ebi-en.html"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
+
+<p>I’ve put a lot of effort into writing good code. In pursuit of good code, I’ve studied refactoring, design patterns, various architectures, and development methods. Even when my code was working well, I often spent considerable time deliberating over a better structure or naming.</p>
+
+<p>Nevertheless, I sometimes couldn’t find a definitive answer when it came time to choose between different approaches. One day I’d implement it one way, the next day another way, and this went on for a long time. Both methods had clear pros and cons, so whichever approach I chose, there was a sense of regret. Here, “method” could refer to a design pattern or simply the name of a function or variable.</p>
+
+<p>At that point, I thought I had a certain level of competency as a developer, but these decision-making dilemmas didn’t seem like they would ever go away, no matter how much experience or effort I accumulated. I even considered the possibility that there was no single correct answer, that it all depended on personal preference—like an art form. Perhaps it was a sort of defense mechanism, similar to how some developers who don’t fully understand design patterns dismiss them as useless in the real world.</p>
+
+<p>Then I suddenly realized what I had been missing. Let’s look at a few examples and figure out what that was.</p>
+
+<h2 id="2-implementing-directional-keys">2. Implementing Directional Keys</h2>
+
+<p>We need to provide a directional keypad for users where they can choose “Up/Down/Left/Right.” These four arrow icons look identical but point in different directions. There are two ways to implement this directional keypad.</p>
+
+<p><img src="/assets/images/virtual-gamepad.jpg" alt="gamepad" /> <br />
+<strong>Figure 2-1. A gamepad with identical-looking directional keys</strong></p>
+
+<h3 id="21-method-1--reusing-one-image-with-rotation">2.1. Method #1 – Reusing one image with rotation</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Method #1</code> uses a single arrow image (arrow.png) that is rotated to point in the different directions. Since the arrow shape is identical, it can be done easily.</p>
+
+<p>This approach has the advantage of using less storage space. However, the downside is that the code readability can be relatively lower.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"0"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"180"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"-90"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"90"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/arrows1.svg" alt="arrow1" /> <br />
+<strong>Figure 2-2. A directional key implemented by rotating a single image</strong></p>
+
+<h3 id="22-method-2--using-four-separate-images">2.2. Method #2 – Using four separate images</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Method #2</code> uses four separate images for up, down, left, and right.</p>
+
+<p>The downside is that you have to manage more image resources, and the storage space usage also increases. On the other hand, the readability of the code is relatively better.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"up.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"down.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"let.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"right.png"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/arrows2.svg" alt="arrow2" /> <br />
+<strong>Figure 2-3. A directional key implemented with four images for up/down/left/right</strong></p>
+
+<h3 id="23-which-method-is-correct">2.3. Which method is correct?</h3>
+
+<p>Which one is correct? Or is there even a “right” or “wrong” choice here? Is it just a matter of personal philosophy? If you pursue efficiency, then <code class="language-plaintext highlighter-rouge">Method #1</code> is for you, but if you want more readable code, you’d pick <code class="language-plaintext highlighter-rouge">Method #2</code>.</p>
+
+<p>Is readable code correct? Or is performance-efficient code correct? In the past, performance efficiency might have been the priority, but in modern times where hardware performance is sufficient, readability often takes precedence. Should we then just choose the path of readability?</p>
+
+<p>Many thoughts may come to mind, but the first thing to consider is the meaning of the arrow itself. If the arrow is something like <strong>Figure 2-4</strong>, indicating a specific object, then implementing it by rotating a single arrow image (like <code class="language-plaintext highlighter-rouge">Method #1</code>) makes sense.</p>
+
+<p><img src="/assets/images/arrows3.svg" alt="arrow3" /> <br />
+<strong>Figure 2-4. Arrows used to point to something</strong></p>
+
+<p>But the user might have had in mind a directional keypad like <strong>Figure 2-5</strong>, the set of four arrow keys in the corner of a keyboard. In that case, four separate images (like <code class="language-plaintext highlighter-rouge">Method #2</code>) correspond more closely to what the user expects.</p>
+
+<p><img src="/assets/images/arrows4.svg" alt="arrow4" /> <br />
+<strong>Figure 2-5. A directional key with four distinct arrow shapes</strong></p>
+
+<p>You might think there’s no big difference since the final result the user sees is the same, regardless of which method you choose. But what happens if you ignore the user’s perspective and only focus on implementation convenience?</p>
+
+<p>The user might assume that changing the shape of the arrow keys is easy at any time, because they believe the keypad is made up of four separate images. Rotating a single image for performance optimization is purely a developer’s concern. Then one day, the user might ask you to change the directional keys to look like <strong>Figure 2-4</strong>. They’d think it’s just a simple image replacement, but for the developer, it becomes a major task that may require changing the entire approach.</p>
+
+<p>The fact that the arrows happened to look the same initially is simply a coincidence. If you reflect that coincidence in the code, you drift further from the user’s thoughts and expectations. In other words, if you ignore the user’s intent and pursue only implementation convenience, maintenance becomes increasingly difficult.</p>
+
+<h3 id="24-the-difficulty-of-interpretation">2.4. The difficulty of interpretation</h3>
+
+<p>One reason it can be tough to discern the essence of a requirement is that some obvious information gets omitted.</p>
+
+<p>When the user mentioned the need for “directional keys,” they probably didn’t explicitly say “the four arrow keys on a keyboard.” From the user’s standpoint, “directional keys” simply implies those keyboard arrows in the corner.</p>
+
+<p>From a developer’s standpoint, though, if the requirement doesn’t detail that specific keyboard arrow concept, there’s more to ponder about how to implement it.</p>
+
+<p>That’s where interpretation gets tricky: the parts that seem obvious and thus remain unspecified still have to be filled in by the developer. And to fill in those blanks, the developer must consider all the reasons and processes behind the requirement, which demands a wealth of experience and insight.</p>
+
+<p>What if you still can’t pinpoint the user’s exact intent in this scenario? Or you can’t predict how it might change?</p>
+
+<p>You could do something like the following—define <code class="language-plaintext highlighter-rouge">Up, Down, Left, Right</code> classes—so that no matter how the requirement for the arrows changes, it has minimal impact on the rest of the code.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span><span class="o">&gt;</span>
+    <span class="kd">const</span> <span class="nx">Up</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">arrow.png</span><span class="dl">"</span> <span class="nx">rotate</span><span class="o">=</span><span class="dl">"</span><span class="s2">0</span><span class="dl">"</span> <span class="o">/&gt;</span>
+    <span class="kd">const</span> <span class="nx">Down</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">arrow.png</span><span class="dl">"</span> <span class="nx">rotate</span><span class="o">=</span><span class="dl">"</span><span class="s2">180</span><span class="dl">"</span> <span class="o">/&gt;</span>
+    <span class="kd">const</span> <span class="nx">Left</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">arrow.png</span><span class="dl">"</span> <span class="nx">rotate</span><span class="o">=</span><span class="dl">"</span><span class="s2">-90</span><span class="dl">"</span> <span class="o">/&gt;</span>
+    <span class="kd">const</span> <span class="nx">Right</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">arrow.png</span><span class="dl">"</span> <span class="nx">rotate</span><span class="o">=</span><span class="dl">"</span><span class="s2">90</span><span class="dl">"</span> <span class="o">/&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;Up</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;Down</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;Left</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;Right</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<h2 id="3-shallow-routing-vs-nested-routing-in-rest-apis">3. Shallow Routing vs. Nested Routing in REST APIs</h2>
+
+<p><strong>Figure 3-1</strong> is a sequence diagram of how a user selects a movie, theater, and date/time in a movie ticketing system. How should we design the routing for a REST API in this situation?</p>
+
+<p><object data="/uml/fc78dca9f222ff5d2dda914cfcd14902.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><strong>Figure 3-1</strong></p>
+
+<h3 id="31-shallow-routing">3.1. Shallow Routing</h3>
+
+<p>If we design the REST API in the <code class="language-plaintext highlighter-rouge">Shallow Routing</code> style, it might look like this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Request list of showing movies</span>
+/movies?status<span class="o">=</span>showing
+
+<span class="c"># Request list of theaters</span>
+/theaters?movieId<span class="o">={</span>movidId<span class="o">}</span>
+
+<span class="c"># Request list of show dates</span>
+/showdates?movieId<span class="o">={</span>movieId<span class="o">}</span>&amp;theaterId<span class="o">={</span>theaterId<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Shallow Routing</code> lets you manage each resource independently, so it’s highly extensible. However, because it doesn’t clearly express relationships between resources, it can be challenging to represent complex hierarchical data.</p>
+
+<h3 id="32-nested-routing">3.2. Nested Routing</h3>
+
+<p>If we design the REST API in the <code class="language-plaintext highlighter-rouge">Nested Routing</code> style, it might look like this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Request list of showing movies</span>
+/showing/movies
+
+<span class="c"># Request list of theaters</span>
+/showing/movies/<span class="o">{</span>movieId<span class="o">}</span>/theaters
+
+<span class="c"># Request list of show dates</span>
+/showing/movies/<span class="o">{</span>movieId<span class="o">}</span>/theaters/<span class="o">{</span>theaterId<span class="o">}</span>/showdates
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Nested Routing</code> clearly represents the relationships between resources in the URL itself, making it suitable for complex resource structures. However, if the nested resource structure changes, the URL must also change, so it can be less flexible.</p>
+
+<h3 id="33-which-method-is-correct">3.3. Which method is correct?</h3>
+
+<p>We briefly looked at the pros and cons of the two routing methods. So how do you choose between the flexibility of <code class="language-plaintext highlighter-rouge">Shallow Routing</code> and the clarity of <code class="language-plaintext highlighter-rouge">Nested Routing</code>?</p>
+
+<p>It depends on which design more closely reflects the conceptual perspective of the movie ticketing process.</p>
+
+<p>From that angle, <code class="language-plaintext highlighter-rouge">Nested Routing</code> reflects the ticket purchase process directly. Just as you have to select a movie before you can choose a theater, in <code class="language-plaintext highlighter-rouge">Nested Routing</code>, you cannot specify a theater without specifying a movie. In other words, the <code class="language-plaintext highlighter-rouge">Nested Routing</code> REST API mirrors the ticket purchase process. You might not even need separate documentation for it—it’s that intuitive.</p>
+
+<p>You often see debates about which is better: <code class="language-plaintext highlighter-rouge">Shallow Routing</code> or <code class="language-plaintext highlighter-rouge">Nested Routing</code>. Such debates can be endless. What’s important is which design more accurately reflects the requirements. If you approach it purely from a technical standpoint, where there’s no single right answer, the debate never ends.</p>
+
+<blockquote>
+  <p>If you’ve been agonizing for a while and still see no solution, perhaps the answer isn’t there to begin with.</p>
+</blockquote>
+
+<p>3.4. Inheritance vs. Composition</p>
+
+<p>A similar debate exists around class inheritance vs. composition.</p>
+
+<p>Just as many people perceive that Shallow Routing offers superior technical flexibility, it’s similarly agreed that you should favor composition over inheritance. However, once again, the domain concept is what really matters. Don’t prioritize technical superiority above all else.</p>
+
+<p><object data="/uml/9f603402d37bffc94cd71f3d9fe52b9d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>In the diagram above, a Dog is a type of Animal. Inheritance is a natural representation of that. However, an Engine is one of the components that make up a Car, so composition is more appropriate for that relationship.</p>
+
+<h2 id="4-implementing-documents-of-a-similar-format">4. Implementing Documents of a Similar Format</h2>
+
+<p>For documents like certificates of income, which may be used overseas, there are two authentication methods: “Apostille” and “Consular legalization.” Consular legalization is more common, while apostille is a simplified process under certain conventions.</p>
+
+<p>In a project I worked on, the goal was to encrypt these documents and verify whether they had been tampered with.</p>
+
+<p>Because the structures and fields of apostille and consular documents appeared similar, an existing system was using a single shared table for both.</p>
+
+<p><object data="/uml/5cdb8613952a83bfc0d0c2aa82ccbf06.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="41-initial-design">4.1. Initial Design</h3>
+
+<p>While analyzing the existing system, I suspected that the similarity between apostille and consular documents might just be a coincidence, and that they should not be treated as a single document type. If they were truly the same, the project wouldn’t have been titled “Apostille &amp; Consular Legalization.”</p>
+
+<p>On the other hand, the back-end developer argued there was no need to separate them into two. Ultimately, we compromised by splitting the REST API into two but keeping a single shared table and service.</p>
+
+<p><object data="/uml/ec5e5e2347907e077d1b58976807c9cf.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="42-design-change">4.2. Design Change</h3>
+
+<p>As the project progressed, the differences between the two documents became more concrete. Apostille and consular documents could have overlapping document numbers, so their numbering systems diverged. Moreover, as service features expanded, their interfaces continued to diverge.</p>
+
+<p>In the end, we decided to separate them completely into two tables and two services. Fortunately, because the external APIs were already split into two, changing the internal structure was relatively easy. Had we tried to avoid refactoring just because splitting them felt like too much trouble, we would have ended up with if-else statements all over the code, opening the gateway to chaos.</p>
+
+<p><object data="/uml/92b9f1fa32a97ec298a8c11ad6c7b8fc.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="43-why-did-this-happen">4.3. Why did this happen?</h3>
+
+<p>In this case, the two documents only seemed alike by coincidence. They were always prone to diverge based on user requirements. The real issue was overlooking the fact that they’re fundamentally different documents—hence having different names in the first place.</p>
+
+<p>Programmers often have a tendency to prioritize implementation convenience. It’s not easy to break that habit. However, you must adhere to the domain concepts rigorously.</p>
+
+<h2 id="5-storing-encoded-filenames">5. Storing Encoded Filenames</h2>
+
+<p><object data="/uml/e2e215b41740c7b53974ef040726f7b6.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Suppose a user wants to upload a file named <code class="language-plaintext highlighter-rouge">한글.txt</code> via a web browser.</p>
+
+<p>Because the filename contains special characters, it must be URL-encoded when sent to the server. Likewise, when the file is downloaded, the filename must be URL-encoded again.</p>
+
+<p>So, should the server store the encoded string (<code class="language-plaintext highlighter-rouge">%ED%95%9C%EA%B8%80.txt</code>) in the database as is? Or should it decode it back to <code class="language-plaintext highlighter-rouge">한글.txt</code> before storing?</p>
+
+<p>If you store it as <code class="language-plaintext highlighter-rouge">한글.txt</code>, you’ll have to encode it again when sending it back to the user for download. Isn’t it more efficient to just store it as <code class="language-plaintext highlighter-rouge">%ED%95%9C%EA%B8%80.txt</code>?</p>
+
+<p>To figure out the essence, consider what the user perceives. They see their file as <code class="language-plaintext highlighter-rouge">한글.txt</code>. They don’t think it’s going to be changed into something else. Therefore, storing it as <code class="language-plaintext highlighter-rouge">한글.txt</code> aligns better with the user’s perspective.</p>
+
+<p>URL encoding is required by ASCII restrictions in certain protocols. It’s not a user requirement. Letting specific technical constraints bleed into other layers is not a good design. That’s why any issues with HTML or protocol limitations should be resolved at that layer, rather than propagating them all the way to the database. The priority should be accurately reflecting the user’s intention, with optimizations considered afterward.</p>
+
+<p>If you only ever needed the download feature, storing the filename as received might be the simplest. But as soon as you add features like listing files or searching by filename, you’ll need the original filename (<code class="language-plaintext highlighter-rouge">한글.txt</code>) because that’s what the user understands. If you saved it as <code class="language-plaintext highlighter-rouge">%ED%95%9C%EA%B8%80.txt</code>, searching or listing could become problematic.</p>
+
+<p>When you prioritize implementation convenience, even minor changes can throw you off balance. By contrast, if you grasp the essence in your design, you’ll handle unexpected changes much more smoothly.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Will you display encoded filenames?</span>
+<span class="o">%</span><span class="nx">ED</span><span class="o">%</span><span class="mi">95</span><span class="o">%</span><span class="mi">9</span><span class="nx">C</span><span class="o">%</span><span class="nx">EA</span><span class="o">%</span><span class="nx">B8</span><span class="o">%</span><span class="mi">80</span><span class="p">.</span><span class="nx">txt</span>
+<span class="o">%</span><span class="mi">0</span><span class="nx">A</span><span class="o">%</span><span class="mi">0</span><span class="nx">A</span><span class="o">%</span><span class="nx">ED</span><span class="o">%</span><span class="mi">85</span><span class="o">%</span><span class="mi">8</span><span class="nx">C</span><span class="o">%</span><span class="nx">EC</span><span class="o">%</span><span class="mi">8</span><span class="nx">A</span><span class="o">%</span><span class="nx">A4</span><span class="o">%</span><span class="nx">ED</span><span class="o">%</span><span class="mi">8</span><span class="nx">A</span><span class="o">%</span><span class="nx">B8</span><span class="p">.</span><span class="nx">jpg</span>
+<span class="o">%</span><span class="mi">0</span><span class="nx">A</span><span class="o">%</span><span class="mi">0</span><span class="nx">A</span><span class="o">%</span><span class="nx">ED</span><span class="o">%</span><span class="mi">8</span><span class="nx">C</span><span class="o">%</span><span class="mi">8</span><span class="nx">C</span><span class="o">%</span><span class="nx">EC</span><span class="o">%</span><span class="mi">9</span><span class="nx">D</span><span class="o">%</span><span class="nx">BC</span><span class="p">.</span><span class="nx">json</span>
+
+<span class="c1">// Or will you display original filenames?</span>
+<span class="nx">한글</span><span class="p">.</span><span class="nx">txt</span>
+<span class="nx">테스트</span><span class="p">.</span><span class="nx">jpg</span>
+<span class="nx">파일</span><span class="p">.</span><span class="nx">json</span>
+</code></pre></div></div>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<p>From all the examples, a common thread emerges: focusing on <code class="language-plaintext highlighter-rouge">why</code> rather than “what.” The <code class="language-plaintext highlighter-rouge">what</code> is simply one way to reach the “why.” The purpose (why) rarely changes, but the method (what) can change freely depending on the situation.</p>
+
+<p>Another critical reason to concentrate on <code class="language-plaintext highlighter-rouge">why</code> is that, during analysis, you can’t possibly document every single thought the user has. The same goes for the design phase: you can’t capture the designer’s every thought in the design document. The code is the closest thing to fully reflecting those requirements and designs. There will inevitably be gaps, aspects so obvious to the user that they didn’t think to specify them. The problem is that what the user takes for granted can be interpreted entirely differently by the developer.</p>
+
+<p>However, if you keep your mind focused on the <code class="language-plaintext highlighter-rouge">why</code>, you end up looking in the same direction, so even if communication has some gaps, the discrepancy won’t be massive. Reducing that gap between the user and the developer is one of the main goals of Essence-Based Interpretation (EBI).</p>
+
+<p>EBI is so fundamental and broad that it’s hard to define its scope or a concrete practice. And it’s not limited to software development.</p>
+
+<p>EBI and Domain-Driven Design (DDD) share the view that you should center on the domain. However, DDD is more systematic and specific, aimed at handling complex or frequently changing domains. On the other hand, EBI is less a strict methodology and more a general mindset that can be applied in various fields, including software. In short, DDD focuses on “figuring out what the requirements are,” whereas EBI emphasizes “understanding why the requirements were defined that way” in the first place.</p>
+
+<p>EBI might sound so obvious that giving it a grand name feels a bit embarrassing. Yet, I hope that clearly naming it as Essence-Based Interpretation helps developers—including myself—recognize its value.</p>
+
+<p>The search for good code brings a shift in how we think and leads us to distill the essence, which in turn prepares us for unpredictable changes. This is a precious challenge unique to software development.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[1. Introduction]]></summary></entry><entry><title type="html">본질 기반 해석</title><link href="/2024/05/04/ebi.html" rel="alternate" type="text/html" title="본질 기반 해석" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi</id><content type="html" xml:base="/2024/05/04/ebi.html"><![CDATA[<h2 id="1-소개">1. 소개</h2>
 
 <p>나는 좋은 코드에 대해서 많은 노력을 해왔다. 좋은 코드를 작성하기 위해서 리팩토링과 디자인 패턴은 물론이고 여러 아키텍처와 개발 방법을 학습했다. 내가 작성한 코드가 잘 동작함에도 불구하고 더 나은 구조나 이름에 대해서 한참 고민하기도 했다.</p>
 
@@ -152,7 +389,9 @@
 그러나 그런 논쟁은 무의미하다. 중요한 것은 요구사항을 보다 정확히 반영하는 것이 무엇이냐인 것이다.
 기술적 관점에서 보면 답이 없는 문제를 가지고 논쟁을 하니 논쟁이 끝나지 않는 것이다.</p>
 
-<p>“한참 고민해도 답이 보이지 않는다면, 답이 거기에 없는 것이다.”</p>
+<blockquote>
+  <p>한참 고민해도 답이 보이지 않는다면, 답이 거기에 없는 것이다.</p>
+</blockquote>
 
 <h3 id="34-클래스의-상속inheritance과-합성composition">3.4. 클래스의 상속(Inheritance)과 합성(Composition)</h3>
 
@@ -233,26 +472,7 @@
 <span class="nx">파일</span><span class="p">.</span><span class="nx">json</span>
 </code></pre></div></div>
 
-<h2 id="6-본질에-기반한-기능-정의">6. 본질에 기반한 기능 정의</h2>
-
-<p>영화 예매 서비스를 개발한다고 할 때 여기에 장바구니 기능을 구현해야 할까? 전자상거래 서비스에서는 장바구니가 필수적인 기능이지만, 영화 예매 서비스에서도 꼭 필요할까?</p>
-
-<p>이 질문에 답하기 위해서는 실제 영화 예매 프로세스에서의 사용자 경험을 생각해 봐야 한다. 일반적으로 사용자가 영화를 예매할 때는 다음과 같은 순서로 진행된다.</p>
-
-<ol>
-  <li>영화 선택</li>
-  <li>상영 시간 선택</li>
-  <li>좌석 선택</li>
-  <li>결제</li>
-</ol>
-
-<p>이 과정에서 우리는 “장바구니에 담기”와 같은 중간 단계를 발견할 수 없다. 사용자는 영화, 시간, 좌석을 선택하고 바로 결제를 진행한다.</p>
-
-<p>그렇다면 온라인 영화 예매 서비스에 장바구니 기능을 추가하는 것은 사용자의 실제 경험과는 거리가 먼 결정이 될 수 있다. 오히려 불필요한 복잡성을 야기하고, 온라인과 오프라인에서의 경험 간 일관성을 해칠 수 있다.</p>
-
-<p>물론 “나중에 결제하기 위해 선택한 영화를 저장해 두는 기능이 있으면 좋겠다”라는 사용자 요구사항이 있을 수 있다. 하지만 이 경우에도 “장바구니”라는 개념을 그대로 가져오기보다는, 영화 예매 서비스의 맥락에 맞는 개념으로 재해석할 필요가 있다. 예를 들어, “관심 영화 저장” 또는 “예매 내역 저장” 등의 기능으로 제공하는 것이 더 적절할 수 있다.</p>
-
-<h2 id="7-결론">7. 결론</h2>
+<h2 id="6-결론">6. 결론</h2>
 
 <p>지금까지 살펴본 사례들이 보여준 공통점은 ‘무엇(what)’이 아니라 ‘왜(why)’에 집중한다는 것이다. ‘무엇(what)’은 ‘왜(why)’에 도달하기 위한 방법 중에 하나일 뿐이다. 목적(why)은 쉽게 바뀌지 않지만 방법(what)은 여러 상황에 따라서 얼마든지 바뀔 수 있다.</p>
 
@@ -266,7 +486,457 @@
 
 <p><code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>은 알고보면 당연한 이야기처럼 들린다. 그래서 굳이 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>이라는 거창한 이름으로 정의하려니 좀 창피하기도 하다. 그러나 나를 포함한 많은 개발자들이 이 개념의 존재를 보다 분명하게 인지하는데 도움이 되기를 바라는 마음으로 <code class="language-plaintext highlighter-rouge">본질 기반 해석(EBI)</code>을 정의하고자 한다.</p>
 
-<p>좋은 코드에 대한 고민은 사고방식의 변화를 가져오며, 이는 본질을 통찰하여 예측 불가능한 변화에 대응하는 전략으로 이어진다. 이는 소프트웨어 개발 특유의 소중한 도전이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[1. 소개]]></summary></entry><entry><title type="html">객체 지향 프로그래밍의 이해</title><link href="/2024/03/09/oop.html" rel="alternate" type="text/html" title="객체 지향 프로그래밍의 이해" /><published>2024-03-09T00:00:00+00:00</published><updated>2024-03-09T00:00:00+00:00</updated><id>/2024/03/09/oop</id><content type="html" xml:base="/2024/03/09/oop.html"><![CDATA[<blockquote>
+<p>좋은 코드에 대한 고민은 사고방식의 변화를 가져오며, 이는 본질을 통찰하여 예측 불가능한 변화에 대응하는 전략으로 이어진다. 이는 소프트웨어 개발 특유의 소중한 도전이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[1. 소개]]></summary></entry><entry><title type="html">Understanding Object-Oriented Programming</title><link href="/2024/03/09/oop-en.html" rel="alternate" type="text/html" title="Understanding Object-Oriented Programming" /><published>2024-03-09T00:00:00+00:00</published><updated>2024-03-09T00:00:00+00:00</updated><id>/2024/03/09/oop-en</id><content type="html" xml:base="/2024/03/09/oop-en.html"><![CDATA[<blockquote>
+  <p>Object-oriented programming is a programming paradigm that groups data and functions into a single <code class="language-plaintext highlighter-rouge">object</code>, thereby increasing cohesion and reducing coupling.</p>
+</blockquote>
+
+<p>When learning OOP, the most important thing is a shift in thinking. Martin Fowler says that the best way to achieve this shift in thinking is to work in a well-structured OOP environment for a while. However, there aren’t many developers who truly understand OOP, making it difficult to find such an environment.</p>
+
+<p>In this post, we will progressively improve code from a procedural style to an object-oriented style to explore the essence of OOP. Hopefully, this will help you make that crucial mental shift.</p>
+
+<h2 id="1-introduction-to-procedural-code">1. Introduction to Procedural Code</h2>
+
+<p>Let’s start by writing a function that reads a document from a buffer and prints it character by character:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* Reading from the buffer */</span>
+<span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span><span class="p">;</span>
+
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">buffer</span><span class="p">.</span><span class="nf">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="11-adding-functionality-to-procedural-code">1.1. Adding functionality to procedural code</h3>
+
+<p>Now, let’s add a feature to read a document from a file and print it character by character.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="cm">/* Reading from the buffer */</span>
+  <span class="kd">const</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span><span class="p">;</span>
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">);</span>
+
+  <span class="cm">/* Reading from a file */</span>
+  <span class="kd">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.txt</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+  <span class="nx">file</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printDocument</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">File</span><span class="p">)</span> <span class="p">{</span>
+  <span class="cm">/* Reading from the buffer */</span>
+  <span class="k">if </span><span class="p">(</span><span class="k">typeof</span> <span class="nx">doc</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">string</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+
+      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">File</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* Reading from a file */</span>
+    <span class="kd">let</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+
+    <span class="k">while </span><span class="p">(</span><span class="nx">char</span> <span class="o">!=</span> <span class="nx">EOF</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+
+      <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is a typical example of procedural code. One characteristic of procedural code is the frequent use of if statements.</p>
+
+<h2 id="2-problems-with-procedural-code">2. Problems with Procedural Code</h2>
+
+<p>What if we need to add a feature to read from a REST API? We would have to modify both the main() function and the printDocument() function.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="cm">/* Reading from the buffer */</span>
+  <span class="kd">const</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span><span class="p">;</span>
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">);</span>
+
+  <span class="cm">/* Reading from a file */</span>
+  <span class="kd">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.txt</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+  <span class="nx">file</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+
+  <span class="cm">/* Making a REST API request */</span>
+  <span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HttpRequest</span><span class="p">(</span><span class="dl">"</span><span class="s2">https://test.com/api</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">request</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printDocument</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">File</span> <span class="o">|</span> <span class="nx">HttpRequest</span><span class="p">)</span> <span class="p">{</span>
+  <span class="cm">/* Reading from the buffer */</span>
+  <span class="k">if </span><span class="p">(</span><span class="k">typeof</span> <span class="nx">doc</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">string</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+
+      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">File</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* Reading from a file */</span>
+    <span class="kd">let</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+
+    <span class="k">while </span><span class="p">(</span><span class="nx">char</span> <span class="o">!=</span> <span class="nx">EOF</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+
+      <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">HttpRequest</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* REST API request */</span>
+    <span class="kd">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">body</span><span class="p">();</span>
+
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">body</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nf">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+
+      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If all we have to change is the single printDocument() function, that might not be a big deal. But what if there are other functions that also need to handle these inputs? The number of functions to update grows accordingly.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span>
+    <span class="nf">printDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">)</span>
+    <span class="nf">updateDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">,</span> <span class="dl">"</span><span class="s2">new contents</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nf">clearDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">)</span>
+
+    <span class="kd">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.txt</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nf">printDocument</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+    <span class="nf">updateDocument</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="dl">"</span><span class="s2">new contents</span><span class="dl">"</span><span class="p">)</span>
+    <span class="c1">// There's a rule that you have to close the file before clearing it.</span>
+    <span class="nx">file</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+    <span class="nf">clearDocument</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">updateDocument</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">File</span><span class="p">,</span> <span class="nx">contents</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">doc</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">doc</span> <span class="o">=</span> <span class="nx">contents</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">File</span><span class="p">){</span>
+        <span class="nx">doc</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="nx">contents</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">HttpRequest</span><span class="p">){</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">clearDocument</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">File</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">doc</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">doc</span> <span class="o">=</span> <span class="dl">""</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">File</span><span class="p">){</span>
+        <span class="nx">doc</span><span class="p">.</span><span class="k">delete</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">HttpRequest</span><span class="p">){</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printDocument</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">File</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">doc</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+
+            <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">File</span><span class="p">){</span>
+        <span class="kd">let</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">()</span>
+
+        <span class="k">while </span><span class="p">(</span><span class="nx">char</span> <span class="o">!=</span> <span class="nx">EOF</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">)</span>
+
+            <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">doc</span> <span class="k">instanceof</span> <span class="nx">HttpRequest</span><span class="p">){</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In each function, we’re checking the type via if-else. Imagine if you need to change HttpRequest to HttpRequest2. In a real project, the code would be far longer and more complex. Finding and updating all affected functions wouldn’t be easy.</p>
+
+<p>Even from a simple viewpoint, if you have no if statements, you can just read the code as is, but if there’s an if, you have to keep each condition in your head while reading. In other words, if statements increase complexity and make development harder.</p>
+
+<blockquote>
+  <p>This is a part that can be hard to convey if someone hasn’t personally struggled with code full of if-else. But we can’t just paste extremely complex code here, either.</p>
+</blockquote>
+
+<h2 id="3-how-to-improve-procedural-code">3. How to Improve Procedural Code</h2>
+
+<h3 id="31-splitting-functions">3.1. Splitting functions</h3>
+
+<p>One way to avoid if statements is to split printDocument() into multiple functions:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span><span class="p">;</span>
+  <span class="nf">printBufferDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.txt</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nf">printFileDocument</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printBufferDocument</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printFileDocument</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="nx">File</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+
+  <span class="k">while </span><span class="p">(</span><span class="nx">char</span> <span class="o">!=</span> <span class="nx">EOF</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+
+    <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>At first glance, this seems fine.</p>
+
+<p>However, it’s common for functions to call other functions in a nested way:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span>
+    <span class="nf">printBufferWeeklyReport</span><span class="p">(</span><span class="nx">buffer</span><span class="p">)</span>
+
+    <span class="kd">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.txt</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nf">printFileWeeklyReport</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printBufferWeeklyReport</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">string</span><span class="p">){</span>
+    <span class="cm">/* Code to generate the report */</span>
+    <span class="p">...</span>
+
+    <span class="nf">printBufferDocument</span><span class="p">(</span><span class="nx">report</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printFileWeeklyReport</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="nx">File</span><span class="p">){</span>
+    <span class="cm">/* Code to generate the report */</span>
+    <span class="p">...</span>
+
+    <span class="nf">printFileDocument</span><span class="p">(</span><span class="nx">report</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Sure, the if statements are gone. But in removing the if, you repeat the <code class="language-plaintext highlighter-rouge">code to generate the report</code> in each place. In such a scenario, sticking with an if might actually be simpler.</p>
+
+<p>Perhaps you’re thinking you could make that <code class="language-plaintext highlighter-rouge">code to generate the report</code> into a function, so that both duplication and if statements vanish. In most real-world projects, though, <code class="language-plaintext highlighter-rouge">code to generate the report</code> differs slightly depending on whether you’re dealing with a buffer or a file. It’s rarely that simple to isolate the logic.</p>
+
+<h3 id="32-passing-in-the-execution-code">3.2. Passing in the execution code</h3>
+
+<p>The fundamental reason we can’t remove the if statements in printDocument() is that main() only provides the data needed by printDocument(), not the method (function) for using that data.</p>
+
+<p>So, printDocument() has to figure out, via conditional checks, how to run the correct logic for the given type of data.</p>
+
+<p>What if we pass in the function itself as well?</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">getCharFromBuffer</span> <span class="o">=</span> <span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if </span><span class="p">(</span><span class="nx">position</span> <span class="o">==</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">charAt</span><span class="p">(</span><span class="nx">position</span><span class="o">++</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">buffer</span><span class="p">,</span> <span class="nx">getCharFromBuffer</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.txt</span><span class="dl">"</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">getCharFromFile</span> <span class="o">=</span> <span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="nx">File</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nx">char</span> <span class="o">==</span> <span class="nx">EOF</span> <span class="p">?</span> <span class="kc">null</span> <span class="p">:</span> <span class="nx">char</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">getCharFromFile</span><span class="p">);</span>
+  <span class="nx">file</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printDocument</span><span class="p">(</span><span class="nx">doc</span><span class="p">:</span> <span class="kr">any</span><span class="p">,</span> <span class="nx">getChar</span><span class="p">:</span> <span class="nx">Func</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">char</span> <span class="o">=</span> <span class="nf">getChar</span><span class="p">(</span><span class="nx">doc</span><span class="p">);</span>
+
+  <span class="k">while </span><span class="p">(</span><span class="nx">char</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+
+    <span class="nx">char</span> <span class="o">=</span> <span class="nf">getChar</span><span class="p">(</span><span class="nx">doc</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now main() becomes more complex, but printDocument() no longer needs an if statement and won’t need modifying if new formats appear.</p>
+
+<p>The next question is how to tidy up main().</p>
+
+<h2 id="4-object-oriented-code">4. Object-Oriented Code</h2>
+
+<p>To make main() cleaner, we can use classes:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">bufferDocument</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferDocument</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello, World!</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">bufferDocument</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">fileDocument</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileDocument</span><span class="p">(</span><span class="dl">"</span><span class="s2">test.txt</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nf">printDocument</span><span class="p">(</span><span class="nx">fileDocument</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">printDocument</span><span class="p">(</span><span class="nx">reader</span><span class="p">:</span> <span class="nx">DocumentReadable</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">char</span> <span class="o">=</span> <span class="nx">reader</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+
+  <span class="k">while </span><span class="p">(</span><span class="nx">char</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">char</span><span class="p">);</span>
+    <span class="nx">char</span> <span class="o">=</span> <span class="nx">reader</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="nx">reader</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">DocumentReadable</span> <span class="p">{</span>
+  <span class="nf">getChar</span><span class="p">():</span> <span class="kr">string</span> <span class="o">|</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="nf">close</span><span class="p">():</span> <span class="k">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">BufferDocument</span> <span class="k">implements</span> <span class="nx">DocumentReadable</span> <span class="p">{</span>
+  <span class="k">private</span> <span class="nx">position</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+
+  <span class="nf">constructor</span><span class="p">(</span><span class="k">private</span> <span class="nx">buffer</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">getChar</span><span class="p">():</span> <span class="kr">string</span> <span class="o">|</span> <span class="kc">null</span> <span class="p">{</span>
+    <span class="k">if </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">position</span> <span class="o">===</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nf">charAt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="o">++</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">FileDocument</span> <span class="k">implements</span> <span class="nx">DocumentReadable</span> <span class="p">{</span>
+  <span class="k">private</span> <span class="nx">stream</span><span class="p">:</span> <span class="nx">ReadStream</span><span class="p">;</span>
+
+  <span class="nf">constructor</span><span class="p">(</span><span class="nx">filename</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">stream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="p">(</span><span class="nx">filename</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">getChar</span><span class="p">():</span> <span class="kr">string</span> <span class="o">|</span> <span class="kc">null</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">char</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">stream</span><span class="p">.</span><span class="nf">getChar</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">char</span> <span class="o">!==</span> <span class="nx">EOF</span> <span class="p">?</span> <span class="nx">char</span> <span class="p">:</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">close</span><span class="p">():</span> <span class="k">void</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">stream</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In the OOP version, printDocument() has no if statements to check document types. When you create the object in main(), you define everything it needs. All printDocument() has to do is call the object’s methods.</p>
+
+<blockquote>
+  <p>If you see an if in your code, ask yourself if it’s procedural code. Consider whether you can refactor it to an object-oriented style.</p>
+</blockquote>
+
+<p>Earlier, we said the procedural code only passes the data needed by printDocument(), but not the function. The object-oriented approach packages the data and the relevant functions together into an object. That’s the biggest and most striking difference.</p>
+
+<h2 id="5-characteristics-of-a-good-object">5. Characteristics of a Good Object</h2>
+
+<p>Let’s express the code above in a class diagram:</p>
+
+<p><object data="/uml/152ad9a5674298d75d5a14fc5eceea85.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="51-separation-of-concerns">5.1. Separation of Concerns</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">printDocument()</code> function just uses the <code class="language-plaintext highlighter-rouge">DocumentReadable</code> interface.
+<code class="language-plaintext highlighter-rouge">BufferDocument</code> and <code class="language-plaintext highlighter-rouge">FileDocument</code> each provide their functionality according to the <code class="language-plaintext highlighter-rouge">DocumentReadable</code> interface.</p>
+
+<p>So, <code class="language-plaintext highlighter-rouge">printDocument()</code>, <code class="language-plaintext highlighter-rouge">BufferDocument</code>, and <code class="language-plaintext highlighter-rouge">FileDocument</code> only need to know about the <code class="language-plaintext highlighter-rouge">DocumentReadable</code> interface. They know nothing about each other specifically. This means that as long as the <code class="language-plaintext highlighter-rouge">DocumentReadable</code> interface doesn’t change, there’s no need to modify these functions or classes.</p>
+
+<blockquote>
+  <p>In other words, if the interface remains stable, any changes within a particular component don’t ripple out to everything else. That’s how OOP enables incremental development. By cleanly separating interface and implementation, OOP naturally fosters high cohesion and low coupling.</p>
+
+  <p>Developers accustomed to procedural thinking can often struggle with the concept of encapsulating a feature so they can focus solely on it. This lack of practice may also appear in everyday tasks like dividing and delegating work.</p>
+
+  <p>For example, a frontend and backend developer define a REST API and then start building their respective parts. An error arises in the backend that indicates the backend code doesn’t meet the existing API specification. Upon debugging, the backend developer discovers it’s simpler to change the REST API (and therefore the frontend code) than to fix the backend code. The backend developer requests the frontend developer to adapt their code. The frontend developer agrees.</p>
+
+  <p>This violates the principle established when the REST API was designed. Moreover, dragging the frontend into the backend’s internal issues creates a tighter coupling.</p>
+
+  <p>You might wonder if such a minor change is really a big deal. It may not seem like a huge issue when coding, but it becomes a headache when someone else tries to analyze the code later.</p>
+
+  <p><code class="language-plaintext highlighter-rouge">Each party’s area of responsibility must remain strictly defined.</code></p>
+
+  <p>Developers accustomed to procedural thinking may perceive this statement as selfish or cold. In reality, it’s purely a technical approach.</p>
+</blockquote>
+
+<h3 id="52-access-control">5.2. Access Control</h3>
+
+<p>You can think of functions as being interconnected through variables.</p>
+
+<p>Take global variables, for example. We’re often told not to use them because any function that uses the same global variable becomes interconnected. In a project with over 100,000 lines of code, how can you guarantee every function obeys the rules you have in mind? This skyrockets complexity.</p>
+
+<blockquote>
+  <p>If you can’t figure out how far the impact of your code changes might reach, you’re almost guaranteed to create bugs.</p>
+</blockquote>
+
+<p>In the following diagram, the get(), print(), change(), reset() functions all share the count variable, so they’re tightly connected. In particular, change() and reset() can directly affect the behavior of every other function that depends on count.</p>
+
+<p><object data="/uml/999f2a2f866e78954d84223335572842.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>By contrast, only the methods inside <code class="language-plaintext highlighter-rouge">BufferDocument</code> can use the <code class="language-plaintext highlighter-rouge">buffer</code> and <code class="language-plaintext highlighter-rouge">position</code> properties. They’re private, so external code is blocked from accessing them.</p>
+
+<p>That’s why you shouldn’t expose properties as public. If external code can modify them, you can’t know how far the impact of a change to those properties might go. It becomes effectively the same as using global variables.</p>
+
+<h2 id="6-applications-of-object-oriented-programming">6. Applications of Object-Oriented Programming</h2>
+
+<p>The principle of separating concerns in OOP to manage complexity and minimize the impact of changes extends into other domains as well.</p>
+
+<h3 id="61-microservices-architecture">6.1. Microservices Architecture</h3>
+
+<p>MSA (Microservices Architecture) bears significant structural resemblance to OOP.</p>
+
+<p>At the core of OOP is bundling data and functions in a single object. Likewise, MSA bundles the database and API into a single service, whose internal implementation and database aren’t exposed externally. This prevents internal changes from affecting the outside world and greatly improves maintainability and scalability.</p>
+
+<p><object data="/uml/5343b720ca16b12ee6bef537a977a2af.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Not understanding OOP thoroughly can make it significantly harder to grasp and properly design an architecture like MSA, which shares these structural parallels.</p>
+
+<p>These days, MSA is quite popular. Many developers seem to focus primarily on how to use MSA components like API gateways, gRPC, or message brokers. But the most fundamental prerequisite is a deep understanding of OOP.</p>
+
+<h3 id="62-agile-methodology">6.2. Agile Methodology</h3>
+
+<p>In Agile, designers, developers, and planners work as a close-knit team—a collaboration style that can be likened to OOP’s core principle of high cohesion and low coupling. This approach is crucial for productivity and efficiency not only in software development, but also in organizational structure and teamwork.</p>
+
+<p>Although an Agile team isn’t structurally identical to an OOP “object,” there is a similarity in how the person who produces the data (the planner, creating requirements) and the person who consumes it (the developer, implementing those requirements) are part of the same unit. This somewhat mirrors how, inside an object, data (properties) and functions (methods) are tightly coupled.</p>
+
+<p>Additionally, the iterative development process—one of Agile’s core principles—becomes more feasible with OOP’s separation of concerns. OOP models a system as independent objects interacting with each other, which lets you develop and test each object independently. This dovetails neatly with Agile’s emphasis on small development cycles and rapid feedback. Consequently, OOP is recognized as a major underlying technique for successful Agile software development.</p>
+
+<h2 id="7-conclusion">7. Conclusion</h2>
+
+<p>We began with the following statement:</p>
+
+<blockquote>
+  <p>Object-oriented programming is a programming paradigm that groups data and functions into a single <code class="language-plaintext highlighter-rouge">object</code>, thereby increasing cohesion and reducing coupling.</p>
+</blockquote>
+
+<p>Indeed, the essence of OOP is grouping data and functions into one object. However, many articles and videos explaining OOP focus on encapsulation, information hiding, polymorphism, and inheritance. Those four basic OOP principles are simply guidelines for how to group data and functions. The most fundamental, indispensable part is grouping data and functions together.</p>
+
+<p>Can there be an object that only has data? Or an object that has only functions? Even if you use class syntax, that doesn’t necessarily make it a true object. An object has meaning only when it includes both state (properties) and behavior (methods).</p>
+
+<p>You might feel you’ve grasped something after reading this post, but it won’t become concrete until you try refactoring your own code into an object-oriented style. Understanding what makes “good code” takes a lot of thought and practice.</p>
+
+<p>Modern development methodologies are grounded in OOP. If you don’t have a deep understanding of OOP, you’ll find it challenging to properly apply TDD, DDD, Agile, MSA, and other modern approaches. That’s one major reason many MSA projects exist but relatively few succeed.</p>
+
+<p>A collection of common patterns used in OOP is known as Design Patterns. We’ll cover that next time.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[Object-oriented programming is a programming paradigm that groups data and functions into a single object, thereby increasing cohesion and reducing coupling.]]></summary></entry><entry><title type="html">객체 지향 프로그래밍의 이해</title><link href="/2024/03/09/oop.html" rel="alternate" type="text/html" title="객체 지향 프로그래밍의 이해" /><published>2024-03-09T00:00:00+00:00</published><updated>2024-03-09T00:00:00+00:00</updated><id>/2024/03/09/oop</id><content type="html" xml:base="/2024/03/09/oop.html"><![CDATA[<blockquote>
   <p>객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.</p>
 </blockquote>
 
@@ -724,7 +1394,304 @@
 
 <p>현대적인 개발 방법론의 근간에는 OOP가 있다. OOP를 깊이있게 이해하지 못하면 TDD, DDD, 애자일, MSA 등 현대적인 개발 방법을 공부해도 올바르게 사용하기 어려울 것이다. 실제로 MSA를 적용한 프로젝트는 많지만 성공 사례가 적은 이유이다.</p>
 
-<p>객체지향 프로그래밍에서 자주 사용하는 일반적인 패턴을 모아놓은 것이 디자인 패턴이다. 이것은 다음 기회에 다루겠다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.]]></summary></entry><entry><title type="html">소프트웨어 개발의 이념 전쟁: 개발자는 왜 그런가요?</title><link href="/2024/02/03/principled-pragmatic.html" rel="alternate" type="text/html" title="소프트웨어 개발의 이념 전쟁: 개발자는 왜 그런가요?" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/principled-pragmatic</id><content type="html" xml:base="/2024/02/03/principled-pragmatic.html"><![CDATA[<p><img src="/assets/images/principle-pragmatic.webp" alt="" /></p>
+<p>객체지향 프로그래밍에서 자주 사용하는 일반적인 패턴을 모아놓은 것이 디자인 패턴이다. 이것은 다음 기회에 다루겠다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[객체 지향 프로그래밍은 데이터와 함수를 하나의 ‘객체’로 그룹화하여 응집성은 높이고 의존성은 낮추는 프로그래밍 패러다임이다.]]></summary></entry><entry><title type="html">The Ideological Wars of Software Development: Why Do Developers Act This Way?</title><link href="/2024/02/03/principled-pragmatic-en.html" rel="alternate" type="text/html" title="The Ideological Wars of Software Development: Why Do Developers Act This Way?" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/principled-pragmatic-en</id><content type="html" xml:base="/2024/02/03/principled-pragmatic-en.html"><![CDATA[<p><img src="/assets/images/principle-pragmatic.webp" alt="" /></p>
+
+<p>In the past, just as communism and capitalism were irreconcilable ideologies during the Cold War, there are two contrasting ideologies in the field of software development: <code class="language-plaintext highlighter-rouge">principle-focused</code> and <code class="language-plaintext highlighter-rouge">pragmatic</code>. Software development is an extremely complex process, and these two ideologies approach problems in fundamentally different ways. Consequently, principle-focused and pragmatic mindsets can significantly affect the success or failure of software projects.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Principle-focused developers</code> believe that development should be grounded in systematic theories of software engineering. They place a strong emphasis on maintainability and argue for meticulous coding from a long-term perspective. <code class="language-plaintext highlighter-rouge">Pragmatic developers</code>, on the other hand, focus on solving problems as simply and quickly as possible. Because software is inherently complex, they believe that no matter how carefully you code, it won’t make much difference. Thus, it’s more efficient to react immediately whenever problems arise rather than investing a lot of time upfront.</p>
+
+<p>Most developers fall somewhere between extreme principle-focused and extreme pragmatic mindsets, but this article focuses on these two extremes. We’ll examine their opposing views and approaches, as well as the conflicts that can arise when they collaborate.</p>
+
+<h2 id="1-a-principle-focused-team-member">1. A Principle-Focused Team Member</h2>
+
+<p><img src="/assets/images/principle-member.webp" alt="" /></p>
+
+<h3 id="11-conflict-with-a-pragmatic-team-lead">1.1. Conflict with a Pragmatic Team Lead</h3>
+
+<p>A junior developer, brimming with a desire to learn and grow, is more likely to be principle-focused. Such a developer would be happy under a principle-focused team lead, but in reality, it’s far more common for a principle-focused team member to end up with a pragmatic team lead.</p>
+
+<p>A principle-focused team member in a pragmatic team lead’s environment can feel challenged. They can’t expect much in the way of thorough code reviews, and because the team lead pushes for deadlines, there’s little opportunity to care deeply about code quality. Even if they manage to do some refactoring during lulls, they have to be mindful of the team lead’s reaction.</p>
+
+<p>When problems occur, the principle-focused developer tries to figure out the root cause and address it in the “right” way. However, a pragmatic lead might propose a quick fix that doesn’t bother digging into the root cause. Repetition of this pattern leaves the principle-focused developer feeling frustrated, believing the team lead lacks competence or a sense of responsibility. Since they can’t admire or learn from such a lead, they may show disrespectful behavior or disregard the team lead’s authority. The lead, in turn, senses this and may respond harshly. The principle-focused team member becomes more and more mentally exhausted and eventually resigns. Yet, even at a new company, they’re likely to encounter another pragmatic manager, so this issue tends to persist for the principle-focused developer.</p>
+
+<h3 id="12-projects-that-hinder-growth">1.2. Projects That Hinder Growth</h3>
+
+<p>Because principle-focused developers have a strong desire to grow, they get anxious if the company’s work doesn’t help them learn. This can include maintaining tech-debt-ridden code or even doing new development with outdated or rarely-used technologies.</p>
+
+<p>In such situations, a pragmatic team lead is prone to maintaining the status quo and will likely avoid large-scale refactoring or adopting cutting-edge technologies. Any suggestions from the principle-focused team member will probably be rejected. Just as the first button on a shirt must be correctly fastened, a junior developer’s initial project experience can heavily influence their development trajectory. If it doesn’t feel right, leaving the team might be better in the long run.</p>
+
+<p>However, if the team lead is principle-focused, then waiting might be a good strategy. If the current project is riddled with technical issues, there may eventually be a chance to rebuild it. At that point, the principle-focused team member’s prior maintenance experience provides them with a strong understanding of the domain and requirements—ideal for focusing on technology. Of course, the principle-focused developer must be fully prepared to handle such a major undertaking when the opportunity arises.</p>
+
+<h3 id="13-a-word-to-principle-focused-team-members">1.3. A Word to Principle-Focused Team Members</h3>
+
+<p>Here’s what I’d say to a principle-focused team member:</p>
+
+<p><strong>A company is not a school.</strong></p>
+
+<p>You sell your time and expertise in exchange for money. You can’t always do just what you want at a company.</p>
+
+<blockquote>
+  <p>I once moved around between several companies and encountered a few team leads who did respect my ideas, but on two occasions, I ran into extremely pragmatic leads. These pragmatic leads didn’t seem to like having a young, confident team member brimming with enthusiasm. I still believe I tried to respect them as much as possible. When I was in conflict with the team lead, I often asked my colleagues whether I had done something wrong. They would mostly respond, “It’s just that you two don’t get along.”</p>
+
+  <p>In retrospect, maybe the pragmatic lead felt uneasy because they feared their own skills were lagging. I, as a principle-focused team member, was openly discussing design patterns and refactoring, which might have worsened their insecurities. To the pragmatic team lead, a confident and somewhat oblivious junior could easily appear irritating.</p>
+</blockquote>
+
+<h2 id="2-a-principle-focused-team-lead">2. A Principle-Focused Team Lead</h2>
+
+<p><img src="/assets/images/principle-leader.webp" alt="" /></p>
+
+<p>If a principle-focused developer’s passion continues, they often become a principle-focused team lead. While I use the term “team lead,” it essentially refers to anyone who takes initiative on a project and exerts significant influence on development.</p>
+
+<h3 id="21-over-engineering">2.1. Over-Engineering</h3>
+
+<p>Principle-focused leads can be excessively obsessed with “future-proofing.” This tendency manifests as excessive abstraction and unnecessary application of design patterns—classic forms of over-engineering. Ironically, that can make the code more complex and reduce development efficiency. The very principle of “maintainability” ends up harming maintainability, a tragic outcome indeed.</p>
+
+<p>Over-engineering can frustrate managers because they see the lead working hard on complex design tasks without delivering much visible progress, raising concerns about the schedule. Early in the project, there might be enough leeway to wait and see. But once the manager reaches their limit, they’ll intervene more aggressively.</p>
+
+<p>Additionally, a principle-focused lead who’s deeply invested in future-proofing may have a weaker grasp of the big picture. What happens if a major change in requirements arises mid-project, or a significant technical issue surfaces—something they failed to anticipate while spending so much time on design and research?</p>
+
+<p>The principle-focused lead may see this as someone else’s responsibility—outside the development team’s control—and argue that these changes are an “act of God,” making it logical to extend the deadline or scale back features. But from the manager’s perspective, the question remains: “Why did we spend so much time on design if we can’t adapt quickly to changes?” They might conclude that a pragmatic approach is more helpful in delivering immediate results. Feeling misunderstood, the principle-focused lead grows frustrated because their efforts toward high-quality code seem undervalued.</p>
+
+<blockquote>
+  <p>Part of this is my own story. Whenever I started a new project, I’d set a technical challenge for myself—applying TDD or DDD, for example. How long and how extensively I pursued these experiments depended on the manager’s feedback. Usually, if more than a month passed without much visible product progress, I’d get warned that development was behind schedule.</p>
+</blockquote>
+
+<h3 id="22-over-processing">2.2. Over-Processing</h3>
+
+<p>Over-processing involves excessively formal or inefficient development processes. If over-engineering frustrates managers, over-processing frustrates team members. Examples include:</p>
+
+<ul>
+  <li>Requiring overly formal and detailed documentation</li>
+  <li>Enforcing overly strict coding rules</li>
+  <li>Obsessing over test coverage</li>
+</ul>
+
+<p>A principle-focused lead might demand very high test coverage from the team. While testing is indeed critical, chasing coverage metrics blindly can reduce code flexibility, complicate the test suite, and hamper maintenance.</p>
+
+<p>Team members might initially place high hopes in a principle-focused lead’s grand vision for correct development methodologies. But before long, they may become exhausted by the lead’s overly systematic approach and insistence on detailed plans.</p>
+
+<ul>
+  <li>If the lead’s management is loose, team members may begin ignoring directives bit by bit.</li>
+  <li>If the lead’s management is tight, the lead’s own coding time diminishes, and they end up policing every minor mistake. Team members then feel pressured by constant nitpicking, and the lead feels frustrated by their team’s shortcomings.</li>
+</ul>
+
+<p>Sometimes, the demands of a principle-focused lead are so lofty that even the lead themselves finds them hard to meet. Software design is inherently complex and abstract, and it’s tough to fully document your own ideas, let alone expect less-experienced team members to do so without robust guidance. To them, it can be as daunting as writing a book report in grade school.</p>
+
+<blockquote>
+  <p>When I joined a new company as a team lead, I learned that the previous lead, who had been very enthusiastic and principle-driven, demanded 100% code coverage from the team. Sure, maintaining 100% coverage is a great goal. The problem was that the team wrote meticulous tests for every function, so even the smallest changes would break tons of tests.</p>
+
+  <p>A function doesn’t typically operate in isolation—it calls other functions and is called by others. Tests must be written at an appropriate granularity for maintainability and productivity, which had apparently been overlooked.</p>
+
+  <p>Ultimately, we slashed the test code by 90%, and after that, the team felt more motivated to write practical tests.</p>
+</blockquote>
+
+<h3 id="23-causes-of-the-problem">2.3. Causes of the Problem</h3>
+
+<p>A principle-focused lead is at a stage of maximum trial and error, in part because their authority outweighs their skill and experience. Overconfidence can compound the issue.</p>
+
+<p>There’s often a correlation between enthusiasm and confidence, so a highly motivated principle-focused lead tends to be highly self-assured. That self-assurance may lead them to blame others for problems and to be very forceful about their own methods—a burden for managers and colleagues alike, though the lead themselves often remains oblivious.</p>
+
+<p>A final note to principle-focused leads:</p>
+
+<p><strong>Do not focus on what you want to do, but on what must be done.</strong></p>
+
+<p>Think critically about whether the task at hand is really necessary. Principle-focused leads have a built-in tendency to rationalize what they want to do as if it were strictly required.</p>
+
+<h2 id="3-a-pragmatic-team-member">3. A Pragmatic Team Member</h2>
+
+<p><img src="/assets/images/pragmatic-member.png" alt="" /></p>
+
+<p>Where principle-focused developers see company work as a chance to learn and grow, pragmatic developers view it more as a job—an economic activity. So when faced with issues, principle-focused developers tend to put in extra effort to get to the root cause, while pragmatic developers solve the immediate problem with minimal effort.</p>
+
+<p>Pragmatic team members come in various forms:</p>
+
+<ol>
+  <li>Diligent but not passionate about development.
+    <ul>
+      <li>This type can do tasks that principle-focused members find tedious or burdensome. Their lack of passion for development isn’t necessarily a drawback. They tend to cause fewer complications and can have a smooth career.</li>
+    </ul>
+  </li>
+  <li>Diligent and passionate about development.
+    <ul>
+      <li>This can be puzzling at first. If they’re passionate, shouldn’t they be principle-focused? Yet they show little interest in maintainability. Even if you point out issues and offer guidance, they always look for the quickest fix.</li>
+      <li>Such developers are often driven not by pure love of software craftsmanship but by job-focused enthusiasm. Their interest in development might be mainly because they need it for their career. For example, they study design patterns or algorithms primarily because those come up in interviews. They rarely delve deeply into such topics unless it’s necessary.</li>
+    </ul>
+  </li>
+  <li>Lacking passion for the job itself.
+    <ul>
+      <li>They may be a principle-focused developer who lost motivation due to disillusionment with the company’s direction, or they simply might not care about their work at all.</li>
+      <li>If they’re simply doing the bare minimum, conflict with the team lead might be minor. However, the problem is that as they lose motivation, they take less responsibility. For instance, they may make changes without thorough testing, or only carry out tasks exactly as assigned without any proactive problem-solving. Over time, this hurts collaboration and morale.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>In general, pragmatic team members find it difficult to grow as developers. They often remain in a company for a long time and become mid-level managers. But without a distinctive advantage, staying in that role indefinitely can be hard. Having seen many regret stepping into management, I urge them to think carefully about the path they truly want.</p>
+
+<p>Here’s what I’d say to a pragmatic team member:</p>
+
+<p><strong>There is no easy or comfortable path. You grow as much as you wrestle with tough problems.</strong></p>
+
+<p>Because pragmatic developers prioritize efficiency, they have fewer opportunities for deep pondering. Yet, whether it’s about technology or human relationships, it’s in the struggle that real growth happens—and with growth comes differentiation.</p>
+
+<h2 id="4-a-pragmatic-team-lead">4. A Pragmatic Team Lead</h2>
+
+<p><img src="/assets/images/pragmatic-leader.webp" alt="" /></p>
+
+<p>Many developers become pragmatic team leads. This includes not only those who’ve been pragmatic team members but also those who began as principle-focused leads but eventually turned pragmatic. How can a principle-focused lead transform into a pragmatic lead?</p>
+
+<p>A principle-focused lead might learn about OOP, design patterns, TDD, DDD, MSA, and more, only to find that putting these into practice is no easy feat. These methodologies and architectures all tie together, demanding extensive effort and experience to implement successfully.</p>
+
+<p>For instance, applying MSA (Microservices Architecture) effectively requires a solid understanding of OOP, design patterns, and DDD (Domain-Driven Design). However, many developers never master even OOP and design patterns. TDD also demands a strong foundation in OOP and domain knowledge, plus a flexible design approach.</p>
+
+<p>If a principle-focused lead hasn’t reached that level, trying to apply advanced development methods often creates more problems than it solves. After experiencing several such failures, they may dismiss formal methodologies as unrealistic.</p>
+
+<p>So, from a pragmatic lead’s perspective, principle-focused developers are simply naive—chasing impressive theories that are disconnected from real-world needs. Pragmatic leads see many colleagues preach fancy practices, only to delay project timelines without noticeably improving quality. Therefore, they sometimes view principle-focused developers’ efforts as a waste of time.</p>
+
+<p>Pragmatic leads generally care less about technology and more about analyzing requirements and managing schedules—naturally shifting into a managerial role.</p>
+
+<p>I rarely see pragmatic team leads actively conduct code reviews or provide strong technical guidance. Usually, they assign tasks at the module level and check the final output. If a difficult technical issue arises that a team member can’t solve, the lead might step in. But as the team grows, the lead moves closer to a pure management position.</p>
+
+<p>Another reason pragmatic leads transition fully into management is that development becomes repetitive—without ongoing learning of new technologies or methodologies, every project feels the same. Tired of such repetition, they often prefer management to continuing as a developer.</p>
+
+<p>From my experience, pragmatic leads can yield good results in short-term (under 1 year) SI-type projects. But when a project stretches beyond a year, maintaining quality becomes harder and higher-level managers start to notice issues.</p>
+
+<p>When a pragmatic lead develops an in-house product, they might repeatedly opt to rebuild from scratch rather than continuously improve code. After it grows to a certain level of complexity, they abandon it and start fresh, repeating this cycle every 1–3 years or so.</p>
+
+<p>If the same person maintains a product for years, they might avoid rebuilding, but once that person leaves, maintenance skills drop dramatically, which again leads to rebuilding.</p>
+
+<p>Finally, to pragmatic team leads:</p>
+
+<p><strong>Do not focus on what you can do, but on what must be done.</strong></p>
+
+<p>Sometimes you’ll face elusive bugs requiring extensive research and trial and error. If you only patch them superficially, they’ll likely morph into an even bigger problem later.</p>
+
+<h2 id="5-the-micromanager">5. The Micromanager</h2>
+
+<p><img src="/assets/images/micro-manager.webp" alt="" /></p>
+
+<p>A micromanager is a leader who intervenes excessively in how team members carry out their work.</p>
+
+<p>They typically come in two categories:</p>
+<ol>
+  <li>A manager who claims to be—or once was—a developer.</li>
+  <li>Someone without real development experience but who believes they know enough.</li>
+</ol>
+
+<p>The common trait is that they think they know enough to weigh in on every detail.</p>
+
+<p>Because micromanagers overestimate their own technical abilities, they often share some traits with principle-focused leads—for example, demanding thorough design and documentation. The difference is that, as a manager, their decisions have a broader impact on the entire organization.</p>
+
+<p>A micromanager doesn’t do the coding themselves, so it’s easy for them to pick idealistic or principle-focused approaches. Detached from day-to-day coding realities, they favor what sounds perfect in theory.</p>
+
+<blockquote>
+  <p>I once worked at a security company.</p>
+
+  <p>The service quality had been steadily declining, so the manager demanded detailed design documents from every team lead. However, the C++ source code was so huge and tangled—single files exceeding 50k lines—that the code’s structure was already a mess.</p>
+
+  <p>It’s normal to do design first and then implement, but the manager demanded we reverse-engineer documentation from already messy code.</p>
+
+  <p>After about three weeks, the team gave up trying to produce those design documents. Tragically, the manager believed the team had failed due to lack of skill, rather than realizing the directive itself was misguided.</p>
+
+  <p>If the manager felt the team’s capabilities were lacking, the correct approach would have been to hire a more qualified developer rather than impose additional burdens on the existing team.</p>
+</blockquote>
+
+<p>Managers and team leads have distinct roles. A lead shouldn’t become a pure manager, but equally a manager shouldn’t act like the team lead. When a manager tries to play team lead, the lead can’t exercise their full expertise, and the manager also fails to focus on their own management duties.</p>
+
+<p>Often, managers claim they lead development because of necessity, but in reality, it can be more of a personal preference. If they were prudent, they’d either replace the team lead or adjust the team’s responsibilities.</p>
+
+<p>There’s a saying:</p>
+
+<p><strong>疑人不用 用人不疑(If you doubt a person, do not hire them; if you hire them, do not doubt them).</strong></p>
+
+<blockquote>
+  <p>At a company providing specific data services, the CEO was extremely sharp, and the development team lead was a well-respected developer with both passion and skill.</p>
+
+  <p>At first, the CEO was heavily involved in the development process, but it was a startup environment where, even if service outages occurred, they were generally understanding.</p>
+
+  <p>A few years later, I revisited and found things had changed dramatically. The original developers were sitting in a separate space with vague tasks, while important work was handled by a new development team under the direct oversight of the CEO. When I asked why, I was told the CEO repeatedly criticized the quality of the old group’s output and eventually decided to lead a new team personally.</p>
+
+  <p>This led to another big round of failures. In such a scenario, the CEO should have hired developers who matched his standards rather than trying to manage every detail himself.</p>
+</blockquote>
+
+<h2 id="6-conflict-between-a-principle-focused-lead-and-a-pragmatic-lead">6. Conflict Between a Principle-Focused Lead and a Pragmatic Lead</h2>
+
+<p><img src="/assets/images/principled-pragmatic-micro.webp" alt="" /></p>
+
+<p>In a project where a principle-focused lead and a pragmatic lead cooperate harmoniously, it often means there’s a bigger external threat: perhaps a demanding client or a high-pressure micromanager overshadowing any internal disagreements.</p>
+
+<p>Otherwise, whenever the two leads must collaborate (e.g., on API design), they’ll clash over almost every decision.</p>
+
+<h3 id="61-the-principle-focused-leads-view">6.1. The Principle-Focused Lead’s View</h3>
+
+<p>The principle-focused lead feels held back by the pragmatic lead.</p>
+
+<ul>
+  <li>In API design, the pragmatic lead wants minimal changes to their own code, so the resulting API is less intuitive, harder to understand, and forces more work on the principle-focused lead.</li>
+  <li>As the project evolves, new APIs might be needed. But if the existing API can be adapted—even if awkwardly—the pragmatic lead will push to reuse it.</li>
+  <li>This reinforces the principle-focused lead’s belief that the pragmatic lead only cares about their immediate convenience, lacks vision, and generally lacks skill.</li>
+  <li>The principle-focused lead worries that continually deferring to the pragmatic lead’s approach will cause severe problems eventually.</li>
+  <li>They also notice the system is aging and has structural issues, but the pragmatic lead keeps rejecting large-scale refactoring plans.</li>
+  <li>This simplistic development strategy doesn’t help the principle-focused lead grow as a developer.</li>
+</ul>
+
+<h3 id="62-the-pragmatic-leads-view">6.2. The Pragmatic Lead’s View</h3>
+
+<p>The pragmatic lead thinks the principle-focused lead unnecessarily complicates the project.</p>
+
+<ul>
+  <li>The principle-focused lead introduces technologies they themselves haven’t fully mastered, making the system overly complex.</li>
+  <li>They fixate on personal growth, neglecting project deadlines or success.</li>
+  <li>The two may have agreed on an API, yet the principle-focused lead keeps requesting small changes. Their obsession with details slows progress.</li>
+  <li>Refactoring or rewriting from scratch doesn’t guarantee real improvement; it just threatens schedules.</li>
+</ul>
+
+<h3 id="63-the-micromanager-as-mediator">6.3. The Micromanager as Mediator</h3>
+
+<p>The micromanager believes they can hear both sides and make logical decisions.</p>
+
+<p>They aim to be fair and objective, but in reality, the principle-focused lead starts at a disadvantage. Suggesting change or introducing new methods is always harder to justify than doing nothing. The principle-focused lead typically has to articulate a lengthy argument, referencing theory to persuade the micromanager.</p>
+
+<p>By contrast, the pragmatic lead can simply ask, “But why do we need to change it?”—an easy position to defend. Even a knowledgeable principle-focused lead struggles with repeated “Why?” questions, especially since they must also persuade a micromanager who might lack technical depth. It becomes a 2-on-1 situation.</p>
+
+<p>Even if the principle-focused lead has some theoretical background, it might not carry much weight when explaining to a micromanager who only has a vague sense of feasibility. Ultimately, the micromanager’s goal of making a purely logical judgment often gives way to recommending a compromise that accounts for both parties’ feelings.</p>
+
+<p>Over time, the micromanager may side more with the pragmatic lead. The pragmatic approach is easier to understand and delivers quick, visible outcomes.</p>
+
+<p>Or the micromanager might drop mediation, instructing both leads to “work it out.” This is the worst outcome. With no final arbiter, the conflict intensifies, and the project risks failing altogether.</p>
+
+<h3 id="64-possible-solutions">6.4. Possible Solutions</h3>
+
+<p>Ultimately, the situation of two leads butting heads often stems from the micromanager themselves. Perhaps the manager holds final decision-making authority, imagining they can moderate the two leads while also wanting to retain control of development.</p>
+
+<p>A truly senior tech lead with vast experience could mediate effectively, but that would require the senior tech lead to oversee the project and lead the team leads. Usually, there isn’t a more seasoned, higher-level tech lead the team leads can trust.</p>
+
+<p>When no senior tech lead exists, having the manager personally mediate is difficult. Favoring one side alienates the other. In the long run, it’s best to assign clear authority and responsibility to one lead, accepting the associated risks. If it’s a short-term external contract project, a pragmatic lead might be best. If it’s a long-term internal product needing continuous improvement, a principle-focused lead might be more appropriate. Hiring developers thoughtlessly can create “technical debt” in the team itself, making it unmanageable over time.</p>
+
+<blockquote>
+  <p>I worked at a company headquartered in Europe, developing a large online service. Multiple development teams all contributed to the same product, alongside a dedicated QA team. Notably, there was an Architecture (Architect) team, including a chief architect at the top.</p>
+
+  <p>Because design, implementation, and testing were all separated, design discussions happened before coding. Architects, dev teams, and QA teams would meet to discuss design details and testing approaches.</p>
+
+  <p>All interface and design decisions came from the architects, so it was rare for two dev teams to clash. A development lead might disagree with the architects’ decisions, but the architects held ultimate authority and responsibility for design. Therefore, it never escalated into a major issue.</p>
+</blockquote>
+
+<h2 id="7-conclusion">7. Conclusion</h2>
+
+<p>The clash isn’t truly caused by principle-focused vs. pragmatic approaches. Even if two people have different ideologies, trust and mutual respect can lead to a smooth project.</p>
+
+<p>What causes conflict is human emotion and personal ambition. Once their interests diverge, the ideological gap just magnifies the rift.</p>
+
+<p>From the manager’s viewpoint, pragmatic developers’ arguments can seem very appealing. Still, one must think carefully about what happens if a company continues with purely pragmatic development for years.</p>
+
+<p>A principle-focused approach doesn’t yield immediate results; it also involves strong opinions and sometimes leads to costly over-engineering. If the company can’t handle that trial and error, it may drift toward a purely pragmatic approach, ultimately leaving only pragmatic developers. Hiring a principle-focused developer into that environment later on won’t fix anything—the existing pragmatic leads will push back.</p>
+
+<p>Conversely, if principle-focused developers dominate, they may focus more on research or experimental technologies, causing productivity to plummet. Since they don’t fully grasp every facet of advanced development theory, software quality might not improve that much anyway.</p>
+
+<p>A manager who values software quality sees the potential in principle-focused developers’ trial and error. However, their growth can be slower than expected.</p>
+
+<p>To address these issues, at least one competent senior technical leader is needed. Such a leader can reduce principle-focused developers’ missteps and utilize pragmatic developers effectively.</p>
+
+<p>Without that senior leader, a company must select developers based on the nature of the product. For in-house products needing ongoing improvement, minimize hiring too many pragmatists. For short-term outsourcing, do the opposite and minimize principle-focused developers. Just like technical debt piles up and hinders maintainability, recklessly hiring the wrong people for expediency can create “hiring debt” that endangers the development organization’s stability.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">소프트웨어 개발의 이념 전쟁: 개발자는 왜 그런가요?</title><link href="/2024/02/03/principled-pragmatic.html" rel="alternate" type="text/html" title="소프트웨어 개발의 이념 전쟁: 개발자는 왜 그런가요?" /><published>2024-02-03T00:00:00+00:00</published><updated>2024-02-03T00:00:00+00:00</updated><id>/2024/02/03/principled-pragmatic</id><content type="html" xml:base="/2024/02/03/principled-pragmatic.html"><![CDATA[<p><img src="/assets/images/principle-pragmatic.webp" alt="" /></p>
 
 <p>과거 냉전 시대의 공산주의와 자본주의처럼 양립할 수 없는 두 가지 이념이 소프트웨어 개발 분야에 존재한다. 바로 원리주의와 실용주의다. 소프트웨어 개발은 매우 복잡한 과정이며, 이 두 가지 이념은 각기 다른 방식으로 문제에 접근한다. 따라서 원리주의와 실용주의는 소프트웨어 개발의 성패를 좌우하는 중요한 요소라 할 수 있다.</p>
 

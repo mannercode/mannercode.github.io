@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Essence-Based Interpretation | Manner Code</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Essence-Based Interpretation" />
+<meta name="author" content="mannercode" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. Introduction" />
+<meta property="og:description" content="1. Introduction" />
+<meta property="og:site_name" content="Manner Code" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-05-04T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Essence-Based Interpretation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"mannercode"},"dateModified":"2024-05-04T00:00:00+00:00","datePublished":"2024-05-04T00:00:00+00:00","description":"1. Introduction","headline":"Essence-Based Interpretation","mainEntityOfPage":{"@type":"WebPage","@id":"/2024/05/04/ebi-en.html"},"url":"/2024/05/04/ebi-en.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Manner Code" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Manner Code</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Essence-Based Interpretation</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-05-04T00:00:00+00:00" itemprop="datePublished">
+        May 4, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="1-introduction">1. Introduction</h2>
+
+<p>I’ve put a lot of effort into writing good code. In pursuit of good code, I’ve studied refactoring, design patterns, various architectures, and development methods. Even when my code was working well, I often spent considerable time deliberating over a better structure or naming.</p>
+
+<p>Nevertheless, I sometimes couldn’t find a definitive answer when it came time to choose between different approaches. One day I’d implement it one way, the next day another way, and this went on for a long time. Both methods had clear pros and cons, so whichever approach I chose, there was a sense of regret. Here, “method” could refer to a design pattern or simply the name of a function or variable.</p>
+
+<p>At that point, I thought I had a certain level of competency as a developer, but these decision-making dilemmas didn’t seem like they would ever go away, no matter how much experience or effort I accumulated. I even considered the possibility that there was no single correct answer, that it all depended on personal preference—like an art form. Perhaps it was a sort of defense mechanism, similar to how some developers who don’t fully understand design patterns dismiss them as useless in the real world.</p>
+
+<p>Then I suddenly realized what I had been missing. Let’s look at a few examples and figure out what that was.</p>
+
+<h2 id="2-implementing-directional-keys">2. Implementing Directional Keys</h2>
+
+<p>We need to provide a directional keypad for users where they can choose “Up/Down/Left/Right.” These four arrow icons look identical but point in different directions. There are two ways to implement this directional keypad.</p>
+
+<p><img src="/assets/images/virtual-gamepad.jpg" alt="gamepad" /> <br />
+<strong>Figure 2-1. A gamepad with identical-looking directional keys</strong></p>
+
+<h3 id="21-method-1--reusing-one-image-with-rotation">2.1. Method #1 – Reusing one image with rotation</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Method #1</code> uses a single arrow image (arrow.png) that is rotated to point in the different directions. Since the arrow shape is identical, it can be done easily.</p>
+
+<p>This approach has the advantage of using less storage space. However, the downside is that the code readability can be relatively lower.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"0"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"180"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"-90"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"arrow.png"</span> <span class="na">rotate=</span><span class="s">"90"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/arrows1.svg" alt="arrow1" /> <br />
+<strong>Figure 2-2. A directional key implemented by rotating a single image</strong></p>
+
+<h3 id="22-method-2--using-four-separate-images">2.2. Method #2 – Using four separate images</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Method #2</code> uses four separate images for up, down, left, and right.</p>
+
+<p>The downside is that you have to manage more image resources, and the storage space usage also increases. On the other hand, the readability of the code is relatively better.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"up.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"down.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"let.png"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;Image</span> <span class="na">src=</span><span class="s">"right.png"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/arrows2.svg" alt="arrow2" /> <br />
+<strong>Figure 2-3. A directional key implemented with four images for up/down/left/right</strong></p>
+
+<h3 id="23-which-method-is-correct">2.3. Which method is correct?</h3>
+
+<p>Which one is correct? Or is there even a “right” or “wrong” choice here? Is it just a matter of personal philosophy? If you pursue efficiency, then <code class="language-plaintext highlighter-rouge">Method #1</code> is for you, but if you want more readable code, you’d pick <code class="language-plaintext highlighter-rouge">Method #2</code>.</p>
+
+<p>Is readable code correct? Or is performance-efficient code correct? In the past, performance efficiency might have been the priority, but in modern times where hardware performance is sufficient, readability often takes precedence. Should we then just choose the path of readability?</p>
+
+<p>Many thoughts may come to mind, but the first thing to consider is the meaning of the arrow itself. If the arrow is something like <strong>Figure 2-4</strong>, indicating a specific object, then implementing it by rotating a single arrow image (like <code class="language-plaintext highlighter-rouge">Method #1</code>) makes sense.</p>
+
+<p><img src="/assets/images/arrows3.svg" alt="arrow3" /> <br />
+<strong>Figure 2-4. Arrows used to point to something</strong></p>
+
+<p>But the user might have had in mind a directional keypad like <strong>Figure 2-5</strong>, the set of four arrow keys in the corner of a keyboard. In that case, four separate images (like <code class="language-plaintext highlighter-rouge">Method #2</code>) correspond more closely to what the user expects.</p>
+
+<p><img src="/assets/images/arrows4.svg" alt="arrow4" /> <br />
+<strong>Figure 2-5. A directional key with four distinct arrow shapes</strong></p>
+
+<p>You might think there’s no big difference since the final result the user sees is the same, regardless of which method you choose. But what happens if you ignore the user’s perspective and only focus on implementation convenience?</p>
+
+<p>The user might assume that changing the shape of the arrow keys is easy at any time, because they believe the keypad is made up of four separate images. Rotating a single image for performance optimization is purely a developer’s concern. Then one day, the user might ask you to change the directional keys to look like <strong>Figure 2-4</strong>. They’d think it’s just a simple image replacement, but for the developer, it becomes a major task that may require changing the entire approach.</p>
+
+<p>The fact that the arrows happened to look the same initially is simply a coincidence. If you reflect that coincidence in the code, you drift further from the user’s thoughts and expectations. In other words, if you ignore the user’s intent and pursue only implementation convenience, maintenance becomes increasingly difficult.</p>
+
+<h3 id="24-the-difficulty-of-interpretation">2.4. The difficulty of interpretation</h3>
+
+<p>One reason it can be tough to discern the essence of a requirement is that some obvious information gets omitted.</p>
+
+<p>When the user mentioned the need for “directional keys,” they probably didn’t explicitly say “the four arrow keys on a keyboard.” From the user’s standpoint, “directional keys” simply implies those keyboard arrows in the corner.</p>
+
+<p>From a developer’s standpoint, though, if the requirement doesn’t detail that specific keyboard arrow concept, there’s more to ponder about how to implement it.</p>
+
+<p>That’s where interpretation gets tricky: the parts that seem obvious and thus remain unspecified still have to be filled in by the developer. And to fill in those blanks, the developer must consider all the reasons and processes behind the requirement, which demands a wealth of experience and insight.</p>
+
+<p>What if you still can’t pinpoint the user’s exact intent in this scenario? Or you can’t predict how it might change?</p>
+
+<p>You could do something like the following—define <code class="language-plaintext highlighter-rouge">Up, Down, Left, Right</code> classes—so that no matter how the requirement for the arrows changes, it has minimal impact on the rest of the code.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span><span class="o">&gt;</span>
+    <span class="kd">const</span> <span class="nx">Up</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">arrow.png</span><span class="dl">"</span> <span class="nx">rotate</span><span class="o">=</span><span class="dl">"</span><span class="s2">0</span><span class="dl">"</span> <span class="o">/&gt;</span>
+    <span class="kd">const</span> <span class="nx">Down</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">arrow.png</span><span class="dl">"</span> <span class="nx">rotate</span><span class="o">=</span><span class="dl">"</span><span class="s2">180</span><span class="dl">"</span> <span class="o">/&gt;</span>
+    <span class="kd">const</span> <span class="nx">Left</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">arrow.png</span><span class="dl">"</span> <span class="nx">rotate</span><span class="o">=</span><span class="dl">"</span><span class="s2">-90</span><span class="dl">"</span> <span class="o">/&gt;</span>
+    <span class="kd">const</span> <span class="nx">Right</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">arrow.png</span><span class="dl">"</span> <span class="nx">rotate</span><span class="o">=</span><span class="dl">"</span><span class="s2">90</span><span class="dl">"</span> <span class="o">/&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;Up</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;Down</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;Left</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;Right</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<h2 id="3-shallow-routing-vs-nested-routing-in-rest-apis">3. Shallow Routing vs. Nested Routing in REST APIs</h2>
+
+<p><strong>Figure 3-1</strong> is a sequence diagram of how a user selects a movie, theater, and date/time in a movie ticketing system. How should we design the routing for a REST API in this situation?</p>
+
+<p><object data="/uml/fc78dca9f222ff5d2dda914cfcd14902.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><strong>Figure 3-1</strong></p>
+
+<h3 id="31-shallow-routing">3.1. Shallow Routing</h3>
+
+<p>If we design the REST API in the <code class="language-plaintext highlighter-rouge">Shallow Routing</code> style, it might look like this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Request list of showing movies</span>
+/movies?status<span class="o">=</span>showing
+
+<span class="c"># Request list of theaters</span>
+/theaters?movieId<span class="o">={</span>movidId<span class="o">}</span>
+
+<span class="c"># Request list of show dates</span>
+/showdates?movieId<span class="o">={</span>movieId<span class="o">}</span>&amp;theaterId<span class="o">={</span>theaterId<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Shallow Routing</code> lets you manage each resource independently, so it’s highly extensible. However, because it doesn’t clearly express relationships between resources, it can be challenging to represent complex hierarchical data.</p>
+
+<h3 id="32-nested-routing">3.2. Nested Routing</h3>
+
+<p>If we design the REST API in the <code class="language-plaintext highlighter-rouge">Nested Routing</code> style, it might look like this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Request list of showing movies</span>
+/showing/movies
+
+<span class="c"># Request list of theaters</span>
+/showing/movies/<span class="o">{</span>movieId<span class="o">}</span>/theaters
+
+<span class="c"># Request list of show dates</span>
+/showing/movies/<span class="o">{</span>movieId<span class="o">}</span>/theaters/<span class="o">{</span>theaterId<span class="o">}</span>/showdates
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Nested Routing</code> clearly represents the relationships between resources in the URL itself, making it suitable for complex resource structures. However, if the nested resource structure changes, the URL must also change, so it can be less flexible.</p>
+
+<h3 id="33-which-method-is-correct">3.3. Which method is correct?</h3>
+
+<p>We briefly looked at the pros and cons of the two routing methods. So how do you choose between the flexibility of <code class="language-plaintext highlighter-rouge">Shallow Routing</code> and the clarity of <code class="language-plaintext highlighter-rouge">Nested Routing</code>?</p>
+
+<p>It depends on which design more closely reflects the conceptual perspective of the movie ticketing process.</p>
+
+<p>From that angle, <code class="language-plaintext highlighter-rouge">Nested Routing</code> reflects the ticket purchase process directly. Just as you have to select a movie before you can choose a theater, in <code class="language-plaintext highlighter-rouge">Nested Routing</code>, you cannot specify a theater without specifying a movie. In other words, the <code class="language-plaintext highlighter-rouge">Nested Routing</code> REST API mirrors the ticket purchase process. You might not even need separate documentation for it—it’s that intuitive.</p>
+
+<p>You often see debates about which is better: <code class="language-plaintext highlighter-rouge">Shallow Routing</code> or <code class="language-plaintext highlighter-rouge">Nested Routing</code>. Such debates can be endless. What’s important is which design more accurately reflects the requirements. If you approach it purely from a technical standpoint, where there’s no single right answer, the debate never ends.</p>
+
+<blockquote>
+  <p>If you’ve been agonizing for a while and still see no solution, perhaps the answer isn’t there to begin with.</p>
+</blockquote>
+
+<p>3.4. Inheritance vs. Composition</p>
+
+<p>A similar debate exists around class inheritance vs. composition.</p>
+
+<p>Just as many people perceive that Shallow Routing offers superior technical flexibility, it’s similarly agreed that you should favor composition over inheritance. However, once again, the domain concept is what really matters. Don’t prioritize technical superiority above all else.</p>
+
+<p><object data="/uml/9f603402d37bffc94cd71f3d9fe52b9d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>In the diagram above, a Dog is a type of Animal. Inheritance is a natural representation of that. However, an Engine is one of the components that make up a Car, so composition is more appropriate for that relationship.</p>
+
+<h2 id="4-implementing-documents-of-a-similar-format">4. Implementing Documents of a Similar Format</h2>
+
+<p>For documents like certificates of income, which may be used overseas, there are two authentication methods: “Apostille” and “Consular legalization.” Consular legalization is more common, while apostille is a simplified process under certain conventions.</p>
+
+<p>In a project I worked on, the goal was to encrypt these documents and verify whether they had been tampered with.</p>
+
+<p>Because the structures and fields of apostille and consular documents appeared similar, an existing system was using a single shared table for both.</p>
+
+<p><object data="/uml/5cdb8613952a83bfc0d0c2aa82ccbf06.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="41-initial-design">4.1. Initial Design</h3>
+
+<p>While analyzing the existing system, I suspected that the similarity between apostille and consular documents might just be a coincidence, and that they should not be treated as a single document type. If they were truly the same, the project wouldn’t have been titled “Apostille &amp; Consular Legalization.”</p>
+
+<p>On the other hand, the back-end developer argued there was no need to separate them into two. Ultimately, we compromised by splitting the REST API into two but keeping a single shared table and service.</p>
+
+<p><object data="/uml/ec5e5e2347907e077d1b58976807c9cf.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="42-design-change">4.2. Design Change</h3>
+
+<p>As the project progressed, the differences between the two documents became more concrete. Apostille and consular documents could have overlapping document numbers, so their numbering systems diverged. Moreover, as service features expanded, their interfaces continued to diverge.</p>
+
+<p>In the end, we decided to separate them completely into two tables and two services. Fortunately, because the external APIs were already split into two, changing the internal structure was relatively easy. Had we tried to avoid refactoring just because splitting them felt like too much trouble, we would have ended up with if-else statements all over the code, opening the gateway to chaos.</p>
+
+<p><object data="/uml/92b9f1fa32a97ec298a8c11ad6c7b8fc.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="43-why-did-this-happen">4.3. Why did this happen?</h3>
+
+<p>In this case, the two documents only seemed alike by coincidence. They were always prone to diverge based on user requirements. The real issue was overlooking the fact that they’re fundamentally different documents—hence having different names in the first place.</p>
+
+<p>Programmers often have a tendency to prioritize implementation convenience. It’s not easy to break that habit. However, you must adhere to the domain concepts rigorously.</p>
+
+<h2 id="5-storing-encoded-filenames">5. Storing Encoded Filenames</h2>
+
+<p><object data="/uml/e2e215b41740c7b53974ef040726f7b6.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Suppose a user wants to upload a file named <code class="language-plaintext highlighter-rouge">한글.txt</code> via a web browser.</p>
+
+<p>Because the filename contains special characters, it must be URL-encoded when sent to the server. Likewise, when the file is downloaded, the filename must be URL-encoded again.</p>
+
+<p>So, should the server store the encoded string (<code class="language-plaintext highlighter-rouge">%ED%95%9C%EA%B8%80.txt</code>) in the database as is? Or should it decode it back to <code class="language-plaintext highlighter-rouge">한글.txt</code> before storing?</p>
+
+<p>If you store it as <code class="language-plaintext highlighter-rouge">한글.txt</code>, you’ll have to encode it again when sending it back to the user for download. Isn’t it more efficient to just store it as <code class="language-plaintext highlighter-rouge">%ED%95%9C%EA%B8%80.txt</code>?</p>
+
+<p>To figure out the essence, consider what the user perceives. They see their file as <code class="language-plaintext highlighter-rouge">한글.txt</code>. They don’t think it’s going to be changed into something else. Therefore, storing it as <code class="language-plaintext highlighter-rouge">한글.txt</code> aligns better with the user’s perspective.</p>
+
+<p>URL encoding is required by ASCII restrictions in certain protocols. It’s not a user requirement. Letting specific technical constraints bleed into other layers is not a good design. That’s why any issues with HTML or protocol limitations should be resolved at that layer, rather than propagating them all the way to the database. The priority should be accurately reflecting the user’s intention, with optimizations considered afterward.</p>
+
+<p>If you only ever needed the download feature, storing the filename as received might be the simplest. But as soon as you add features like listing files or searching by filename, you’ll need the original filename (<code class="language-plaintext highlighter-rouge">한글.txt</code>) because that’s what the user understands. If you saved it as <code class="language-plaintext highlighter-rouge">%ED%95%9C%EA%B8%80.txt</code>, searching or listing could become problematic.</p>
+
+<p>When you prioritize implementation convenience, even minor changes can throw you off balance. By contrast, if you grasp the essence in your design, you’ll handle unexpected changes much more smoothly.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Will you display encoded filenames?</span>
+<span class="o">%</span><span class="nx">ED</span><span class="o">%</span><span class="mi">95</span><span class="o">%</span><span class="mi">9</span><span class="nx">C</span><span class="o">%</span><span class="nx">EA</span><span class="o">%</span><span class="nx">B8</span><span class="o">%</span><span class="mi">80</span><span class="p">.</span><span class="nx">txt</span>
+<span class="o">%</span><span class="mi">0</span><span class="nx">A</span><span class="o">%</span><span class="mi">0</span><span class="nx">A</span><span class="o">%</span><span class="nx">ED</span><span class="o">%</span><span class="mi">85</span><span class="o">%</span><span class="mi">8</span><span class="nx">C</span><span class="o">%</span><span class="nx">EC</span><span class="o">%</span><span class="mi">8</span><span class="nx">A</span><span class="o">%</span><span class="nx">A4</span><span class="o">%</span><span class="nx">ED</span><span class="o">%</span><span class="mi">8</span><span class="nx">A</span><span class="o">%</span><span class="nx">B8</span><span class="p">.</span><span class="nx">jpg</span>
+<span class="o">%</span><span class="mi">0</span><span class="nx">A</span><span class="o">%</span><span class="mi">0</span><span class="nx">A</span><span class="o">%</span><span class="nx">ED</span><span class="o">%</span><span class="mi">8</span><span class="nx">C</span><span class="o">%</span><span class="mi">8</span><span class="nx">C</span><span class="o">%</span><span class="nx">EC</span><span class="o">%</span><span class="mi">9</span><span class="nx">D</span><span class="o">%</span><span class="nx">BC</span><span class="p">.</span><span class="nx">json</span>
+
+<span class="c1">// Or will you display original filenames?</span>
+<span class="nx">한글</span><span class="p">.</span><span class="nx">txt</span>
+<span class="nx">테스트</span><span class="p">.</span><span class="nx">jpg</span>
+<span class="nx">파일</span><span class="p">.</span><span class="nx">json</span>
+</code></pre></div></div>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<p>From all the examples, a common thread emerges: focusing on <code class="language-plaintext highlighter-rouge">why</code> rather than “what.” The <code class="language-plaintext highlighter-rouge">what</code> is simply one way to reach the “why.” The purpose (why) rarely changes, but the method (what) can change freely depending on the situation.</p>
+
+<p>Another critical reason to concentrate on <code class="language-plaintext highlighter-rouge">why</code> is that, during analysis, you can’t possibly document every single thought the user has. The same goes for the design phase: you can’t capture the designer’s every thought in the design document. The code is the closest thing to fully reflecting those requirements and designs. There will inevitably be gaps, aspects so obvious to the user that they didn’t think to specify them. The problem is that what the user takes for granted can be interpreted entirely differently by the developer.</p>
+
+<p>However, if you keep your mind focused on the <code class="language-plaintext highlighter-rouge">why</code>, you end up looking in the same direction, so even if communication has some gaps, the discrepancy won’t be massive. Reducing that gap between the user and the developer is one of the main goals of Essence-Based Interpretation (EBI).</p>
+
+<p>EBI is so fundamental and broad that it’s hard to define its scope or a concrete practice. And it’s not limited to software development.</p>
+
+<p>EBI and Domain-Driven Design (DDD) share the view that you should center on the domain. However, DDD is more systematic and specific, aimed at handling complex or frequently changing domains. On the other hand, EBI is less a strict methodology and more a general mindset that can be applied in various fields, including software. In short, DDD focuses on “figuring out what the requirements are,” whereas EBI emphasizes “understanding why the requirements were defined that way” in the first place.</p>
+
+<p>EBI might sound so obvious that giving it a grand name feels a bit embarrassing. Yet, I hope that clearly naming it as Essence-Based Interpretation helps developers—including myself—recognize its value.</p>
+
+<p>The search for good code brings a shift in how we think and leads us to distill the essence, which in turn prepares us for unpredictable changes. This is a precious challenge unique to software development.</p>
+
+  </div><script src="https://utteranc.es/client.js"
+    repo="mannercode/mannercode.github.io"
+    issue-term="pathname"
+    label="comment"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+  <a class="u-url" href="/2024/05/04/ebi-en.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <ul class="contact-list">
+          <li><a class="u-email" href="https://www.youtube.com/@mannercode">https://www.youtube.com/@mannercode</a></li>
+          <li><a class="u-email" href="https://github.com/mannercode">https://github.com/mannercode</a></li>
+          <li><a class="u-email" href="mailto:mannercode@gmail.com">mannercode@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>리팩토링, 디자인패턴, OOP, TDD, DDD, 아키텍처 같은 프로그래밍의 기본을 다룹니다.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

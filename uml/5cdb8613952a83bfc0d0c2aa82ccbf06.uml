@@ -1,0 +1,16 @@
+@startuml
+
+@startuml
+class documents {
+    id : int
+    ...
+
+    type : consular | apostille
+}
+note right
+Previously, the documents table had
+a type column to distinguish them
+end note
+@enduml
+
+@enduml
