@@ -31,7 +31,7 @@ title:  소프트웨어 설계 - 영화 예매 시스템 #1
 도메인 전문가는 이렇게 답변한다.
 
 1. 대형 공연은 아직 구체적인 일정이 없다. 다만 향후 업그레이드를 수월하게 할 수 있도록 이번 프로젝트에서 어느 정도 고려하면 좋겠다.
-2. DB를 사용하는 다른 서비스는 없다. 데이터만 마이그레이션하면 된다.
+2. DB를 사용하는 다른 서비스는 없다. 기존 데이터가 유지되기만 하면 된다.
 
 이런 대화를 반복하면서 우리는 요구사항을 다음과 같이 정리할 수 있다.
 
@@ -160,4 +160,62 @@ mbs --> timezone
 
 > 추상적인 생각을 물리적인 형태로 표현하려면 충분히 유연한 도구여야 한다.
 
-## 5 무엇을(What)
+## 5. 유스케이스
+
+의존 관계까지 명시하면서 대략적인 개발 범위를 파악한 것 같다. 이제 본격적으로 `Movie Booking System`의 내부에 집중해 보자.
+
+일단, 편의를 위해서 의존 관계는 숨기고 사용자만 남겨 놓는다.
+
+{% plantuml %}
+@startuml
+left to right direction
+actor customer
+actor administrator
+
+package "Movie Booking System" as mbs {
+    usecase " "
+}
+
+customer --> mbs
+administrator --> mbs
+@enduml
+{% endplantuml %}
+
+여기서 드는 궁금증은 `customer`와 `administrator`가 `Movie Booking System`에서 무엇을 하는가이다. 결국 그것이 `Movie Booking System`이 제공해야 하는 기능일테니까 말이다.
+
+> 지금은 작은 프로젝트이기 때문에 도메인 전문가에게 물어보면 구체적으로 얘기해 줄 것이다. 그러나 프로젝트가 크고 복잡하다면 도메인 전문가는 어디부터 설명을 해야할지 난감해 할 수도 있다.
+>
+> 이럴 땐 액터가 부족했던 것은 아닌지 생각해 보자. 초기에 `administrator`라고 했지만 역할에 따라 세분화 할 수 있을지도 모른다.\
+> 혹은 `Movie Booking System`을 사용하는 외부 서비스가 존재할지도 모른다.
+>
+> {% plantuml %}
+> @startuml
+> left to right direction
+> actor customer
+> actor "Call Center Agent" as agent
+> actor "Ticket Checker" as checker
+>
+> package "Movie Booking System" as mbs {
+> usecase " "
+> }
+>
+> customer --> mbs
+> agent --> mbs
+> checker --> mbs
+> @enduml
+> {% endplantuml %}
+
+일단 `customer`가 `Movie Booking System`에서 무슨 일을 할 수 있는지 물어보자.
+
+{% plantuml %}
+@startuml
+left to right direction
+actor customer
+
+package "Movie Booking System" as mbs {
+    usecase " "
+}
+
+customer --> mbs
+@enduml
+{% endplantuml %}

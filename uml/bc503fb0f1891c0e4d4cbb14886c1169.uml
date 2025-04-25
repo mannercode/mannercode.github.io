@@ -1,0 +1,18 @@
+@startuml
+
+> @startuml
+> left to right direction
+> actor customer
+> actor "Call Center Agent" as agent
+> actor "Ticket Checker" as checker
+>
+> package "Movie Booking System" as mbs {
+> usecase " "
+> }
+>
+> customer --> mbs
+> agent --> mbs
+> checker --> mbs
+> @enduml
+> 
+@enduml

@@ -80,7 +80,7 @@
 
 <ol>
   <li>대형 공연은 아직 구체적인 일정이 없다. 다만 향후 업그레이드를 수월하게 할 수 있도록 이번 프로젝트에서 어느 정도 고려하면 좋겠다.</li>
-  <li>DB를 사용하는 다른 서비스는 없다. 데이터만 마이그레이션하면 된다.</li>
+  <li>DB를 사용하는 다른 서비스는 없다. 기존 데이터가 유지되기만 하면 된다.</li>
 </ol>
 
 <p>이런 대화를 반복하면서 우리는 요구사항을 다음과 같이 정리할 수 있다.</p>
@@ -150,7 +150,28 @@
   <p>추상적인 생각을 물리적인 형태로 표현하려면 충분히 유연한 도구여야 한다.</p>
 </blockquote>
 
-<h2 id="5-무엇을what">5 무엇을(What)</h2>
+<h2 id="5-유스케이스">5. 유스케이스</h2>
+
+<p>의존 관계까지 명시하면서 대략적인 개발 범위를 파악한 것 같다. 이제 본격적으로 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 내부에 집중해 보자.</p>
+
+<p>일단, 편의를 위해서 의존 관계는 숨기고 사용자만 남겨 놓는다.</p>
+
+<p><object data="/uml/1d58eb92b6786ab837141345916198b8.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>여기서 드는 궁금증은 <code class="language-plaintext highlighter-rouge">customer</code>와 <code class="language-plaintext highlighter-rouge">administrator</code>가 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>에서 무엇을 하는가이다. 결국 그것이 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>이 제공해야 하는 기능일테니까 말이다.</p>
+
+<blockquote>
+  <p>지금은 작은 프로젝트이기 때문에 도메인 전문가에게 물어보면 구체적으로 얘기해 줄 것이다. 그러나 프로젝트가 크고 복잡하다면 도메인 전문가는 어디부터 설명을 해야할지 난감해 할 수도 있다.</p>
+
+  <p>이럴 땐 액터가 부족했던 것은 아닌지 생각해 보자. 초기에 <code class="language-plaintext highlighter-rouge">administrator</code>라고 했지만 역할에 따라 세분화 할 수 있을지도 모른다.<br />
+혹은 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>을 사용하는 외부 서비스가 존재할지도 모른다.</p>
+
+  <p><object data="/uml/bc503fb0f1891c0e4d4cbb14886c1169.svg" type="image/svg+xml" class="plantuml"></object></p>
+</blockquote>
+
+<p>일단 <code class="language-plaintext highlighter-rouge">customer</code>가 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>에서 무슨 일을 할 수 있는지 물어보자.</p>
+
+<p><object data="/uml/07489e42c75c2336a18fa8b00228d648.svg" type="image/svg+xml" class="plantuml"></object></p>
 
   </div><script src="https://utteranc.es/client.js"
     repo="mannercode/mannercode.github.io"

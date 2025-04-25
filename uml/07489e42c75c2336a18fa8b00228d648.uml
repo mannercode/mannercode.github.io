@@ -1,0 +1,14 @@
+@startuml
+
+@startuml
+left to right direction
+actor customer
+
+package "Movie Booking System" as mbs {
+    usecase " "
+}
+
+customer --> mbs
+@enduml
+
+@enduml
