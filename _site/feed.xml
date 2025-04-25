@@ -1,5 +1,108 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-04-14T20:03:21+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
-</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">Essence-Based Interpretation</title><link href="/2024/05/04/ebi-en.html" rel="alternate" type="text/html" title="Essence-Based Interpretation" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi-en</id><content type="html" xml:base="/2024/05/04/ebi-en.html"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-04-25T05:01:16+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">소프트웨어 설계 - 영화 예매 시스템</title><link href="/2025/04/01/movie-booking-system-1.html" rel="alternate" type="text/html" title="소프트웨어 설계 - 영화 예매 시스템" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 누가 말해주지 않더라도 체계적인 설계를 바탕으로 구현하는 것이 중요하다고 생각하게 된다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
+
+<p>이러한 어려움을 극복하고자 UML을 학습하고 시퀀스 다이어그램도 그려보지만, 여전히 설계의 이점을 체감하기는 어렵다. 직접 코딩하는 것과 별반 차이가 없다고 느껴지기 때문이다.</p>
+
+<p>이 글에서는 영화 예매 시스템을 실제로 설계해가면서 이러한 고민들에 대해 구체적으로 이야기해보려 한다.</p>
+
+<p>기본적으로 이 글의 주제는 소프트웨어 설계지만, 테스트 주도 개발(TDD)에 관한 내용도 함께 다룰 것이다. 현대적인 개발 환경에서는 기본적으로 테스트 도구를 지원하며, 유명한 오픈소스 프로젝트들을 살펴봐도 일정 수준 이상의 테스트 환경을 갖추고 있다. 이는 그만큼 테스트의 중요성과 활용도가 높다는 의미일 것이다.</p>
+
+<p>하지만 현실에서는 TDD는커녕 테스트 자동화조차 제대로 구축하지 않은 경우가 많다. 아무 준비 없이 의미 있는 테스트를 먼저 작성하는 일은 결코 쉽지 않은데, 이는 소프트웨어 설계 역량이 함께 갖추어져야 가능한 일이기 때문이다. 따라서 설계와 TDD를 함께 다루는 것이 효율적이라고 판단했다.</p>
+
+<h2 id="1-목표-정하기">1. 목표 정하기</h2>
+
+<p>우리는 도메인 전문가와 첫 미팅을 한다. 도메인 전문가는 우리가 만들어야 할 시스템에 대해 많은 이야기를 해주는데, 주요 내용을 정리하면 다음과 같다.</p>
+
+<ol>
+  <li>극장이 많다. 전국에 극장 500개, 상영관은 약 4,000개 정도다. 물론 앞으로 더 늘어날 수 있다.</li>
+  <li>현재는 영화 예매 기능만 지원하지만 향후에는 대형 공연 예매 기능도 추가할 예정이다.</li>
+  <li>좌석이 중복 예약되면 안 된다. 예전에 그런 문제로 고객센터에서 고생을 많이 했다.</li>
+  <li>기존에 사용하던 데이터는 그대로 유지해야 한다. 영화 정보나 감상평 등 이미 축적된 데이터가 많다.</li>
+  <li>그 외, 기존 시스템을 운영하며 얻은 중요한 경험들…</li>
+</ol>
+
+<p>도메인 전문가는 중요하다고 생각하는 정보를 최대한 많이 전달했지만, 개발자 입장에서는 추가적인 확인이 필요하다.</p>
+
+<ol>
+  <li>대형 공연 예매 기능은 언제 추가될 예정인가? 이번 프로젝트의 범위에 포함해야 하는가?</li>
+  <li>기존 데이터를 유지한다는 말은 DB 시스템을 바꾸면 안 된다는 의미인가? DB를 사용하는 다른 서비스가 있는가?</li>
+</ol>
+
+<p>도메인 전문가는 이렇게 답변한다.</p>
+
+<ol>
+  <li>대형 공연은 아직 구체적인 일정이 없다. 다만 향후 업그레이드를 수월하게 할 수 있도록 이번 프로젝트에서 어느 정도 고려하면 좋겠다.</li>
+  <li>DB를 사용하는 다른 서비스는 없다. 데이터만 마이그레이션하면 된다.</li>
+</ol>
+
+<p>이런 대화를 반복하면서 우리는 요구사항을 다음과 같이 정리할 수 있다.</p>
+
+<pre><code class="language-txt">최우선 요구사항
+
+1. 극장은 최소 500개, 상영관은 최소 4,000개 이상
+2. 좌석 중복 예약 방지 필수
+3. 기존 데이터 마이그레이션 필수
+</code></pre>
+
+<p>대형 공연에 관한 내용은 문서에서 빠졌는데, 프로젝트 범위가 아니고 요구사항이 명확하지도 않기 때문이다. 언제 필요할지 모르겠지만 그 때 가서 다시 검토해야 하는 문제다.</p>
+
+<p>이렇게 도메인 전문가가 전해주는 정보를 개발자 입장에서 해석하고 정리하는 것으로 프로젝트를 시작할 수 있다.</p>
+
+<blockquote>
+  <p>비록 문서에 기록하진 않더라도 도메인 전문가에게는 ‘대형 공연’도 잘 고려하겠다는 답변을 잊으면 안 된다.</p>
+</blockquote>
+
+<h2 id="2-프로젝트-이름-정하기">2. 프로젝트 이름 정하기</h2>
+
+<p>도메인 전문가와 함께 프로젝트의 목표가 어느 정도 정해졌다면, 이제 프로젝트의 이름을 정할 차례다.</p>
+
+<p>우선 도메인 전문가에게 의견을 물어보자. 도메인 전문가는 자연스럽게 <code class="language-plaintext highlighter-rouge">영화 예매 시스템</code>이라는 이름을 제안한다.</p>
+
+<p><object data="/uml/fcccd7785d8e28e20ccae835048f119c.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>도메인 전문가의 입장에서는 한글로 된 <code class="language-plaintext highlighter-rouge">영화 예매 시스템</code>이 더 친숙하고 명확할지도 모른다. 하지만 개발자의 입장에서 보면, 프로젝트 이름을 포함한 모든 용어는 코드상으로 직접 구현되기 때문에 가급적 영어로 정의하는 것이 여러모로 유리하다.</p>
+
+<p>그래서 우리는 도메인 전문가에게 이 점을 충분히 설명하고, <code class="language-plaintext highlighter-rouge">Movie Booking System</code>이라는 이름을 제안할 수 있다.</p>
+
+<p><object data="/uml/7af1c2f7b1fda77d60a2e9e092324e21.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>앞서 ‘대형 공연 예매’ 기능에 대해서도 신경 쓰겠다고 잘 전달했다면, 도메인 전문가는 흔쾌히 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>이라는 이름을 받아들일 것이다.</p>
+
+<blockquote>
+  <p>혹시 순수하고 정직한 마음을 가진 개발자라면 ‘대형 공연’에 대해 신경 쓰지 않을 예정이라는 사실에 죄책감을 느낄지도 모르겠다. 하지만 걱정하지 않아도 된다. ‘대형 공연’이 정말 중요했다면 도메인 전문가는 처음부터 프로젝트 이름으로 ‘영화 예매 시스템’을 제안하지 않았을 것이다. 아마 ‘티켓 예매 시스템’이나 더 범용적인 ‘예매 시스템’ 같은 이름을 제안했을 것이다. 그러니 지금 상황에서 ‘대형 공연’이란 요구사항은 그냥 가벼운 언급 정도로 받아들이면 된다.</p>
+</blockquote>
+
+<h2 id="3-사용자">3. 사용자</h2>
+
+<p>프로젝트의 이름을 정했다면 이제 누가 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>을 사용하는지 알아볼 차례다.</p>
+
+<p>물론 이에 대한 정보는 도메인 전문가가 알고있을 것이고, 그렇게 우리는 <code class="language-plaintext highlighter-rouge">customer</code>와 <code class="language-plaintext highlighter-rouge">administrator</code>의 존재를 알게 된다.</p>
+
+<p><object data="/uml/1d58eb92b6786ab837141345916198b8.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="4-외부-의존-관계">4. 외부 의존 관계</h2>
+
+<p>설계 초기에 놓치기 쉬운 요소 중 하나가 바로 외부 의존성이다.</p>
+
+<p>외부 의존성이란 기존에 존재하는 레거시 시스템(legacy system)이 될 수도 있고, 결제 시스템(payment gateway)일 수도 있다. 이러한 의존 관계는 전체 시스템 설계에 큰 영향을 미칠 수 있기 때문에, 가능하면 초기에 명확히 파악하는 것이 좋다.</p>
+
+<p>다행히도 <code class="language-plaintext highlighter-rouge">Payment Gateway</code>나 <code class="language-plaintext highlighter-rouge">Legacy System</code> 같은 요소들은 기존 시스템에서 이미 사용하고 있기 때문에 비교적 수월하게 파악할 수 있다.</p>
+
+<p><object data="/uml/f77f4edfb179014880cf0479e23848b3.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이 밖에도 흔히 놓치기 쉬운 외부 환경적 요소들이 존재한다. 예를 들어, 전국에 분포된 극장들이 서로 다른 시간대에 위치해 있다면, 우리의 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>은 자연스럽게 <code class="language-plaintext highlighter-rouge">Time Zone</code>이라는 환경적 요소에 영향을 받을 수밖에 없다.</p>
+
+<p><object data="/uml/55a9f0411ea25cb180d7ec686a672933.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이런 요소들은 도메인 전문가에게 직접 물어보지 않으면 놓치기 쉽다. 도메인 전문가는 이 부분을 너무 당연하게 여겨 설명을 생략할 수도 있기 때문이다.</p>
+
+<p>개발자에 따라서는 <code class="language-plaintext highlighter-rouge">Time Zone</code>을 유스케이스 다이어그램에 넣는 것을 부자연스럽게 느낄 수도 있다. UML을 어떻게 사용해야 한다고 엄격하게 규정할 필요는 없다. 개발하려는 시스템의 의존 관계를 표현하는데 있어서 모두가 이해하기 쉬운 방법이라면 얼마든지 허용 가능하다.</p>
+
+<blockquote>
+  <p>추상적인 생각을 물리적인 형태로 표현하려면 충분히 유연한 도구여야 한다.</p>
+</blockquote>
+
+<h2 id="5-무엇을what">5 무엇을(What)</h2>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[소프트웨어는 복잡하기 때문에 누가 말해주지 않더라도 체계적인 설계를 바탕으로 구현하는 것이 중요하다고 생각하게 된다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.]]></summary></entry><entry><title type="html">Essence-Based Interpretation</title><link href="/2024/05/04/ebi-en.html" rel="alternate" type="text/html" title="Essence-Based Interpretation" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi-en</id><content type="html" xml:base="/2024/05/04/ebi-en.html"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
 
 <p>I’ve put a lot of effort into writing good code. In pursuit of good code, I’ve studied refactoring, design patterns, various architectures, and development methods. Even when my code was working well, I often spent considerable time deliberating over a better structure or naming.</p>
 
