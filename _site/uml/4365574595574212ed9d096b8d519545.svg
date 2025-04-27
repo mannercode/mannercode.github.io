@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="498px" preserveAspectRatio="none" style="width:417px;height:498px;" version="1.1" viewBox="0 0 417 498" width="417px" zoomAndPan="magnify"><defs><filter height="300%" id="f1q313ap2t0cax" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6c2d02fe013167922f007c9285828968]
+cluster mbs--><polygon fill="#FFFFFF" filter="url(#f1q313ap2t0cax)" points="202,139,385,139,392,161.2969,395,161.2969,395,249,202,249,202,139" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="202" x2="392" y1="161.2969" y2="161.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="177" x="206" y="153.9951">Movie Booking System</text><ellipse cx="298.38" cy="193.804" fill="#FEFECE" filter="url(#f1q313ap2t0cax)" rx="13.38" ry="11.304" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="0" x="300.38" y="198.4525"/><!--MD5=[92848cbaf65985a669855153c5362c37]
+entity customer--><ellipse cx="86" cy="18" fill="#FEFECE" filter="url(#f1q313ap2t0cax)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M86,26 L86,53 M73,34 L99,34 M86,53 L73,68 M86,53 L99,68 " fill="none" filter="url(#f1q313ap2t0cax)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="53" y="86.4951">customer</text><!--MD5=[3908db504f15eb564d5f0e12bd7273c1]
+entity agent--><ellipse cx="86" cy="150.7969" fill="#FEFECE" filter="url(#f1q313ap2t0cax)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M86,158.7969 L86,185.7969 M73,166.7969 L99,166.7969 M86,185.7969 L73,200.7969 M86,185.7969 L99,200.7969 " fill="none" filter="url(#f1q313ap2t0cax)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="120" x="26" y="219.292">Call Center Agent</text><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="108" x="32" y="137.9951">«administrator»</text><!--MD5=[2f9795ea503557699cddd4010d0870e5]
+entity checker--><ellipse cx="86" cy="283.7969" fill="#FEFECE" filter="url(#f1q313ap2t0cax)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M86,291.7969 L86,318.7969 M73,299.7969 L99,299.7969 M86,318.7969 L73,333.7969 M86,318.7969 L99,333.7969 " fill="none" filter="url(#f1q313ap2t0cax)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="104" x="34" y="352.292">Ticket Checker</text><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="108" x="32" y="270.9951">«administrator»</text><!--MD5=[38bfa9dc6018363cafe15f923a4b8db9]
+entity service--><ellipse cx="86" cy="416.7969" fill="#FEFECE" filter="url(#f1q313ap2t0cax)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M86,424.7969 L86,451.7969 M73,432.7969 L99,432.7969 M86,451.7969 L73,466.7969 M86,451.7969 L99,466.7969 " fill="none" filter="url(#f1q313ap2t0cax)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="160" x="6" y="485.292">Movie Statistics Service</text><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="126" x="23" y="403.9951">«external service»</text><!--MD5=[9383602d3e41c617da9b8b81d6a24f28]
+link customer to mbs--><path d="M119.09,64.82 C135.7,74.67 154.8,88.92 166,107 C193.33,151.1 149.25,185.38 186,222 C190.3813,226.3663 195.3725,229.9456 200.7573,232.8657 C201.0938,233.0482 201.4319,233.2281 201.7715,233.4055 " fill="none" id="customer-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="201.7715,233.4055,195.6463,225.693,197.3397,231.0904,191.9423,232.7838,201.7715,233.4055" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0da3172a2f122338ca1c83bfc50301e0]
+link agent to mbs--><path d="M146.08,205.99 C158.97,212.01 172.72,217.74 186,222 C188.945,222.9438 191.9497,223.8433 194.9956,224.7005 C196.5185,225.1291 198.0517,225.5471 199.593,225.9547 C200.3636,226.1585 201.1362,226.3598 201.9105,226.5585 " fill="none" id="agent-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="201.9105,226.5585,194.187,220.4472,197.0674,225.3158,192.1988,228.1961,201.9105,226.5585" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[66f3b917f021ba0b25656d2704b60872]
+link checker to mbs--><path d="M140.12,290.35 C170.81,280.725 209.415,268.62 240.7088,258.8075 C248.5322,256.3544 255.8987,254.0445 262.5703,251.9525 C264.2382,251.4295 265.8627,250.9202 267.44,250.4256 C268.2287,250.1783 269.0055,249.9347 269.7702,249.6949 C270.1525,249.575 270.5317,249.4561 270.9079,249.3381 C271.0959,249.2792 271.2832,249.2204 271.4697,249.162 " fill="none" id="checker-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="271.4697,249.162,261.6852,248.0381,266.6988,250.658,264.0788,255.6716,271.4697,249.162" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[a0bc6762b503e886e5ede5dd18fce378]
+link service to mbs--><path d="M147.05,390.86 C153.52,385.26 159.95,379.56 166,374 C196.115,346.305 228.44,313.6525 253.505,287.6325 C266.0375,274.6225 276.755,263.2706 284.4738,255.0256 C286.4034,252.9644 288.1457,251.0973 289.6821,249.4471 C289.7781,249.3439 289.8733,249.2416 289.9677,249.1402 " fill="none" id="service-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="289.9677,249.1402,280.9081,253.0033,286.5613,252.8003,286.7643,258.4535,289.9677,249.1402" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[a8e09afd07b233b8e5d98b58ff74e27e]
+@startuml
+left to right direction
+actor customer
+actor "Call Center Agent" as agent<<administrator>>
+actor "Ticket Checker" as checker<<administrator>>
+actor "Movie Statistics Service" as service <<external service>>
+
+package "Movie Booking System" as mbs {
+usecase " "
+}
+
+customer - -> mbs
+agent - -> mbs
+checker - -> mbs
+service - -> mbs
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.14+7-Debian-1deb12u1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
