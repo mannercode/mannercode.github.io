@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-04-27T07:47:36+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-04-29T01:40:08+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">소프트웨어 설계 - 영화 예매 시스템#1</title><link href="/2025/04/01/movie-booking-system-1.html" rel="alternate" type="text/html" title="소프트웨어 설계 - 영화 예매 시스템#1" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
 
 <p>이러한 어려움을 극복하고자 UML을 학습하고 시퀀스 다이어그램도 그려보지만, 여전히 설계의 효과를 실감하기는 어렵다. 직접 코딩하는 것과 별반 차이가 없다고 느껴지기 때문이다.</p>
@@ -169,21 +169,31 @@
 
 <p>개인적으로 개발에서 manage라는 단어를 조심하는 편이다. manage는 표현이 너무 포괄적이라서 무슨 일을 하는지 모호하다. 여기서도 마찬가지인데 구체적으로 어떻게 관리한다는 것인지 잘 모르겠다. 도메인 전문가와 함께 좀 더 세분화 해보자.</p>
 
-<p><object data="/uml/5f7d98dc790a085cc0125f13b5640f56.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/664d095963cd1468fa8e9a4cc2d167a0.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>실제 프로젝트라면 이것보다 더 많은 유스케이스가 있겠지만, 여기서는 단순화했다. 그럼에도 불구하고 중요한 개념들이 상당수 드러난다.</p>
 
 <p>여기서 주목할 것은 상영 시간을 생성하면 티켓도 같이 생성해야 하는 것을 알 수 있다. 그리고 티켓을 구매하거나 환불할 때 <code class="language-plaintext highlighter-rouge">PaymentGateway</code>와 상호작용이 필요함을 언급했다.</p>
 
-<h3 id="53-최종-유스케이스">5.3. 최종 유스케이스</h3>
+<h3 id="53-전체-유스케이스">5.3. 전체 유스케이스</h3>
 
 <p>customer와 administrator의 유스케이스를 합쳐보자.</p>
 
-<p><object data="/uml/11ac305d320cf2cdb29fd255d3276527.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/6a10e3bb9dafeb0c7105ae212ede4d83.svg" type="image/svg+xml" class="plantuml"></object></p>
 
-<p>합쳐보니 조금 복잡하다. 실제 프로젝트라면 훨씬 더 복잡했을 것이다. 이런 경우 무리하게 합칠 필요는 없다.</p>
+<p>이렇게 전체 유스케이스를 놓고 보니 뭔가 허전하다. <code class="language-plaintext highlighter-rouge">AddTheaters</code>는 있는데 <code class="language-plaintext highlighter-rouge">SearchTheaters</code> 같은 건 보이지 않는다. <code class="language-plaintext highlighter-rouge">customers</code>도 마찬가지다. <code class="language-plaintext highlighter-rouge">RegisterCustomer</code>나 <code class="language-plaintext highlighter-rouge">LoginCustomer</code>도 필요하지 않을까?</p>
 
-<p>이 글에서는 백엔드를 대상으로 하는 설계라서 <code class="language-plaintext highlighter-rouge">SearchTheaters</code> 같은 단순한 유스케이스는 생략한다. 그러나 실제 프로젝트라면 이런 유스케이스도 모두 중요하다. 특히 화면 기획자 입장에서 이런 유스케이스는 좋은 출발점이 되기 때문이다.</p>
+<p>생략된 유스케이스는 대개 당연히 있어야 할 것들이다. 도메인 전문가 입장에서는 설명할 것이 많기 때문에 이렇게 당연한 유스케이스는 생략하려 할 것이다. 그렇다면 개발자 입장에서는 어떨까? <code class="language-plaintext highlighter-rouge">SearchTheaters</code> 같은 단순한 유스케이스는 생략하는 편이 문서관리에 더 도움이 되지 않을까?</p>
+
+<p>이 글은 주로 백엔드 설계에 초점을 맞추고 있어서 <code class="language-plaintext highlighter-rouge">SearchTheaters</code> 같은 단순한 유스케이스는 생략해도 괜찮을 것이다. 하지만 실제 프로젝트라면 이런 유스케이스도 모두 중요하다. 특히 기획자 입장에서 이런 유스케이스는 좋은 출발점이 되기 때문이다. 이제 기획자는 극장을 어떤 조건으로 어떻게 검색할 수 있게 해줘야 할지 고민할 수 있을 것이다.</p>
+
+<blockquote>
+  <p>이렇게 모든 유스케이스를 합치면 복잡해진다. 실제 프로젝트라면 훨씬 더 복잡했을 것이다. 이런 경우 무리하게 합칠 필요는 없다. 여기서는 누락된 유스케이스가 있다는 것을 보여주려고 합쳐본 것이다.</p>
+</blockquote>
+
+<p>누락된 유스케이스를 모두 채워보자. 편의상 액터와 유스케이스 관계는 일부 생략한다.</p>
+
+<p><object data="/uml/4a96240a06085211b632889ad08f70c4.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h3 id="54-유스케이스가-많다면">5.4. 유스케이스가 많다면</h3>
 

@@ -15,7 +15,7 @@ package "Movie Booking System" as mbs {
     }
 
     package customers {
-        usecase FindCustomers
+        usecase SearchCustomers
     }
 
     package showtimes {

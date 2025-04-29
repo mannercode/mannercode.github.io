@@ -4,7 +4,7 @@
 left to right direction
 actor customer
 actor administrator
-component PaymentGateway
+rectangle PaymentGateway
 
 package "Movie Booking System" as mbs {
     package theaters {
@@ -18,7 +18,7 @@ package "Movie Booking System" as mbs {
     }
 
     package customers {
-        usecase FindCustomers
+        usecase SearchCustomers
     }
 
     package showtimes {
@@ -28,21 +28,20 @@ package "Movie Booking System" as mbs {
     package tickets {
         usecase PurchaseTickets
         usecase RefundTickets
-        usecase BuyTickets
         usecase GenerateTickets
     }
 }
 
 administrator --> AddTheaters
 administrator --> AddMovies
-administrator --> FindCustomers
+administrator --> SearchCustomers
 administrator --> CreateShowtimes
 administrator --> PurchaseTickets
 administrator --> RefundTickets
 
 customer --> MovieDetails
 customer --> SearchMovies
-customer --> BuyTickets
+customer --> PurchaseTickets
 customer --> RefundTickets
 
 PurchaseTickets ..> PaymentGateway

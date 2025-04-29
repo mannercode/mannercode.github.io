@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="779px" preserveAspectRatio="none" style="width:727px;height:779px;" version="1.1" viewBox="0 0 727 779" width="727px" zoomAndPan="magnify"><defs><filter height="300%" id="fg8vtfsrl0810" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6c2d02fe013167922f007c9285828968]
+cluster mbs--><polygon fill="#FFFFFF" filter="url(#fg8vtfsrl0810)" points="116,64.43,299,64.43,306,86.7269,557,86.7269,557,671.43,116,671.43,116,64.43" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="116" x2="306" y1="86.7269" y2="86.7269"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="177" x="120" y="79.4251">Movie Booking System</text><!--MD5=[c7109cc79c436e4de7b73789f25103a4]
+cluster theaters--><polygon fill="#FFFFFF" filter="url(#fg8vtfsrl0810)" points="153.5,344.43,226.5,344.43,233.5,366.7269,312.5,366.7269,312.5,425.43,153.5,425.43,153.5,344.43" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="153.5" x2="233.5" y1="366.7269" y2="366.7269"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="67" x="157.5" y="359.4251">theaters</text><!--MD5=[b1e937784b653f6ad52390770b5ca1d7]
+cluster movies--><polygon fill="#FFFFFF" filter="url(#fg8vtfsrl0810)" points="151,107.43,213,107.43,220,129.7269,315,129.7269,315,320.43,151,320.43,151,107.43" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="151" x2="220" y1="129.7269" y2="129.7269"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="56" x="155" y="122.4251">movies</text><!--MD5=[55c1321e5e660f70fb77e9cf74eefc72]
+cluster customers--><polygon fill="#FFFFFF" filter="url(#fg8vtfsrl0810)" points="140,560.43,230,560.43,237,582.7269,326,582.7269,326,647.43,140,647.43,140,560.43" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="140" x2="237" y1="582.7269" y2="582.7269"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="84" x="144" y="575.4251">customers</text><!--MD5=[dffa5d117727925aa4668bf20905af82]
+cluster showtimes--><polygon fill="#FFFFFF" filter="url(#fg8vtfsrl0810)" points="140.5,449.43,232.5,449.43,239.5,471.7269,325.5,471.7269,325.5,536.43,140.5,536.43,140.5,449.43" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="140.5" x2="239.5" y1="471.7269" y2="471.7269"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="86" x="144.5" y="464.4251">showtimes</text><!--MD5=[0c64180b40cb6a42c012370e26047e31]
+cluster tickets--><polygon fill="#FFFFFF" filter="url(#fg8vtfsrl0810)" points="354,381.43,413,381.43,420,403.7269,533,403.7269,533,602.43,354,602.43,354,381.43" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="354" x2="420" y1="403.7269" y2="403.7269"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="53" x="358" y="396.4251">tickets</text><ellipse cx="232.8339" cy="394.4968" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="63.3339" ry="15.0668" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="89" x="188.3339" y="399.1452">AddTheaters</text><ellipse cx="233.033" cy="289.4536" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="56.033" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="75" x="195.533" y="294.1021">AddMovies</text><ellipse cx="233.1001" cy="224.35" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="62.6001" ry="14.92" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="87" x="189.6001" y="228.9985">MovieDetails</text><ellipse cx="232.9597" cy="158.5219" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="65.9597" ry="15.5919" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="96" x="184.9597" y="163.1704">SearchMovies</text><ellipse cx="233.1884" cy="613.2677" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="77.1884" ry="17.8377" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="124" x="171.1884" y="617.9161">SearchCustomers</text><ellipse cx="232.8548" cy="502.601" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="76.3548" ry="17.671" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="122" x="171.8548" y="507.2494">CreateShowtimes</text><ellipse cx="443.4711" cy="433.5242" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="73.4711" ry="17.0942" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="115" x="385.9711" y="438.1727">PurchaseTickets</text><ellipse cx="443.4975" cy="570.3295" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="67.4975" ry="15.8995" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="100" x="393.4975" y="574.9779">RefundTickets</text><ellipse cx="443.4711" cy="502.5242" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="73.4711" ry="17.0942" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="115" x="385.9711" y="507.1727">GenerateTickets</text><!--MD5=[92848cbaf65985a669855153c5362c37]
+entity customer--><ellipse cx="51" cy="85.43" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M51,93.43 L51,120.43 M38,101.43 L64,101.43 M51,120.43 L38,135.43 M51,120.43 L64,135.43 " fill="none" filter="url(#fg8vtfsrl0810)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="18" y="153.9251">customer</text><!--MD5=[65a041cd1922b3dee6e64063a2213939]
+entity administrator--><ellipse cx="51" cy="526.43" fill="#FEFECE" filter="url(#fg8vtfsrl0810)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M51,534.43 L51,561.43 M38,542.43 L64,542.43 M51,561.43 L38,576.43 M51,561.43 L64,576.43 " fill="none" filter="url(#fg8vtfsrl0810)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="90" x="6" y="594.9251">administrator</text><!--MD5=[72a9586c6036bc828fb9ec987b717d65]
+entity PaymentGateway--><rect fill="#FEFECE" filter="url(#fg8vtfsrl0810)" height="36.2969" style="stroke: #000000; stroke-width: 1.5;" width="139" x="577" y="484.43"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="119" x="587" y="507.4251">PaymentGateway</text><!--MD5=[36e059aa8f4996d8e6b93119626b430a]
+link administrator to AddTheaters--><path d="M72.11,516.85 C81.5,500.53 93.76,482.33 108,468.43 C134.02,443.01 170.39,422.63 197,409.75 " fill="none" id="administrator-&gt;AddTheaters" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="201.52,407.59,191.6749,407.8613,197.0086,409.7458,195.1241,415.0795,201.52,407.59" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0e2a2f74bdb85bcbfec930b1f3b486db]
+link administrator to AddMovies--><path d="M55.03,516.75 C60.03,474.55 73.21,408.54 108,363.43 C130.07,334.81 166.6,314.96 194.32,303.07 " fill="none" id="administrator-&gt;AddMovies" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="199.03,301.09,189.1831,300.896,194.4218,303.0303,192.2875,308.2691,199.03,301.09" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[12ae7ae75e14e7776ae623974e89c69e]
+link administrator to SearchCustomers--><path d="M96.03,571.13 C121.7,579.11 154.2,589.22 180.98,597.56 " fill="none" id="administrator-&gt;SearchCustomers" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="185.91,599.09,178.5061,592.5952,181.1361,597.6035,176.1277,600.2335,185.91,599.09" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[64442fded180a1ec06a8f3436b32a6c2]
+link administrator to CreateShowtimes--><path d="M96.03,543.97 C121.8,536.1 154.44,526.13 181.29,517.92 " fill="none" id="administrator-&gt;CreateShowtimes" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="186.23,516.41,176.4519,515.2316,181.4508,517.8794,178.803,522.8783,186.23,516.41" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d7a12c9cbe511c047719cb63926c7a9a]
+link administrator to PurchaseTickets--><path d="M66.5,598.03 C75.41,616.6 88.86,636.79 108,647.43 C195.8,696.21 260.65,716.05 334,647.43 C363.27,620.04 321.76,499.36 346,467.43 C353.87,457.06 365.14,449.84 377.22,444.82 " fill="none" id="administrator-&gt;PurchaseTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="382.07,442.94,372.2319,442.4798,377.4111,444.755,375.1359,449.9341,382.07,442.94" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[8d67b7b94ebaab215267248494231948]
+link administrator to RefundTickets--><path d="M54.45,598 C59.03,634.19 71.95,685.23 108,710.43 C190.33,767.97 243.81,754.64 334,710.43 C385.06,685.4 418.96,623.49 433.86,591.03 " fill="none" id="administrator-&gt;RefundTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="435.92,586.47,428.5713,593.0272,433.8628,591.0272,435.8629,596.3187,435.92,586.47" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[293b0fc3d89600cf9a53bc45609a46ca]
+link customer to MovieDetails--><path d="M74.86,157.06 C83.74,169.69 94.94,182.6 108,191.43 C126.71,204.08 150.04,211.89 171.41,216.7 " fill="none" id="customer-&gt;MovieDetails" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="176.5,217.8,168.5333,212.0094,171.6102,216.7563,166.8633,219.8331,176.5,217.8" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[de5cce4b6c49eebdce0f089267f679c3]
+link customer to SearchMovies--><path d="M84.18,123.94 C110.96,130.19 149.59,139.2 180.64,146.44 " fill="none" id="customer-&gt;SearchMovies" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="185.55,147.59,177.685,141.662,180.679,146.4615,175.8794,149.4555,185.55,147.59" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0cb47f1d5621fdbc7137d15b7567cebb]
+link customer to PurchaseTickets--><path d="M75.44,75.63 C84.11,64.39 95.05,53.6 108,47.43 C198.68,4.24 253.94,-13.23 334,47.43 C393.87,92.79 429.91,336.01 439.75,411.24 " fill="none" id="customer-&gt;PurchaseTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="440.41,416.36,443.2193,406.9203,439.767,411.4015,435.2858,407.9492,440.41,416.36" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[fa26d82864790c4e24cf6facdb769b0d]
+link customer to RefundTickets--><path d="M84.09,105.34 C142.88,87.3 267.87,59.89 334,126.43 C366.13,158.75 319.13,499.62 346,536.43 C354.35,547.86 366.85,555.47 380.12,560.53 " fill="none" id="customer-&gt;RefundTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="385.03,562.28,377.8905,555.4956,380.319,560.6047,375.21,563.0332,385.03,562.28" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[ab03bc895fc1d2fe1b22ae71ecaf8e3f]
+link PurchaseTickets to PaymentGateway--><path d="M494.22,445.84 C516.14,451.72 542.07,459.25 565,467.43 C577.17,471.77 590.1,477.07 601.96,482.22 " fill="none" id="PurchaseTickets-&gt;PaymentGateway" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="606.62,484.26,599.9695,476.9956,602.0369,482.2612,596.7714,484.3285,606.62,484.26" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e68f44544e5478959c1949a643b083a2]
+link RefundTickets to PaymentGateway--><path d="M490.41,558.92 C513.07,552.87 540.69,544.95 565,536.43 C576.65,532.34 589.03,527.42 600.49,522.6 " fill="none" id="RefundTickets-&gt;PaymentGateway" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="605.35,520.55,595.5028,520.3669,600.744,522.4954,598.6155,527.7365,605.35,520.55" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d27f787dbc340e83d2e320a4b7905228]
+link CreateShowtimes to GenerateTickets--><path d="M309.57,502.43 C327.57,502.43 346.81,502.43 364.9,502.43 " fill="none" id="CreateShowtimes-&gt;GenerateTickets" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="369.97,502.43,360.97,498.43,364.97,502.43,360.97,506.43,369.97,502.43" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[883638d83d56a0e202b374fee4839928]
+@startuml
+left to right direction
+actor customer
+actor administrator
+rectangle PaymentGateway
+
+package "Movie Booking System" as mbs {
+    package theaters {
+        usecase AddTheaters
+    }
+
+    package movies {
+        usecase AddMovies
+    usecase MovieDetails
+    usecase SearchMovies
+    }
+
+    package customers {
+        usecase SearchCustomers
+    }
+
+    package showtimes {
+        usecase CreateShowtimes
+    }
+
+    package tickets {
+        usecase PurchaseTickets
+        usecase RefundTickets
+        usecase GenerateTickets
+    }
+}
+
+administrator - -> AddTheaters
+administrator - -> AddMovies
+administrator - -> SearchCustomers
+administrator - -> CreateShowtimes
+administrator - -> PurchaseTickets
+administrator - -> RefundTickets
+
+customer - -> MovieDetails
+customer - -> SearchMovies
+customer - -> PurchaseTickets
+customer - -> RefundTickets
+
+PurchaseTickets ..> PaymentGateway
+RefundTickets ..> PaymentGateway
+CreateShowtimes ..> GenerateTickets
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.14+7-Debian-1deb12u1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

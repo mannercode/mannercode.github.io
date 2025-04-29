@@ -277,7 +277,7 @@ package "Movie Booking System" as mbs {
     }
 
     package customers {
-        usecase FindCustomers
+        usecase SearchCustomers
     }
 
     package showtimes {
@@ -303,7 +303,7 @@ administrator --> mbs
 
 여기서 주목할 것은 상영 시간을 생성하면 티켓도 같이 생성해야 하는 것을 알 수 있다. 그리고 티켓을 구매하거나 환불할 때 `PaymentGateway`와 상호작용이 필요함을 언급했다.
 
-### 5.3. 최종 유스케이스
+### 5.3. 전체 유스케이스
 
 customer와 administrator의 유스케이스를 합쳐보자.
 
@@ -312,7 +312,7 @@ customer와 administrator의 유스케이스를 합쳐보자.
 left to right direction
 actor customer
 actor administrator
-component PaymentGateway
+rectangle PaymentGateway
 
 package "Movie Booking System" as mbs {
     package theaters {
@@ -326,7 +326,7 @@ package "Movie Booking System" as mbs {
     }
 
     package customers {
-        usecase FindCustomers
+        usecase SearchCustomers
     }
 
     package showtimes {
@@ -336,21 +336,20 @@ package "Movie Booking System" as mbs {
     package tickets {
         usecase PurchaseTickets
         usecase RefundTickets
-        usecase BuyTickets
         usecase GenerateTickets
     }
 }
 
 administrator --> AddTheaters
 administrator --> AddMovies
-administrator --> FindCustomers
+administrator --> SearchCustomers
 administrator --> CreateShowtimes
 administrator --> PurchaseTickets
 administrator --> RefundTickets
 
 customer --> MovieDetails
 customer --> SearchMovies
-customer --> BuyTickets
+customer --> PurchaseTickets
 customer --> RefundTickets
 
 PurchaseTickets ..> PaymentGateway
@@ -360,9 +359,69 @@ CreateShowtimes ..> GenerateTickets
 @enduml
 {% endplantuml %}
 
-합쳐보니 조금 복잡하다. 실제 프로젝트라면 훨씬 더 복잡했을 것이다. 이런 경우 무리하게 합칠 필요는 없다.
+이렇게 전체 유스케이스를 놓고 보니 뭔가 허전하다. `AddTheaters`는 있는데 `SearchTheaters` 같은 건 보이지 않는다. `customers`도 마찬가지다. `RegisterCustomer`나 `LoginCustomer`도 필요하지 않을까?
 
-이 글에서는 백엔드를 대상으로 하는 설계라서 `SearchTheaters` 같은 단순한 유스케이스는 생략한다. 그러나 실제 프로젝트라면 이런 유스케이스도 모두 중요하다. 특히 화면 기획자 입장에서 이런 유스케이스는 좋은 출발점이 되기 때문이다.
+생략된 유스케이스는 대개 당연히 있어야 할 것들이다. 도메인 전문가 입장에서는 설명할 것이 많기 때문에 이렇게 당연한 유스케이스는 생략하려 할 것이다. 그렇다면 개발자 입장에서는 어떨까? `SearchTheaters` 같은 단순한 유스케이스는 생략하는 편이 문서관리에 더 도움이 되지 않을까?
+
+이 글은 주로 백엔드 설계에 초점을 맞추고 있어서 `SearchTheaters` 같은 단순한 유스케이스는 생략해도 괜찮을 것이다. 하지만 실제 프로젝트라면 이런 유스케이스도 모두 중요하다. 특히 기획자 입장에서 이런 유스케이스는 좋은 출발점이 되기 때문이다. 이제 기획자는 극장을 어떤 조건으로 어떻게 검색할 수 있게 해줘야 할지 고민할 수 있을 것이다.
+
+> 이렇게 모든 유스케이스를 합치면 복잡해진다. 실제 프로젝트라면 훨씬 더 복잡했을 것이다. 이런 경우 무리하게 합칠 필요는 없다. 여기서는 누락된 유스케이스가 있다는 것을 보여주려고 합쳐본 것이다.
+
+누락된 유스케이스를 모두 채워보자. 편의상 액터와 유스케이스 관계는 일부 생략한다.
+
+{% plantuml %}
+@startuml
+left to right direction
+actor customer
+actor administrator
+rectangle PaymentGateway
+
+package "Movie Booking System" as mbs {
+    package theaters {
+        usecase AddTheaters
+        usecase SearchTheaters
+    }
+
+    package movies {
+        usecase AddMovies
+        usecase MovieDetails
+        usecase SearchMovies
+    }
+
+    package customers {
+        usecase SearchCustomers
+        usecase RegisterCustomer
+        usecase LoginCustomer
+
+    }
+
+    package showtimes {
+        usecase CreateShowtimes
+        usecase SearchShowtimes
+    }
+
+    package tickets {
+        usecase PurchaseTickets
+        usecase RefundTickets
+        usecase GenerateTickets
+        usecase SearchTickets
+    }
+}
+
+administrator --> AddTheaters
+administrator --> AddMovies
+administrator --> SearchCustomers
+administrator --> CreateShowtimes
+
+customer --> RegisterCustomer
+customer --> LoginCustomer
+
+PurchaseTickets ..> PaymentGateway
+RefundTickets ..> PaymentGateway
+CreateShowtimes ..> GenerateTickets
+
+@enduml
+{% endplantuml %}
 
 ### 5.4. 유스케이스가 많다면
 
