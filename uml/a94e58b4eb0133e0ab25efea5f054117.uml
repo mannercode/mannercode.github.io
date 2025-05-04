@@ -1,0 +1,23 @@
+@startuml
+
+@startuml
+actor Admin
+participant "Movie Booking System" as mbs
+
+Admin -> mbs: 상영시간 생성 페이지를 방문
+Admin <-- mbs: 영화 목록 제공
+
+Admin -> mbs: 영화 선택
+Admin <-- mbs: 극장 목록 제공
+
+Admin -> mbs: 극장 선택
+Admin <-- mbs: 상영시간 목록 제공
+
+Admin -> mbs: 상영시간 선택
+
+Admin -> mbs: 상영시간 등록 요청
+Admin <-- mbs: 상영시간 등록 성공 화면
+
+@enduml
+
+@enduml

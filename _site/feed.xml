@@ -1,5 +1,126 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-04-29T01:40:08+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
-</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">소프트웨어 설계 - 영화 예매 시스템#1</title><link href="/2025/04/01/movie-booking-system-1.html" rel="alternate" type="text/html" title="소프트웨어 설계 - 영화 예매 시스템#1" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-04T18:51:19+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">소프트웨어 설계 - 영화 예매 시스템#2</title><link href="/2025/05/01/movie-booking-system-2.html" rel="alternate" type="text/html" title="소프트웨어 설계 - 영화 예매 시스템#2" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2.html"><![CDATA[<p>우리는 지난 시간에 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.</p>
+
+<p>이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code>와 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>에 대해서 좀 더 분석해 보도록 하겠다.</p>
+
+<p><object data="/uml/8a3ed11fab2188d1a8c1c998960b4777.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="1-어떤-유스케이스를-먼저-분석할까">1. 어떤 유스케이스를 먼저 분석할까?</h2>
+
+<p><code class="language-plaintext highlighter-rouge">CreateShowtimes</code>와 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code> 중 어떤 것을 먼저 분석하는 것이 좋을까? 나는 보통 정보를 <strong>생성하는</strong> 유스케이스부터 시작하는 편이다.
+조회 관련 유스케이스는 전제 조건이 되는 데이터가 필요하지만, 생성을 하지 않으면 그게 무엇인지 파악하기 어렵기 때문이다.</p>
+
+<p>여기서는 티켓을 생성해야 티켓을 구매할 수 있기 때문에 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 유스케이스를 먼저 분석해 본다.</p>
+
+<h2 id="2-createshowtimes-유스케이스-명세서">2. <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 유스케이스 명세서</h2>
+
+<p>우리는 도메인 전문가에게 상영시간을 생성하려면 어떤 절차가 필요한지 물어본 뒤, 아래와 같이 정리한다.</p>
+
+<p><strong>목표</strong>: 하나의 영화를 여러 극장에 상영시간 등록하기</p>
+
+<p><strong>액터</strong>: Admin</p>
+
+<p><strong>선행 조건</strong>:</p>
+
+<ul>
+  <li>관리자는 시스템에 로그인해야 합니다.</li>
+  <li>영화와 극장은 시스템에 등록되어 있어야 합니다.</li>
+</ul>
+
+<p><strong>트리거</strong>:</p>
+
+<ul>
+  <li>관리자가 영화 상영시간 생성 페이지를 방문합니다.</li>
+</ul>
+
+<p><strong>기본 흐름</strong>:</p>
+
+<ol>
+  <li>시스템은 현재 등록된 영화 목록을 보여줍니다.</li>
+  <li>관리자는 상영시간을 등록하려는 영화를 선택합니다.</li>
+  <li>시스템은 현재 등록된 극장 목록을 보여줍니다.</li>
+  <li>관리자는 상영시간을 등록하려는 극장들을 선택합니다.</li>
+  <li>관리자는 각 극장에 대한 상영시간을 입력합니다.</li>
+  <li>관리자는 상영시간을 등록합니다.</li>
+  <li>시스템은 등록한 상영시간이 기존의 상영시간과 겹치는지 검사합니다.</li>
+  <li>만약 겹치지 않는다면, 시스템은 상영시간을 등록하고, 상영시간 등록이 완료되었다는 메시지를 보여줍니다.</li>
+</ol>
+
+<p><strong>대안 흐름</strong>:</p>
+
+<ul>
+  <li>만약 상영시간이 기존의 상영시간과 겹친다면
+    <ol>
+      <li>시스템은 상영시간 등록에 실패했다는 메시지와 함께 어떤 상영시간이 겹쳤는지 정보를 보여줍니다.</li>
+      <li>기본 흐름 5단계로 돌아갑니다.</li>
+    </ol>
+  </li>
+</ul>
+
+<p><strong>사후 조건</strong>:</p>
+
+<ul>
+  <li>선택한 극장에서 선택한 영화의 상영시간이 성공적으로 등록되어야 합니다.</li>
+  <li>상영시간에 해당하는 티켓이 생성되어야 한다.</li>
+</ul>
+
+<p>CreateShowtimes의 시작 조건인 <code class="language-plaintext highlighter-rouge">트리거</code>를 정의하고, 그에 따른 <code class="language-plaintext highlighter-rouge">기본 흐름</code>을 정리했다. 그 외에 <code class="language-plaintext highlighter-rouge">대안 흐름</code>과 <code class="language-plaintext highlighter-rouge">사후 조건</code> 등을 보면 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>에서 무슨 일을 해야 할지 가늠할 수 있다.</p>
+
+<h2 id="3-createshowtimes-시퀀스-다이어그램">3. <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 시퀀스 다이어그램</h2>
+
+<p>유스케이스 명세서를 좀 더 읽기 쉽게 시퀀스 다이어그램으로 그려보자.</p>
+
+<p><object data="/uml/a94e58b4eb0133e0ab25efea5f054117.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>위의 시퀀스 다이어그램을 보면 <code class="language-plaintext highlighter-rouge">트리거</code>, <code class="language-plaintext highlighter-rouge">기본 흐름</code>, <code class="language-plaintext highlighter-rouge">사후 조건</code>에 대한 내용을 담고있고 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 빠져있다. <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 내용이 간단하기 때문에 구현 단계에서 처리해도 충분하다고 판단했다.</p>
+
+<blockquote>
+  <p>설계는 구현을 하기에 충분한 정도의 정보를 담고 있으면 된다. 여기서 <strong>충분하다</strong>는 표현은 다소 모호할 수 있는데, 이는 팀의 상황에 따라 달라진다. 개발자의 실력이 높다면 설계를 간단하게 해도 충분할 것이다. 설계자와 구현자가 멀리 떨어져 있어서 긴밀한 커뮤니케이션이 어렵다면 설계를 좀 더 꼼꼼하게 해야 할 것이다.</p>
+</blockquote>
+
+<p>만약 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램에 표현하려고 한다면 아래처럼 <code class="language-plaintext highlighter-rouge">조건식</code>을 떠올릴지도 모르겠다.</p>
+
+<p><object data="/uml/53f243a5be5e32736ebed2fcbef0f2f3.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>그러나 시퀀스 다이어그램에서 <code class="language-plaintext highlighter-rouge">조건식</code>을 사용하는 것보다는, <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 별도의 다이어그램으로 분리하는 것이 좋다. <code class="language-plaintext highlighter-rouge">조건식</code>은 다이어그램을 복잡하게 만들고, 설계를 점차 구현 수준으로 끌어내리는 경향이 있기 때문이다.</p>
+
+<h2 id="4-rest-api-설계">4. REST API 설계</h2>
+
+<p>만약 화면 기획자나 디자이너라면 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 시퀀스 다이어그램을 더 확장할 필요는 없을 것이다. 그러나 우리는 백엔드를 대상으로 하고 있으니까 시퀀스 다이어그램을 확장해서 REST API 설계를 해보자.</p>
+
+<h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
+
+<p><object data="/uml/3a2beb201e6e084acb9b994ef7b865af.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이것은 경로를 짧게 가져가는 전형적인 Shallow Routing 설계로, URI를 짧고 평탄하게 유지해 주면서 서비스 진화·운용 부담을 덜어 주는 실용적 선택이다.</p>
+
+<h3 id="42-namespace-추가">4.2. Namespace 추가</h3>
+
+<p>Shallow Routing 방식은 몇 가지 단점이 있다. 현재는 프로젝트 초기 단계이기 때문에 요청이 간단하지만 프로젝트가 진행되고 요구사항이 구체화될수록 API는 계속 변경될 것이다. 예를 들면 이렇게 말이다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /movies?orderby<span class="o">=</span>releaseDate:desc&amp;includes<span class="o">=</span>showtime-summary
+GET /theaters?orderby<span class="o">=</span>name:asc&amp;includes<span class="o">=</span>showtime-count
+</code></pre></div></div>
+
+<p>API의 조건이 복잡해질수록 이것을 처리해야 하는 백엔드의 구현 부담이 증가한다. API를 사용하는 프론트엔드도 API 스펙을 파악하고 구현해야 하는 부담이 생긴다.</p>
+
+<p>소프트웨어 개발은 요구사항이 계속 변경되기 때문에 유연성을 중요시 한다. 그러나 API에서 유연성을 제공한다는 것은 그 만큼 사용과 구현이 어려워 진다는 뜻이다.</p>
+
+<p>불특정 다수를 대상으로 하는 서비스라면 유연성을 높여서 구체적인 구현을 사용자(여기서는 프론트엔드)에게 맡기는 것이 옳은 선택일 것이다. 그러나 지금은 <code class="language-plaintext highlighter-rouge">상영시간 생성</code>이라는 명확한 목적을 가진 요청이라는 것을 알고있는 상황이다. 그렇다면 API도 이 상황을 잘 나타낼 수 있게 정의하는 것이 합리적일 것이다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /showtime-creation/movies
+GET /showtime-creation/theaters
+</code></pre></div></div>
+
+<p>이렇게 정의하면 이제 <code class="language-plaintext highlighter-rouge">상영시간 생성</code>의 요구사항이 크게 변경되지 않는 한 API를 변경할 필요는 없을 것이다.</p>
+
+<p>변경된 API를 반영해서 시퀀스 다이어그램을 다시 그려보자.</p>
+
+<p><object data="/uml/4bd12db9ad76378acb3d62a5e9d5b10d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이런 방식을 누군가는 컨텍스트 컨트롤러 패턴이라고 부르는 것 같기는 한데 표준으로 정해진 이름은 없는 것 같다. 이런 방식에 패턴이라는 이름까지 붙여야 하나 싶은 생각이 있어서 여기서는 그냥 <code class="language-plaintext highlighter-rouge">네임스페이스</code>라고 정의한다.</p>
+
+<h3 id="43-긴-query-api">4.3. 긴 query API</h3>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[우리는 지난 시간에 Movie Booking System의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.]]></summary></entry><entry><title type="html">소프트웨어 설계 - 영화 예매 시스템#1</title><link href="/2025/04/01/movie-booking-system-1.html" rel="alternate" type="text/html" title="소프트웨어 설계 - 영화 예매 시스템#1" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
 
 <p>이러한 어려움을 극복하고자 UML을 학습하고 시퀀스 다이어그램도 그려보지만, 여전히 설계의 효과를 실감하기는 어렵다. 직접 코딩하는 것과 별반 차이가 없다고 느껴지기 때문이다.</p>
 
@@ -14,7 +135,7 @@
 <p>우리는 도메인 전문가와 첫 미팅을 한다. 도메인 전문가는 우리가 만들어야 할 시스템에 대해 많은 이야기를 해주는데, 주요 내용을 정리하면 다음과 같다.</p>
 
 <ol>
-  <li>극장이 많다. 전국에 극장 500개, 상영관은 약 4,000개 정도다. 물론 앞으로 더 늘어날 수 있다.</li>
+  <li>극장이 많다. 전국에 극장 4,000개 정도다. 물론 앞으로 더 늘어날 수 있다.</li>
   <li>현재는 영화 예매 기능만 지원하지만 향후에는 대형 공연 예매 기능도 추가할 예정이다.</li>
   <li>좌석이 중복 예약되면 안 된다. 예전에 그런 문제로 고객센터에서 고생을 많이 했다.</li>
   <li>기존에 사용하던 데이터는 그대로 유지해야 한다. 영화 정보나 감상평 등 이미 축적된 데이터가 많다.</li>
@@ -39,7 +160,7 @@
 
 <pre><code class="language-txt">최우선 요구사항
 
-1. 극장은 최소 500개, 상영관은 최소 4,000개 이상
+1. 극장은 최소 4,000개 이상
 2. 좌석 중복 예약 방지 필수
 3. 기존 데이터 마이그레이션 필수
 </code></pre>
@@ -208,7 +329,9 @@
 
 <h2 id="6-결론">6. 결론</h2>
 
-<p>이번 글에서는 유스케이스 다이어그램을 활용하여 프로젝트의 목표를 설정하고, 초기 분석 단계를 진행해 보았다. 다음 글에서는 여기서 도출한 주요 유스케이스를 더욱 상세히 분석하는 방법을 알아볼 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.]]></summary></entry><entry><title type="html">Essence-Based Interpretation</title><link href="/2024/05/04/ebi-en.html" rel="alternate" type="text/html" title="Essence-Based Interpretation" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi-en</id><content type="html" xml:base="/2024/05/04/ebi-en.html"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
+<p>이번 글에서는 유스케이스 다이어그램을 활용하여 프로젝트의 목표를 설정하고, 초기 분석 단계를 진행해 보았다. 개인적으로 전체 개발 프로세스 중에서 시작이 가장 어렵다고 생각한다. 가장 추상적이고 모호한 개념을 정리해야 하기 때문이다.</p>
+
+<p>다음 글에서는 여기서 도출한 주요 유스케이스를 더욱 상세히 분석하는 방법을 알아볼 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.]]></summary></entry><entry><title type="html">Essence-Based Interpretation</title><link href="/2024/05/04/ebi-en.html" rel="alternate" type="text/html" title="Essence-Based Interpretation" /><published>2024-05-04T00:00:00+00:00</published><updated>2024-05-04T00:00:00+00:00</updated><id>/2024/05/04/ebi-en</id><content type="html" xml:base="/2024/05/04/ebi-en.html"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
 
 <p>I’ve put a lot of effort into writing good code. In pursuit of good code, I’ve studied refactoring, design patterns, various architectures, and development methods. Even when my code was working well, I often spent considerable time deliberating over a better structure or naming.</p>
 
