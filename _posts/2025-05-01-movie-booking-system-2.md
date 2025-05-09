@@ -145,24 +145,24 @@ end
 {% plantuml %}
 @startuml
 actor Admin
-Admin -> Frontend: 상영시간 생성 페이지를 방문
+Admin -> Frontend: (트리거) 상영시간 생성 페이지를 방문
     Frontend -> Backend:영화 목록 요청\nGET /movies?orderby=releaseDate:desc
     Frontend <-- Backend: movies[]
-Admin <-- Frontend: 영화 목록 제공
+Admin <-- Frontend: (1) 영화 목록 제공
 
-Admin -> Frontend: 영화 선택
+Admin -> Frontend: (2) 영화 선택
     Frontend -> Backend:극장 목록 요청\nGET /theaters?orderby=name:asc
     Frontend <-- Backend: theaters[]
-Admin <-- Frontend: 극장 목록 제공
+Admin <-- Frontend: (3) 극장 목록 제공
 
-Admin -> Frontend: 극장 선택
+Admin -> Frontend: (4) 극장 선택
     Frontend -> Backend: 상영시간 목록 요청\nGET /showtimes?theaterIds=[]
     Frontend <-- Backend: showtimes[]
-Admin <-- Frontend: 상영시간 목록 제공
+Admin <-- Frontend: (5) 상영시간 목록 제공
 
-Admin -> Frontend: 상영시간 선택
+Admin -> Frontend: (6) 상영시간 선택
 
-Admin -> Frontend: 상영시간 등록 요청
+Admin -> Frontend: (7) 상영시간 등록 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtimes
         note right
         ShowtimesCreateDto {
@@ -173,7 +173,7 @@ Admin -> Frontend: 상영시간 등록 요청
         }
         end note
     Frontend <-- Backend: Created(201)
-Admin <-- Frontend: 상영시간 등록 성공 화면
+Admin <-- Frontend: (8) 상영시간 등록 성공 화면
 
 @enduml
 {% endplantuml %}
@@ -372,9 +372,9 @@ B -> A : uses
 @enduml
 {% endplantuml %}
 
-이 문제를 해결하기 위해서 인터페이스를 생각해 볼 수 있겠지만 가장 좋은 것은 순환 참조 관계를 만들지 않는 것이다. 그리고 MSA가 OOP와 유사한 특징을 가지는 만큼 MSA도 순환 참조를 피해야 한다.
+이 문제를 해결하기 위해서 인터페이스를 생각해 볼 수 있겠지만 가장 좋은 것은 순환 참조 관계를 만들지 않는 것이다.
 
-그런데 위에서 설계한 마이크로서비스는 순환 참조 문제가 발생할 가능성이 높다. MoviesService에 ShowtimesService를 참조하는 기능은 얼마든지 추가될 수 있기 때문이다.
+MSA가 OOP와 유사한 특징을 가지는 만큼 MSA도 순환 참조를 피해야 한다. 그런데 위에서 설계한 마이크로서비스는 순환 참조 문제가 발생할 가능성이 높다. MoviesService에 ShowtimesService를 참조하는 기능은 얼마든지 추가될 수 있기 때문이다.
 
 {% plantuml %}
 @startuml
