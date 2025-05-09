@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-09T12:39:21+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-09T15:45:28+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">소프트웨어 설계 - 영화 예매 시스템#2</title><link href="/2025/05/01/movie-booking-system-2.html" rel="alternate" type="text/html" title="소프트웨어 설계 - 영화 예매 시스템#2" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2.html"><![CDATA[<p>우리는 지난 시간에 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.</p>
 
 <p>이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code>와 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>에 대해서 좀 더 분석해 보도록 하겠다.</p>
@@ -69,7 +69,7 @@
 
 <p>유스케이스 명세서를 좀 더 읽기 쉽게 시퀀스 다이어그램으로 그려보자.</p>
 
-<p><object data="/uml/a94e58b4eb0133e0ab25efea5f054117.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/2c35c9ee77aa73af13a520e459e56ab6.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>위의 시퀀스 다이어그램을 보면 <code class="language-plaintext highlighter-rouge">트리거</code>, <code class="language-plaintext highlighter-rouge">기본 흐름</code>, <code class="language-plaintext highlighter-rouge">사후 조건</code>에 대한 내용을 담고있고 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 빠져있다. <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 내용이 간단하기 때문에 구현 단계에서 처리해도 충분하다고 판단했다.</p>
 
@@ -89,7 +89,7 @@
 
 <h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
 
-<p><object data="/uml/a3682565c02b1c2ba9c1f22f7a9085c5.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/87603908d6894f5c05946c261884e3b8.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이것은 경로를 짧게 가져가는 전형적인 Shallow Routing 설계로, URI를 짧고 평탄하게 유지해 주면서 서비스 진화·운용 부담을 덜어 주는 실용적 선택이다.</p>
 

@@ -98,19 +98,19 @@ CreateShowtimes의 시작 조건인 `트리거`를 정의하고, 그에 따른 `
 actor Admin
 participant "Movie Booking System" as mbs
 
-Admin -> mbs: 상영시간 생성 페이지를 방문
-Admin <-- mbs: 영화 목록 제공
+Admin -> mbs: (트리거) 상영시간 생성 페이지를 방문
+Admin <-- mbs: (1) 영화 목록 제공
 
-Admin -> mbs: 영화 선택
-Admin <-- mbs: 극장 목록 제공
+Admin -> mbs: (2) 영화 선택
+Admin <-- mbs: (3) 극장 목록 제공
 
-Admin -> mbs: 극장 선택
-Admin <-- mbs: 상영시간 목록 제공
+Admin -> mbs: (4) 극장 선택
+Admin <-- mbs: (5) 상영시간 목록 제공
 
-Admin -> mbs: 상영시간 선택
+Admin -> mbs: (6) 상영시간 선택
 
-Admin -> mbs: 상영시간 등록 요청
-Admin <-- mbs: 상영시간 등록 성공 화면
+Admin -> mbs: (7) 상영시간 등록 요청
+Admin <-- mbs: (8) 상영시간 등록 성공 화면
 
 @enduml
 {% endplantuml %}
@@ -145,24 +145,25 @@ end
 {% plantuml %}
 @startuml
 actor Admin
-Admin -> Frontend: (트리거) 상영시간 생성 페이지를 방문
+
+Admin -> Frontend: 상영시간 생성 페이지를 방문
     Frontend -> Backend:영화 목록 요청\nGET /movies?orderby=releaseDate:desc
     Frontend <-- Backend: movies[]
-Admin <-- Frontend: (1) 영화 목록 제공
+Admin <-- Frontend: 영화 목록 제공
 
-Admin -> Frontend: (2) 영화 선택
+Admin -> Frontend: 영화 선택
     Frontend -> Backend:극장 목록 요청\nGET /theaters?orderby=name:asc
     Frontend <-- Backend: theaters[]
-Admin <-- Frontend: (3) 극장 목록 제공
+Admin <-- Frontend: 극장 목록 제공
 
-Admin -> Frontend: (4) 극장 선택
+Admin -> Frontend: 극장 선택
     Frontend -> Backend: 상영시간 목록 요청\nGET /showtimes?theaterIds=[]
     Frontend <-- Backend: showtimes[]
-Admin <-- Frontend: (5) 상영시간 목록 제공
+Admin <-- Frontend: 상영시간 목록 제공
 
-Admin -> Frontend: (6) 상영시간 선택
+Admin -> Frontend: 상영시간 선택
 
-Admin -> Frontend: (7) 상영시간 등록 요청
+Admin -> Frontend: 상영시간 등록 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtimes
         note right
         ShowtimesCreateDto {
@@ -173,8 +174,7 @@ Admin -> Frontend: (7) 상영시간 등록 요청
         }
         end note
     Frontend <-- Backend: Created(201)
-Admin <-- Frontend: (8) 상영시간 등록 성공 화면
-
+Admin <-- Frontend: 상영시간 등록 성공 화면
 @enduml
 {% endplantuml %}
 
