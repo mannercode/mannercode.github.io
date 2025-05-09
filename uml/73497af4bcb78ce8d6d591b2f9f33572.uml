@@ -30,7 +30,7 @@ Admin -> Frontend: 상영시간 등록 요청
         }
         end note
     Frontend <-- Backend: Created(201)
-Admin <-- Frontend: 상영시간 등록성공 화면
+Admin <-- Frontend: 상영시간 등록 성공 화면
 
 @enduml
 

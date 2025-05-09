@@ -1,0 +1,12 @@
+@startuml
+
+@startuml
+
+class A
+class B
+A -> B : uses
+B -> A : uses
+
+@enduml
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+
+@startuml
+package "Application Services" {
+  [ShowtimeCreationService]
+}
+
+package "Core Services" {
+  [MoviesService]
+  [TheatersService]
+  [ShowtimesService]
+  [TicketsService]
+}
+
+package "Infrastructure Services" {
+  [PaymentsService]
+}
+
+[ShowtimeCreationService] --> [MoviesService]
+[ShowtimeCreationService] --> [TheatersService]
+[ShowtimeCreationService] --> [ShowtimesService]
+[ShowtimeCreationService] --> [TicketsService]
+
+[TicketsService] --> [PaymentsService]
+
+note top of [ShowtimeCreationService]
+**순환 참조는 엄격하게 금지한다**
+
+1. **동일 계층 간 참조 금지**
+2. 상위 계층만 하위 계층 참조 가능
+3. Application → Core → Infrastructure
+end note
+@enduml
+
+@enduml

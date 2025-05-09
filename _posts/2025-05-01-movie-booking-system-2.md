@@ -44,8 +44,7 @@ CreateShowtimes ..> GenerateTickets
 
 ## 1. 어떤 유스케이스를 먼저 분석할까?
 
-`CreateShowtimes`와 `PurchaseTickets` 중 어떤 것을 먼저 분석하는 것이 좋을까? 나는 보통 정보를 **생성하는** 유스케이스부터 시작하는 편이다.
-조회 관련 유스케이스는 전제 조건이 되는 데이터가 필요하지만, 생성을 하지 않으면 그게 무엇인지 파악하기 어렵기 때문이다.
+`CreateShowtimes`와 `PurchaseTickets` 중 어떤 것을 먼저 분석하는 것이 좋을까? 나는 보통 데이터를 **생성하는** 유스케이스부터 시작하는 편이다. 조회 기능은 전제 데이터가 있어야 의미를 파악할 수 있기 때문이다.
 
 여기서는 티켓을 생성해야 티켓을 구매할 수 있기 때문에 `CreateShowtimes` 유스케이스를 먼저 분석해 본다.
 
@@ -120,7 +119,7 @@ Admin <-- mbs: 상영시간 등록 성공 화면
 
 > 설계는 구현을 하기에 충분한 정도의 정보를 담고 있으면 된다. 여기서 **충분하다**는 표현은 다소 모호할 수 있는데, 이는 팀의 상황에 따라 달라진다. 개발자의 실력이 높다면 설계를 간단하게 해도 충분할 것이다. 설계자와 구현자가 멀리 떨어져 있어서 긴밀한 커뮤니케이션이 어렵다면 설계를 좀 더 꼼꼼하게 해야 할 것이다.
 
-만약 `대안 흐름`을 시퀀스 다이어그램에 표현하려고 한다면 아래처럼 `조건식`을 떠올릴지도 모르겠다.
+만약 `대안 흐름`을 시퀀스 다이어그램에 표현하려고 한다면 아래처럼 표현할 수 있다.
 
 {% plantuml %}
 @startuml
@@ -135,7 +134,7 @@ end
 @enduml
 {% endplantuml %}
 
-그러나 시퀀스 다이어그램에서 `조건식`을 사용하는 것보다는, `대안 흐름`을 별도의 다이어그램으로 분리하는 것이 좋다. `조건식`은 다이어그램을 복잡하게 만들고, 설계를 점차 구현 수준으로 끌어내리는 경향이 있기 때문이다.
+그러나 시퀀스 다이어그램에서 `대안 흐름`은 별도의 다이어그램으로 분리하는 것이 좋다. `대안 흐름`은 다이어그램을 복잡하게 만들고, 설계를 점차 구현 수준으로 끌어내리는 경향이 있기 때문이다.
 
 ## 4. REST API 설계
 
@@ -174,7 +173,7 @@ Admin -> Frontend: 상영시간 등록 요청
         }
         end note
     Frontend <-- Backend: Created(201)
-Admin <-- Frontend: 상영시간 등록성공 화면
+Admin <-- Frontend: 상영시간 등록 성공 화면
 
 @enduml
 {% endplantuml %}
@@ -183,7 +182,7 @@ Admin <-- Frontend: 상영시간 등록성공 화면
 
 ### 4.2. Namespace 추가
 
-Shallow Routing 방식은 몇 가지 단점이 있다. 현재는 프로젝트 초기 단계이기 때문에 요청이 간단하지만 프로젝트가 진행되고 요구사항이 구체화될수록 API는 계속 변경될 것이다. 예를 들면 이렇게 말이다.
+Shallow Routing 방식은 몇 가지 단점이 있다. 현재는 프로젝트 초기 단계이기 때문에 요청이 간단하지만 프로젝트가 진행되고 요구사항이 구체화될수록 API가 빈번히 변경될 수 있다. 예를 들면 이렇게 말이다.
 
 ```sh
 GET /movies?orderby=releaseDate:desc&includes=showtime-summary
@@ -192,7 +191,7 @@ GET /theaters?orderby=name:asc&includes=showtime-count
 
 API의 조건이 복잡해질수록 이것을 처리해야 하는 백엔드의 구현 부담이 증가한다. API를 사용하는 프론트엔드도 API 스펙을 파악하고 구현해야 하는 부담이 생긴다.
 
-소프트웨어 개발은 요구사항이 계속 변경되기 때문에 유연성을 중요시 한다. 그러나 API에서 유연성을 제공한다는 것은 그 만큼 사용과 구현이 어려워 진다는 뜻이다.
+소프트웨어 개발은 요구사항이 계속 변경되기 때문에 유연성을 중시한다. 그러나 API에서 유연성을 제공한다는 것은 그 만큼 사용과 구현이 어려워진다는 뜻이다.
 
 불특정 다수를 대상으로 하는 서비스라면 유연성을 높여서 구체적인 구현을 사용자(여기서는 프론트엔드)에게 맡기는 것이 옳은 선택일 것이다. 그러나 지금은 `상영시간 생성`이라는 명확한 목적을 가진 요청이라는 것을 알고있는 상황이다. 그렇다면 API도 이 상황을 잘 나타낼 수 있게 정의하는 것이 합리적일 것이다.
 
@@ -203,23 +202,60 @@ GET /showtime-creation/theaters
 
 이렇게 정의하면 이제 `상영시간 생성`의 요구사항이 크게 변경되지 않는 한 API를 변경할 필요는 없을 것이다.
 
-변경된 API를 반영해서 시퀀스 다이어그램을 다시 그려보자.
+이런 방식을 누군가는 컨텍스트 컨트롤러 패턴이라고 부르는 것 같기는 한데 표준으로 정해진 이름은 없는 것 같다. 이런 방식에 패턴이라는 이름까지 붙여야 하나 싶은 생각이 있어서 여기서는 `/showtime-creation`을 그냥 `네임스페이스`라고 정의한다.
+
+### 4.3. 긴 쿼리 파라미터의 API
+
+지난 시간에 정의한 최우선 요구사항을 확인해 보면 다음과 같다.
+
+```txt
+최우선 요구사항
+
+1. 극장은 최소 4,000개 이상
+2. 좌석 중복 예약 방지 필수
+3. 기존 데이터 마이그레이션 필수
+```
+
+극장이 4,000개 이상이라고 되어있는데 이것은 theaterIds를 입력받는 모든 API에서 문제가 될 수 있다.
+
+```sh
+GET /showtime-creation/showtimes?theaterIds=[]
+```
+
+이렇게 긴 쿼리 파라미터가 예상되는 API는 POST 방식으로 정의하기로 한다.
+
+```sh
+POST /showtime-creation/showtimes/search
+{
+    theaterIds:[]
+}
+```
+
+### 4.4. 최종 REST API 설계 (CreateShowtimes)
+
+지금까지 설명한 설계 지침을 반영해서 시퀀스 다이어그램을 다시 그려보자.
 
 {% plantuml %}
 @startuml
 actor Admin
 Admin -> Frontend: 상영시간 생성 페이지를 방문
-    Frontend -> Backend:영화 목록 요청\nGET /showtime-creation/movies
+    Frontend -> Backend: 영화 목록 요청\nGET /showtime-creation/movies
     Frontend <-- Backend: movies[]
 Admin <-- Frontend: 영화 목록 제공
 
 Admin -> Frontend: 영화 선택
-    Frontend -> Backend:극장 목록 요청\nGET /showtime-creation/theaters
+    Frontend -> Backend: 극장 목록 요청\nGET /showtime-creation/theaters
     Frontend <-- Backend: theaters[]
 Admin <-- Frontend: 극장 목록 제공
 
 Admin -> Frontend: 극장 선택
-    Frontend -> Backend: 상영시간 목록 요청\nGET /showtime-creation/showtimes?theaterIds=[]
+    Frontend -> Backend: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
+        note right
+            ShowtimesSearchDto {
+                theaterIds,
+            }
+        end note
+
     Frontend <-- Backend: showtimes[]
 Admin <-- Frontend: 상영시간 목록 제공
 
@@ -228,19 +264,253 @@ Admin -> Frontend: 상영시간 선택
 Admin -> Frontend: 상영시간 등록 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
         note right
+            ShowtimesCreateDto {
+                movieId,
+                theaterIds,
+                startTimes,
+                durationMinutes
+            }
+        end note
+    Frontend <-- Backend: Created(201)
+Admin <-- Frontend: 상영시간 등록 성공 화면
+
+@enduml
+{% endplantuml %}
+
+## 5. 서비스 설계
+
+REST API를 정의했다면 이제 REST API와 연결되는 서비스를 설계해 보자.
+
+### 5.1. 마이크로서비스 아키텍쳐(MSA)
+
+서비스 설계를 시작하기 전에 프로젝트와 개발팀의 상황을 고려해서 최상위 아키텍쳐를 정해야 한다. 여기서는 마이크로서비스 아키텍쳐(MSA)를 선택했다.
+
+MSA의 가장 큰 특징은 작은 서비스들이 협력해서 서비스를 제공한다는 것이다. 이 때 중요한 점은 서비스 간에 DB를 공유하지 않는다는 것이다.
+
+마이크로서비스의 이런 특징은 객체 지향 프로그래밍의 클래스와 유사하다고 볼 수 있다.
+{% plantuml %}
+@startditaa
++----------------------+        +----------------------+
+|         Class        |<------>|    Microservice      |
++----------------------+        +----------------------+
+|                      |        |                      |
+| - Property           |<------>| - Database           |
+|                      |        |                      |
++----------------------+        +----------------------+
+|                      |        | + API                |
+| + Method()           |<------>|   + GET /resource    |
+|                      |        |   + POST /resource   |
++----------------------+        +----------------------+
+@endditaa
+{% endplantuml %}
+
+결국 MSA는 구조적으로 객체 지향 방식과 유사한 면을 가지게 된다.
+
+그러면 이제 MSA에 맞게 서비스를 설계해 보자. 편의를 위해서 `Admin`액터는 생략한다.
+
+{% plantuml %}
+@startuml
+Frontend -> Backend: 영화 목록 요청\nGET /showtime-creation/movies
+    Backend -> MoviesService: searchMovies()
+    Backend <-- MoviesService: movies[]
+Frontend <-- Backend: movies[]
+
+Frontend -> Backend: 극장 목록 요청\nGET /showtime-creation/theaters
+    Backend -> TheatersService: searchTheaters()
+    Backend <-- TheatersService: theaters[]
+Frontend <-- Backend: theaters[]
+
+Frontend -> Backend: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
+    note right
+        ShowtimesSearchDto {
+            theaterIds,
+        }
+    end note
+    Backend -> ShowtimesService: searchShowtimes(searchDto)
+    Backend <-- ShowtimesService: showtimes[]
+Frontend <-- Backend: showtimes[]
+
+Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
+    note right
         ShowtimesCreateDto {
             movieId,
             theaterIds,
             startTimes,
             durationMinutes
         }
-        end note
-    Frontend <-- Backend: Created(201)
-Admin <-- Frontend: 상영시간 등록성공 화면
+    end note
+    Backend -> ShowtimesService: createShowtimes(createDto)
+        ShowtimesService -> MoviesService: moviesExist(movieId)
+        ShowtimesService <-- MoviesService: true
+
+        ShowtimesService -> TheatersService: theatersExist(theaterIds)
+        ShowtimesService <-- TheatersService: true
+
+        ShowtimesService -> ShowtimesService: createShowtimes(createDto)
+    Backend <-- ShowtimesService: showtimes[]
+Frontend <-- Backend: Created(201)
 
 @enduml
 {% endplantuml %}
 
-이런 방식을 누군가는 컨텍스트 컨트롤러 패턴이라고 부르는 것 같기는 한데 표준으로 정해진 이름은 없는 것 같다. 이런 방식에 패턴이라는 이름까지 붙여야 하나 싶은 생각이 있어서 여기서는 그냥 `네임스페이스`라고 정의한다.
+이 시퀀스 다이어그램에서 그나마 복잡해 보이는 부분은 ShowtimesService의 createShowtimes() 함수에서 검증을 위해 MoviesService.moviesExist()와 TheatersService.theatersExist()를 호출하고 있다는 정도다.
 
-### 4.3. 긴 query API
+### 5.2. 마이크로서비스의 순환 참조 문제
+
+객체 지향 프로그래밍(OOP)에서 두 객체가 서로를 참조하면 메모리 관리 등의 문제가 생기기 때문에 피해야 한다고 한다. 그러나 이런 기술적인 문제보다 더 중요한 것은 두 객체가 강하게 결합한다는 것이다.
+
+예를 들면 클래스A, B가 서로를 참조한다고 할 때, A를 변경하면 B가 영향을 받고 그래서 B를 변경하면 다시 A가 영향을 받는다. 이런 관계는 A, B가 사실상 한 객체로 묶이는 것과 같다.
+
+{% plantuml %}
+@startuml
+
+class A
+class B
+A -> B : uses
+B -> A : uses
+
+@enduml
+{% endplantuml %}
+
+이 문제를 해결하기 위해서 인터페이스를 생각해 볼 수 있겠지만 가장 좋은 것은 순환 참조 관계를 만들지 않는 것이다. 그리고 MSA가 OOP와 유사한 특징을 가지는 만큼 MSA도 순환 참조를 피해야 한다.
+
+그런데 위에서 설계한 마이크로서비스는 순환 참조 문제가 발생할 가능성이 높다. MoviesService에 ShowtimesService를 참조하는 기능은 얼마든지 추가될 수 있기 때문이다.
+
+{% plantuml %}
+@startuml
+Frontend -> Backend: 상영시간 생성 요청
+    Backend -> ShowtimesService: createShowtimes(createDto)
+        ShowtimesService -> MoviesService: moviesExist(movieId)
+        ShowtimesService <-- MoviesService: true
+    Backend <-- ShowtimesService: showtimes[]
+Frontend <-- Backend: Created(201)
+
+Frontend -> Backend: 23시 이후에 상영하는 영화 목록 요청
+    Backend -> MoviesService: searchMovies()
+        MoviesService -> ShowtimesService: searchShowtimes()
+        MoviesService <-- ShowtimesService: showtimes[]
+    Backend <-- MoviesService: movies[]
+Frontend <-- Backend: movies[]
+@enduml
+{% endplantuml %}
+
+위 시퀀스 다이어그램에서 볼 수 있듯이 서비스가 다른 서비스를 참조할 수 있다는 것은 기능이 확장되면서 언젠가 상호 참조 관계로 발전할 수 있다는 뜻이다.
+
+### 5.3. 마이크로서비스의 3-Layer 구조
+
+MSA는 ‘서비스 간 협력’과 ‘순환 참조 금지’라는 상충을 레이어 분리로 해결한다. 마이크로서비스는 하위 레이어만 참조할 수 있다는 `단방향 의존 관계` 규칙을 추가한다.
+
+{% plantuml %}
+@startuml
+package "Application Services" {
+  [ShowtimeCreationService]
+}
+
+package "Core Services" {
+  [MoviesService]
+  [TheatersService]
+  [ShowtimesService]
+  [TicketsService]
+}
+
+package "Infrastructure Services" {
+  [PaymentsService]
+}
+
+[ShowtimeCreationService] --> [MoviesService]
+[ShowtimeCreationService] --> [TheatersService]
+[ShowtimeCreationService] --> [ShowtimesService]
+[ShowtimeCreationService] --> [TicketsService]
+
+[TicketsService] --> [PaymentsService]
+
+note top of [ShowtimeCreationService]
+**순환 참조는 엄격하게 금지한다**
+
+1. **동일 계층 간 참조 금지**
+2. 상위 계층만 하위 계층 참조 가능
+3. Application → Core → Infrastructure
+end note
+@enduml
+{% endplantuml %}
+
+이 프로젝트에서는 서비스를 `Application`, `Core`, `Infrastructure`로 구분하기로 한다.
+
+- **Application Service**:
+  - 사용자 시나리오를 조립합니다 (예: 주문 → 결제 → 알림).
+  - Core/Infra 서비스 호출만 허용합니다.
+  - 트랜잭션 관리를 주도합니다.
+- **Core Service**:
+  - 도메인의 기본 로직을 담당합니다 (예: 영화 관리, 극장 관리).
+  - Infra 서비스 호출만 허용합니다.
+- **Infrastructure Service**:
+  - DB, 결제, 스토리지 등 외부 시스템 연동을 담당합니다.
+
+하나의 마이크로서비스를 설계할 때 `Application`, `Domain`, `Infrastructure` 레이어로 객체를 분류하듯이 마이크로서비스들도 유사하게 나누는 것이다.
+
+이제 3-Layer 구조를 적용하여 다시 설계를 해보자.
+
+{% plantuml %}
+@startuml
+Frontend -> Backend: 영화 목록 요청\nGET /showtime-creation/movies
+    Backend -> ShowtimeCreationService: searchMovies()
+        ShowtimeCreationService -> MoviesService: searchMovies()
+        ShowtimeCreationService <-- MoviesService: movies[]
+    Backend <-- ShowtimeCreationService: movies[]
+Frontend <-- Backend: movies[]
+
+Frontend -> Backend: 극장 목록 요청\nGET /showtime-creation/theaters
+    Backend -> ShowtimeCreationService: searchTheaters()
+        ShowtimeCreationService -> TheatersService: searchTheaters()
+        ShowtimeCreationService <-- TheatersService: theaters[]
+    Backend <-- ShowtimeCreationService: theaters[]
+Frontend <-- Backend: theaters[]
+
+Frontend -> Backend: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
+    note right
+        ShowtimesSearchDto {
+            theaterIds,
+        }
+    end note
+    Backend -> ShowtimeCreationService: searchShowtimes(searchDto)
+        ShowtimeCreationService -> ShowtimesService: searchShowtimes(searchDto)
+        ShowtimeCreationService <-- ShowtimesService: showtimes[]
+    Backend <-- ShowtimeCreationService: showtimes[]
+Frontend <-- Backend: showtimes[]
+
+Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
+    note right
+        ShowtimesCreateDto {
+            movieId,
+            theaterIds,
+            startTimes,
+            durationMinutes
+        }
+    end note
+    Backend -> ShowtimeCreationService: createShowtimes(createDto)
+        ShowtimeCreationService -> MoviesService: moviesExist(movieId)
+        ShowtimeCreationService <-- MoviesService: true
+
+        ShowtimeCreationService -> TheatersService: theatersExist(theaterIds)
+        ShowtimeCreationService <-- TheatersService: true
+
+        ShowtimeCreationService -> ShowtimesService: createShowtimes(createDto)
+        ShowtimeCreationService <-- ShowtimesService: showtimes[]
+    Backend <-- ShowtimeCreationService: showtimes[]
+Frontend <-- Backend: Created(201)
+
+@enduml
+{% endplantuml %}
+
+`/showtime-creation` 네임스페이스에 맞춰서 `ShowtimeCreationService` 서비스를 만들었다.
+REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지는 장점까지 생겼다.
+
+> 소프트웨어 개발은 분석/설계/구현/검증이 물 흐르듯이 자연스럽게 흘러가야 한다.
+
+## 6. 결론
+
+이번 글에서는 `CreateShowtimes` 유스케이스에 대해서 `유스케이스 명세서`를 작성하고, 시퀀스 다이어그램으로 작성한 후 서비스 설계를 위해서 시퀀스 다이어그램을 확장했다.
+
+최상위 아키텍쳐로 MSA를 선택하고 MSA에서 문제가 될 수 있는 서비스의 순환 참조 문제를 3-Layer 서비스 구조로 해결했다. 그 결과로 REST API와 서비스 구조가 유사해지는 장점이 있음을 확인할 수 있었다.
+
+다음 글에서는 `CreateShowtimes` 설계를 마무리 할 것이다.
