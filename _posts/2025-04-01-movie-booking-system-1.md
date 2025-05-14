@@ -432,18 +432,20 @@ CreateShowtimes ..> GenerateTickets
 @startuml
 left to right direction
 actor customer
-actor "Call Center Agent" as agent<<administrator>>
-actor "Ticket Checker" as checker<<administrator>>
-actor "Movie Statistics Service" as service <<external service>>
+actor "Call Center Agent" as admin1
+actor "Ticket Checker" as admin2
+actor "Movie Statistics Service" as service
 
 package "Movie Booking System" as mbs {
 usecase " "
 }
 
 customer --> mbs
-agent --> mbs
-checker --> mbs
+admin1 --> mbs
+admin2 --> mbs
 service --> mbs
+admin ..> admin1
+admin ..> admin2
 @enduml
 {% endplantuml %}
 

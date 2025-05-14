@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="447px" preserveAspectRatio="none" style="width:519px;height:447px;" version="1.1" viewBox="0 0 519 447" width="519px" zoomAndPan="magnify"><defs><filter height="300%" id="fx4zpddg3bbs0" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6c2d02fe013167922f007c9285828968]
+cluster mbs--><polygon fill="#FFFFFF" filter="url(#fx4zpddg3bbs0)" points="304,120.5,487,120.5,494,142.7969,497,142.7969,497,230.5,304,230.5,304,120.5" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="304" x2="494" y1="142.7969" y2="142.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="177" x="308" y="135.4951">Movie Booking System</text><ellipse cx="400.38" cy="175.304" fill="#FEFECE" filter="url(#fx4zpddg3bbs0)" rx="13.38" ry="11.304" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="0" x="402.38" y="179.9525"/><!--MD5=[92848cbaf65985a669855153c5362c37]
+entity customer--><ellipse cx="188" cy="17.5" fill="#FEFECE" filter="url(#fx4zpddg3bbs0)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M188,25.5 L188,52.5 M175,33.5 L201,33.5 M188,52.5 L175,67.5 M188,52.5 L201,67.5 " fill="none" filter="url(#fx4zpddg3bbs0)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="155" y="85.9951">customer</text><!--MD5=[4503f148f5ebe2c33215b6ff6b22ce45]
+entity admin1--><ellipse cx="188" cy="133.5" fill="#FEFECE" filter="url(#fx4zpddg3bbs0)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M188,141.5 L188,168.5 M175,149.5 L201,149.5 M188,168.5 L175,183.5 M188,168.5 L201,183.5 " fill="none" filter="url(#fx4zpddg3bbs0)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="120" x="128" y="201.9951">Call Center Agent</text><!--MD5=[09a986c2f978eefb3838b4c968dd15aa]
+entity admin2--><ellipse cx="188" cy="249.5" fill="#FEFECE" filter="url(#fx4zpddg3bbs0)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M188,257.5 L188,284.5 M175,265.5 L201,265.5 M188,284.5 L175,299.5 M188,284.5 L201,299.5 " fill="none" filter="url(#fx4zpddg3bbs0)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="104" x="136" y="317.9951">Ticket Checker</text><!--MD5=[38bfa9dc6018363cafe15f923a4b8db9]
+entity service--><ellipse cx="188" cy="365.5" fill="#FEFECE" filter="url(#fx4zpddg3bbs0)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M188,373.5 L188,400.5 M175,381.5 L201,381.5 M188,400.5 L175,415.5 M188,400.5 L201,415.5 " fill="none" filter="url(#fx4zpddg3bbs0)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="160" x="108" y="433.9951">Movie Statistics Service</text><!--MD5=[79a439086b036a57b90a01d7b2f8bbd1]
+entity admin--><ellipse cx="27" cy="191.5" fill="#FEFECE" filter="url(#fx4zpddg3bbs0)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M27,199.5 L27,226.5 M14,207.5 L40,207.5 M27,226.5 L14,241.5 M27,226.5 L40,241.5 " fill="none" filter="url(#fx4zpddg3bbs0)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="42" x="6" y="259.9951">admin</text><!--MD5=[9383602d3e41c617da9b8b81d6a24f28]
+link customer to mbs--><path d="M221.26,64.7 C237.72,74.58 256.61,88.74 268,106.5 C291.77,143.55 256.34,172.92 288,203.5 C292.4488,207.7975 297.4909,211.3252 302.9132,214.2073 C303.2521,214.3875 303.5924,214.5651 303.9342,214.7402 " fill="none" id="customer-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="303.9342,214.7402,297.7483,207.0764,299.4843,212.4603,294.1004,214.1963,303.9342,214.7402" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[1c72a5479b2f377f7080a1d081407334]
+link admin1 to mbs--><path d="M248,190.04 C261.01,195.02 274.83,199.83 288,203.5 C290.9788,204.3313 294.013,205.1321 297.0847,205.9033 C298.6205,206.2889 300.1657,206.667 301.7179,207.0377 C302.106,207.1304 302.4945,207.2227 302.8834,207.3144 C303.0779,207.3603 303.2725,207.4061 303.4671,207.4517 " fill="none" id="admin1-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="303.4671,207.4517,295.6183,201.5023,298.5992,206.31,293.7915,209.2909,303.4671,207.4517" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[6b2be0fddc567273e45c0ad2de218b19]
+link admin2 to mbs--><path d="M240.22,266.39 C270.89,257.94 309.955,247.175 341.7213,238.4213 C349.6628,236.2328 357.1482,234.1701 363.9322,232.3006 C365.6282,231.8333 367.2804,231.378 368.8849,230.9359 C369.286,230.8253 369.6841,230.7156 370.0792,230.6067 " fill="none" id="admin2-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="370.0792,230.6067,360.34,229.1414,365.2589,231.935,362.4653,236.854,370.0792,230.6067" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[a0bc6762b503e886e5ede5dd18fce378]
+link service to mbs--><path d="M245.57,355.92 C253.19,350.18 260.84,344.26 268,338.5 C297.875,314.44 330.1975,285.9625 355.3212,263.245 C367.8831,251.8863 378.6453,241.9675 386.402,234.7609 C387.3716,233.8601 388.2943,233.0017 389.1676,232.1881 C389.6042,231.7813 390.0285,231.3857 390.4403,231.0017 C390.5432,230.9057 390.6453,230.8104 390.7467,230.7158 " fill="none" id="service-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="390.7467,230.7158,381.4375,233.9314,387.091,234.127,386.8954,239.7805,390.7467,230.7158" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[496c3fd6b4c1a52f662794765f14c99b]
+link admin to admin1--><path d="M48.14,215.15 C66.94,208.3 96.03,197.68 122.74,187.94 " fill="none" id="admin-&gt;admin1" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="127.7,186.13,117.8742,185.4561,123.0027,187.8433,120.6155,192.9718,127.7,186.13" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[95f4ea8314318f3822dc3bd9d57ad06f]
+link admin to admin2--><path d="M48.14,229.85 C68.83,237.4 102,249.49 130.73,259.97 " fill="none" id="admin-&gt;admin2" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="135.67,261.78,128.5855,254.9382,130.9727,260.0667,125.8442,262.4539,135.67,261.78" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[6beb526fa377c68920728e0c158e873a]
+@startuml
+left to right direction
+actor customer
+actor "Call Center Agent" as admin1
+actor "Ticket Checker" as admin2
+actor "Movie Statistics Service" as service
+
+package "Movie Booking System" as mbs {
+usecase " "
+}
+
+customer - -> mbs
+admin1 - -> mbs
+admin2 - -> mbs
+service - -> mbs
+admin ..> admin1
+admin ..> admin2
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.14+7-Debian-1deb12u1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
