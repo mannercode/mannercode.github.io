@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-14T20:19:22+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
-</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">소프트웨어 설계 - 영화 예매 시스템#2</title><link href="/2025/05/01/movie-booking-system-2.html" rel="alternate" type="text/html" title="소프트웨어 설계 - 영화 예매 시스템#2" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2.html"><![CDATA[<p>우리는 지난 시간에 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-17T04:31:18+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템#2</title><link href="/2025/05/01/movie-booking-system-2-en.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템#2" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2-en</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2-en.html"><![CDATA[<p>우리는 지난 시간에 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.</p>
 
 <p>이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code>와 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>에 대해서 좀 더 분석해 보도록 하겠다.</p>
 
@@ -230,7 +230,449 @@ REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지
 
 <p>최상위 아키텍처로 MSA를 선택하고, 서비스 간 순환 참조 문제를 3-Layer(Service) 구조로 해결함으로써 REST API와 서비스 계층이 자연스럽게 대응되는 효과를 확인했다.</p>
 
-<p>다음 글에서는 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[우리는 지난 시간에 Movie Booking System의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.]]></summary></entry><entry><title type="html">소프트웨어 설계 - 영화 예매 시스템#1</title><link href="/2025/04/01/movie-booking-system-1.html" rel="alternate" type="text/html" title="소프트웨어 설계 - 영화 예매 시스템#1" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
+<p>다음 글에서는 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[우리는 지난 시간에 Movie Booking System의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.]]></summary></entry><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템#2</title><link href="/2025/05/01/movie-booking-system-2.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템#2" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2.html"><![CDATA[<p>우리는 지난 시간에 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.</p>
+
+<p>이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code>와 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>에 대해서 좀 더 분석해 보도록 하겠다.</p>
+
+<p><object data="/uml/8a3ed11fab2188d1a8c1c998960b4777.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="1-어떤-유스케이스를-먼저-분석할까">1. 어떤 유스케이스를 먼저 분석할까?</h2>
+
+<p><code class="language-plaintext highlighter-rouge">CreateShowtimes</code>와 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code> 중 어떤 것을 먼저 분석하는 것이 좋을까? 나는 보통 데이터를 <strong>생성하는</strong> 유스케이스부터 시작하는 편이다. 조회 기능은 전제 데이터가 있어야 의미를 파악할 수 있기 때문이다.</p>
+
+<p>여기서는 티켓을 생성해야 티켓을 구매할 수 있기 때문에 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 유스케이스를 먼저 분석해 본다.</p>
+
+<h2 id="2-createshowtimes-유스케이스-명세서">2. <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 유스케이스 명세서</h2>
+
+<p>우리는 도메인 전문가에게 상영시간을 생성하려면 어떤 절차가 필요한지 물어본 뒤, 아래와 같이 정리한다.</p>
+
+<p><strong>목표</strong>: 하나의 영화를 여러 극장에 상영시간 등록하기</p>
+
+<p><strong>액터</strong>: Admin</p>
+
+<p><strong>선행 조건</strong>:</p>
+
+<ul>
+  <li>관리자는 시스템에 로그인해야 합니다.</li>
+  <li>영화와 극장은 시스템에 등록되어 있어야 합니다.</li>
+</ul>
+
+<p><strong>트리거</strong>:</p>
+
+<ul>
+  <li>관리자가 영화 상영시간 생성 페이지를 방문합니다.</li>
+</ul>
+
+<p><strong>기본 흐름</strong>:</p>
+
+<ol>
+  <li>시스템은 현재 등록된 영화 목록을 보여줍니다.</li>
+  <li>관리자는 상영시간을 등록하려는 영화를 선택합니다.</li>
+  <li>시스템은 현재 등록된 극장 목록을 보여줍니다.</li>
+  <li>관리자는 상영시간을 등록하려는 극장들을 선택합니다.</li>
+  <li>관리자는 각 극장에 대한 상영시간을 입력합니다.</li>
+  <li>관리자는 상영시간을 등록합니다.</li>
+  <li>시스템은 등록한 상영시간이 기존의 상영시간과 겹치는지 검사합니다.</li>
+  <li>만약 겹치지 않는다면, 시스템은 상영시간을 등록하고, 상영시간 등록이 완료되었다는 메시지를 보여줍니다.</li>
+</ol>
+
+<p><strong>대안 흐름</strong>:</p>
+
+<ul>
+  <li>만약 상영시간이 기존의 상영시간과 겹친다면
+    <ol>
+      <li>시스템은 상영시간 등록에 실패했다는 메시지와 함께 어떤 상영시간이 겹쳤는지 정보를 보여줍니다.</li>
+      <li>기본 흐름 5단계로 돌아갑니다.</li>
+    </ol>
+  </li>
+</ul>
+
+<p><strong>사후 조건</strong>:</p>
+
+<ul>
+  <li>선택한 극장에서 선택한 영화의 상영시간이 성공적으로 등록되어야 합니다.</li>
+  <li>상영시간에 해당하는 티켓이 생성되어야 한다.</li>
+</ul>
+
+<p>CreateShowtimes의 시작 조건인 <code class="language-plaintext highlighter-rouge">트리거</code>를 정의하고, 그에 따른 <code class="language-plaintext highlighter-rouge">기본 흐름</code>을 정리했다. 그 외에 <code class="language-plaintext highlighter-rouge">대안 흐름</code>과 <code class="language-plaintext highlighter-rouge">사후 조건</code> 등을 보면 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>에서 무슨 일을 해야 할지 가늠할 수 있다.</p>
+
+<h2 id="3-createshowtimes-시퀀스-다이어그램">3. <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 시퀀스 다이어그램</h2>
+
+<p>유스케이스 명세서를 좀 더 읽기 쉽게 시퀀스 다이어그램으로 그려보자.</p>
+
+<p><object data="/uml/2c35c9ee77aa73af13a520e459e56ab6.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>위의 시퀀스 다이어그램을 보면 <code class="language-plaintext highlighter-rouge">트리거</code>, <code class="language-plaintext highlighter-rouge">기본 흐름</code>, <code class="language-plaintext highlighter-rouge">사후 조건</code>에 대한 내용을 담고있고 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 빠져있다. <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 내용이 간단하기 때문에 구현 단계에서 처리해도 충분하다고 판단했다.</p>
+
+<blockquote>
+  <p>설계는 구현을 하기에 충분한 정도의 정보를 담고 있으면 된다. 여기서 <strong>충분하다</strong>는 표현은 다소 모호할 수 있는데, 이는 팀의 상황에 따라 달라진다. 개발자의 실력이 높다면 설계를 간단하게 해도 충분할 것이다. 설계자와 구현자가 멀리 떨어져 있어서 긴밀한 커뮤니케이션이 어렵다면 설계를 좀 더 꼼꼼하게 해야 할 것이다.</p>
+</blockquote>
+
+<p>만약 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램에 표현하려고 한다면 아래처럼 표현할 수 있다.</p>
+
+<p><object data="/uml/53f243a5be5e32736ebed2fcbef0f2f3.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>그러나 시퀀스 다이어그램에서 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 별도의 다이어그램으로 분리하는 것이 좋다. <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 다이어그램을 복잡하게 만들고, 설계를 점차 구현 수준으로 끌어내리는 경향이 있기 때문이다.</p>
+
+<h2 id="4-rest-api-설계">4. REST API 설계</h2>
+
+<p>만약 화면 기획자나 디자이너라면 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 시퀀스 다이어그램을 더 확장할 필요는 없을 것이다. 그러나 우리는 백엔드를 대상으로 하고 있으니까 시퀀스 다이어그램을 확장해서 REST API 설계를 해보자.</p>
+
+<h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
+
+<p><object data="/uml/87603908d6894f5c05946c261884e3b8.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이것은 경로를 짧게 가져가는 전형적인 Shallow Routing 설계로, URI를 짧고 평탄하게 유지해 주면서 서비스 진화·운용 부담을 덜어 주는 실용적 선택이다.</p>
+
+<h3 id="42-namespace-추가">4.2. Namespace 추가</h3>
+
+<p>Shallow Routing 방식은 몇 가지 단점이 있다. 현재는 프로젝트 초기 단계이기 때문에 요청이 간단하지만 프로젝트가 진행되고 요구사항이 구체화될수록 API가 빈번히 변경될 수 있다. 예를 들면 이렇게 말이다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /movies?orderby<span class="o">=</span>releaseDate:desc&amp;includes<span class="o">=</span>showtime-summary
+GET /theaters?orderby<span class="o">=</span>name:asc&amp;includes<span class="o">=</span>showtime-count
+</code></pre></div></div>
+
+<p>API의 조건이 복잡해질수록 이것을 처리해야 하는 백엔드의 구현 부담이 증가한다. API를 사용하는 프론트엔드도 API 스펙을 파악하고 구현해야 하는 부담이 생긴다.</p>
+
+<p>소프트웨어 개발은 요구사항이 계속 변경되기 때문에 유연성을 중시한다. 그러나 API에서 유연성을 제공한다는 것은 그 만큼 사용과 구현이 어려워진다는 뜻이다.</p>
+
+<p>불특정 다수를 대상으로 하는 서비스라면 유연성을 높여서 구체적인 구현을 사용자(여기서는 프론트엔드)에게 맡기는 것이 옳은 선택일 것이다. 그러나 지금은 <code class="language-plaintext highlighter-rouge">상영시간 생성</code>이라는 명확한 목적을 가진 요청이라는 것을 알고있는 상황이다. 그렇다면 API도 이 상황을 잘 나타낼 수 있게 정의하는 것이 합리적일 것이다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /showtime-creation/movies
+GET /showtime-creation/theaters
+</code></pre></div></div>
+
+<p>이렇게 정의하면 이제 <code class="language-plaintext highlighter-rouge">상영시간 생성</code>의 요구사항이 크게 변경되지 않는 한 API를 변경할 필요는 없을 것이다.</p>
+
+<p>이런 방식을 누군가는 컨텍스트 컨트롤러 패턴이라고 부르는 것 같기는 한데 표준으로 정해진 이름은 없는 것 같다. 이런 방식에 패턴이라는 이름까지 붙여야 하나 싶은 생각이 있어서 여기서는 <code class="language-plaintext highlighter-rouge">/showtime-creation</code>을 그냥 <code class="language-plaintext highlighter-rouge">네임스페이스</code>라고 정의한다.</p>
+
+<h3 id="43-긴-쿼리-파라미터의-api">4.3. 긴 쿼리 파라미터의 API</h3>
+
+<p>지난 시간에 정의한 최우선 요구사항을 확인해 보면 다음과 같다.</p>
+
+<pre><code class="language-txt">최우선 요구사항
+
+1. 극장은 최소 4,000개 이상
+2. 좌석 중복 예약 방지 필수
+3. 기존 데이터 마이그레이션 필수
+</code></pre>
+
+<p>극장이 4,000개 이상이라고 되어있는데 이것은 theaterIds를 입력받는 모든 API에서 문제가 될 수 있다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /showtime-creation/showtimes?theaterIds<span class="o">=[]</span>
+</code></pre></div></div>
+
+<p>이렇게 긴 쿼리 파라미터가 예상되는 API는 POST 방식으로 정의하기로 한다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /showtime-creation/showtimes/search
+<span class="o">{</span>
+    theaterIds:[]
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="44-최종-rest-api-설계-createshowtimes">4.4. 최종 REST API 설계 (CreateShowtimes)</h3>
+
+<p>지금까지 설명한 설계 지침을 반영해서 시퀀스 다이어그램을 다시 그려보자.</p>
+
+<p><object data="/uml/f20220ff79d25b30bd02cfe155975cbb.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="5-서비스-설계">5. 서비스 설계</h2>
+
+<p>REST API를 정의했다면 이제 REST API와 연결되는 서비스를 설계해 보자.</p>
+
+<h3 id="51-마이크로서비스-아키텍쳐msa">5.1. 마이크로서비스 아키텍쳐(MSA)</h3>
+
+<p>서비스 설계를 시작하기 전에 프로젝트와 개발팀의 상황을 고려해서 최상위 아키텍쳐를 정해야 한다. 여기서는 마이크로서비스 아키텍쳐(MSA)를 선택했다.</p>
+
+<p>MSA의 가장 큰 특징은 작은 서비스들이 협력해서 서비스를 제공한다는 것이다. 이 때 중요한 점은 서비스 간에 DB를 공유하지 않는다는 것이다.</p>
+
+<p>마이크로서비스의 이런 특징은 객체 지향 프로그래밍의 클래스와 유사하다고 볼 수 있다.</p>
+<p><object data="/uml/1b5755d901fa358ab8d52e8139f506c5.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>결국 MSA는 구조적으로 객체 지향 방식과 유사한 면을 가지게 된다.</p>
+
+<p>그러면 이제 MSA에 맞게 서비스를 설계해 보자. 편의를 위해서 <code class="language-plaintext highlighter-rouge">Admin</code>액터는 생략한다.</p>
+
+<p><object data="/uml/089b82d68cf41b0f1c4b2227d4b5f751.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이 시퀀스 다이어그램에서 그나마 복잡해 보이는 부분은 ShowtimesService의 createShowtimes() 함수에서 검증을 위해 MoviesService.moviesExist()와 TheatersService.theatersExist()를 호출하고 있다는 정도다.</p>
+
+<h3 id="52-마이크로서비스의-순환-참조-문제">5.2. 마이크로서비스의 순환 참조 문제</h3>
+
+<p>객체 지향 프로그래밍(OOP)에서 두 객체가 서로를 참조하면 메모리 관리 등의 문제가 생기기 때문에 피해야 한다고 한다. 그러나 이런 기술적인 문제보다 더 중요한 것은 두 객체가 강하게 결합한다는 것이다.</p>
+
+<p>예를 들면 클래스A, B가 서로를 참조한다고 할 때, A를 변경하면 B가 영향을 받고 그래서 B를 변경하면 다시 A가 영향을 받는다. 이런 관계는 A, B가 사실상 한 객체로 묶이는 것과 같다.</p>
+
+<p><object data="/uml/5fe8a81fc08873b59a2d2bd902599420.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이 문제를 해결하기 위해서 인터페이스를 생각해 볼 수 있겠지만 가장 좋은 것은 순환 참조 관계를 만들지 않는 것이다.</p>
+
+<p>MSA가 OOP와 유사한 특징을 가지는 만큼 MSA도 순환 참조를 피해야 한다. 그런데 위에서 설계한 마이크로서비스는 순환 참조 문제가 발생할 가능성이 높다. MoviesService에 ShowtimesService를 참조하는 기능은 얼마든지 추가될 수 있기 때문이다.</p>
+
+<p><object data="/uml/5f1eba7a7cb90f3930bb74a0c19f39c5.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>위 시퀀스 다이어그램에서 볼 수 있듯이 서비스가 다른 서비스를 참조할 수 있다는 것은 기능이 확장되면서 언젠가 상호 참조 관계로 발전할 수 있다는 뜻이다.</p>
+
+<h3 id="53-마이크로서비스의-3-layer-구조">5.3. 마이크로서비스의 3-Layer 구조</h3>
+
+<p>MSA는 ‘서비스 간 협력’과 ‘순환 참조 금지’라는 상충을 레이어 분리로 해결한다. 즉, 마이크로서비스는 하위 레이어만 참조할 수 있다는 <code class="language-plaintext highlighter-rouge">단방향 의존 관계</code> 규칙을 추가한다.</p>
+
+<p><object data="/uml/b20d5555f97cff74f936e86a35e5ce06.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이 프로젝트에서는 서비스를 <code class="language-plaintext highlighter-rouge">Application</code>, <code class="language-plaintext highlighter-rouge">Core</code>, <code class="language-plaintext highlighter-rouge">Infrastructure</code>로 구분하기로 한다.</p>
+
+<ul>
+  <li><strong>Application Service</strong>:
+    <ul>
+      <li>사용자 시나리오를 조립합니다 (예: 주문 → 결제 → 알림).</li>
+      <li>Core/Infra 서비스 호출만 허용합니다.</li>
+      <li>트랜잭션 관리를 주도합니다.</li>
+    </ul>
+  </li>
+  <li><strong>Core Service</strong>:
+    <ul>
+      <li>도메인의 기본 로직을 담당합니다 (예: 영화 관리, 극장 관리).</li>
+      <li>Infra 서비스 호출만 허용합니다.</li>
+    </ul>
+  </li>
+  <li><strong>Infrastructure Service</strong>:
+    <ul>
+      <li>DB, 결제, 스토리지 등 외부 시스템 연동을 담당합니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>하나의 마이크로서비스를 설계할 때 <code class="language-plaintext highlighter-rouge">Application</code>, <code class="language-plaintext highlighter-rouge">Domain</code>, <code class="language-plaintext highlighter-rouge">Infrastructure</code> 레이어로 객체를 분류하듯이 마이크로서비스들도 유사하게 나누는 것이다.</p>
+
+<p>이제 3-Layer 구조를 적용하여 다시 설계를 해보자.</p>
+
+<p><object data="/uml/f5071fa54c1de93fc0ca5c71d6de79ea.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p><code class="language-plaintext highlighter-rouge">/showtime-creation</code> 네임스페이스에 맞춰서 <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code> 서비스를 만들었다.
+REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지는 장점까지 생겼다.</p>
+
+<blockquote>
+  <p>소프트웨어 개발은 분석/설계/구현/검증이 물 흐르듯이 자연스럽게 흘러가야 한다.</p>
+</blockquote>
+
+<h2 id="6-결론">6. 결론</h2>
+
+<p>이번 글에서는 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 유스케이스에 대해 (1) 유스케이스 명세서를 작성하고, (2) 시퀀스 다이어그램으로 시각화한 뒤, (3) 서비스 설계를 위해 시퀀스를 확장했다.</p>
+
+<p>최상위 아키텍처로 MSA를 선택하고, 서비스 간 순환 참조 문제를 3-Layer(Service) 구조로 해결함으로써 REST API와 서비스 계층이 자연스럽게 대응되는 효과를 확인했다.</p>
+
+<p>다음 글에서는 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[우리는 지난 시간에 Movie Booking System의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.]]></summary></entry><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템#1</title><link href="/2025/04/01/movie-booking-system-1-en.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템#1" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1-en</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1-en.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
+
+<p>이러한 어려움을 극복하고자 UML을 학습하고 시퀀스 다이어그램도 그려보지만, 여전히 설계의 효과를 실감하기는 어렵다. 직접 코딩하는 것과 별반 차이가 없다고 느껴지기 때문이다.</p>
+
+<p>이 글에서는 영화 예매 시스템을 실제로 설계해가면서 이러한 고민들을 구체적으로 풀어보려 한다.</p>
+
+<p>기본적으로 이 글의 주제는 소프트웨어 설계지만, 테스트 주도 개발(TDD)에 관한 내용도 함께 다룰 것이다. 현대적인 개발 환경에서는 기본적으로 테스트 도구를 지원하며, 유명한 오픈소스 프로젝트들을 살펴봐도 일정 수준 이상의 테스트 환경을 갖추고 있다. 이는 그만큼 테스트의 중요성과 활용도가 높다는 의미일 것이다.</p>
+
+<p>하지만 현실에서는 TDD는커녕 테스트 자동화조차 제대로 구축하지 않은 경우가 많다. 아무런 준비 없이 의미 있는 테스트를 먼저 작성하는 것은 결코 쉽지 않은데, 이는 소프트웨어 설계 역량이 함께 갖추어져야 가능한 일이기 때문이다. 따라서 설계와 TDD를 함께 다루는 것이 효율적이라고 판단했다.</p>
+
+<h2 id="1-목표-정하기">1. 목표 정하기</h2>
+
+<p>우리는 도메인 전문가와 첫 미팅을 한다. 도메인 전문가는 우리가 만들어야 할 시스템에 대해 많은 이야기를 해주는데, 주요 내용을 정리하면 다음과 같다.</p>
+
+<ol>
+  <li>극장이 많다. 전국에 극장 4,000개 정도다. 물론 앞으로 더 늘어날 수 있다.</li>
+  <li>현재는 영화 예매 기능만 지원하지만 향후에는 대형 공연 예매 기능도 추가할 예정이다.</li>
+  <li>좌석이 중복 예약되면 안 된다. 예전에 그런 문제로 고객센터에서 고생을 많이 했다.</li>
+  <li>기존에 사용하던 데이터는 그대로 유지해야 한다. 영화 정보나 감상평 등 이미 축적된 데이터가 많다.</li>
+  <li>그 외, 기존 시스템을 운영하며 경험한 여러 불편 사항들…</li>
+</ol>
+
+<p>도메인 전문가는 중요하다고 생각하는 정보를 최대한 많이 전달했지만, 개발자 입장에서는 추가적인 확인이 필요하다.</p>
+
+<ol>
+  <li>대형 공연 예매 기능은 언제 추가될 예정인가? 이번 프로젝트의 범위에 포함해야 하는가?</li>
+  <li>기존 데이터를 유지한다는 말은 DB 시스템을 바꾸면 안 된다는 의미인가? DB를 사용하는 다른 서비스가 있는가?</li>
+</ol>
+
+<p>도메인 전문가는 이렇게 답변한다.</p>
+
+<ol>
+  <li>대형 공연은 아직 구체적인 일정이 없다. 다만 향후 업그레이드를 수월하게 할 수 있도록 이번 프로젝트에서 어느 정도 고려하면 좋겠다.</li>
+  <li>DB를 사용하는 다른 서비스는 없다. 기존 데이터가 유지되기만 하면 된다.</li>
+</ol>
+
+<p>이런 대화를 반복하면서 우리는 요구사항을 다음과 같이 정리할 수 있다.</p>
+
+<pre><code class="language-txt">최우선 요구사항
+
+1. 극장은 최소 4,000개 이상
+2. 좌석 중복 예약 방지 필수
+3. 기존 데이터 마이그레이션 필수
+</code></pre>
+
+<p>대형 공연에 관한 내용은 문서에서 빠졌는데, 프로젝트 범위가 아니고 요구사항이 명확하지도 않기 때문이다. 언제 필요할지 모르겠지만 그 때 가서 다시 검토해야 하는 문제다.</p>
+
+<p>이렇게 도메인 전문가가 전해주는 정보를 개발자 입장에서 해석하고 정리하는 것으로 프로젝트를 시작할 수 있다.</p>
+
+<blockquote>
+  <p>비록 문서에 기록하지 않더라도 도메인 전문가에게는 ‘대형 공연’도 잘 고려하겠다는 답변을 잊으면 안 된다.</p>
+</blockquote>
+
+<h2 id="2-프로젝트-이름-정하기">2. 프로젝트 이름 정하기</h2>
+
+<p>도메인 전문가와 함께 프로젝트의 목표가 어느 정도 정해졌다면, 이제 프로젝트 이름을 정할 차례다.</p>
+
+<p>우선 도메인 전문가에게 의견을 물어보자. 도메인 전문가는 자연스럽게 <code class="language-plaintext highlighter-rouge">영화 예매 시스템</code>이라는 이름을 제안한다.</p>
+
+<p><object data="/uml/fcccd7785d8e28e20ccae835048f119c.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>도메인 전문가의 입장에서는 한글로 된 <code class="language-plaintext highlighter-rouge">영화 예매 시스템</code>이 더 친숙하고 명확할지도 모른다. 하지만 개발자의 입장에서 보면, 프로젝트 이름을 포함한 모든 용어는 코드상으로 직접 구현되기 때문에 가급적 영어로 정의하는 것이 여러모로 유리하다.</p>
+
+<p>그래서 우리는 도메인 전문가에게 이 점을 충분히 설명하고, <code class="language-plaintext highlighter-rouge">Movie Booking System</code>이라는 이름을 제안할 수 있다.</p>
+
+<p><object data="/uml/7af1c2f7b1fda77d60a2e9e092324e21.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>앞서 ‘대형 공연 예매’ 기능에 대해서도 신경 쓰겠다고 잘 전달했다면, 도메인 전문가는 흔쾌히 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>이라는 이름을 받아들일 것이다.</p>
+
+<blockquote>
+  <p>혹시 순수하고 정직한 마음을 가진 개발자라면 ‘대형 공연’에 대해 신경 쓰지 않을 예정이라는 사실에 죄책감을 느낄지도 모르겠다. 하지만 걱정하지 않아도 된다. ‘대형 공연’이 정말 중요했다면 도메인 전문가는 처음부터 프로젝트 이름으로 ‘영화 예매 시스템’을 제안하지 않았을 것이다. 아마 ‘티켓 예매 시스템’이나 더 범용적인 ‘예매 시스템’ 같은 이름을 제안했을 것이다. 그러니 지금 상황에서 ‘대형 공연’이란 요구사항은 그냥 가벼운 언급 정도로 받아들이면 된다.</p>
+</blockquote>
+
+<h2 id="3-사용자">3. 사용자</h2>
+
+<p>프로젝트의 이름을 정했다면 이제 누가 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>을 사용하는지 알아볼 차례다.</p>
+
+<p>물론 이에 대한 정보는 도메인 전문가가 알고 있을 것이고, 그렇게 우리는 <code class="language-plaintext highlighter-rouge">customer</code>와 <code class="language-plaintext highlighter-rouge">administrator</code>의 존재를 알게 된다.</p>
+
+<p><object data="/uml/1d58eb92b6786ab837141345916198b8.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="4-외부-의존-관계">4. 외부 의존 관계</h2>
+
+<p>설계 초기에 놓치기 쉬운 요소 중 하나가 바로 외부 의존성이다.</p>
+
+<p>외부 의존성이란 기존에 존재하는 레거시 시스템(legacy system)이 될 수도 있고, 결제 시스템(payment gateway)일 수도 있다. 이러한 의존 관계는 전체 시스템 설계에 큰 영향을 미칠 수 있기 때문에, 가능하면 초기에 명확히 파악하는 것이 좋다.</p>
+
+<p>다행히도 <code class="language-plaintext highlighter-rouge">Payment Gateway</code>나 <code class="language-plaintext highlighter-rouge">Legacy System</code> 같은 요소들은 기존 시스템에서 이미 사용하고 있기 때문에 비교적 수월하게 파악할 수 있다.</p>
+
+<p><object data="/uml/f77f4edfb179014880cf0479e23848b3.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이 밖에도 흔히 간과하기 쉬운 외부 환경 요소들이 존재한다. 예를 들어, 전국에 분포된 극장들이 서로 다른 시간대에 위치해 있다면, 우리의 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>은 자연스럽게 <code class="language-plaintext highlighter-rouge">Time Zone</code>이라는 환경적 요소에 영향을 받을 수밖에 없다.</p>
+
+<p><object data="/uml/55a9f0411ea25cb180d7ec686a672933.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이런 요소들은 도메인 전문가에게 직접 물어보지 않으면 놓치기 쉽다. 도메인 전문가는 이 부분을 너무 당연하게 여겨 설명을 생략할 수도 있기 때문이다.</p>
+
+<p>개발자에 따라서는 <code class="language-plaintext highlighter-rouge">Time Zone</code>을 유스케이스 다이어그램에 넣는 것을 부자연스럽게 느낄 수도 있다. UML을 어떻게 사용해야 한다고 엄격하게 규정할 필요는 없다. 개발하려는 시스템의 의존 관계를 표현하는데 있어서 모두가 이해하기 쉬운 방법이라면 얼마든지 허용 가능하다.</p>
+
+<blockquote>
+  <p>추상적인 생각을 물리적인 형태로 표현하려면 충분히 유연한 도구여야 한다.</p>
+</blockquote>
+
+<p>아참, 위의 다이어그램은 사실 Context Diagram이다. 용어 자체에 집중하면 본질에 다소 소홀해지기 쉬운 것 같다. 그래서 이후 설명에서도 전문용어 사용을 최소화 하려고 한다.</p>
+
+<h2 id="5-유스케이스">5. 유스케이스</h2>
+
+<p>의존 관계까지 명시하면서 대략적인 개발 범위를 파악한 것 같다. 이제 본격적으로 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 내부에 집중해 보자.</p>
+
+<p>일단, 편의를 위해서 의존 관계는 숨기고 사용자만 남겨 놓는다.</p>
+
+<p><object data="/uml/1d58eb92b6786ab837141345916198b8.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>여기서 드는 궁금증은 <code class="language-plaintext highlighter-rouge">customer</code>와 <code class="language-plaintext highlighter-rouge">administrator</code>가 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>에서 무엇을 하는가이다. 결국 그것이 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>이 제공해야 하는 기능일테니까 말이다.</p>
+
+<h3 id="51-customer의-유스케이스">5.1. customer의 유스케이스</h3>
+
+<p><code class="language-plaintext highlighter-rouge">customer</code>가 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>에서 무슨 일을 하는지 도메인 전문가에게 물어보니 이렇게 알려준다.</p>
+
+<ul>
+  <li>영화 검색하기</li>
+  <li>영화 상세 정보 보기</li>
+  <li>상영 시간 선택하기</li>
+  <li>좌석 선택하기</li>
+  <li>영화 예매하기</li>
+  <li>예매 내역 확인하기</li>
+  <li>예매 취소하기</li>
+</ul>
+
+<p>우리는 도메인 전문가에게 다시 확인을 해본다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">상영 시간 선택하기</code>, <code class="language-plaintext highlighter-rouge">좌석 선택하기</code>는 <code class="language-plaintext highlighter-rouge">영화 예매하기</code>의 한 과정인가?</li>
+  <li><code class="language-plaintext highlighter-rouge">영화 예매하기</code>, <code class="language-plaintext highlighter-rouge">예매 취소하기</code>는 결국 티켓을 구입하고 환불하는 것 아닌가?</li>
+</ul>
+
+<p>개발자의 질문에 도메인 전문가는 맞다고 확인을 해준다. 그래서 우리는 아래와 같이 유스케이스를 정리할 수 있다.</p>
+
+<p><object data="/uml/0bafdd508509475b7f4af1df10470955.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>우리는 도메인 전문가가 아니다. 그런데 어떻게 <code class="language-plaintext highlighter-rouge">상영 시간 선택하기</code>와 <code class="language-plaintext highlighter-rouge">좌석 선택하기</code>가 <code class="language-plaintext highlighter-rouge">영화 예매하기</code>의 한 과정이냐고 물어볼 수 있었을까?</p>
+
+<p>예를 들어 <code class="language-plaintext highlighter-rouge">상영 시간 선택하기</code>에 대해서 도메인 전문가에게 이렇게 물어볼 수 있다.</p>
+
+<ol>
+  <li>상영 시간 선택하기가 뭐죠?</li>
+  <li>화면에 뭐가 있어야 하죠?</li>
+  <li>영화가 선택되어 있어야 할 것 같은데 다른 사전 조건은 뭔가요?</li>
+</ol>
+
+<p>이렇게 각각의 케이스에 대해 사용자와 어떤 액션을 주고받는지를 정리하다 보면 자연스럽게 정리가 되는 것이다. 프로젝트 상황에 따라서 이 과정을 몇 번씩 반복할 수도 있지만 여유를 갖고 세심하게 분석할수록 설계와 구현 단계에서 시행착오를 줄일 수 있다.</p>
+
+<p>지금은 구두로 문답을 주고받았지만 다른 다이어그램을 사용해서 정리하는 방법도 있을 것이다. 상황에 맞게 도구를 사용하면 된다.</p>
+
+<h3 id="52-administrator의-유스케이스">5.2. administrator의 유스케이스</h3>
+
+<p>administrator는 무슨 일을 할까? 관리자니까 당연히 관리를 할 것이다. 무엇을 관리할까?</p>
+
+<ol>
+  <li>영화 관리</li>
+  <li>극장 관리</li>
+  <li>고객 관리</li>
+  <li>티켓 관리</li>
+  <li>상영시간 관리</li>
+</ol>
+
+<p><object data="/uml/32ad2a4f85031ed6003497d2ba07902d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>개인적으로 개발에서 manage라는 단어를 조심하는 편이다. manage는 표현이 너무 포괄적이라서 무슨 일을 하는지 모호하다. 여기서도 마찬가지인데 구체적으로 어떻게 관리한다는 것인지 잘 모르겠다. 도메인 전문가와 함께 좀 더 세분화 해보자.</p>
+
+<p><object data="/uml/664d095963cd1468fa8e9a4cc2d167a0.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>실제 프로젝트라면 이것보다 더 많은 유스케이스가 있겠지만, 여기서는 단순화했다. 그럼에도 불구하고 중요한 개념들이 상당수 드러난다.</p>
+
+<p>여기서 주목할 것은 상영 시간을 생성하면 티켓도 같이 생성해야 하는 것을 알 수 있다. 그리고 티켓을 구매하거나 환불할 때 <code class="language-plaintext highlighter-rouge">PaymentGateway</code>와 상호작용이 필요함을 언급했다.</p>
+
+<h3 id="53-전체-유스케이스">5.3. 전체 유스케이스</h3>
+
+<p>customer와 administrator의 유스케이스를 합쳐보자.</p>
+
+<p><object data="/uml/6a10e3bb9dafeb0c7105ae212ede4d83.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이렇게 전체 유스케이스를 놓고 보니 뭔가 허전하다. <code class="language-plaintext highlighter-rouge">AddTheaters</code>는 있는데 <code class="language-plaintext highlighter-rouge">SearchTheaters</code> 같은 건 보이지 않는다. <code class="language-plaintext highlighter-rouge">customers</code>도 마찬가지다. <code class="language-plaintext highlighter-rouge">RegisterCustomer</code>나 <code class="language-plaintext highlighter-rouge">LoginCustomer</code>도 필요하지 않을까?</p>
+
+<p>생략된 유스케이스는 대개 당연히 있어야 할 것들이다. 도메인 전문가 입장에서는 설명할 것이 많기 때문에 이렇게 당연한 유스케이스는 생략하려 할 것이다. 그렇다면 개발자 입장에서는 어떨까? <code class="language-plaintext highlighter-rouge">SearchTheaters</code> 같은 단순한 유스케이스는 생략하는 편이 문서관리에 더 도움이 되지 않을까?</p>
+
+<p>이 글은 주로 백엔드 설계에 초점을 맞추고 있어서 <code class="language-plaintext highlighter-rouge">SearchTheaters</code> 같은 단순한 유스케이스는 생략해도 괜찮을 것이다. 하지만 실제 프로젝트라면 이런 유스케이스도 모두 중요하다. 특히 기획자 입장에서 이런 유스케이스는 좋은 출발점이 되기 때문이다. 이제 기획자는 극장을 어떤 조건으로 어떻게 검색할 수 있게 해줘야 할지 고민할 수 있을 것이다.</p>
+
+<blockquote>
+  <p>이렇게 모든 유스케이스를 합치면 복잡해진다. 실제 프로젝트라면 훨씬 더 복잡했을 것이다. 이런 경우 무리하게 합칠 필요는 없다. 여기서는 누락된 유스케이스가 있다는 것을 보여주려고 합쳐본 것이다.</p>
+</blockquote>
+
+<p>누락된 유스케이스를 모두 채워보자. 편의상 액터와 유스케이스 관계는 일부 생략한다.</p>
+
+<p><object data="/uml/4a96240a06085211b632889ad08f70c4.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="54-유스케이스가-많다면">5.4. 유스케이스가 많다면</h3>
+
+<p>지금은 작은 프로젝트이기 때문에 괜찮지만 프로젝트가 크고 복잡하다면 도메인 전문가는 어디부터 설명을 해야할지 난감해 할 수도 있다.
+이럴 땐 액터가 충분했는지 다시 점검해보자. 초기에 <code class="language-plaintext highlighter-rouge">administrator</code>라고 했지만 역할에 따라 세분화 할 수 있을지도 모른다. 그리고 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>을 사용하는 외부 서비스가 있을 지도 모른다.</p>
+
+<p><object data="/uml/a97941089d6d8977037c3b6a3e0356ec.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>이렇게 액터를 세분화 한다면 도메인 전문가는 보다 체계적으로 정보를 알려줄 수 있을 것이다.</p>
+
+<p>물론, 이것은 복잡한 도메인을 분석하는 한 예일 뿐이다. 다른 좋은 방법이 얼마든지 있을 것이다.</p>
+
+<h2 id="6-결론">6. 결론</h2>
+
+<p>이번 글에서는 유스케이스 다이어그램을 활용하여 프로젝트의 목표를 설정하고, 초기 분석 단계를 진행해 보았다. 개인적으로 전체 개발 프로세스 중에서 시작이 가장 어렵다고 생각한다. 가장 추상적이고 모호한 개념을 정리해야 하기 때문이다.</p>
+
+<p>다음 글에서는 여기서 도출한 주요 유스케이스를 더욱 상세히 분석하는 방법을 알아볼 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.]]></summary></entry><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템#1</title><link href="/2025/04/01/movie-booking-system-1.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템#1" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
 
 <p>이러한 어려움을 극복하고자 UML을 학습하고 시퀀스 다이어그램도 그려보지만, 여전히 설계의 효과를 실감하기는 어렵다. 직접 코딩하는 것과 별반 차이가 없다고 느껴지기 때문이다.</p>
 
