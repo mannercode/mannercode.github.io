@@ -1,5 +1,236 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-17T05:03:08+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
-</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템#2</title><link href="/2025/05/01/movie-booking-system-2.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템#2" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2.html"><![CDATA[<p>우리는 지난 시간에 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-18T02:55:51+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+</subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">Backend Service Design - Movie Booking System (2)</title><link href="/2025/05/01/movie-booking-system-2-en.html" rel="alternate" type="text/html" title="Backend Service Design - Movie Booking System (2)" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2-en</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2-en.html"><![CDATA[<p>Last time, we drew a use case diagram for the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>. If you’ve drawn a use case diagram during the software analysis/design process, it can be called a successful start.</p>
+
+<p>This time, we’ll dive into two of the more complex use cases: <code class="language-plaintext highlighter-rouge">PurchaseTickets</code> and <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>.</p>
+
+<p><object data="/uml/70b04b21a8f74ecf4f7946537870ddc1.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="1-which-use-case-to-analyze-first">1. Which use case to analyze first?</h2>
+
+<p>Which one is better to analyze first, <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> or <code class="language-plaintext highlighter-rouge">PurchaseTickets</code>? I usually start with use cases that <strong>create</strong> data. This is because query functions can only be understood meaningfully when there is prerequisite data.</p>
+
+<p>Here, since tickets need to be generated before they can be purchased, we will analyze the <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> use case first.</p>
+
+<h2 id="2-createshowtimes-use-case-specification">2. <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> Use Case Specification</h2>
+
+<p>We ask the domain expert what procedures are necessary to create showtimes and then summarize it as follows:</p>
+
+<p><strong>Goal</strong>: Create showtimes for a single movie in multiple theaters.</p>
+
+<p><strong>Actor</strong>: Admin</p>
+
+<p><strong>Preconditions</strong>:</p>
+
+<ul>
+  <li>The administrator must be logged into the system.</li>
+  <li>Movies and theaters must be registered in the system.</li>
+</ul>
+
+<p><strong>Trigger</strong>:</p>
+
+<ul>
+  <li>The administrator visits the Showtime Creation page.</li>
+</ul>
+
+<p><strong>Basic Flow</strong>:</p>
+
+<ol>
+  <li>The system displays a list of currently registered movies.</li>
+  <li>The administrator selects the movie for which to register showtimes.</li>
+  <li>The system displays a list of currently registered theaters.</li>
+  <li>The administrator selects the theaters for which to register showtimes.</li>
+  <li>The administrator inputs the showtimes for each theater.</li>
+  <li>The administrator registers the showtimes.</li>
+  <li>The system checks if the registered showtimes overlap with existing showtimes.</li>
+  <li>If there is no overlap, the system registers the showtimes and displays a message indicating that showtime registration is complete.</li>
+</ol>
+
+<p><strong>Alternative Flow</strong>:</p>
+
+<ul>
+  <li>If the showtime overlaps with an existing showtime:
+    <ol>
+      <li>The system displays a message that showtime registration failed, along with information about which showtimes overlapped.</li>
+      <li>Return to step 5 of the basic flow.</li>
+    </ol>
+  </li>
+</ul>
+
+<p><strong>Postconditions</strong>:</p>
+
+<ul>
+  <li>Showtimes for the selected movie at the selected theaters must be successfully registered.</li>
+  <li>Tickets corresponding to the showtimes must be generated.</li>
+</ul>
+
+<p>We’ve defined the <code class="language-plaintext highlighter-rouge">Trigger</code> which is the starting condition for CreateShowtimes, and organized the corresponding <code class="language-plaintext highlighter-rouge">Basic Flow</code>. Looking at other elements like <code class="language-plaintext highlighter-rouge">Alternative Flow</code> and <code class="language-plaintext highlighter-rouge">Postconditions</code>, we can get a sense of what tasks the <code class="language-plaintext highlighter-rouge">Movie Booking System</code> needs to perform.</p>
+
+<h2 id="3-createshowtimes-sequence-diagram">3. <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> Sequence Diagram</h2>
+
+<p>Let’s draw a sequence diagram to make the use case specification easier to read.</p>
+
+<p><object data="/uml/8db145cd234e5048d3a83cc3e3eb1bb1.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>The sequence diagram above contains the details for the <code class="language-plaintext highlighter-rouge">Trigger</code>, <code class="language-plaintext highlighter-rouge">Basic Flow</code>, and <code class="language-plaintext highlighter-rouge">Postconditions</code>, while the <code class="language-plaintext highlighter-rouge">Alternative Flow</code> is omitted. I judged that the <code class="language-plaintext highlighter-rouge">Alternative Flow</code> is simple enough to be handled during the implementation phase.</p>
+
+<blockquote>
+  <p>Design should contain just enough information to proceed with implementation. The expression <strong>enough</strong> here can be somewhat ambiguous, as it depends on the team’s situation. If the developers are highly skilled, a simple design might suffice. If the designer and implementer are far apart and close communication is difficult, the design will need to be more meticulous.</p>
+</blockquote>
+
+<p>If you were to represent the <code class="language-plaintext highlighter-rouge">Alternative Flow</code> in a sequence diagram, it could be expressed as follows:</p>
+
+<p><object data="/uml/91d0d075cd3769351dfe2d6d5b422540.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>However, it’s often better to separate the <code class="language-plaintext highlighter-rouge">Alternative Flow</code> into a different diagram in sequence diagrams. This is because <code class="language-plaintext highlighter-rouge">Alternative Flow</code> tends to complicate the diagram and gradually pull the design down to the implementation level.</p>
+
+<h2 id="4-rest-api-design">4. REST API Design</h2>
+
+<p>If you were a screen planner or designer, there would probably be no need to further expand the <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> sequence diagram. However, since we are targeting the backend, let’s expand the sequence diagram to design the REST API.</p>
+
+<h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
+
+<p><object data="/uml/e76d0bedf8d2b0264c8725fc748cdfb8.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>This is a typical Shallow Routing design that keeps routes short, which is a practical choice that maintains short and flat URIs, reducing the burden of service evolution and maintenance.</p>
+
+<h3 id="42-adding-namespace">4.2. Adding Namespace</h3>
+
+<p>The Shallow Routing approach has some drawbacks. Currently, requests are simple because it’s the initial stage of the project, but as the project progresses and requirements become more specific, the API may change frequently. For example, like this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /movies?orderby<span class="o">=</span>releaseDate:desc&amp;includes<span class="o">=</span>showtime-summary
+GET /theaters?orderby<span class="o">=</span>name:asc&amp;includes<span class="o">=</span>showtime-count
+</code></pre></div></div>
+
+<p>As API conditions become more complex, the implementation burden on the backend that needs to handle this increases. The frontend using the API also faces the burden of understanding and implementing the API specs.</p>
+
+<p>Software development emphasizes flexibility because requirements continually change. However, providing flexibility in an API means it becomes that much harder to use and implement.</p>
+
+<p>For a service targeting an unspecified majority, increasing flexibility and entrusting specific implementation to the user (here, the frontend) would be the right choice. However, we are in a situation where we know it’s a request with a clear purpose: <code class="language-plaintext highlighter-rouge">showtime creation</code>. In that case, it would be reasonable to define the API to reflect this situation well.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /showtime-creation/movies
+GET /showtime-creation/theaters
+</code></pre></div></div>
+
+<p>Defined this way, there will be no need to change the API unless the requirements for <code class="language-plaintext highlighter-rouge">showtime creation</code> change significantly.</p>
+
+<p>Someone might call this approach a Context-Controller pattern, but there doesn’t seem to be a standard name for it. I’m hesitant to even attach the name “pattern” to this method, so here I’ll just define <code class="language-plaintext highlighter-rouge">/showtime-creation</code> as a <code class="language-plaintext highlighter-rouge">namespace</code>.</p>
+
+<h3 id="43-api-for-long-query-parameters">4.3. API for Long Query Parameters</h3>
+
+<p>Reviewing the top-priority requirements defined last time, we have:</p>
+
+<pre><code class="language-txt">Top Priority Requirements
+
+1. At least 4,000 theaters
+2. Prevention of duplicate seat reservations is essential
+3. Existing data migration is essential
+</code></pre>
+
+<p>It’s stated that there are at least 4,000 theaters, which can be problematic for any API that accepts <code class="language-plaintext highlighter-rouge">theaterIds</code>.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /showtime-creation/showtimes?theaterIds<span class="o">=[]</span>
+</code></pre></div></div>
+
+<p>For endpoints that may receive long parameter lists, prefer POST with a request body.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /showtime-creation/showtimes/search
+<span class="o">{</span>
+    <span class="s2">"theaterIds"</span>:[]
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="44-final-rest-api-design-createshowtimes">4.4. Final REST API Design (CreateShowtimes)</h3>
+
+<p>Let’s redraw the sequence diagram reflecting the design guidelines explained so far.</p>
+
+<p><object data="/uml/d63c892da3eadbe059e8b71c670eb01a.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="5-service-design">5. Service Design</h2>
+
+<p>Once the REST API is defined, let’s design the services that connect to it.</p>
+
+<h3 id="51-microservice-architecture-msa">5.1. Microservice Architecture (MSA)</h3>
+
+<p>Before starting service design, the top-level architecture must be decided considering the project and development team’s situation. Here, Microservice Architecture (MSA) was chosen.</p>
+
+<p>The biggest characteristic of MSA is that small services collaborate to provide a service. An important point here is that services do not share databases.</p>
+
+<p>This characteristic of microservices can be seen as similar to classes in object-oriented programming.</p>
+<p><object data="/uml/1b5755d901fa358ab8d52e8139f506c5.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Ultimately, MSA structurally has similarities to the object-oriented approach.</p>
+
+<p>Now, let’s design the services according to MSA. For convenience, the <code class="language-plaintext highlighter-rouge">Admin</code> actor is omitted.</p>
+
+<p><object data="/uml/59cabfe497a844e98d62595d9af3d298.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>In this sequence diagram, the relatively complex part is that ShowtimesService’s createShowtimes() function calls MoviesService.moviesExist() and TheatersService.theatersExist() for validation.</p>
+
+<h3 id="52-circular-dependency-problem-in-microservices">5.2. Circular Dependency Problem in Microservices</h3>
+
+<p>In Object-Oriented Programming (OOP), it’s said that if two objects refer to each other, it should be avoided because it can cause problems like memory management. However, more important than such technical issues is that the two objects become tightly coupled.</p>
+
+<p>For example, if classes A and B refer to each other, changing A affects B, and changing B in turn affects A. Such a relationship is like A and B being effectively bundled as a single object.</p>
+
+<p><object data="/uml/5fe8a81fc08873b59a2d2bd902599420.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Interfaces could be considered to solve this problem, but the best solution is not to create circular dependencies in the first place.</p>
+
+<p>Just as MSA has characteristics similar to OOP, MSA should also avoid circular dependencies. However, the microservices designed above have a high probability of encountering circular dependency problems. This is because functionality that makes MoviesService reference ShowtimesService can easily be added.</p>
+
+<p><object data="/uml/060133dad548457fcd03694d2225c555.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>As can be seen in the sequence diagram above, the fact that a service can refer to other services means that as functionality expands, it can someday develop into a mutual reference relationship.</p>
+
+<h3 id="53-3-layer-structure-of-microservices">5.3. 3-Layer Structure of Microservices</h3>
+
+<p>MSA resolves the conflict between ‘inter-service collaboration’ and ‘prohibition of circular dependencies’ through layer separation. That is, microservices add a <code class="language-plaintext highlighter-rouge">unidirectional dependency</code> rule, meaning they can only refer to lower layers.</p>
+
+<p><object data="/uml/cd89f3848f28115549a3f2c4d58e4fd2.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>In this project, we decide to categorize services into <code class="language-plaintext highlighter-rouge">Application</code>, <code class="language-plaintext highlighter-rouge">Core</code>, and <code class="language-plaintext highlighter-rouge">Infrastructure</code>.</p>
+
+<ul>
+  <li><strong>Application Service</strong>:
+    <ul>
+      <li>Assembles user scenarios (e.g., Order → Payment → Notification).</li>
+      <li>Only allowed to call Core/Infra services.</li>
+      <li>Leads transaction management.</li>
+    </ul>
+  </li>
+  <li><strong>Core Service</strong>:
+    <ul>
+      <li>Responsible for the basic logic of the domain (e.g., movie management, theater management).</li>
+      <li>Only allowed to call Infra services.</li>
+    </ul>
+  </li>
+  <li><strong>Infrastructure Service</strong>:
+    <ul>
+      <li>Responsible for integration with external systems like DB, payment, storage.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Just as objects are classified into <code class="language-plaintext highlighter-rouge">Application</code>, <code class="language-plaintext highlighter-rouge">Domain</code>, and <code class="language-plaintext highlighter-rouge">Infrastructure</code> layers when designing a single microservice, microservices themselves are similarly divided.</p>
+
+<p>Now, let’s redesign by applying the 3-Layer structure.</p>
+
+<p><object data="/uml/e6861926463653e6f64979e70717f311.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>A <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code> service was created to match the <code class="language-plaintext highlighter-rouge">/showtime-creation</code> namespace.
+This has the added benefit of making the structure easier to understand as the REST API and service structure become similar.</p>
+
+<blockquote>
+  <p>Software development should flow naturally like water through analysis/design/implementation/verification.</p>
+</blockquote>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<p>In this article, for the <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> use case, we (1) created a use case specification, (2) visualized it with a sequence diagram, and (3) expanded the sequence for service design.</p>
+
+<p>By choosing MSA as the top-level architecture and resolving the inter-service circular dependency problem with a 3-Layer (Service) structure, we confirmed the effect of the REST API and service layer corresponding naturally.</p>
+
+<p>In the next article, we will finalize and supplement the incomplete design of <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> and write related tests.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[Last time, we drew a use case diagram for the Movie Booking System. If you’ve drawn a use case diagram during the software analysis/design process, it can be called a successful start.]]></summary></entry><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템 (2)</title><link href="/2025/05/01/movie-booking-system-2.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템 (2)" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2.html"><![CDATA[<p>우리는 지난 시간에 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.</p>
 
 <p>이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code>와 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>에 대해서 좀 더 분석해 보도록 하겠다.</p>
 
@@ -230,7 +461,218 @@ REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지
 
 <p>최상위 아키텍처로 MSA를 선택하고, 서비스 간 순환 참조 문제를 3-Layer(Service) 구조로 해결함으로써 REST API와 서비스 계층이 자연스럽게 대응되는 효과를 확인했다.</p>
 
-<p>다음 글에서는 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[우리는 지난 시간에 Movie Booking System의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.]]></summary></entry><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템#1</title><link href="/2025/04/01/movie-booking-system-1.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템#1" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
+<p>다음 글에서는 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[우리는 지난 시간에 Movie Booking System의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.]]></summary></entry><entry><title type="html">Backend Service Design - Movie Booking System (1)</title><link href="/2025/04/01/movie-booking-system-1-en.html" rel="alternate" type="text/html" title="Backend Service Design - Movie Booking System (1)" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1-en</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1-en.html"><![CDATA[<p>Software is complex, so it’s crucial to implement it with a systematic design approach. That’s why I try to create a proper design every time I start a new project. However, when I actually try to write a design document, expressing my ideas concretely is harder than I expected.</p>
+
+<p>To overcome this difficulty, I learn UML and even draw sequence diagrams, but it’s still hard to see the benefits of the design. It often feels no different from coding directly.</p>
+
+<p>In this article, I intend to specifically address these concerns by actually designing a movie booking system.</p>
+
+<p>While the main topic of this article is software design, I will also cover Test-Driven Development (TDD). Modern development environments inherently support testing tools, and even famous open-source projects have a certain level of testing infrastructure. This underscores how important and widespread testing has become.</p>
+
+<p>However, in reality, many cases lack even proper test automation, let alone TDD. Writing meaningful tests first without any preparation is by no means easy, as it requires complementary software design capabilities. Therefore, I decided it would be more effective to discuss design and TDD together.</p>
+
+<h2 id="1-setting-goals">1. Setting Goals</h2>
+
+<p>We have our first meeting with a domain expert. The domain expert tells us a lot about the system we need to build. Summarizing the main points:</p>
+
+<ol>
+  <li>There are many theaters. About 4,000 nationwide. Of course, this number could increase in the future.</li>
+  <li>Currently, it only supports movie booking, but there are plans to add functionality for booking large-scale events in the future.</li>
+  <li>Seat reservations must not overlap. They had a lot of trouble with customer service because of this issue in the past.</li>
+  <li>Existing data must be maintained. There’s a lot of accumulated data, like movie information and reviews.</li>
+  <li>Other inconveniences they’ve encountered while operating the current system…</li>
+</ol>
+
+<p>The domain expert has conveyed as much information as they deem important, but from a developer’s perspective, additional confirmation is needed.</p>
+
+<ol>
+  <li>When is the large-scale event booking feature scheduled to be added? Should it be included in the scope of this project?</li>
+  <li>Does maintaining existing data mean we can’t change the DB system? Are there other services using the DB?</li>
+</ol>
+
+<p>The domain expert responds:</p>
+
+<ol>
+  <li>There’s no concrete schedule for large-scale events yet. However, it would be good to consider it to some extent in this project to facilitate future upgrades.</li>
+  <li>There are no other services using the DB. It’s only necessary that the existing data is maintained.</li>
+</ol>
+
+<p>By repeating such conversations, we can summarize the requirements as follows:</p>
+
+<pre><code class="language-txt">Top Priority Requirements
+
+1. Support at least 4,000 theaters
+2. Prevention of duplicate seat reservations is essential
+3. Existing data migration is essential
+</code></pre>
+
+<p>The part about large-scale events was omitted from the document because it’s not within the project scope and the requirements aren’t clear. We don’t know when it will be needed, so we can revisit it when the requirement becomes concrete.</p>
+
+<p>Thus, we can start the project by interpreting and organizing the information provided by the domain expert from a developer’s perspective.</p>
+
+<blockquote>
+  <p>Even if not documented, don’t forget to tell the domain expert that you will also carefully consider ‘large-scale events’.</p>
+</blockquote>
+
+<h2 id="2-choosing-a-project-name">2. Choosing a Project Name</h2>
+
+<p>Once the project goals are somewhat established with the domain expert, it’s time to choose a project name.</p>
+
+<p>First, let’s ask the domain expert for their opinion. The domain expert naturally suggests the name <code class="language-plaintext highlighter-rouge">영화 예매 시스템</code> (Movie Booking System).</p>
+
+<p><object data="/uml/04f0ddff22296e0ac36c0062527353a2.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>From the domain expert’s point of view, the Korean name <code class="language-plaintext highlighter-rouge">영화 예매 시스템</code> might be more familiar and clear. However, from a developer’s perspective, all terms, including the project name, are directly implemented in code, so defining them in English is advantageous in many ways.</p>
+
+<p>Therefore, we can fully explain this point to the domain expert and suggest the name <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<p><object data="/uml/941e127a4a21a8e6e5eb534c88510753.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>If we have already communicated well that we will also pay attention to the ‘large-scale event booking’ feature, the domain expert will readily accept the name <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<blockquote>
+  <p>Perhaps a developer with a pure and honest heart might feel guilty about the fact that they don’t plan to worry about ‘large-scale events’. But don’t worry. If ‘large-scale events’ were really that important, the domain expert wouldn’t have suggested ‘Movie Booking System’ as the project name in the first place. They probably would have suggested a name like ‘Ticket Booking System’ or a more generic ‘Booking System’. So, in the current situation, the ‘large-scale event’ requirement can be taken as just a light mention.</p>
+</blockquote>
+
+<h2 id="3-users">3. Users</h2>
+
+<p>Once the project name is decided, it’s time to find out who uses the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<p>Of course, the domain expert will have this information, and so we learn about the existence of <code class="language-plaintext highlighter-rouge">customer</code> and <code class="language-plaintext highlighter-rouge">administrator</code>.</p>
+
+<p><object data="/uml/436281e1d7973de6bd7593beef0516b6.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="4-external-dependencies">4. External Dependencies</h2>
+
+<p>One element that is easy to miss in the early stages of design is external dependencies.</p>
+
+<p>External dependencies could be existing legacy systems or payment gateways. Such dependencies can greatly influence the overall system design, so it’s best to identify them clearly at an early stage if possible.</p>
+
+<p>Fortunately, elements like <code class="language-plaintext highlighter-rouge">Payment Gateway</code> or <code class="language-plaintext highlighter-rouge">Legacy System</code> are already in use by the existing system, so they can be identified relatively easily.</p>
+
+<p><object data="/uml/caa799105d61c47fdc9152ad6b448b2c.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Besides these, there are external environmental factors that are often overlooked. For example, if theaters distributed nationwide are located in different time zones, our <code class="language-plaintext highlighter-rouge">Movie Booking System</code> will naturally be affected by the environmental factor of <code class="language-plaintext highlighter-rouge">Time Zone</code>.</p>
+
+<p><object data="/uml/411e60645eaebd592ccf5ce3d6459a62.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>These elements are easy to miss if not directly asked of the domain expert. The domain expert might consider this part so obvious that they omit the explanation.</p>
+
+<p>Depending on the developer, putting <code class="language-plaintext highlighter-rouge">Time Zone</code> in a use case diagram might feel unnatural. There’s no need to strictly regulate how UML should be used. Any method that is easy for everyone to understand in expressing the dependencies of the system to be developed is perfectly acceptable.</p>
+
+<blockquote>
+  <p>To express abstract thoughts in a physical form, the tool must be sufficiently flexible.</p>
+</blockquote>
+
+<p>Note that the diagram above is actually a context diagram. Focusing too much on terminology itself seems to make it easy to neglect the essence. So, in the following explanations, I will try to minimize the use of technical terms.</p>
+
+<h2 id="5-use-cases">5. Use Cases</h2>
+
+<p>Now that we have a rough idea of the development scope by specifying dependencies, let’s focus on the internals of the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<p>For convenience, let’s hide the dependencies and leave only the users.</p>
+
+<p><object data="/uml/436281e1d7973de6bd7593beef0516b6.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>The question that arises here is what <code class="language-plaintext highlighter-rouge">customer</code> and <code class="language-plaintext highlighter-rouge">administrator</code> do in the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>. After all, that will be the functionality the <code class="language-plaintext highlighter-rouge">Movie Booking System</code> needs to provide.</p>
+
+<h3 id="51-customers-use-cases">5.1. Customer’s Use Cases</h3>
+
+<p>When we ask the domain expert what a <code class="language-plaintext highlighter-rouge">customer</code> does in the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>, they tell us:</p>
+
+<ul>
+  <li>Search for movies</li>
+  <li>View movie details</li>
+  <li>Choose a showtime</li>
+  <li>Choose seats</li>
+  <li>Book a movie</li>
+  <li>Check booking details</li>
+  <li>Cancel booking</li>
+</ul>
+
+<p>We confirm with the domain expert:</p>
+
+<ul>
+  <li>Are <code class="language-plaintext highlighter-rouge">Choose a showtime</code> and <code class="language-plaintext highlighter-rouge">Choose seats</code> part of the <code class="language-plaintext highlighter-rouge">Book a movie</code> process?</li>
+  <li>Aren’t <code class="language-plaintext highlighter-rouge">Book a movie</code> and <code class="language-plaintext highlighter-rouge">Cancel booking</code> ultimately about purchasing and refunding tickets?</li>
+</ul>
+
+<p>The domain expert confirms that the developer’s understanding is correct. So, we can organize the use cases as follows:</p>
+
+<p><object data="/uml/991c6b7894133b508f8b11bd2ababeb5.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>We are not domain experts. So how could we ask if <code class="language-plaintext highlighter-rouge">Choose a showtime</code> and <code class="language-plaintext highlighter-rouge">Choose seats</code> are part of the <code class="language-plaintext highlighter-rouge">Book a movie</code> process?</p>
+
+<p>For example, regarding <code class="language-plaintext highlighter-rouge">Choose a showtime</code>, we can ask the domain expert:</p>
+
+<ol>
+  <li>What is “Choose a showtime”?</li>
+  <li>What should be on the screen?</li>
+  <li>It seems like a movie needs to be selected; are there any other preconditions?</li>
+</ol>
+
+<p>Documenting the user interaction for each case like this helps clarify the process. Depending on the project situation, this process might be repeated several times, but the more patiently and meticulously you analyze, the fewer trial-and-error instances you’ll have in the design and implementation phases.</p>
+
+<p>Right now, we’ve had a verbal Q&amp;A, but there might be ways to organize it using other diagrams. You can use tools appropriate for the situation.</p>
+
+<h3 id="52-administrators-use-cases">5.2. Administrator’s Use Cases</h3>
+
+<p>What does an administrator do? As administrators, their primary role is management—but exactly what do they manage?</p>
+
+<ol>
+  <li>Manage movies</li>
+  <li>Manage theaters</li>
+  <li>Manage customers</li>
+  <li>Manage tickets</li>
+  <li>Manage showtimes</li>
+</ol>
+
+<p><object data="/uml/c6a6ad83b43aa5924bcbe994f5d92240.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Personally, I tend to be cautious with the word “Manage” in development. “Manage” is too broad an expression, making it ambiguous what tasks are involved. It’s the same here; it’s unclear how things are specifically managed. Let’s break it down further with the domain expert.</p>
+
+<p><object data="/uml/d13b187b34cf701669755f273066317d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>In a real project, there would be many more use cases than this, but it’s simplified here. Nevertheless, a significant number of important concepts are revealed.</p>
+
+<p>What’s noteworthy here is that we can see that when a showtime is created, tickets must also be generated. And it’s mentioned that interaction with the <code class="language-plaintext highlighter-rouge">PaymentGateway</code> is needed when purchasing or refunding tickets.</p>
+
+<h3 id="53-overall-use-cases">5.3. Overall Use Cases</h3>
+
+<p>Let’s combine the use cases for <code class="language-plaintext highlighter-rouge">customer</code> and <code class="language-plaintext highlighter-rouge">administrator</code>.</p>
+
+<p><object data="/uml/bc972e6a24696ba0fcb314217ed9e197.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Looking at the overall use cases like this, something feels missing. There’s <code class="language-plaintext highlighter-rouge">AddTheaters</code>, but something like <code class="language-plaintext highlighter-rouge">SearchTheaters</code> isn’t visible. The same goes for <code class="language-plaintext highlighter-rouge">customers</code>. Wouldn’t <code class="language-plaintext highlighter-rouge">RegisterCustomer</code> or <code class="language-plaintext highlighter-rouge">LoginCustomer</code> also be necessary?</p>
+
+<p>Omitted use cases are usually things that should obviously be there. From the domain expert’s perspective, since there’s a lot to explain, they might try to omit such obvious use cases. Then, what about from the developer’s perspective? Wouldn’t omitting simple use cases like <code class="language-plaintext highlighter-rouge">SearchTheaters</code> be more helpful for document management?</p>
+
+<p>This article mainly focuses on backend design, so it might be okay to omit simple use cases like <code class="language-plaintext highlighter-rouge">SearchTheaters</code>. However, in a real project, all such use cases are important. Especially from a planner’s perspective, such use cases serve as a good starting point. Now the planner can think about under what conditions and how users should be able to search for theaters.</p>
+
+<blockquote>
+  <p>Combining all use cases like this makes it complex. A real project would have been much more complex. In such cases, there’s no need to force a combination. Here, I combined them to show that there are missing use cases.</p>
+</blockquote>
+
+<p>Let’s fill in all the missing use cases. For convenience, some actor-use case relationships are omitted.</p>
+
+<p><object data="/uml/38bd410afaa8ec064a77896523165336.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="54-if-there-are-many-use-cases">5.4. If There Are Many Use Cases</h3>
+
+<p>It’s fine now because it’s a small project, but if the project is large and complex, the domain expert might be at a loss as to where to begin their explanation.
+In such cases, let’s re-examine if we had enough actors. Initially, we said <code class="language-plaintext highlighter-rouge">administrator</code>, but perhaps it can be subdivided by role. And there might be external services that use the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<p><object data="/uml/a97941089d6d8977037c3b6a3e0356ec.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>By subdividing actors like this, the domain expert can then provide information in a more structured way.</p>
+
+<p>Of course, this is just one example of analyzing a complex domain. There could be many other good methods.</p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<p>In this article, we used use-case diagrams to establish project goals and carry out the initial analysis. Personally, I think the beginning is the most difficult part of the entire development process. This is because it requires organizing the most abstract and ambiguous concepts.</p>
+
+<p>In the next article, we will explore how to analyze the main use cases derived here in greater detail.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[Software is complex, so it’s crucial to implement it with a systematic design approach. That’s why I try to create a proper design every time I start a new project. However, when I actually try to write a design document, expressing my ideas concretely is harder than I expected.]]></summary></entry><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템 (1)</title><link href="/2025/04/01/movie-booking-system-1.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템 (1)" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1.html"><![CDATA[<p>소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.</p>
 
 <p>이러한 어려움을 극복하고자 UML을 학습하고 시퀀스 다이어그램도 그려보지만, 여전히 설계의 효과를 실감하기는 어렵다. 직접 코딩하는 것과 별반 차이가 없다고 느껴지기 때문이다.</p>
 

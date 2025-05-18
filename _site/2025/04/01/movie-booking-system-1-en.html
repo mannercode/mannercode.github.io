@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Backend Service Design - Movie Booking System (1) | Manner Code</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Backend Service Design - Movie Booking System (1)" />
+<meta name="author" content="mannercode" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Software is complex, so it’s crucial to implement it with a systematic design approach. That’s why I try to create a proper design every time I start a new project. However, when I actually try to write a design document, expressing my ideas concretely is harder than I expected." />
+<meta property="og:description" content="Software is complex, so it’s crucial to implement it with a systematic design approach. That’s why I try to create a proper design every time I start a new project. However, when I actually try to write a design document, expressing my ideas concretely is harder than I expected." />
+<meta property="og:site_name" content="Manner Code" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-04-01T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Backend Service Design - Movie Booking System (1)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"mannercode"},"dateModified":"2025-04-01T00:00:00+00:00","datePublished":"2025-04-01T00:00:00+00:00","description":"Software is complex, so it’s crucial to implement it with a systematic design approach. That’s why I try to create a proper design every time I start a new project. However, when I actually try to write a design document, expressing my ideas concretely is harder than I expected.","headline":"Backend Service Design - Movie Booking System (1)","mainEntityOfPage":{"@type":"WebPage","@id":"/2025/04/01/movie-booking-system-1-en.html"},"url":"/2025/04/01/movie-booking-system-1-en.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Manner Code" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Manner Code</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Backend Service Design - Movie Booking System (1)</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2025-04-01T00:00:00+00:00" itemprop="datePublished">
+        Apr 1, 2025
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Software is complex, so it’s crucial to implement it with a systematic design approach. That’s why I try to create a proper design every time I start a new project. However, when I actually try to write a design document, expressing my ideas concretely is harder than I expected.</p>
+
+<p>To overcome this difficulty, I learn UML and even draw sequence diagrams, but it’s still hard to see the benefits of the design. It often feels no different from coding directly.</p>
+
+<p>In this article, I intend to specifically address these concerns by actually designing a movie booking system.</p>
+
+<p>While the main topic of this article is software design, I will also cover Test-Driven Development (TDD). Modern development environments inherently support testing tools, and even famous open-source projects have a certain level of testing infrastructure. This underscores how important and widespread testing has become.</p>
+
+<p>However, in reality, many cases lack even proper test automation, let alone TDD. Writing meaningful tests first without any preparation is by no means easy, as it requires complementary software design capabilities. Therefore, I decided it would be more effective to discuss design and TDD together.</p>
+
+<h2 id="1-setting-goals">1. Setting Goals</h2>
+
+<p>We have our first meeting with a domain expert. The domain expert tells us a lot about the system we need to build. Summarizing the main points:</p>
+
+<ol>
+  <li>There are many theaters. About 4,000 nationwide. Of course, this number could increase in the future.</li>
+  <li>Currently, it only supports movie booking, but there are plans to add functionality for booking large-scale events in the future.</li>
+  <li>Seat reservations must not overlap. They had a lot of trouble with customer service because of this issue in the past.</li>
+  <li>Existing data must be maintained. There’s a lot of accumulated data, like movie information and reviews.</li>
+  <li>Other inconveniences they’ve encountered while operating the current system…</li>
+</ol>
+
+<p>The domain expert has conveyed as much information as they deem important, but from a developer’s perspective, additional confirmation is needed.</p>
+
+<ol>
+  <li>When is the large-scale event booking feature scheduled to be added? Should it be included in the scope of this project?</li>
+  <li>Does maintaining existing data mean we can’t change the DB system? Are there other services using the DB?</li>
+</ol>
+
+<p>The domain expert responds:</p>
+
+<ol>
+  <li>There’s no concrete schedule for large-scale events yet. However, it would be good to consider it to some extent in this project to facilitate future upgrades.</li>
+  <li>There are no other services using the DB. It’s only necessary that the existing data is maintained.</li>
+</ol>
+
+<p>By repeating such conversations, we can summarize the requirements as follows:</p>
+
+<pre><code class="language-txt">Top Priority Requirements
+
+1. Support at least 4,000 theaters
+2. Prevention of duplicate seat reservations is essential
+3. Existing data migration is essential
+</code></pre>
+
+<p>The part about large-scale events was omitted from the document because it’s not within the project scope and the requirements aren’t clear. We don’t know when it will be needed, so we can revisit it when the requirement becomes concrete.</p>
+
+<p>Thus, we can start the project by interpreting and organizing the information provided by the domain expert from a developer’s perspective.</p>
+
+<blockquote>
+  <p>Even if not documented, don’t forget to tell the domain expert that you will also carefully consider ‘large-scale events’.</p>
+</blockquote>
+
+<h2 id="2-choosing-a-project-name">2. Choosing a Project Name</h2>
+
+<p>Once the project goals are somewhat established with the domain expert, it’s time to choose a project name.</p>
+
+<p>First, let’s ask the domain expert for their opinion. The domain expert naturally suggests the name <code class="language-plaintext highlighter-rouge">영화 예매 시스템</code> (Movie Booking System).</p>
+
+<p><object data="/uml/04f0ddff22296e0ac36c0062527353a2.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>From the domain expert’s point of view, the Korean name <code class="language-plaintext highlighter-rouge">영화 예매 시스템</code> might be more familiar and clear. However, from a developer’s perspective, all terms, including the project name, are directly implemented in code, so defining them in English is advantageous in many ways.</p>
+
+<p>Therefore, we can fully explain this point to the domain expert and suggest the name <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<p><object data="/uml/941e127a4a21a8e6e5eb534c88510753.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>If we have already communicated well that we will also pay attention to the ‘large-scale event booking’ feature, the domain expert will readily accept the name <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<blockquote>
+  <p>Perhaps a developer with a pure and honest heart might feel guilty about the fact that they don’t plan to worry about ‘large-scale events’. But don’t worry. If ‘large-scale events’ were really that important, the domain expert wouldn’t have suggested ‘Movie Booking System’ as the project name in the first place. They probably would have suggested a name like ‘Ticket Booking System’ or a more generic ‘Booking System’. So, in the current situation, the ‘large-scale event’ requirement can be taken as just a light mention.</p>
+</blockquote>
+
+<h2 id="3-users">3. Users</h2>
+
+<p>Once the project name is decided, it’s time to find out who uses the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<p>Of course, the domain expert will have this information, and so we learn about the existence of <code class="language-plaintext highlighter-rouge">customer</code> and <code class="language-plaintext highlighter-rouge">administrator</code>.</p>
+
+<p><object data="/uml/436281e1d7973de6bd7593beef0516b6.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h2 id="4-external-dependencies">4. External Dependencies</h2>
+
+<p>One element that is easy to miss in the early stages of design is external dependencies.</p>
+
+<p>External dependencies could be existing legacy systems or payment gateways. Such dependencies can greatly influence the overall system design, so it’s best to identify them clearly at an early stage if possible.</p>
+
+<p>Fortunately, elements like <code class="language-plaintext highlighter-rouge">Payment Gateway</code> or <code class="language-plaintext highlighter-rouge">Legacy System</code> are already in use by the existing system, so they can be identified relatively easily.</p>
+
+<p><object data="/uml/caa799105d61c47fdc9152ad6b448b2c.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Besides these, there are external environmental factors that are often overlooked. For example, if theaters distributed nationwide are located in different time zones, our <code class="language-plaintext highlighter-rouge">Movie Booking System</code> will naturally be affected by the environmental factor of <code class="language-plaintext highlighter-rouge">Time Zone</code>.</p>
+
+<p><object data="/uml/411e60645eaebd592ccf5ce3d6459a62.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>These elements are easy to miss if not directly asked of the domain expert. The domain expert might consider this part so obvious that they omit the explanation.</p>
+
+<p>Depending on the developer, putting <code class="language-plaintext highlighter-rouge">Time Zone</code> in a use case diagram might feel unnatural. There’s no need to strictly regulate how UML should be used. Any method that is easy for everyone to understand in expressing the dependencies of the system to be developed is perfectly acceptable.</p>
+
+<blockquote>
+  <p>To express abstract thoughts in a physical form, the tool must be sufficiently flexible.</p>
+</blockquote>
+
+<p>Note that the diagram above is actually a context diagram. Focusing too much on terminology itself seems to make it easy to neglect the essence. So, in the following explanations, I will try to minimize the use of technical terms.</p>
+
+<h2 id="5-use-cases">5. Use Cases</h2>
+
+<p>Now that we have a rough idea of the development scope by specifying dependencies, let’s focus on the internals of the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<p>For convenience, let’s hide the dependencies and leave only the users.</p>
+
+<p><object data="/uml/436281e1d7973de6bd7593beef0516b6.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>The question that arises here is what <code class="language-plaintext highlighter-rouge">customer</code> and <code class="language-plaintext highlighter-rouge">administrator</code> do in the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>. After all, that will be the functionality the <code class="language-plaintext highlighter-rouge">Movie Booking System</code> needs to provide.</p>
+
+<h3 id="51-customers-use-cases">5.1. Customer’s Use Cases</h3>
+
+<p>When we ask the domain expert what a <code class="language-plaintext highlighter-rouge">customer</code> does in the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>, they tell us:</p>
+
+<ul>
+  <li>Search for movies</li>
+  <li>View movie details</li>
+  <li>Choose a showtime</li>
+  <li>Choose seats</li>
+  <li>Book a movie</li>
+  <li>Check booking details</li>
+  <li>Cancel booking</li>
+</ul>
+
+<p>We confirm with the domain expert:</p>
+
+<ul>
+  <li>Are <code class="language-plaintext highlighter-rouge">Choose a showtime</code> and <code class="language-plaintext highlighter-rouge">Choose seats</code> part of the <code class="language-plaintext highlighter-rouge">Book a movie</code> process?</li>
+  <li>Aren’t <code class="language-plaintext highlighter-rouge">Book a movie</code> and <code class="language-plaintext highlighter-rouge">Cancel booking</code> ultimately about purchasing and refunding tickets?</li>
+</ul>
+
+<p>The domain expert confirms that the developer’s understanding is correct. So, we can organize the use cases as follows:</p>
+
+<p><object data="/uml/991c6b7894133b508f8b11bd2ababeb5.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>We are not domain experts. So how could we ask if <code class="language-plaintext highlighter-rouge">Choose a showtime</code> and <code class="language-plaintext highlighter-rouge">Choose seats</code> are part of the <code class="language-plaintext highlighter-rouge">Book a movie</code> process?</p>
+
+<p>For example, regarding <code class="language-plaintext highlighter-rouge">Choose a showtime</code>, we can ask the domain expert:</p>
+
+<ol>
+  <li>What is “Choose a showtime”?</li>
+  <li>What should be on the screen?</li>
+  <li>It seems like a movie needs to be selected; are there any other preconditions?</li>
+</ol>
+
+<p>Documenting the user interaction for each case like this helps clarify the process. Depending on the project situation, this process might be repeated several times, but the more patiently and meticulously you analyze, the fewer trial-and-error instances you’ll have in the design and implementation phases.</p>
+
+<p>Right now, we’ve had a verbal Q&amp;A, but there might be ways to organize it using other diagrams. You can use tools appropriate for the situation.</p>
+
+<h3 id="52-administrators-use-cases">5.2. Administrator’s Use Cases</h3>
+
+<p>What does an administrator do? As administrators, their primary role is management—but exactly what do they manage?</p>
+
+<ol>
+  <li>Manage movies</li>
+  <li>Manage theaters</li>
+  <li>Manage customers</li>
+  <li>Manage tickets</li>
+  <li>Manage showtimes</li>
+</ol>
+
+<p><object data="/uml/c6a6ad83b43aa5924bcbe994f5d92240.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Personally, I tend to be cautious with the word “Manage” in development. “Manage” is too broad an expression, making it ambiguous what tasks are involved. It’s the same here; it’s unclear how things are specifically managed. Let’s break it down further with the domain expert.</p>
+
+<p><object data="/uml/d13b187b34cf701669755f273066317d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>In a real project, there would be many more use cases than this, but it’s simplified here. Nevertheless, a significant number of important concepts are revealed.</p>
+
+<p>What’s noteworthy here is that we can see that when a showtime is created, tickets must also be generated. And it’s mentioned that interaction with the <code class="language-plaintext highlighter-rouge">PaymentGateway</code> is needed when purchasing or refunding tickets.</p>
+
+<h3 id="53-overall-use-cases">5.3. Overall Use Cases</h3>
+
+<p>Let’s combine the use cases for <code class="language-plaintext highlighter-rouge">customer</code> and <code class="language-plaintext highlighter-rouge">administrator</code>.</p>
+
+<p><object data="/uml/bc972e6a24696ba0fcb314217ed9e197.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>Looking at the overall use cases like this, something feels missing. There’s <code class="language-plaintext highlighter-rouge">AddTheaters</code>, but something like <code class="language-plaintext highlighter-rouge">SearchTheaters</code> isn’t visible. The same goes for <code class="language-plaintext highlighter-rouge">customers</code>. Wouldn’t <code class="language-plaintext highlighter-rouge">RegisterCustomer</code> or <code class="language-plaintext highlighter-rouge">LoginCustomer</code> also be necessary?</p>
+
+<p>Omitted use cases are usually things that should obviously be there. From the domain expert’s perspective, since there’s a lot to explain, they might try to omit such obvious use cases. Then, what about from the developer’s perspective? Wouldn’t omitting simple use cases like <code class="language-plaintext highlighter-rouge">SearchTheaters</code> be more helpful for document management?</p>
+
+<p>This article mainly focuses on backend design, so it might be okay to omit simple use cases like <code class="language-plaintext highlighter-rouge">SearchTheaters</code>. However, in a real project, all such use cases are important. Especially from a planner’s perspective, such use cases serve as a good starting point. Now the planner can think about under what conditions and how users should be able to search for theaters.</p>
+
+<blockquote>
+  <p>Combining all use cases like this makes it complex. A real project would have been much more complex. In such cases, there’s no need to force a combination. Here, I combined them to show that there are missing use cases.</p>
+</blockquote>
+
+<p>Let’s fill in all the missing use cases. For convenience, some actor-use case relationships are omitted.</p>
+
+<p><object data="/uml/38bd410afaa8ec064a77896523165336.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<h3 id="54-if-there-are-many-use-cases">5.4. If There Are Many Use Cases</h3>
+
+<p>It’s fine now because it’s a small project, but if the project is large and complex, the domain expert might be at a loss as to where to begin their explanation.
+In such cases, let’s re-examine if we had enough actors. Initially, we said <code class="language-plaintext highlighter-rouge">administrator</code>, but perhaps it can be subdivided by role. And there might be external services that use the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>.</p>
+
+<p><object data="/uml/a97941089d6d8977037c3b6a3e0356ec.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>By subdividing actors like this, the domain expert can then provide information in a more structured way.</p>
+
+<p>Of course, this is just one example of analyzing a complex domain. There could be many other good methods.</p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<p>In this article, we used use-case diagrams to establish project goals and carry out the initial analysis. Personally, I think the beginning is the most difficult part of the entire development process. This is because it requires organizing the most abstract and ambiguous concepts.</p>
+
+<p>In the next article, we will explore how to analyze the main use cases derived here in greater detail.</p>
+
+  </div><script src="https://utteranc.es/client.js"
+    repo="mannercode/mannercode.github.io"
+    issue-term="pathname"
+    label="comment"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+  <a class="u-url" href="/2025/04/01/movie-booking-system-1-en.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <ul class="contact-list">
+          <li><a class="u-email" href="https://www.youtube.com/@mannercode">https://www.youtube.com/@mannercode</a></li>
+          <li><a class="u-email" href="https://github.com/mannercode">https://github.com/mannercode</a></li>
+          <li><a class="u-email" href="mailto:mannercode@gmail.com">mannercode@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

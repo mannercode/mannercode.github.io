@@ -1,0 +1,20 @@
+@startuml
+
+@startuml
+left to right direction
+actor customer
+actor administrator
+rectangle "Payment Gateway" as payment
+rectangle "Legacy System" as legacy
+
+package "Movie Booking System" as mbs {
+usecase " "
+}
+
+customer --> mbs
+administrator --> mbs
+mbs --> payment
+mbs --> legacy
+@enduml
+
+@enduml

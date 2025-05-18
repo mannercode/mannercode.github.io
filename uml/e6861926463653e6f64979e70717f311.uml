@@ -1,0 +1,54 @@
+@startuml
+
+@startuml
+Frontend -> Backend: Request movie list\nGET /showtime-creation/movies
+Backend -> ShowtimeCreationService: searchMovies()
+ShowtimeCreationService -> MoviesService: searchMovies()
+ShowtimeCreationService <-- MoviesService: movies[]
+Backend <-- ShowtimeCreationService: movies[]
+Frontend <-- Backend: movies[]
+
+Frontend -> Backend: Request theater list\nGET /showtime-creation/theaters
+Backend -> ShowtimeCreationService: searchTheaters()
+ShowtimeCreationService -> TheatersService: searchTheaters()
+ShowtimeCreationService <-- TheatersService: theaters[]
+Backend <-- ShowtimeCreationService: theaters[]
+Frontend <-- Backend: theaters[]
+
+Frontend -> Backend: Request showtime list\nPOST /showtime-creation/showtimes/search
+note right
+ShowtimesSearchDto {
+theaterIds
+}
+end note
+Backend -> ShowtimeCreationService: searchShowtimes(searchDto)
+ShowtimeCreationService -> ShowtimesService: searchShowtimes(searchDto)
+ShowtimeCreationService <-- ShowtimesService: showtimes[]
+Backend <-- ShowtimeCreationService: showtimes[]
+Frontend <-- Backend: showtimes[]
+
+Frontend -> Backend: Create showtime request\nPOST /showtime-creation/showtimes
+note right
+ShowtimesCreateDto {
+movieId,
+theaterIds,
+startTimes,
+durationMinutes
+}
+end note
+Backend -> ShowtimeCreationService: createShowtimes(createDto)
+ShowtimeCreationService -> MoviesService: moviesExist(movieId)
+ShowtimeCreationService <-- MoviesService: true
+
+    ShowtimeCreationService -> TheatersService: theatersExist(theaterIds)
+    ShowtimeCreationService <-- TheatersService: true
+
+    ShowtimeCreationService -> ShowtimesService: createShowtimes(createDto)
+    ShowtimeCreationService <-- ShowtimesService: showtimes[] // Assuming this returns the created showtimes
+Backend <-- ShowtimeCreationService: showtimes[]
+
+Frontend <-- Backend: Created(201)
+
+@enduml
+
+@enduml

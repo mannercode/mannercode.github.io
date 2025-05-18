@@ -1,0 +1,23 @@
+@startuml
+
+@startuml
+actor Admin
+participant "Movie Booking System" as mbs
+
+Admin -> mbs: (Trigger) Visits showtime creation page
+Admin <-- mbs: (1) Provides movie list
+
+Admin -> mbs: (2) Selects movie
+Admin <-- mbs: (3) Provides theater list
+
+Admin -> mbs: (4) Selects theaters
+Admin <-- mbs: (5) Provides showtime list (for selected theaters/movie implicitly)
+
+Admin -> mbs: (6) Selects/Inputs showtimes
+
+Admin -> mbs: (7) Requests showtime registration
+Admin <-- mbs: (8) Showtime registration success screen
+
+@enduml
+
+@enduml

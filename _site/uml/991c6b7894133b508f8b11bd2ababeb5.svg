@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="258px" preserveAspectRatio="none" style="width:505px;height:258px;" version="1.1" viewBox="0 0 505 258" width="505px" zoomAndPan="magnify"><defs><filter height="300%" id="f1ccykbnp7nvpo" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6c2d02fe013167922f007c9285828968]
+cluster mbs--><polygon fill="#FFFFFF" filter="url(#f1ccykbnp7nvpo)" points="108,32.5,291,32.5,298,54.7969,483,54.7969,483,215.5,108,215.5,108,32.5" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="108" x2="298" y1="54.7969" y2="54.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="177" x="112" y="47.4951">Movie Booking System</text><ellipse cx="198.1001" cy="157.42" fill="#FEFECE" filter="url(#f1ccykbnp7nvpo)" rx="62.6001" ry="14.92" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="87" x="154.6001" y="162.0685">MovieDetails</text><ellipse cx="197.9597" cy="91.5919" fill="#FEFECE" filter="url(#f1ccykbnp7nvpo)" rx="65.9597" ry="15.5919" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="96" x="149.9597" y="96.2404">SearchMovies</text><ellipse cx="391.7401" cy="157.5236" fill="#FEFECE" filter="url(#f1ccykbnp7nvpo)" rx="56.7401" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="76" x="353.7401" y="162.1721">BuyTickets</text><ellipse cx="391.4975" cy="91.3995" fill="#FEFECE" filter="url(#f1ccykbnp7nvpo)" rx="67.4975" ry="15.8995" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="100" x="341.4975" y="96.0479">RefundTickets</text><!--MD5=[92848cbaf65985a669855153c5362c37]
+entity customer--><ellipse cx="39" cy="176.5" fill="#FEFECE" filter="url(#f1ccykbnp7nvpo)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M39,184.5 L39,211.5 M26,192.5 L52,192.5 M39,211.5 L26,226.5 M39,211.5 L52,226.5 " fill="none" filter="url(#f1ccykbnp7nvpo)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="6" y="244.9951">customer</text><!--MD5=[9383602d3e41c617da9b8b81d6a24f28]
+link customer to mbs--><path d="M72.15,207.5 C77.8013,207.5 83.952,207.5 90.3938,207.5 C93.6148,207.5 96.9084,207.5 100.2488,207.5 C101.919,207.5 103.6008,207.5 105.2911,207.5 C106.1362,207.5 106.9835,207.5 107.8324,207.5 " fill="none" id="customer-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="107.8324,207.5,98.8324,203.5,102.8324,207.5,98.8324,211.5,107.8324,207.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[3c9a6bb7c642b8691e277d70aed96eff]
+link MovieDetails to SearchMovies--><!--MD5=[68dbff18c371a35a459557fd49d25f52]
+link MovieDetails to BuyTickets--><!--MD5=[35c7129164c56755a7843e26f97b0040]
+link BuyTickets to RefundTickets--><!--MD5=[16d4544ed4f7e408e8306c3bf0c31374]
+@startuml
+left to right direction
+actor customer
+
+package "Movie Booking System" as mbs {
+usecase MovieDetails
+usecase SearchMovies
+usecase BuyTickets
+usecase RefundTickets
+}
+
+customer - -> mbs
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.14+7-Debian-1deb12u1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

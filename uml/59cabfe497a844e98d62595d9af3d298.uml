@@ -1,0 +1,47 @@
+@startuml
+
+@startuml
+Frontend -> Backend: Request movie list\nGET /showtime-creation/movies
+Backend -> MoviesService: searchMovies()
+Backend <-- MoviesService: movies[]
+Frontend <-- Backend: movies[]
+
+Frontend -> Backend: Request theater list\nGET /showtime-creation/theaters
+Backend -> TheatersService: searchTheaters()
+Backend <-- TheatersService: theaters[]
+Frontend <-- Backend: theaters[]
+
+Frontend -> Backend: Request showtime list\nPOST /showtime-creation/showtimes/search
+note right
+ShowtimesSearchDto {
+theaterIds
+}
+end note
+Backend -> ShowtimesService: searchShowtimes(searchDto)
+Backend <-- ShowtimesService: showtimes[]
+Frontend <-- Backend: showtimes[]
+
+Frontend -> Backend: Create showtime request\nPOST /showtime-creation/showtimes
+note right
+ShowtimesCreateDto {
+movieId,
+theaterIds,
+startTimes,
+durationMinutes
+}
+end note
+Backend -> ShowtimesService: createShowtimes(createDto)
+ShowtimesService -> MoviesService: moviesExist(movieId)
+ShowtimesService <-- MoviesService: true
+
+    ShowtimesService -> TheatersService: theatersExist(theaterIds)
+    ShowtimesService <-- TheatersService: true
+
+    ShowtimesService -> ShowtimesService: createShowtimes(createDto) // Internal call or delegate
+Backend <-- ShowtimesService: showtimes[] // Assuming this returns the created showtimes
+
+Frontend <-- Backend: Created(201)
+
+@enduml
+
+@enduml

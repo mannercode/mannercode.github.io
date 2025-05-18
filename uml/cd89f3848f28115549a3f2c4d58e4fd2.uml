@@ -1,0 +1,35 @@
+@startuml
+
+@startuml
+package "Application Services" {
+[ShowtimeCreationService]
+}
+
+package "Core Services" {
+[MoviesService]
+[TheatersService]
+[ShowtimesService]
+[TicketsService]
+}
+
+package "Infrastructure Services" {
+[PaymentsService]
+}
+
+[ShowtimeCreationService] --> [MoviesService]
+[ShowtimeCreationService] --> [TheatersService]
+[ShowtimeCreationService] --> [ShowtimesService]
+[ShowtimeCreationService] --> [TicketsService]
+
+[TicketsService] --> [PaymentsService]
+
+note top of [ShowtimeCreationService]
+**Circular dependencies are strictly prohibited**
+
+1. **No references between services in the same layer**
+2. Upper layers can only reference lower layers
+3. Application → Core → Infrastructure
+    end note
+    @enduml
+    
+@enduml

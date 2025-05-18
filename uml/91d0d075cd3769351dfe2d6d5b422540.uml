@@ -1,0 +1,14 @@
+@startuml
+
+@startuml
+actor Admin
+participant "Movie Booking System" as mbs
+
+alt successful
+Admin -> mbs: Showtime registration successful
+else failure
+Admin -> mbs: Showtime registration failed
+end
+@enduml
+
+@enduml

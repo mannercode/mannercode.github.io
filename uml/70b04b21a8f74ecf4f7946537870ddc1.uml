@@ -1,0 +1,37 @@
+@startuml
+
+@startuml
+left to right direction
+actor customer
+actor administrator
+rectangle PaymentGateway
+
+package "Movie Booking System" as mbs {
+package tickets {
+usecase PurchaseTickets #yellow
+usecase GenerateTickets
+}
+
+package showtimes {
+    usecase CreateShowtimes #yellow
+}
+
+package theaters {
+}
+
+package movies {
+}
+
+package customers {
+}
+
+}
+
+administrator --> CreateShowtimes
+customer -> PurchaseTickets
+PurchaseTickets ..> PaymentGateway
+CreateShowtimes ..> GenerateTickets
+
+@enduml
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+
+@startuml
+Frontend -> Backend: Create showtime request
+Backend -> ShowtimesService: createShowtimes(createDto)
+ShowtimesService -> MoviesService: moviesExist(movieId)
+ShowtimesService <-- MoviesService: true
+Backend <-- ShowtimesService: showtimes[]
+Frontend <-- Backend: Created(201)
+
+Frontend -> Backend: Request movie list showing after 11 PM
+Backend -> MoviesService: searchMovies()
+MoviesService -> ShowtimesService: searchShowtimes()
+MoviesService <-- ShowtimesService: showtimes[]
+Backend <-- MoviesService: movies[]
+Frontend <-- Backend: movies[]
+@enduml
+
+@enduml
