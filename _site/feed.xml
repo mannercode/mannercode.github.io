@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-21T03:38:17+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-21T09:42:45+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">Backend Service Design - Movie Booking System (2)</title><link href="/2025/05/01/movie-booking-system-2-en.html" rel="alternate" type="text/html" title="Backend Service Design - Movie Booking System (2)" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2-en</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2-en.html"><![CDATA[<p>Last time, we drew a use case diagram for the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>. If you’ve drawn a use case diagram during the software analysis/design process, it can be called a successful start.</p>
 
 <p>This time, we’ll dive into two of the more complex use cases: <code class="language-plaintext highlighter-rouge">PurchaseTickets</code> and <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>.</p>
@@ -232,7 +232,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p>In the next article, we will finalize and supplement the incomplete design of <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> and write related tests.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[Last time, we drew a use case diagram for the Movie Booking System. If you’ve drawn a use case diagram during the software analysis/design process, it can be called a successful start.]]></summary></entry><entry><title type="html">백엔드 서비스 설계 - 영화 예매 시스템 (2)</title><link href="/2025/05/01/movie-booking-system-2.html" rel="alternate" type="text/html" title="백엔드 서비스 설계 - 영화 예매 시스템 (2)" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2.html"><![CDATA[<p>우리는 지난 시간에 <code class="language-plaintext highlighter-rouge">Movie Booking System</code>의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.</p>
 
-<p>이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code>와 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>에 대해서 좀 더 분석해 보도록 하겠다.</p>
+<p>이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>와 <code class="language-plaintext highlighter-rouge">PurchaseTickets</code>에 대해서 좀 더 분석해 보도록 하겠다.</p>
 
 <p><object data="/uml/8a3ed11fab2188d1a8c1c998960b4777.svg" type="image/svg+xml" class="plantuml"></object></p>
 
@@ -305,37 +305,36 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p>이 시퀀스 다이어그램을 보면 <code class="language-plaintext highlighter-rouge">액터</code>, <code class="language-plaintext highlighter-rouge">트리거</code>, <code class="language-plaintext highlighter-rouge">기본 흐름</code>에 대한 내용을 담고있고 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 빠져있다.</p>
 
-<h3 id="31-alt-블록으로-대안-흐름-표현">3.1. alt 블록으로 대안 흐름 표현</h3>
+<h3 id="31-alt-연산자로-대안-흐름-표현">3.1. alt 연산자로 대안 흐름 표현</h3>
 
-<p><code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램으로 그려보자. <code class="language-plaintext highlighter-rouge">대안 흐름(Alternative Flow)</code>이니까 alt 블록을 사용하는 것이 적절해 보인다.</p>
+<p><code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램으로 그려보자. <code class="language-plaintext highlighter-rouge">대안 흐름(Alternative Flow)</code>이니까 alt 연산자를 사용하는 것이 적절해 보인다.</p>
 
 <p><object data="/uml/50ab5109202bb330e005bd27843668e9.svg" type="image/svg+xml" class="plantuml"></object></p>
 
-<p><code class="language-plaintext highlighter-rouge">기본 흐름</code> 시퀀스 다이어그램에 <code class="language-plaintext highlighter-rouge">대안 흐름(Alternative Flow)</code>을 alt 블록으로 그렸다.</p>
+<p>alt 연산자를 사용한 대안 흐름의 표현이 나쁘지 않지만, <code class="language-plaintext highlighter-rouge">상영시간 목록 제공 (기본 흐름 5단계로 이동)</code> 이 부분은 표현이 직관적이지 않은 것 같다.</p>
 
-<p>분석 단계에서 이런 조건 블록의 사용은 정보를 한 번 더 해석해야 하기 때문에 문서를 읽기 어렵게 만든다. 지금은 <code class="language-plaintext highlighter-rouge">대안 흐름</code>이 간단해서 괜찮지만 복잡해 진다면 문제가 될 것이다.</p>
+<h3 id="32-loop-연산자로-재시도-흐름-표현">3.2. loop 연산자로 재시도 흐름 표현</h3>
 
-<p>이런 경우 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 별도의 시퀀스 다이어그램으로 그리는 것을 추천한다.</p>
+<p><code class="language-plaintext highlighter-rouge">기본 흐름 5단계로 이동</code>하라는 것은 상영시간 입력을 반복하라는 뜻이다. 따라서 loop 연산자가 적절해 보인다.</p>
 
-<h3 id="32-대안-흐름만-표현">3.2. 대안 흐름만 표현</h3>
+<p><object data="/uml/0b29d1b610629e1f590f096d7f701831.svg" type="image/svg+xml" class="plantuml"></object></p>
 
-<p><object data="/uml/0ce37836766afa68a3183dbdc3815d4d.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p>loop 연산자를 사용해서 대안 흐름을 개선할 수 있었다. 그러나 프레임이 중첩되니 분석 단계의 문서임에도 불구하고 복잡해 보인다.</p>
 
-<p>대안 흐름만 있으니까 읽기 편하다. 그런데 마지막에 <code class="language-plaintext highlighter-rouge">상영시간 목록 제공 (기본 흐름 5단계로 이동)</code> 이 부분은 표현이 직관적이지 않은 것 같다.</p>
+<h3 id="33-대안-흐름만-표현">3.3. 대안 흐름만 표현</h3>
 
-<h3 id="33-loop-블록-사용해서-개선">3.3. loop 블록 사용해서 개선</h3>
-
-<p><code class="language-plaintext highlighter-rouge">기본 흐름 5단계로 이동</code>하라는 것은 상영시간 입력을 반복하라는 뜻이다. 따라서 loop 블록으로 표현하는 것이 적절하다.</p>
+<p>프레임이 중첩되니까 분석 단계의 문서임에도 불구하고 복잡해 보인다. 무엇이 옳은지는 프로젝트 마다 다르지만 여기서는 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 분리하는 것이 좋아 보인다.</p>
 
 <p><object data="/uml/1cd50c871261deab3b9752d1d14c124c.svg" type="image/svg+xml" class="plantuml"></object></p>
 
-<p><code class="language-plaintext highlighter-rouge">대안 흐름</code>을 alt로 그렸을 때는 alt와 loop가 겹쳐서 사용할 수 없었다. 그러나 대안 흐름의 표현이 간단해지면서 loop를 사용할 수 있었고, 다이어그램이 더 읽기 쉬워졌다.</p>
+<p>UML에 익숙하지 않으면 다양한 연산자를 사용해서 화려하게 문서를 작성하고 싶은 욕구가 있을 수 있다.
+그러나 설계는 구현과는 다르다. 요구사항을 보고 구현하듯이 설계 문서를 작성할 필요는 없다.</p>
 
 <h3 id="34-대안-흐름을-시퀀스-다이어그램으로-그려야-할까">3.4. 대안 흐름을 시퀀스 다이어그램으로 그려야 할까?</h3>
 
 <p>설계는 구현을 하기에 충분한 정도의 정보를 담고 있으면 된다. 여기서 <strong>충분하다</strong>는 표현은 다소 모호할 수 있는데, 이는 팀의 상황에 따라 달라진다. 개발자의 실력이 높다면 설계를 간단하게 해도 충분할 것이다. 설계자와 구현자가 멀리 떨어져 있어서 긴밀한 커뮤니케이션이 어렵다면 설계를 좀 더 꼼꼼하게 해야 할 것이다.</p>
 
-<p>여기서는 <code class="language-plaintext highlighter-rouge">대안 흐름</code>의 내용이 간단함에도 불구하고 설명을 위해 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램으로 그렸다. 그러나 실제 프로젝트라면 시퀀스 다이어그램으로 그리지 않았을 것이다.</p>
+<p>여기서는 <code class="language-plaintext highlighter-rouge">대안 흐름</code>의 내용이 간단함에도 불구하고 설명을 위해 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램으로 그려봤다. 그러나 실제 프로젝트라면 굳이 시퀀스 다이어그램으로 그리지 않았을 것이다.</p>
 
 <h2 id="4-rest-api-설계">4. REST API 설계</h2>
 
