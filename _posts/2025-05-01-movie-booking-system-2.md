@@ -52,7 +52,7 @@ CreateShowtimes ..> GenerateTickets
 
 우리는 도메인 전문가에게 상영시간을 생성하려면 어떤 절차가 필요한지 물어본 뒤, 아래와 같이 정리한다.
 
-**목표**: 하나의 영화를 여러 극장에 상영시간 등록하기
+**목표**: 영화의 상영시간 등록하기
 
 **액터**: Admin
 
@@ -71,10 +71,11 @@ CreateShowtimes ..> GenerateTickets
 2. 관리자는 상영시간을 등록하려는 영화를 선택합니다.
 3. 시스템은 현재 등록된 극장 목록을 보여줍니다.
 4. 관리자는 상영시간을 등록하려는 극장들을 선택합니다.
-5. 관리자는 각 극장에 대한 상영시간을 입력합니다.
-6. 관리자는 상영시간을 등록합니다.
-7. 시스템은 등록한 상영시간이 기존의 상영시간과 겹치는지 검사합니다.
-8. 만약 겹치지 않는다면, 시스템은 상영시간을 등록하고, 상영시간 등록이 완료되었다는 메시지를 보여줍니다.
+5. 시스템은 등록된 상영시간 목록을 보여줍니다.
+6. 관리자는 각 극장에 대한 상영시간을 입력합니다.
+7. 관리자는 상영시간을 등록합니다.
+8. 시스템은 등록한 상영시간이 기존의 상영시간과 겹치는지 검사합니다.
+9. 시스템은 상영시간을 등록하고, 상영시간 등록이 완료되었다는 메시지를 보여줍니다.
 
 **대안 흐름**:
 
@@ -98,43 +99,133 @@ CreateShowtimes의 시작 조건인 `트리거`를 정의하고, 그에 따른 `
 actor Admin
 participant "Movie Booking System" as mbs
 
-Admin -> mbs: (트리거) 상영시간 생성 페이지를 방문
-Admin <-- mbs: (1) 영화 목록 제공
+Admin -> mbs:  상영시간 생성 페이지를 방문
+Admin <-- mbs:  영화 목록 제공
 
-Admin -> mbs: (2) 영화 선택
-Admin <-- mbs: (3) 극장 목록 제공
+Admin -> mbs:  영화 선택
+Admin <-- mbs: 극장 목록 제공
 
-Admin -> mbs: (4) 극장 선택
-Admin <-- mbs: (5) 상영시간 목록 제공
+Admin -> mbs:  극장 선택
+Admin <-- mbs: 상영시간 목록 제공
 
-Admin -> mbs: (6) 상영시간 선택
+Admin -> Admin:  상영시간 선택
+Admin -> mbs:  상영시간 등록 요청
 
-Admin -> mbs: (7) 상영시간 등록 요청
-Admin <-- mbs: (8) 상영시간 등록 성공 화면
+mbs -> mbs:  상영시간 검증 성공
+
+Admin <-- mbs: 상영시간 등록 성공 화면
 
 @enduml
 {% endplantuml %}
 
-위의 시퀀스 다이어그램을 보면 `트리거`, `기본 흐름`, `사후 조건`에 대한 내용을 담고있고 `대안 흐름`은 빠져있다. `대안 흐름`은 내용이 간단하기 때문에 구현 단계에서 처리해도 충분하다고 판단했다.
+이 시퀀스 다이어그램을 보면 `액터`, `트리거`, `기본 흐름`에 대한 내용을 담고있고 `대안 흐름`은 빠져있다.
 
-> 설계는 구현을 하기에 충분한 정도의 정보를 담고 있으면 된다. 여기서 **충분하다**는 표현은 다소 모호할 수 있는데, 이는 팀의 상황에 따라 달라진다. 개발자의 실력이 높다면 설계를 간단하게 해도 충분할 것이다. 설계자와 구현자가 멀리 떨어져 있어서 긴밀한 커뮤니케이션이 어렵다면 설계를 좀 더 꼼꼼하게 해야 할 것이다.
+### 3.1. alt 블록으로 대안 흐름 표현
 
-만약 `대안 흐름`을 시퀀스 다이어그램에 표현하려고 한다면 아래처럼 표현할 수 있다.
+`대안 흐름`을 시퀀스 다이어그램으로 그려보자. `대안 흐름(Alternative Flow)`이니까 alt 블록을 사용하는 것이 적절해 보인다.
 
 {% plantuml %}
 @startuml
 actor Admin
 participant "Movie Booking System" as mbs
 
-alt successful
-    Admin -> mbs: 상영시간 등록 성공
-else failure
-    Admin -> mbs: 상영시간 등록 실패
+Admin -> mbs:  상영시간 생성 페이지를 방문
+Admin <-- mbs:  영화 목록 제공
+
+Admin -> mbs:  영화 선택
+Admin <-- mbs: 극장 목록 제공
+
+Admin -> mbs:  극장 선택
+Admin <-- mbs: 상영시간 목록 제공
+
+Admin -> Admin:  상영시간 선택
+Admin -> mbs:  상영시간 등록 요청
+
+alt 충돌 없음
+    mbs -> mbs:  상영시간 검증 성공
+    Admin <-- mbs: 상영시간 등록 성공 화면
+else 상영시간 충돌 발생
+    mbs -> mbs:  상영시간 검증 실패
+
+    Admin <-- mbs: 상영시간 등록 실패 및 겹치는 상영시간 정보 표시
+    Admin <-- mbs: 상영시간 목록 제공 (기본 흐름 5단계로 이동)
+end
+
+@enduml
+{% endplantuml %}
+
+`기본 흐름` 시퀀스 다이어그램에 `대안 흐름(Alternative Flow)`을 alt 블록으로 그렸다.
+
+분석 단계에서 이런 조건 블록의 사용은 정보를 한 번 더 해석해야 하기 때문에 문서를 읽기 어렵게 만든다. 지금은 `대안 흐름`이 간단해서 괜찮지만 복잡해 진다면 문제가 될 것이다.
+
+이런 경우 `대안 흐름`을 별도의 시퀀스 다이어그램으로 그리는 것을 추천한다.
+
+### 3.2. 대안 흐름만 표현
+
+{% plantuml %}
+@startuml
+actor Admin
+participant "Movie Booking System" as mbs
+
+Admin -> mbs:  상영시간 생성 페이지를 방문
+Admin <-- mbs:  영화 목록 제공
+
+Admin -> mbs:  영화 선택
+Admin <-- mbs: 극장 목록 제공
+
+Admin -> mbs:  극장 선택
+Admin <-- mbs: 상영시간 목록 제공
+
+Admin -> Admin:  상영시간 선택
+Admin -> mbs:  상영시간 등록 요청
+
+mbs -> mbs:  상영시간 검증 실패
+
+Admin <-- mbs: 상영시간 등록 실패 및 겹치는 상영시간 정보 표시
+Admin <-- mbs: 상영시간 목록 제공 (기본 흐름 5단계로 이동)
+
+@enduml
+{% endplantuml %}
+
+대안 흐름만 있으니까 읽기 편하다. 그런데 마지막에 `상영시간 목록 제공 (기본 흐름 5단계로 이동)` 이 부분은 표현이 직관적이지 않은 것 같다.
+
+### 3.3. loop 블록 사용해서 개선
+
+`기본 흐름 5단계로 이동`하라는 것은 상영시간 입력을 반복하라는 뜻이다. 따라서 loop 블록으로 표현하는 것이 적절하다.
+
+{% plantuml %}
+@startuml
+actor Admin
+participant "Movie Booking System" as mbs
+
+Admin -> mbs:  상영시간 생성 페이지를 방문
+Admin <-- mbs:  영화 목록 제공
+
+Admin -> mbs:  영화 선택
+Admin <-- mbs: 극장 목록 제공
+
+Admin -> mbs:  극장 선택
+
+loop 상영시간 충돌 시 재시도
+    Admin <-- mbs: 상영시간 목록 제공
+
+    Admin -> Admin:  상영시간 선택
+    Admin -> mbs:  상영시간 등록 요청
+
+    mbs -> mbs:  상영시간 검증 실패
+
+    Admin <-- mbs: 상영시간 등록 실패 및 겹치는 상영시간 정보 표시
 end
 @enduml
 {% endplantuml %}
 
-그러나 시퀀스 다이어그램에서 `대안 흐름`은 별도의 다이어그램으로 분리하는 것이 좋다. `대안 흐름`은 다이어그램을 복잡하게 만들고, 설계를 점차 구현 수준으로 끌어내리는 경향이 있기 때문이다.
+`대안 흐름`을 alt로 그렸을 때는 alt와 loop가 겹쳐서 사용할 수 없었다. 그러나 대안 흐름의 표현이 간단해지면서 loop를 사용할 수 있었고, 다이어그램이 더 읽기 쉬워졌다.
+
+### 3.4. 대안 흐름을 시퀀스 다이어그램으로 그려야 할까?
+
+설계는 구현을 하기에 충분한 정도의 정보를 담고 있으면 된다. 여기서 **충분하다**는 표현은 다소 모호할 수 있는데, 이는 팀의 상황에 따라 달라진다. 개발자의 실력이 높다면 설계를 간단하게 해도 충분할 것이다. 설계자와 구현자가 멀리 떨어져 있어서 긴밀한 커뮤니케이션이 어렵다면 설계를 좀 더 꼼꼼하게 해야 할 것이다.
+
+여기서는 `대안 흐름`의 내용이 간단함에도 불구하고 설명을 위해 `대안 흐름`을 시퀀스 다이어그램으로 그렸다. 그러나 실제 프로젝트라면 시퀀스 다이어그램으로 그리지 않았을 것이다.
 
 ## 4. REST API 설계
 
@@ -161,7 +252,7 @@ Admin -> Frontend: 극장 선택
     Frontend <-- Backend: showtimes[]
 Admin <-- Frontend: 상영시간 목록 제공
 
-Admin -> Frontend: 상영시간 선택
+Admin -> Admin: 상영시간 선택
 
 Admin -> Frontend: 상영시간 등록 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtimes
@@ -259,7 +350,7 @@ Admin -> Frontend: 극장 선택
     Frontend <-- Backend: showtimes[]
 Admin <-- Frontend: 상영시간 목록 제공
 
-Admin -> Frontend: 상영시간 선택
+Admin -> Admin: 상영시간 선택
 
 Admin -> Frontend: 상영시간 등록 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
@@ -396,7 +487,7 @@ Frontend <-- Backend: movies[]
 
 위 시퀀스 다이어그램에서 볼 수 있듯이 서비스가 다른 서비스를 참조할 수 있다는 것은 기능이 확장되면서 언젠가 상호 참조 관계로 발전할 수 있다는 뜻이다.
 
-### 5.3. 마이크로서비스의 3-Layer 구조
+### 5.3. SoLA(Service-oriented Layered Architecture)
 
 MSA는 ‘서비스 간 협력’과 ‘순환 참조 금지’라는 상충을 레이어 분리로 해결한다. 즉, 마이크로서비스는 하위 레이어만 참조할 수 있다는 `단방향 의존 관계` 규칙을 추가한다.
 
@@ -448,7 +539,7 @@ end note
 
 하나의 마이크로서비스를 설계할 때 `Application`, `Domain`, `Infrastructure` 레이어로 객체를 분류하듯이 마이크로서비스들도 유사하게 나누는 것이다.
 
-이제 3-Layer 구조를 적용하여 다시 설계를 해보자.
+이제 `SoLA`를 적용하여 다시 설계를 해보자.
 
 {% plantuml %}
 @startuml
@@ -511,6 +602,6 @@ REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지
 
 이번 글에서는 `CreateShowtimes` 유스케이스에 대해 (1) 유스케이스 명세서를 작성하고, (2) 시퀀스 다이어그램으로 시각화한 뒤, (3) 서비스 설계를 위해 시퀀스를 확장했다.
 
-최상위 아키텍처로 MSA를 선택하고, 서비스 간 순환 참조 문제를 3-Layer(Service) 구조로 해결함으로써 REST API와 서비스 계층이 자연스럽게 대응되는 효과를 확인했다.
+최상위 아키텍처로 MSA를 선택하고, 서비스 간 순환 참조 문제를 SoLA(Service-oriented Layered Architecture)로 해결함으로써 REST API와 서비스 계층이 자연스럽게 대응되는 효과를 확인했다.
 
 다음 글에서는 `CreateShowtimes`의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.

@@ -23,7 +23,7 @@ Admin -> Frontend: 극장 선택
     Frontend <-- Backend: showtimes[]
 Admin <-- Frontend: 상영시간 목록 제공
 
-Admin -> Frontend: 상영시간 선택
+Admin -> Admin: 상영시간 선택
 
 Admin -> Frontend: 상영시간 등록 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes

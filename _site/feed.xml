@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-18T02:55:51+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-21T03:38:17+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">Backend Service Design - Movie Booking System (2)</title><link href="/2025/05/01/movie-booking-system-2-en.html" rel="alternate" type="text/html" title="Backend Service Design - Movie Booking System (2)" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2-en</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2-en.html"><![CDATA[<p>Last time, we drew a use case diagram for the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>. If you’ve drawn a use case diagram during the software analysis/design process, it can be called a successful start.</p>
 
 <p>This time, we’ll dive into two of the more complex use cases: <code class="language-plaintext highlighter-rouge">PurchaseTickets</code> and <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>.</p>
@@ -246,7 +246,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p>우리는 도메인 전문가에게 상영시간을 생성하려면 어떤 절차가 필요한지 물어본 뒤, 아래와 같이 정리한다.</p>
 
-<p><strong>목표</strong>: 하나의 영화를 여러 극장에 상영시간 등록하기</p>
+<p><strong>목표</strong>: 영화의 상영시간 등록하기</p>
 
 <p><strong>액터</strong>: Admin</p>
 
@@ -270,10 +270,11 @@ This has the added benefit of making the structure easier to understand as the R
   <li>관리자는 상영시간을 등록하려는 영화를 선택합니다.</li>
   <li>시스템은 현재 등록된 극장 목록을 보여줍니다.</li>
   <li>관리자는 상영시간을 등록하려는 극장들을 선택합니다.</li>
+  <li>시스템은 등록된 상영시간 목록을 보여줍니다.</li>
   <li>관리자는 각 극장에 대한 상영시간을 입력합니다.</li>
   <li>관리자는 상영시간을 등록합니다.</li>
   <li>시스템은 등록한 상영시간이 기존의 상영시간과 겹치는지 검사합니다.</li>
-  <li>만약 겹치지 않는다면, 시스템은 상영시간을 등록하고, 상영시간 등록이 완료되었다는 메시지를 보여줍니다.</li>
+  <li>시스템은 상영시간을 등록하고, 상영시간 등록이 완료되었다는 메시지를 보여줍니다.</li>
 </ol>
 
 <p><strong>대안 흐름</strong>:</p>
@@ -300,19 +301,41 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p>유스케이스 명세서를 좀 더 읽기 쉽게 시퀀스 다이어그램으로 그려보자.</p>
 
-<p><object data="/uml/2c35c9ee77aa73af13a520e459e56ab6.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/c343852d0112277dc992358a4753d8bb.svg" type="image/svg+xml" class="plantuml"></object></p>
 
-<p>위의 시퀀스 다이어그램을 보면 <code class="language-plaintext highlighter-rouge">트리거</code>, <code class="language-plaintext highlighter-rouge">기본 흐름</code>, <code class="language-plaintext highlighter-rouge">사후 조건</code>에 대한 내용을 담고있고 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 빠져있다. <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 내용이 간단하기 때문에 구현 단계에서 처리해도 충분하다고 판단했다.</p>
+<p>이 시퀀스 다이어그램을 보면 <code class="language-plaintext highlighter-rouge">액터</code>, <code class="language-plaintext highlighter-rouge">트리거</code>, <code class="language-plaintext highlighter-rouge">기본 흐름</code>에 대한 내용을 담고있고 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 빠져있다.</p>
 
-<blockquote>
-  <p>설계는 구현을 하기에 충분한 정도의 정보를 담고 있으면 된다. 여기서 <strong>충분하다</strong>는 표현은 다소 모호할 수 있는데, 이는 팀의 상황에 따라 달라진다. 개발자의 실력이 높다면 설계를 간단하게 해도 충분할 것이다. 설계자와 구현자가 멀리 떨어져 있어서 긴밀한 커뮤니케이션이 어렵다면 설계를 좀 더 꼼꼼하게 해야 할 것이다.</p>
-</blockquote>
+<h3 id="31-alt-블록으로-대안-흐름-표현">3.1. alt 블록으로 대안 흐름 표현</h3>
 
-<p>만약 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램에 표현하려고 한다면 아래처럼 표현할 수 있다.</p>
+<p><code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램으로 그려보자. <code class="language-plaintext highlighter-rouge">대안 흐름(Alternative Flow)</code>이니까 alt 블록을 사용하는 것이 적절해 보인다.</p>
 
-<p><object data="/uml/53f243a5be5e32736ebed2fcbef0f2f3.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/50ab5109202bb330e005bd27843668e9.svg" type="image/svg+xml" class="plantuml"></object></p>
 
-<p>그러나 시퀀스 다이어그램에서 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 별도의 다이어그램으로 분리하는 것이 좋다. <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 다이어그램을 복잡하게 만들고, 설계를 점차 구현 수준으로 끌어내리는 경향이 있기 때문이다.</p>
+<p><code class="language-plaintext highlighter-rouge">기본 흐름</code> 시퀀스 다이어그램에 <code class="language-plaintext highlighter-rouge">대안 흐름(Alternative Flow)</code>을 alt 블록으로 그렸다.</p>
+
+<p>분석 단계에서 이런 조건 블록의 사용은 정보를 한 번 더 해석해야 하기 때문에 문서를 읽기 어렵게 만든다. 지금은 <code class="language-plaintext highlighter-rouge">대안 흐름</code>이 간단해서 괜찮지만 복잡해 진다면 문제가 될 것이다.</p>
+
+<p>이런 경우 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 별도의 시퀀스 다이어그램으로 그리는 것을 추천한다.</p>
+
+<h3 id="32-대안-흐름만-표현">3.2. 대안 흐름만 표현</h3>
+
+<p><object data="/uml/0ce37836766afa68a3183dbdc3815d4d.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p>대안 흐름만 있으니까 읽기 편하다. 그런데 마지막에 <code class="language-plaintext highlighter-rouge">상영시간 목록 제공 (기본 흐름 5단계로 이동)</code> 이 부분은 표현이 직관적이지 않은 것 같다.</p>
+
+<h3 id="33-loop-블록-사용해서-개선">3.3. loop 블록 사용해서 개선</h3>
+
+<p><code class="language-plaintext highlighter-rouge">기본 흐름 5단계로 이동</code>하라는 것은 상영시간 입력을 반복하라는 뜻이다. 따라서 loop 블록으로 표현하는 것이 적절하다.</p>
+
+<p><object data="/uml/1cd50c871261deab3b9752d1d14c124c.svg" type="image/svg+xml" class="plantuml"></object></p>
+
+<p><code class="language-plaintext highlighter-rouge">대안 흐름</code>을 alt로 그렸을 때는 alt와 loop가 겹쳐서 사용할 수 없었다. 그러나 대안 흐름의 표현이 간단해지면서 loop를 사용할 수 있었고, 다이어그램이 더 읽기 쉬워졌다.</p>
+
+<h3 id="34-대안-흐름을-시퀀스-다이어그램으로-그려야-할까">3.4. 대안 흐름을 시퀀스 다이어그램으로 그려야 할까?</h3>
+
+<p>설계는 구현을 하기에 충분한 정도의 정보를 담고 있으면 된다. 여기서 <strong>충분하다</strong>는 표현은 다소 모호할 수 있는데, 이는 팀의 상황에 따라 달라진다. 개발자의 실력이 높다면 설계를 간단하게 해도 충분할 것이다. 설계자와 구현자가 멀리 떨어져 있어서 긴밀한 커뮤니케이션이 어렵다면 설계를 좀 더 꼼꼼하게 해야 할 것이다.</p>
+
+<p>여기서는 <code class="language-plaintext highlighter-rouge">대안 흐름</code>의 내용이 간단함에도 불구하고 설명을 위해 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램으로 그렸다. 그러나 실제 프로젝트라면 시퀀스 다이어그램으로 그리지 않았을 것이다.</p>
 
 <h2 id="4-rest-api-설계">4. REST API 설계</h2>
 
@@ -320,7 +343,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
 
-<p><object data="/uml/87603908d6894f5c05946c261884e3b8.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/8776a5a8c63eb54c7af90209a2b342a6.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이것은 경로를 짧게 가져가는 전형적인 Shallow Routing 설계로, URI를 짧고 평탄하게 유지해 주면서 서비스 진화·운용 부담을 덜어 주는 실용적 선택이다.</p>
 
@@ -374,7 +397,7 @@ GET /showtime-creation/theaters
 
 <p>지금까지 설명한 설계 지침을 반영해서 시퀀스 다이어그램을 다시 그려보자.</p>
 
-<p><object data="/uml/f20220ff79d25b30bd02cfe155975cbb.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/30f2ae20e06e558dd2d7d02526c7e204.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h2 id="5-서비스-설계">5. 서비스 설계</h2>
 
@@ -413,7 +436,7 @@ GET /showtime-creation/theaters
 
 <p>위 시퀀스 다이어그램에서 볼 수 있듯이 서비스가 다른 서비스를 참조할 수 있다는 것은 기능이 확장되면서 언젠가 상호 참조 관계로 발전할 수 있다는 뜻이다.</p>
 
-<h3 id="53-마이크로서비스의-3-layer-구조">5.3. 마이크로서비스의 3-Layer 구조</h3>
+<h3 id="53-solaservice-oriented-layered-architecture">5.3. SoLA(Service-oriented Layered Architecture)</h3>
 
 <p>MSA는 ‘서비스 간 협력’과 ‘순환 참조 금지’라는 상충을 레이어 분리로 해결한다. 즉, 마이크로서비스는 하위 레이어만 참조할 수 있다는 <code class="language-plaintext highlighter-rouge">단방향 의존 관계</code> 규칙을 추가한다.</p>
 
@@ -444,7 +467,7 @@ GET /showtime-creation/theaters
 
 <p>하나의 마이크로서비스를 설계할 때 <code class="language-plaintext highlighter-rouge">Application</code>, <code class="language-plaintext highlighter-rouge">Domain</code>, <code class="language-plaintext highlighter-rouge">Infrastructure</code> 레이어로 객체를 분류하듯이 마이크로서비스들도 유사하게 나누는 것이다.</p>
 
-<p>이제 3-Layer 구조를 적용하여 다시 설계를 해보자.</p>
+<p>이제 <code class="language-plaintext highlighter-rouge">SoLA</code>를 적용하여 다시 설계를 해보자.</p>
 
 <p><object data="/uml/f5071fa54c1de93fc0ca5c71d6de79ea.svg" type="image/svg+xml" class="plantuml"></object></p>
 
@@ -459,7 +482,7 @@ REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지
 
 <p>이번 글에서는 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code> 유스케이스에 대해 (1) 유스케이스 명세서를 작성하고, (2) 시퀀스 다이어그램으로 시각화한 뒤, (3) 서비스 설계를 위해 시퀀스를 확장했다.</p>
 
-<p>최상위 아키텍처로 MSA를 선택하고, 서비스 간 순환 참조 문제를 3-Layer(Service) 구조로 해결함으로써 REST API와 서비스 계층이 자연스럽게 대응되는 효과를 확인했다.</p>
+<p>최상위 아키텍처로 MSA를 선택하고, 서비스 간 순환 참조 문제를 SoLA(Service-oriented Layered Architecture)로 해결함으로써 REST API와 서비스 계층이 자연스럽게 대응되는 효과를 확인했다.</p>
 
 <p>다음 글에서는 <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.</p>]]></content><author><name>mannercode</name><email>mannercode@gmail.com</email></author><summary type="html"><![CDATA[우리는 지난 시간에 Movie Booking System의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.]]></summary></entry><entry><title type="html">Backend Service Design - Movie Booking System (1)</title><link href="/2025/04/01/movie-booking-system-1-en.html" rel="alternate" type="text/html" title="Backend Service Design - Movie Booking System (1)" /><published>2025-04-01T00:00:00+00:00</published><updated>2025-04-01T00:00:00+00:00</updated><id>/2025/04/01/movie-booking-system-1-en</id><content type="html" xml:base="/2025/04/01/movie-booking-system-1-en.html"><![CDATA[<p>Software is complex, so it’s crucial to implement it with a systematic design approach. That’s why I try to create a proper design every time I start a new project. However, when I actually try to write a design document, expressing my ideas concretely is harder than I expected.</p>
 
