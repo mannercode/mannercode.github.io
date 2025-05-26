@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-26T11:59:05+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-26T18:19:59+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">Backend Service Design - Movie Booking System (2)</title><link href="/2025/05/01/movie-booking-system-2-en.html" rel="alternate" type="text/html" title="Backend Service Design - Movie Booking System (2)" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2-en</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2-en.html"><![CDATA[<p>Last time, we drew a use case diagram for the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>. If you’ve drawn a use case diagram during the software analysis/design process, it can be called a successful start.</p>
 
 <p>This time, we’ll dive into two of the more complex use cases: <code class="language-plaintext highlighter-rouge">PurchaseTickets</code> and <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>.</p>
@@ -414,7 +414,7 @@ GET /showtime-creation/theaters
 
 <p>REST API를 정의했다면 이제 REST API와 연결되는 서비스를 설계해 보자.</p>
 
-<h3 id="51-마이크로서비스-아키텍쳐msa">5.1. 마이크로서비스 아키텍쳐(MSA)</h3>
+<h3 id="51-마이크로서비스-아키텍쳐msa-소개">5.1. 마이크로서비스 아키텍쳐(MSA) 소개</h3>
 
 <p>서비스 설계를 시작하기 전에 프로젝트와 개발팀의 상황을 고려해서 최상위 아키텍쳐를 정해야 한다. 여기서는 마이크로서비스 아키텍쳐(MSA)를 선택했다.</p>
 
@@ -426,13 +426,15 @@ GET /showtime-creation/theaters
 
 <p>결국 MSA는 개념적으로 객체 지향 방식과 유사한 면을 가지게 된다.</p>
 
+<h3 id="52-msa로-서비스-설계">5.2. MSA로 서비스 설계</h3>
+
 <p>그러면 이제 MSA에 맞게 서비스를 설계해 보자. 편의를 위해서 <code class="language-plaintext highlighter-rouge">Admin</code>액터는 생략한다.</p>
 
 <p><object data="/uml/089b82d68cf41b0f1c4b2227d4b5f751.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이 시퀀스 다이어그램에서 그나마 복잡해 보이는 부분은 ShowtimesService의 createShowtimes() 함수에서 검증을 위해 MoviesService.moviesExist()와 TheatersService.theatersExist()를 호출하고 있다는 정도다.</p>
 
-<h3 id="52-마이크로서비스의-순환-참조-문제">5.2. 마이크로서비스의 순환 참조 문제</h3>
+<h3 id="53-마이크로서비스의-순환-참조-문제">5.3. 마이크로서비스의 순환 참조 문제</h3>
 
 <p>객체 지향 프로그래밍(OOP)에서 두 객체가 서로를 참조하면 메모리 관리 등의 문제가 생기기 때문에 피해야 한다고 한다. 그러나 이런 기술적인 문제보다 더 중요한 것은 두 객체가 강하게 결합한다는 것이다.</p>
 
@@ -448,7 +450,7 @@ GET /showtime-creation/theaters
 
 <p>위 시퀀스 다이어그램에서 볼 수 있듯이 서비스가 다른 서비스를 참조할 수 있다는 것은 기능이 확장되면서 언젠가 상호 참조 관계로 발전할 수 있다는 뜻이다.</p>
 
-<h3 id="53-solaservice-oriented-layered-architecture">5.3. SoLA(Service-oriented Layered Architecture)</h3>
+<h3 id="54-solaservice-oriented-layered-architecture">5.4. SoLA(Service-oriented Layered Architecture)</h3>
 
 <p>MSA는 ‘서비스 간 협력’과 ‘순환 참조 금지’라는 상충을 레이어 분리로 해결한다. 즉, 마이크로서비스는 하위 레이어만 참조할 수 있다는 <code class="language-plaintext highlighter-rouge">단방향 의존 관계</code> 규칙을 추가한다.</p>
 
@@ -472,7 +474,7 @@ GET /showtime-creation/theaters
   </li>
   <li><strong>Infrastructure Service</strong>:
     <ul>
-      <li>DB, 결제, 스토리지 등 외부 시스템 연동을 담당합니다.</li>
+      <li>결제, 스토리지 등 외부 시스템 연동을 담당합니다.</li>
     </ul>
   </li>
 </ul>
