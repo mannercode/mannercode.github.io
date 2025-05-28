@@ -52,7 +52,7 @@ CreateShowtimes ..> GenerateTickets
 
 우리는 도메인 전문가에게 상영시간을 생성하려면 어떤 절차가 필요한지 물어본 뒤, 아래와 같이 정리한다.
 
-**목표**: 영화의 상영시간 등록하기
+**목표**: 영화의 상영시간 생성하기
 
 **액터**: Admin
 
@@ -75,12 +75,12 @@ CreateShowtimes ..> GenerateTickets
 6. 관리자는 각 극장에 대한 상영시간을 입력합니다.
 7. 관리자는 상영시간을 등록합니다.
 8. 시스템은 등록한 상영시간이 기존의 상영시간과 겹치는지 검사합니다.
-9. 시스템은 상영시간을 등록하고, 상영시간 등록이 완료되었다는 메시지를 보여줍니다.
+9. 시스템은 상영시간을 등록하고, 상영시간 생성이 완료되었다는 메시지를 보여줍니다.
 
 **대안 흐름**:
 
 - 만약 상영시간이 기존의 상영시간과 겹친다면
-    1. 시스템은 상영시간 등록에 실패했다는 메시지와 함께 어떤 상영시간이 겹쳤는지 정보를 보여줍니다.
+    1. 시스템은 상영시간 생성에 실패했다는 메시지와 함께 어떤 상영시간이 겹쳤는지 정보를 보여줍니다.
     2. 기본 흐름 5단계로 돌아갑니다.
 
 **사후 조건**:
@@ -109,11 +109,11 @@ Admin -> mbs:  극장 선택
 Admin <-- mbs: 상영시간 목록 제공
 
 Admin -> Admin:  상영시간 선택
-Admin -> mbs:  상영시간 등록 요청
+Admin -> mbs:  상영시간 생성 요청
 
 mbs -> mbs:  상영시간 검증 성공
 
-Admin <-- mbs: 상영시간 등록 성공 화면
+Admin <-- mbs: 상영시간 생성 성공 화면
 
 @enduml
 {% endplantuml %}
@@ -139,15 +139,15 @@ Admin -> mbs:  극장 선택
 Admin <-- mbs: 상영시간 목록 제공
 
 Admin -> Admin:  상영시간 선택
-Admin -> mbs:  상영시간 등록 요청
+Admin -> mbs:  상영시간 생성 요청
 
 alt 충돌 없음
     mbs -> mbs:  상영시간 검증 성공
-    Admin <-- mbs: 상영시간 등록 성공 화면
+    Admin <-- mbs: 상영시간 생성 성공 화면
 else 상영시간 충돌 발생
     mbs -> mbs:  상영시간 검증 실패
 
-    Admin <-- mbs: 상영시간 등록 실패 및 겹치는 상영시간 정보 표시
+    Admin <-- mbs: 상영시간 생성 실패 및 겹치는 상영시간 정보 표시
     Admin <-- mbs: 상영시간 목록 제공 (기본 흐름 5단계로 이동)
 end
 
@@ -177,15 +177,15 @@ loop 상영시간 충돌 시 재시도
     Admin <-- mbs: 상영시간 목록 제공
 
     Admin -> Admin:  상영시간 선택
-    Admin -> mbs:  상영시간 등록 요청
+    Admin -> mbs:  상영시간 생성 요청
 
     alt 충돌 없음
         mbs -> mbs:  상영시간 검증 성공
-        Admin <-- mbs: 상영시간 등록 성공 화면
+        Admin <-- mbs: 상영시간 생성 성공 화면
     else 상영시간 충돌 발생
         mbs -> mbs:  상영시간 검증 실패
 
-        Admin <-- mbs: 상영시간 등록 실패 및 겹치는 상영시간 정보 표시
+        Admin <-- mbs: 상영시간 생성 실패 및 겹치는 상영시간 정보 표시
     end
 end
 @enduml
@@ -214,11 +214,11 @@ loop 상영시간 충돌 시 재시도
     Admin <-- mbs: 상영시간 목록 제공
 
     Admin -> Admin:  상영시간 선택
-    Admin -> mbs:  상영시간 등록 요청
+    Admin -> mbs:  상영시간 생성 요청
 
     mbs -> mbs:  상영시간 검증 실패
 
-    Admin <-- mbs: 상영시간 등록 실패 및 겹치는 상영시간 정보 표시
+    Admin <-- mbs: 상영시간 생성 실패 및 겹치는 상영시간 정보 표시
 end
 @enduml
 {% endplantuml %}
@@ -259,7 +259,7 @@ Admin <-- Frontend: 상영시간 목록 제공
 
 Admin -> Admin: 상영시간 선택
 
-Admin -> Frontend: 상영시간 등록 요청
+Admin -> Frontend: 상영시간 생성 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtimes
         note right
         ShowtimesCreateDto {
@@ -270,7 +270,7 @@ Admin -> Frontend: 상영시간 등록 요청
         }
         end note
     Frontend <-- Backend: Created(201)
-Admin <-- Frontend: 상영시간 등록 성공 화면
+Admin <-- Frontend: 상영시간 생성 성공 화면
 @enduml
 {% endplantuml %}
 
@@ -317,7 +317,7 @@ fork again
 fork again
   :영화 기능 CRUD 구현;
 end fork
-:상영시간 등록 요구 등장;
+:상영시간 생성 요구 등장;
 if (기존 API로 가능?) then (Yes)
     :프런트에 기존 API 전달;
 else (No)
@@ -391,7 +391,7 @@ Admin <-- Frontend: 상영시간 목록 제공
 
 Admin -> Admin: 상영시간 선택
 
-Admin -> Frontend: 상영시간 등록 요청
+Admin -> Frontend: 상영시간 생성 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
         note right
             ShowtimesCreateDto {
@@ -402,7 +402,7 @@ Admin -> Frontend: 상영시간 등록 요청
             }
         end note
     Frontend <-- Backend: Created(201)
-Admin <-- Frontend: 상영시간 등록 성공 화면
+Admin <-- Frontend: 상영시간 생성 성공 화면
 
 @enduml
 {% endplantuml %}

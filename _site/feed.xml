@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-28T07:09:05+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-05-28T18:17:54+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">Backend Service Design - Movie Booking System (2)</title><link href="/2025/05/01/movie-booking-system-2-en.html" rel="alternate" type="text/html" title="Backend Service Design - Movie Booking System (2)" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/movie-booking-system-2-en</id><content type="html" xml:base="/2025/05/01/movie-booking-system-2-en.html"><![CDATA[<p>Last time, we drew a use case diagram for the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>. If you’ve drawn a use case diagram during the software analysis/design process, it can be called a successful start.</p>
 
 <p>This time, we’ll dive into two of the more complex use cases: <code class="language-plaintext highlighter-rouge">PurchaseTickets</code> and <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>.</p>
@@ -246,7 +246,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p>우리는 도메인 전문가에게 상영시간을 생성하려면 어떤 절차가 필요한지 물어본 뒤, 아래와 같이 정리한다.</p>
 
-<p><strong>목표</strong>: 영화의 상영시간 등록하기</p>
+<p><strong>목표</strong>: 영화의 상영시간 생성하기</p>
 
 <p><strong>액터</strong>: Admin</p>
 
@@ -274,7 +274,7 @@ This has the added benefit of making the structure easier to understand as the R
   <li>관리자는 각 극장에 대한 상영시간을 입력합니다.</li>
   <li>관리자는 상영시간을 등록합니다.</li>
   <li>시스템은 등록한 상영시간이 기존의 상영시간과 겹치는지 검사합니다.</li>
-  <li>시스템은 상영시간을 등록하고, 상영시간 등록이 완료되었다는 메시지를 보여줍니다.</li>
+  <li>시스템은 상영시간을 등록하고, 상영시간 생성이 완료되었다는 메시지를 보여줍니다.</li>
 </ol>
 
 <p><strong>대안 흐름</strong>:</p>
@@ -282,7 +282,7 @@ This has the added benefit of making the structure easier to understand as the R
 <ul>
   <li>만약 상영시간이 기존의 상영시간과 겹친다면
     <ol>
-      <li>시스템은 상영시간 등록에 실패했다는 메시지와 함께 어떤 상영시간이 겹쳤는지 정보를 보여줍니다.</li>
+      <li>시스템은 상영시간 생성에 실패했다는 메시지와 함께 어떤 상영시간이 겹쳤는지 정보를 보여줍니다.</li>
       <li>기본 흐름 5단계로 돌아갑니다.</li>
     </ol>
   </li>
@@ -301,7 +301,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p>유스케이스 명세서를 좀 더 읽기 쉽게 시퀀스 다이어그램으로 그려보자.</p>
 
-<p><object data="/uml/c343852d0112277dc992358a4753d8bb.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/ebec0aa2f694061c26aa5e5987235b43.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이 시퀀스 다이어그램은 <code class="language-plaintext highlighter-rouge">액터</code>, <code class="language-plaintext highlighter-rouge">트리거</code>, <code class="language-plaintext highlighter-rouge">기본 흐름</code>에 대한 내용을 담고있고 <code class="language-plaintext highlighter-rouge">대안 흐름</code>은 빠져있다.</p>
 
@@ -309,7 +309,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p><code class="language-plaintext highlighter-rouge">대안 흐름</code>을 시퀀스 다이어그램으로 그려보자. <code class="language-plaintext highlighter-rouge">대안 흐름(Alternative Flow)</code>이니까 alt 연산자를 사용하는 것이 적절해 보인다.</p>
 
-<p><object data="/uml/50ab5109202bb330e005bd27843668e9.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/565ff26ba6b830e18e8ab8fad702ceb0.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>alt 연산자를 사용한 대안 흐름의 표현이 나쁘지 않지만, <code class="language-plaintext highlighter-rouge">상영시간 목록 제공 (기본 흐름 5단계로 이동)</code> 이 부분은 표현이 직관적이지 않은 것 같다.</p>
 
@@ -317,7 +317,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p><code class="language-plaintext highlighter-rouge">기본 흐름 5단계로 이동</code>하라는 것은 상영시간 입력을 반복하라는 뜻이다. 따라서 loop 연산자가 적절해 보인다.</p>
 
-<p><object data="/uml/0b29d1b610629e1f590f096d7f701831.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/bdaea81bdd3b4cf02cee0fae339b0a99.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>loop 연산자를 사용해서 대안 흐름을 개선할 수 있었다. 그러나 프레임이 중첩되니 분석 단계의 문서임에도 불구하고 복잡해 보인다.</p>
 
@@ -325,7 +325,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <p>프레임이 중첩되니까 분석 단계의 문서임에도 불구하고 복잡해 보인다. 무엇이 옳은지는 프로젝트 마다 다르지만 여기서는 <code class="language-plaintext highlighter-rouge">대안 흐름</code>을 분리하는 것이 좋아 보인다.</p>
 
-<p><object data="/uml/1cd50c871261deab3b9752d1d14c124c.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/fe4c1b4edc1d26a0e501f0eee1f8124e.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>UML에 익숙하지 않으면 다양한 연산자를 사용해서 화려하게 문서를 작성하고 싶은 욕구가 있을 수 있다.
 그러나 설계는 구현과는 다르다. 요구사항을 보고 구현하듯이 설계 문서를 작성할 필요는 없다.</p>
@@ -342,7 +342,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
 
-<p><object data="/uml/8776a5a8c63eb54c7af90209a2b342a6.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/2e51bbffea34dfe2bfd4d0f61b043a39.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이것은 경로를 짧게 가져가는 전형적인 Shallow Routing 설계로, URI를 짧고 평탄하게 유지해 주면서 서비스 진화·운용 부담을 덜어 주는 실용적 선택이다.</p>
 
@@ -372,7 +372,7 @@ GET /showtime-creation/theaters
 
 <p>설계 없이 구현을 우선하는 경우 사고 과정은 대략 다음과 같다.</p>
 
-<p><object data="/uml/ef0065511a50a76663ecd240d0fde061.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/0cc1881c71b9bdbaf929b8b13e7f5d40.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>Bottom-Up(데이터·구현 우선) 접근은 <strong>현재 파악 가능한 테이블 중심으로 DDL을 먼저 정의</strong>하고, 그 스키마를 그대로 노출하는 CRUD API를 작성한다. 이후 새로운 기능 요구가 생기면 기존 구현 범위 안에서 해결책을 찾으려 하기 때문에, <strong>‘상영 시간 생성’</strong>과 같은 상위 개념이 여러 API로 흩어져 응집도가 약해질 수 있다.</p>
 
@@ -408,7 +408,7 @@ GET /showtime-creation/theaters
 
 <p>지금까지 설명한 설계 지침을 반영해서 시퀀스 다이어그램을 다시 그려보자.</p>
 
-<p><object data="/uml/30f2ae20e06e558dd2d7d02526c7e204.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/9c04e84b47483a246868fe0e12dba551.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h2 id="5-서비스-설계">5. 서비스 설계</h2>
 

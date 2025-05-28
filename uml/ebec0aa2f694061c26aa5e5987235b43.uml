@@ -14,11 +14,11 @@ Admin -> mbs:  극장 선택
 Admin <-- mbs: 상영시간 목록 제공
 
 Admin -> Admin:  상영시간 선택
-Admin -> mbs:  상영시간 등록 요청
+Admin -> mbs:  상영시간 생성 요청
 
 mbs -> mbs:  상영시간 검증 성공
 
-Admin <-- mbs: 상영시간 등록 성공 화면
+Admin <-- mbs: 상영시간 생성 성공 화면
 
 @enduml
 

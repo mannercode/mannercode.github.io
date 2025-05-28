@@ -16,11 +16,11 @@ loop 상영시간 충돌 시 재시도
     Admin <-- mbs: 상영시간 목록 제공
 
     Admin -> Admin:  상영시간 선택
-    Admin -> mbs:  상영시간 등록 요청
+    Admin -> mbs:  상영시간 생성 요청
 
     mbs -> mbs:  상영시간 검증 실패
 
-    Admin <-- mbs: 상영시간 등록 실패 및 겹치는 상영시간 정보 표시
+    Admin <-- mbs: 상영시간 생성 실패 및 겹치는 상영시간 정보 표시
 end
 @enduml
 
