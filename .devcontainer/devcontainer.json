@@ -4,10 +4,14 @@
     "name": "${containerWorkspaceFolderBasename}",
     "context": ".",
     "dockerFile": "Dockerfile",
+        "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+    ],
     "runArgs": [
         "--name",
         "${containerWorkspaceFolderBasename}-vscode"
     ],
+    "onCreateCommand": "docker tag $(docker images -q vsc-${containerWorkspaceFolderBasename}-*) vscode-${containerWorkspaceFolderBasename} && docker rmi $(docker images --filter=reference=vsc-${containerWorkspaceFolderBasename}-* --format {{.Repository}})",
     "postCreateCommand": "bundle install",
     "customizations": {
         "vscode": {
