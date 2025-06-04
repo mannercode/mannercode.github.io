@@ -2,7 +2,7 @@
 class A--><rect fill="#FEFECE" filter="url(#f16l4dbvbc3f67)" height="48" id="A" style="stroke: #A80036; stroke-width: 1.5;" width="40" x="6" y="8"/><ellipse cx="21" cy="24" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M23.9688,29.6406 Q23.3906,29.9375 22.75,30.0781 Q22.1094,30.2344 21.4063,30.2344 Q18.9063,30.2344 17.5781,28.5938 Q16.2656,26.9375 16.2656,23.8125 Q16.2656,20.6875 17.5781,19.0313 Q18.9063,17.375 21.4063,17.375 Q22.1094,17.375 22.75,17.5313 Q23.4063,17.6875 23.9688,17.9844 L23.9688,20.7031 Q23.3438,20.125 22.75,19.8594 Q22.1563,19.5781 21.5313,19.5781 Q20.1875,19.5781 19.5,20.6563 Q18.8125,21.7188 18.8125,23.8125 Q18.8125,25.9063 19.5,26.9844 Q20.1875,28.0469 21.5313,28.0469 Q22.1563,28.0469 22.75,27.7813 Q23.3438,27.5 23.9688,26.9219 L23.9688,29.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="8" x="35" y="28.1543">A</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="45" y1="40" y2="40"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="45" y1="48" y2="48"/><!--MD5=[69c451c751c414e37549b782190fef46]
 class B--><rect fill="#FEFECE" filter="url(#f16l4dbvbc3f67)" height="48" id="B" style="stroke: #A80036; stroke-width: 1.5;" width="40" x="113" y="8"/><ellipse cx="128" cy="24" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M130.9688,29.6406 Q130.3906,29.9375 129.75,30.0781 Q129.1094,30.2344 128.4063,30.2344 Q125.9063,30.2344 124.5781,28.5938 Q123.2656,26.9375 123.2656,23.8125 Q123.2656,20.6875 124.5781,19.0313 Q125.9063,17.375 128.4063,17.375 Q129.1094,17.375 129.75,17.5313 Q130.4063,17.6875 130.9688,17.9844 L130.9688,20.7031 Q130.3438,20.125 129.75,19.8594 Q129.1563,19.5781 128.5313,19.5781 Q127.1875,19.5781 126.5,20.6563 Q125.8125,21.7188 125.8125,23.8125 Q125.8125,25.9063 126.5,26.9844 Q127.1875,28.0469 128.5313,28.0469 Q129.1563,28.0469 129.75,27.7813 Q130.3438,27.5 130.9688,26.9219 L130.9688,29.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="8" x="142" y="28.1543">B</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="114" x2="152" y1="40" y2="40"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="114" x2="152" y1="48" y2="48"/><!--MD5=[5e2eec62a50b26b6b0db6c12e4ee289c]
 link A to B--><path d="M46.13,32 C63.61,32 89.02,32 107.84,32 " fill="none" id="A-&gt;B" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="112.96,32,103.96,28,107.96,32,103.96,36,112.96,32" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="30" x="64.5" y="25.0669">uses</text><!--MD5=[2c777c0c38089c390787dfc0786ecb92]
-link B to A--><path d="M112.71,45.12 C107.33,47.95 101.37,50.53 95.5,52 C81.7,55.45 77.3,55.45 63.5,52 C59.28,50.95 55.02,49.32 50.95,47.43 " fill="none" id="B-&gt;A" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="46.29,45.12,52.5897,52.6905,50.7735,47.3332,56.1309,45.5169,46.29,45.12" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="30" x="64.5" y="48.0669">uses</text><!--MD5=[24a824ffe4084f000b22015af15a144b]
+link B to A--><path d="M112.71,45.12 C107.33,47.95 101.37,50.53 95.5,52 C81.7,55.45 77.3,55.45 63.5,52 C59.28,50.95 55.02,49.32 50.95,47.43 " fill="none" id="B-&gt;A" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="46.29,45.12,52.5897,52.6905,50.7735,47.3332,56.1309,45.5169,46.29,45.12" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="30" x="64.5" y="48.0669">uses</text><!--MD5=[41ae01b584def68b3b6b011cf3487a23]
 @startuml
 
 class A
@@ -16,9 +16,9 @@ PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
 (GPL source distribution)
 Java Runtime: OpenJDK Runtime Environment
 JVM: OpenJDK 64-Bit Server VM
-Java Version: 17.0.14+7-Debian-1deb12u1
+Java Version: 17.0.15+6-Debian-1deb12u1
 Operating System: Linux
 Default Encoding: UTF-8
-Language: en
-Country: null
+Language: ko
+Country: KR
 --></g></svg>

@@ -10,7 +10,7 @@ entity PaymentGateway--><rect fill="#FEFECE" filter="url(#f1f27003fcfd1j)" heigh
 link PurchaseTickets to PaymentGateway--><path d="M516.4,331.06 C540.97,334.98 569.66,339.56 595.53,343.69 " fill="none" id="PurchaseTickets-&gt;PaymentGateway" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="600.66,344.51,592.3996,339.1467,595.722,343.7251,591.1436,347.0475,600.66,344.51" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e68f44544e5478959c1949a643b083a2]
 link RefundTickets to PaymentGateway--><path d="M511.91,380.66 C537.44,376.58 568.1,371.69 595.56,367.3 " fill="none" id="RefundTickets-&gt;PaymentGateway" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="600.65,366.49,591.1336,363.9525,595.712,367.2749,592.3896,371.8533,600.65,366.49" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d27f787dbc340e83d2e320a4b7905228]
 link CreateShowtimes to GenerateTickets--><path d="M321.57,457.5 C339.57,457.5 358.81,457.5 376.9,457.5 " fill="none" id="CreateShowtimes-&gt;GenerateTickets" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="381.97,457.5,372.97,453.5,376.97,457.5,372.97,461.5,381.97,457.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[1f1769e5086b5f2ea9df4a268b87c213]
-link administrator to mbs--><path d="M96.05,523.5 C103.025,523.5 110.5236,523.5 118.3113,523.5 C118.798,523.5 119.2859,523.5 119.7748,523.5 " fill="none" id="administrator-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="119.7748,523.5,110.7748,519.5,114.7748,523.5,110.7748,527.5,119.7748,523.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[b1cfb942f97a545b07d10fdc256da83f]
+link administrator to mbs--><path d="M96.05,523.5 C103.025,523.5 110.5236,523.5 118.3113,523.5 C118.798,523.5 119.2859,523.5 119.7748,523.5 " fill="none" id="administrator-&gt;mbs" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="119.7748,523.5,110.7748,519.5,114.7748,523.5,110.7748,527.5,119.7748,523.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d66f4d67b9eaf172e3b3b4c863149750]
 @startuml
 left to right direction
 actor administrator
@@ -51,9 +51,9 @@ PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
 (GPL source distribution)
 Java Runtime: OpenJDK Runtime Environment
 JVM: OpenJDK 64-Bit Server VM
-Java Version: 17.0.14+7-Debian-1deb12u1
+Java Version: 17.0.15+6-Debian-1deb12u1
 Operating System: Linux
 Default Encoding: UTF-8
-Language: en
-Country: null
+Language: ko
+Country: KR
 --></g></svg>

@@ -5,7 +5,7 @@ link administrator to mbs--><path d="M96.3,285.5 C102.9638,285.5 110.0877,285.5 
 link MoviesManage to TheatersManage--><!--MD5=[8609392be9339e4a1271567fe1fc7f39]
 link TheatersManage to CustomersManage--><!--MD5=[f76fc5f7420acc918c752cfd829926b6]
 link MoviesManage to TicketsManage--><!--MD5=[b4c65768290b2dd5a224f10b8b9139c6]
-link TicketsManage to ShowtimesManage--><!--MD5=[bfc0f21bd2b37960964052ddffe11a62]
+link TicketsManage to ShowtimesManage--><!--MD5=[245a36e133dcbd0d5abb5c1e3b36b810]
 @startuml
 left to right direction
 actor administrator
@@ -25,9 +25,9 @@ PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
 (GPL source distribution)
 Java Runtime: OpenJDK Runtime Environment
 JVM: OpenJDK 64-Bit Server VM
-Java Version: 17.0.14+7-Debian-1deb12u1
+Java Version: 17.0.15+6-Debian-1deb12u1
 Operating System: Linux
 Default Encoding: UTF-8
-Language: en
-Country: null
+Language: ko
+Country: KR
 --></g></svg>
