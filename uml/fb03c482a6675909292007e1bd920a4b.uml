@@ -23,7 +23,7 @@ Admin -> Frontend: Selects/Inputs showtimes
 Admin -> Frontend: Requests showtime registration
 Frontend -> Backend: Create showtime request\nPOST /showtimes
 note right
-ShowtimesCreateDto {
+CreateShowtimesDto {
 movieId,
 theaterIds,
 startTimes,

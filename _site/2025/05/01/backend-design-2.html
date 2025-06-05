@@ -159,7 +159,7 @@
 
 <h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
 
-<p><object data="/uml/2e51bbffea34dfe2bfd4d0f61b043a39.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/47fafc8e9db875a2c13af26f583d5f70.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이것은 경로를 짧게 가져가는 전형적인 Shallow Routing 설계로, URI를 짧고 평탄하게 유지해 주면서 서비스 진화·운용 부담을 덜어 주는 실용적 선택이다.</p>
 
@@ -225,7 +225,7 @@ GET /showtime-creation/theaters
 
 <p>지금까지 설명한 설계 지침을 반영해서 시퀀스 다이어그램을 다시 그려보자.</p>
 
-<p><object data="/uml/9c04e84b47483a246868fe0e12dba551.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/612bec2f494c04a9af2a0563f92f027b.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h2 id="5-서비스-설계">5. 서비스 설계</h2>
 
@@ -247,7 +247,7 @@ GET /showtime-creation/theaters
 
 <p>그러면 이제 MSA에 맞게 서비스를 설계해 보자. 편의를 위해서 <code class="language-plaintext highlighter-rouge">Admin</code>액터는 생략한다.</p>
 
-<p><object data="/uml/089b82d68cf41b0f1c4b2227d4b5f751.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/b31a0b922fd25a6bc069313727f705b6.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이 시퀀스 다이어그램에서 그나마 복잡해 보이는 부분은 ShowtimesService의 createShowtimes() 함수에서 검증을 위해 MoviesService.moviesExist()와 TheatersService.theatersExist()를 호출하고 있다는 정도다.</p>
 
@@ -300,7 +300,7 @@ GET /showtime-creation/theaters
 
 <p>이제 <code class="language-plaintext highlighter-rouge">SoLA</code>를 적용하여 다시 설계를 해보자.</p>
 
-<p><object data="/uml/f5071fa54c1de93fc0ca5c71d6de79ea.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/1495d31157d5583174a67a5cb9edf251.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p><code class="language-plaintext highlighter-rouge">/showtime-creation</code> 네임스페이스에 맞춰서 <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code> 서비스를 만들었다.
 REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지는 장점까지 생겼다.</p>

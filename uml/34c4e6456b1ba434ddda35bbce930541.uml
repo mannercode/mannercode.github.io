@@ -13,7 +13,7 @@ Frontend <-- Backend: theaters[]
 
 Frontend -> Backend: Request showtime list\nPOST /showtime-creation/showtimes/search
 note right
-ShowtimesSearchDto {
+SearchShowtimesDto {
 theaterIds
 }
 end note
@@ -23,7 +23,7 @@ Frontend <-- Backend: showtimes[]
 
 Frontend -> Backend: Create showtime request\nPOST /showtime-creation/showtimes
 note right
-ShowtimesCreateDto {
+CreateShowtimesDto {
 movieId,
 theaterIds,
 startTimes,

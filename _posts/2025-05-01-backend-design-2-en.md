@@ -167,7 +167,7 @@ Admin -> Frontend: Selects/Inputs showtimes
 Admin -> Frontend: Requests showtime registration
 Frontend -> Backend: Create showtime request\nPOST /showtimes
 note right
-ShowtimesCreateDto {
+CreateShowtimesDto {
 movieId,
 theaterIds,
 startTimes,
@@ -252,7 +252,7 @@ Admin <-- Frontend: Provides theater list
 Admin -> Frontend: Selects theaters
 Frontend -> Backend: Request showtime list\nPOST /showtime-creation/showtimes/search
 note right
-ShowtimesSearchDto {
+SearchShowtimesDto {
 theaterIds
 }
 end note
@@ -266,7 +266,7 @@ Admin -> Frontend: Selects/Inputs showtimes
 Admin -> Frontend: Requests showtime registration
 Frontend -> Backend: Create showtime request\nPOST /showtime-creation/showtimes
 note right
-ShowtimesCreateDto {
+CreateShowtimesDto {
 movieId,
 theaterIds,
 startTimes,
@@ -324,7 +324,7 @@ Frontend <-- Backend: theaters[]
 
 Frontend -> Backend: Request showtime list\nPOST /showtime-creation/showtimes/search
 note right
-ShowtimesSearchDto {
+SearchShowtimesDto {
 theaterIds
 }
 end note
@@ -334,7 +334,7 @@ Frontend <-- Backend: showtimes[]
 
 Frontend -> Backend: Create showtime request\nPOST /showtime-creation/showtimes
 note right
-ShowtimesCreateDto {
+CreateShowtimesDto {
 movieId,
 theaterIds,
 startTimes,
@@ -471,7 +471,7 @@ Frontend <-- Backend: theaters[]
 
 Frontend -> Backend: Request showtime list\nPOST /showtime-creation/showtimes/search
 note right
-ShowtimesSearchDto {
+SearchShowtimesDto {
 theaterIds
 }
 end note
@@ -483,7 +483,7 @@ Frontend <-- Backend: showtimes[]
 
 Frontend -> Backend: Create showtime request\nPOST /showtime-creation/showtimes
 note right
-ShowtimesCreateDto {
+CreateShowtimesDto {
 movieId,
 theaterIds,
 startTimes,

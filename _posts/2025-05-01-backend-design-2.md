@@ -262,7 +262,7 @@ Admin -> Admin: 상영시간 선택
 Admin -> Frontend: 상영시간 생성 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtimes
         note right
-        ShowtimesCreateDto {
+        CreateShowtimesDto {
             movieId,
             theaterIds,
             startTimes,
@@ -381,7 +381,7 @@ Admin <-- Frontend: 극장 목록 제공
 Admin -> Frontend: 극장 선택
     Frontend -> Backend: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
         note right
-            ShowtimesSearchDto {
+            SearchShowtimesDto {
                 theaterIds,
             }
         end note
@@ -394,7 +394,7 @@ Admin -> Admin: 상영시간 선택
 Admin -> Frontend: 상영시간 생성 요청
     Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
         note right
-            ShowtimesCreateDto {
+            CreateShowtimesDto {
                 movieId,
                 theaterIds,
                 startTimes,
@@ -455,7 +455,7 @@ Frontend <-- Backend: theaters[]
 
 Frontend -> Backend: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
     note right
-        ShowtimesSearchDto {
+        SearchShowtimesDto {
             theaterIds,
         }
     end note
@@ -465,7 +465,7 @@ Frontend <-- Backend: showtimes[]
 
 Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
     note right
-        ShowtimesCreateDto {
+        CreateShowtimesDto {
             movieId,
             theaterIds,
             startTimes,
@@ -601,7 +601,7 @@ Frontend <-- Backend: theaters[]
 
 Frontend -> Backend: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
     note right
-        ShowtimesSearchDto {
+        SearchShowtimesDto {
             theaterIds,
         }
     end note
@@ -613,7 +613,7 @@ Frontend <-- Backend: showtimes[]
 
 Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
     note right
-        ShowtimesCreateDto {
+        CreateShowtimesDto {
             movieId,
             theaterIds,
             startTimes,

@@ -137,7 +137,7 @@
 
 <h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
 
-<p><object data="/uml/e76d0bedf8d2b0264c8725fc748cdfb8.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/fb03c482a6675909292007e1bd920a4b.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>This is a typical Shallow Routing design that keeps routes short, which is a practical choice that maintains short and flat URIs, reducing the burden of service evolution and maintenance.</p>
 
@@ -191,7 +191,7 @@ GET /showtime-creation/theaters
 
 <p>Let’s redraw the sequence diagram reflecting the design guidelines explained so far.</p>
 
-<p><object data="/uml/d63c892da3eadbe059e8b71c670eb01a.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/58f4b6af7beef8d59354755811c898fb.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h2 id="5-service-design">5. Service Design</h2>
 
@@ -210,7 +210,7 @@ GET /showtime-creation/theaters
 
 <p>Now, let’s design the services according to MSA. For convenience, the <code class="language-plaintext highlighter-rouge">Admin</code> actor is omitted.</p>
 
-<p><object data="/uml/59cabfe497a844e98d62595d9af3d298.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/34c4e6456b1ba434ddda35bbce930541.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>In this sequence diagram, the relatively complex part is that ShowtimesService’s createShowtimes() function calls MoviesService.moviesExist() and TheatersService.theatersExist() for validation.</p>
 
@@ -263,7 +263,7 @@ GET /showtime-creation/theaters
 
 <p>Now, let’s redesign by applying the 3-Layer structure.</p>
 
-<p><object data="/uml/e6861926463653e6f64979e70717f311.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/f8d4c9fad68a07fe28c85c332f0c3ea1.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>A <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code> service was created to match the <code class="language-plaintext highlighter-rouge">/showtime-creation</code> namespace.
 This has the added benefit of making the structure easier to understand as the REST API and service structure become similar.</p>

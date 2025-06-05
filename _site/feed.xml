@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-04T00:31:10+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-05T01:30:39+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">Backend Service Design - Movie Booking System (2)</title><link href="/2025/05/01/backend-design-2-en.html" rel="alternate" type="text/html" title="Backend Service Design - Movie Booking System (2)" /><published>2025-05-01T00:00:00+00:00</published><updated>2025-05-01T00:00:00+00:00</updated><id>/2025/05/01/backend-design-2-en</id><content type="html" xml:base="/2025/05/01/backend-design-2-en.html"><![CDATA[<p>Last time, we drew a use case diagram for the <code class="language-plaintext highlighter-rouge">Movie Booking System</code>. If you’ve drawn a use case diagram during the software analysis/design process, it can be called a successful start.</p>
 
 <p>This time, we’ll dive into two of the more complex use cases: <code class="language-plaintext highlighter-rouge">PurchaseTickets</code> and <code class="language-plaintext highlighter-rouge">CreateShowtimes</code>.</p>
@@ -89,7 +89,7 @@
 
 <h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
 
-<p><object data="/uml/e76d0bedf8d2b0264c8725fc748cdfb8.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/fb03c482a6675909292007e1bd920a4b.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>This is a typical Shallow Routing design that keeps routes short, which is a practical choice that maintains short and flat URIs, reducing the burden of service evolution and maintenance.</p>
 
@@ -143,7 +143,7 @@ GET /showtime-creation/theaters
 
 <p>Let’s redraw the sequence diagram reflecting the design guidelines explained so far.</p>
 
-<p><object data="/uml/d63c892da3eadbe059e8b71c670eb01a.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/58f4b6af7beef8d59354755811c898fb.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h2 id="5-service-design">5. Service Design</h2>
 
@@ -162,7 +162,7 @@ GET /showtime-creation/theaters
 
 <p>Now, let’s design the services according to MSA. For convenience, the <code class="language-plaintext highlighter-rouge">Admin</code> actor is omitted.</p>
 
-<p><object data="/uml/59cabfe497a844e98d62595d9af3d298.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/34c4e6456b1ba434ddda35bbce930541.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>In this sequence diagram, the relatively complex part is that ShowtimesService’s createShowtimes() function calls MoviesService.moviesExist() and TheatersService.theatersExist() for validation.</p>
 
@@ -215,7 +215,7 @@ GET /showtime-creation/theaters
 
 <p>Now, let’s redesign by applying the 3-Layer structure.</p>
 
-<p><object data="/uml/e6861926463653e6f64979e70717f311.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/f8d4c9fad68a07fe28c85c332f0c3ea1.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>A <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code> service was created to match the <code class="language-plaintext highlighter-rouge">/showtime-creation</code> namespace.
 This has the added benefit of making the structure easier to understand as the REST API and service structure become similar.</p>
@@ -342,7 +342,7 @@ This has the added benefit of making the structure easier to understand as the R
 
 <h3 id="41-shallow-routing">4.1. Shallow Routing</h3>
 
-<p><object data="/uml/2e51bbffea34dfe2bfd4d0f61b043a39.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/47fafc8e9db875a2c13af26f583d5f70.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이것은 경로를 짧게 가져가는 전형적인 Shallow Routing 설계로, URI를 짧고 평탄하게 유지해 주면서 서비스 진화·운용 부담을 덜어 주는 실용적 선택이다.</p>
 
@@ -408,7 +408,7 @@ GET /showtime-creation/theaters
 
 <p>지금까지 설명한 설계 지침을 반영해서 시퀀스 다이어그램을 다시 그려보자.</p>
 
-<p><object data="/uml/9c04e84b47483a246868fe0e12dba551.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/612bec2f494c04a9af2a0563f92f027b.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h2 id="5-서비스-설계">5. 서비스 설계</h2>
 
@@ -430,7 +430,7 @@ GET /showtime-creation/theaters
 
 <p>그러면 이제 MSA에 맞게 서비스를 설계해 보자. 편의를 위해서 <code class="language-plaintext highlighter-rouge">Admin</code>액터는 생략한다.</p>
 
-<p><object data="/uml/089b82d68cf41b0f1c4b2227d4b5f751.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/b31a0b922fd25a6bc069313727f705b6.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이 시퀀스 다이어그램에서 그나마 복잡해 보이는 부분은 ShowtimesService의 createShowtimes() 함수에서 검증을 위해 MoviesService.moviesExist()와 TheatersService.theatersExist()를 호출하고 있다는 정도다.</p>
 
@@ -483,7 +483,7 @@ GET /showtime-creation/theaters
 
 <p>이제 <code class="language-plaintext highlighter-rouge">SoLA</code>를 적용하여 다시 설계를 해보자.</p>
 
-<p><object data="/uml/f5071fa54c1de93fc0ca5c71d6de79ea.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/1495d31157d5583174a67a5cb9edf251.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p><code class="language-plaintext highlighter-rouge">/showtime-creation</code> 네임스페이스에 맞춰서 <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code> 서비스를 만들었다.
 REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지는 장점까지 생겼다.</p>
