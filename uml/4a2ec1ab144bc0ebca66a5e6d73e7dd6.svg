@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="742px" preserveAspectRatio="none" style="width:608px;height:742px;" version="1.1" viewBox="0 0 608 742" width="608px" zoomAndPan="magnify"><defs><filter height="300%" id="fxqtvp7052ifk" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6c2d02fe013167922f007c9285828968]
+cluster mbs--><polygon fill="#FFFFFF" filter="url(#fxqtvp7052ifk)" points="116,56.69,299,56.69,306,78.9869,438,78.9869,438,647.69,116,647.69,116,56.69" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="116" x2="306" y1="78.9869" y2="78.9869"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="177" x="120" y="71.6851">Movie Booking System</text><!--MD5=[c7109cc79c436e4de7b73789f25103a4]
+cluster theaters--><polygon fill="#FFFFFF" filter="url(#fxqtvp7052ifk)" points="151,332.69,224,332.69,231,354.9869,263,354.9869,263,413.69,151,413.69,151,332.69" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="151" x2="231" y1="354.9869" y2="354.9869"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="67" x="155" y="347.6851">theaters</text><!--MD5=[b1e937784b653f6ad52390770b5ca1d7]
+cluster movies--><polygon fill="#FFFFFF" filter="url(#fxqtvp7052ifk)" points="151,99.69,213,99.69,220,121.9869,263,121.9869,263,308.69,151,308.69,151,99.69" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="151" x2="220" y1="121.9869" y2="121.9869"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="56" x="155" y="114.6851">movies</text><!--MD5=[55c1321e5e660f70fb77e9cf74eefc72]
+cluster customers--><polygon fill="#FFFFFF" filter="url(#fxqtvp7052ifk)" points="151,542.69,241,542.69,248,564.9869,263,564.9869,263,623.69,151,623.69,151,542.69" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="151" x2="248" y1="564.9869" y2="564.9869"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="84" x="155" y="557.6851">customers</text><!--MD5=[dffa5d117727925aa4668bf20905af82]
+cluster showtimes--><polygon fill="#FFFFFF" filter="url(#fxqtvp7052ifk)" points="140,437.69,232,437.69,239,459.9869,274,459.9869,274,518.69,140,518.69,140,437.69" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="140" x2="239" y1="459.9869" y2="459.9869"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="86" x="144" y="452.6851">showtimes</text><!--MD5=[0c64180b40cb6a42c012370e26047e31]
+cluster tickets--><polygon fill="#FFFFFF" filter="url(#fxqtvp7052ifk)" points="302,373.69,361,373.69,368,395.9869,414,395.9869,414,582.69,302,582.69,302,373.69" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="302" x2="368" y1="395.9869" y2="395.9869"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="53" x="306" y="388.6851">tickets</text><ellipse cx="206.7696" cy="382.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="180.7696" y="387.3621">극장 추가하기</text><ellipse cx="206.7696" cy="277.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="180.7696" y="282.3621">영화 추가하기</text><ellipse cx="206.7696" cy="213.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="180.7696" y="218.3621">영화 상세보기</text><ellipse cx="206.7696" cy="149.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="180.7696" y="154.3621">영화 검색하기</text><ellipse cx="206.7696" cy="592.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="180.7696" y="597.3621">고객 검색하기</text><ellipse cx="207.0833" cy="487.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="51.0833" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="68" x="173.0833" y="492.3621">상영시간 생성하기</text><ellipse cx="357.7696" cy="423.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="331.7696" y="428.3621">티켓 구매하기</text><ellipse cx="357.7696" cy="551.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="331.7696" y="556.3621">티켓 환불하기</text><ellipse cx="357.7696" cy="487.7136" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="331.7696" y="492.3621">티켓 생성하기</text><!--MD5=[92848cbaf65985a669855153c5362c37]
+entity customer--><ellipse cx="51" cy="76.69" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M51,84.69 L51,111.69 M38,92.69 L64,92.69 M51,111.69 L38,126.69 M51,111.69 L64,126.69 " fill="none" filter="url(#fxqtvp7052ifk)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="18" y="145.1851">customer</text><!--MD5=[65a041cd1922b3dee6e64063a2213939]
+entity administrator--><ellipse cx="51" cy="508.69" fill="#FEFECE" filter="url(#fxqtvp7052ifk)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M51,516.69 L51,543.69 M38,524.69 L64,524.69 M51,543.69 L38,558.69 M51,543.69 L64,558.69 " fill="none" filter="url(#fxqtvp7052ifk)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="90" x="6" y="577.1851">administrator</text><!--MD5=[72a9586c6036bc828fb9ec987b717d65]
+entity PaymentGateway--><rect fill="#FEFECE" filter="url(#fxqtvp7052ifk)" height="36.2969" style="stroke: #000000; stroke-width: 1.5;" width="139" x="458" y="469.69"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="119" x="468" y="492.6851">PaymentGateway</text><!--MD5=[36e059aa8f4996d8e6b93119626b430a]
+link administrator to AddTheaters--><path d="M75.72,498.84 C84.88,484.73 96.04,469.31 108,456.69 C130.19,433.29 160.36,411.71 181.34,397.97 " fill="none" id="administrator-&gt;AddTheaters" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="185.68,395.16,175.95,396.6855,181.4806,397.8739,180.2922,403.4045,185.68,395.16" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0e2a2f74bdb85bcbfec930b1f3b486db]
+link administrator to AddMovies--><path d="M56.61,499.09 C62.82,458.7 76.93,396.45 108,351.69 C126.05,325.69 156.11,304.96 178.19,292.14 " fill="none" id="administrator-&gt;AddMovies" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="182.78,289.52,172.9795,290.4949,178.4344,291.993,176.9363,297.4479,182.78,289.52" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[12ae7ae75e14e7776ae623974e89c69e]
+link administrator to SearchCustomers--><path d="M96.13,554.88 C120.42,563.24 150.09,573.45 172.47,581.15 " fill="none" id="administrator-&gt;SearchCustomers" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="177.42,582.85,170.2131,576.1373,172.6925,581.2218,167.608,583.7012,177.42,582.85" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[64442fded180a1ec06a8f3436b32a6c2]
+link administrator to CreateShowtimes--><path d="M96.13,524.79 C118.94,517.09 146.48,507.79 168.28,500.43 " fill="none" id="administrator-&gt;CreateShowtimes" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="173.13,498.79,163.3236,497.8767,168.3923,500.3883,165.8808,505.457,173.13,498.79" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d7a12c9cbe511c047719cb63926c7a9a]
+link administrator to PurchaseTickets--><path d="M68.55,580.29 C77.58,596.88 90.54,614.35 108,623.69 C176.18,660.18 225.4,676.39 282,623.69 C309.39,598.19 273.3,486.87 294,455.69 C300.35,446.12 310.49,439.27 320.79,434.43 " fill="none" id="administrator-&gt;PurchaseTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="325.52,432.34,315.6712,432.3085,320.9445,434.3561,318.8969,439.6294,325.52,432.34" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[8d67b7b94ebaab215267248494231948]
+link administrator to RefundTickets--><path d="M55.19,580.42 C60.31,615.1 73.59,662.98 108,686.69 C171.68,730.57 215.35,725.91 282,686.69 C324.6,661.63 344.74,602.66 352.67,571.61 " fill="none" id="administrator-&gt;RefundTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="353.93,566.52,347.8881,574.2979,352.7308,571.3741,355.6546,576.2167,353.93,566.52" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[293b0fc3d89600cf9a53bc45609a46ca]
+link customer to MovieDetails--><path d="M76.08,148.53 C84.84,160.59 95.67,172.9 108,181.69 C124.92,193.75 146.64,201.45 165.34,206.27 " fill="none" id="customer-&gt;MovieDetails" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="170.53,207.55,162.7521,201.5081,165.6759,206.3508,160.8333,209.2746,170.53,207.55" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[de5cce4b6c49eebdce0f089267f679c3]
+link customer to SearchMovies--><path d="M84.28,116.5 C109.17,123.28 143.6,132.67 169.49,139.73 " fill="none" id="customer-&gt;SearchMovies" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="174.55,141.11,166.9336,134.8657,169.7292,139.7836,164.8113,142.5791,174.55,141.11" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0cb47f1d5621fdbc7137d15b7567cebb]
+link customer to PurchaseTickets--><path d="M75.83,67.12 C84.46,56.17 95.28,45.7 108,39.69 C177.94,6.69 222.31,-9.47 282,39.69 C339.11,86.72 353.33,331.73 356.3,403.76 " fill="none" id="customer-&gt;PurchaseTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="356.51,409.03,360.146,399.8769,356.3096,404.034,352.1525,400.1976,356.51,409.03" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[fa26d82864790c4e24cf6facdb769b0d]
+link customer to RefundTickets--><path d="M84.11,97.36 C134.19,83.49 230.45,66.22 282,118.69 C313.24,150.49 270.12,482.05 294,519.69 C300.16,529.39 310.24,536.28 320.55,541.11 " fill="none" id="customer-&gt;RefundTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="325.29,543.19,318.6669,535.9006,320.7145,541.1739,315.4412,543.2215,325.29,543.19" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[ab03bc895fc1d2fe1b22ae71ecaf8e3f]
+link PurchaseTickets to PaymentGateway--><path d="M386.89,433.74 C403.99,439.96 426.31,448.16 446,455.69 C455.9,459.48 466.45,463.61 476.54,467.6 " fill="none" id="PurchaseTickets-&gt;PaymentGateway" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="481.45,469.55,474.5606,462.5118,476.8027,467.7054,471.6092,469.9475,481.45,469.55" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e68f44544e5478959c1949a643b083a2]
+link RefundTickets to PaymentGateway--><path d="M386.89,541.64 C403.99,535.43 426.31,527.22 446,519.69 C455.9,515.9 466.45,511.78 476.54,507.78 " fill="none" id="RefundTickets-&gt;PaymentGateway" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="481.45,505.84,471.6096,505.4321,476.8008,507.6797,474.5532,512.8709,481.45,505.84" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d27f787dbc340e83d2e320a4b7905228]
+link CreateShowtimes to GenerateTickets--><path d="M258.03,487.69 C275.65,487.69 295.33,487.69 312.47,487.69 " fill="none" id="CreateShowtimes-&gt;GenerateTickets" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="317.7,487.69,308.7,483.69,312.7,487.69,308.7,491.69,317.7,487.69" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e4760c8e89fac860f5d36fb6407eaf03]
+@startuml
+left to right direction
+actor customer
+actor administrator
+rectangle PaymentGateway
+
+package "Movie Booking System" as mbs {
+    package theaters {
+        usecase "극장 추가하기" as AddTheaters
+    }
+
+    package movies {
+        usecase "영화 추가하기" as AddMovies
+        usecase "영화 상세보기" as MovieDetails
+        usecase "영화 검색하기" as SearchMovies
+    }
+
+    package customers {
+        usecase "고객 검색하기" as SearchCustomers
+    }
+
+    package showtimes {
+        usecase "상영시간 생성하기" as CreateShowtimes
+    }
+
+    package tickets {
+        usecase "티켓 구매하기" as PurchaseTickets
+        usecase "티켓 환불하기" as RefundTickets
+        usecase "티켓 생성하기" as GenerateTickets
+    }
+}
+
+administrator - -> AddTheaters
+administrator - -> AddMovies
+administrator - -> SearchCustomers
+administrator - -> CreateShowtimes
+administrator - -> PurchaseTickets
+administrator - -> RefundTickets
+
+customer - -> MovieDetails
+customer - -> SearchMovies
+customer - -> PurchaseTickets
+customer - -> RefundTickets
+
+PurchaseTickets ..> PaymentGateway
+RefundTickets ..> PaymentGateway
+CreateShowtimes ..> GenerateTickets
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.15+6-Debian-1deb12u1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: ko
+Country: KR
+--></g></svg>

@@ -1,0 +1,27 @@
+@startuml
+
+@startuml
+left to right direction
+
+package "REST API만 두 개로 분리하고 서비스와 테이블은 하나로 구현하기로 함" {
+    package "REST API Layer" {
+    [Apostille API]
+    [Consular API]
+    }
+
+    package "Service Layer" {
+    [Document Service]
+    }
+
+    package "Data Layer" {
+    [Document Table]
+    }
+
+    [Apostille API] --> [Document Service]
+    [Consular API] --> [Document Service]
+    [Document Service] --> [Document Table]
+}
+
+@enduml
+
+@enduml

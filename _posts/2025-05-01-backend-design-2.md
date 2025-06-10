@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  백엔드 서비스 분석과 설계 (2)
+title: 백엔드 서비스 분석과 설계 (2)
 ---
 
 우리는 지난 시간에 `Movie Booking System`의 유스케이스 다이어그램을 그렸다. 소프트웨어 분석/설계 과정에서 유스케이스 다이어그램을 그렸다면, 이는 성공적인 출발이라 할 수 있다.
 
-이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 `CreateShowtimes`와 `PurchaseTickets`에 대해서 좀 더 분석해 보도록 하겠다.
+이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 `상영시간 생성하기`와 `티켓 구매하기`에 대해서 좀 더 분석해 보도록 하겠다.
 
 {% plantuml %}
 @startuml
@@ -16,12 +16,12 @@ rectangle PaymentGateway
 
 package "Movie Booking System" as mbs {
     package tickets {
-        usecase PurchaseTickets #yellow
-        usecase GenerateTickets
+        usecase "티켓 구매하기" as PurchaseTickets #yellow
+        usecase "티켓 생성하기" as GenerateTickets
     }
 
     package showtimes {
-        usecase CreateShowtimes #yellow
+        usecase "상영시간 생성하기" as CreateShowtimes #yellow
     }
 
     package theaters {
@@ -44,11 +44,11 @@ CreateShowtimes ..> GenerateTickets
 
 ## 1. 어떤 유스케이스를 먼저 분석할까?
 
-`CreateShowtimes`와 `PurchaseTickets` 중 어떤 것을 먼저 분석하는 것이 좋을까? 나는 보통 데이터를 **생성하는** 유스케이스부터 시작하는 편이다. 조회 기능은 전제 데이터가 있어야 의미를 파악할 수 있기 때문이다.
+`상영시간 생성하기`와 `티켓 구매하기` 중 어떤 것을 먼저 분석하는 것이 좋을까? 나는 보통 데이터를 **생성하는** 유스케이스부터 시작하는 편이다. 조회 기능은 전제 데이터가 있어야 의미를 파악할 수 있기 때문이다.
 
-여기서는 티켓을 생성해야 티켓을 구매할 수 있기 때문에 `CreateShowtimes` 유스케이스를 먼저 분석해 본다.
+여기서는 티켓을 생성해야 티켓을 구매할 수 있기 때문에 `상영시간 생성하기` 유스케이스를 먼저 분석해 본다.
 
-## 2. `CreateShowtimes` 유스케이스 명세서
+## 2. `상영시간 생성하기` 유스케이스 명세서
 
 우리는 도메인 전문가에게 상영시간을 생성하려면 어떤 절차가 필요한지 물어본 뒤, 아래와 같이 정리한다.
 
@@ -90,7 +90,7 @@ CreateShowtimes ..> GenerateTickets
 
 CreateShowtimes의 시작 조건인 `트리거`를 정의하고, 그에 따른 `기본 흐름`을 정리했다. 그 외에 `대안 흐름`과 `사후 조건` 등을 보면 `Movie Booking System`에서 무슨 일을 해야 할지 가늠할 수 있다.
 
-## 3. `CreateShowtimes` 시퀀스 다이어그램
+## 3. `상영시간 생성하기` 시퀀스 다이어그램
 
 유스케이스 명세서를 좀 더 읽기 쉽게 시퀀스 다이어그램으로 그려보자.
 
@@ -234,7 +234,7 @@ UML에 익숙하지 않으면 다양한 연산자를 사용해서 화려하게 �
 
 ## 4. REST API 설계
 
-만약 화면 기획자나 디자이너라면 `CreateShowtimes` 시퀀스 다이어그램을 더 확장할 필요는 없을 것이다. 그러나 우리는 백엔드를 대상으로 하고 있으니까 시퀀스 다이어그램을 확장해서 REST API 설계를 해보자.
+만약 화면 기획자나 디자이너라면 `상영시간 생성하기` 시퀀스 다이어그램을 더 확장할 필요는 없을 것이다. 그러나 우리는 백엔드를 대상으로 하고 있으니까 시퀀스 다이어그램을 확장해서 REST API 설계를 해보자.
 
 ### 4.1. Shallow Routing
 
@@ -443,27 +443,27 @@ MSA의 가장 큰 특징은 작은 서비스들이 협력해서 서비스를 제
 
 {% plantuml %}
 @startuml
-Frontend -> Backend: 영화 목록 요청\nGET /showtime-creation/movies
-    Backend -> MoviesService: searchMovies()
-    Backend <-- MoviesService: movies[]
-Frontend <-- Backend: movies[]
+Frontend -> Gateway: 영화 목록 요청\nGET /showtime-creation/movies
+    Gateway -> MoviesService: searchMovies()
+    Gateway <-- MoviesService: movies[]
+Frontend <-- Gateway: movies[]
 
-Frontend -> Backend: 극장 목록 요청\nGET /showtime-creation/theaters
-    Backend -> TheatersService: searchTheaters()
-    Backend <-- TheatersService: theaters[]
-Frontend <-- Backend: theaters[]
+Frontend -> Gateway: 극장 목록 요청\nGET /showtime-creation/theaters
+    Gateway -> TheatersService: searchTheaters()
+    Gateway <-- TheatersService: theaters[]
+Frontend <-- Gateway: theaters[]
 
-Frontend -> Backend: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
+Frontend -> Gateway: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
     note right
         SearchShowtimesDto {
             theaterIds,
         }
     end note
-    Backend -> ShowtimesService: searchShowtimes(searchDto)
-    Backend <-- ShowtimesService: showtimes[]
-Frontend <-- Backend: showtimes[]
+    Gateway -> ShowtimesService: searchShowtimes(searchDto)
+    Gateway <-- ShowtimesService: showtimes[]
+Frontend <-- Gateway: showtimes[]
 
-Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
+Frontend -> Gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
     note right
         CreateShowtimesDto {
             movieId,
@@ -472,7 +472,7 @@ Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtim
             durationMinutes
         }
     end note
-    Backend -> ShowtimesService: createShowtimes(createDto)
+    Gateway -> ShowtimesService: createShowtimes(createDto)
         ShowtimesService -> MoviesService: moviesExist(movieId)
         ShowtimesService <-- MoviesService: true
 
@@ -480,8 +480,8 @@ Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtim
         ShowtimesService <-- TheatersService: true
 
         ShowtimesService -> ShowtimesService: createShowtimes(createDto)
-    Backend <-- ShowtimesService: showtimes[]
-Frontend <-- Backend: Created(201)
+    Gateway <-- ShowtimesService: showtimes[]
+Frontend <-- Gateway: Created(201)
 
 @enduml
 {% endplantuml %}
@@ -511,19 +511,19 @@ MSA가 OOP와 유사한 특징을 가지는 만큼 MSA도 순환 참조를 피�
 
 {% plantuml %}
 @startuml
-Frontend -> Backend: 상영시간 생성 요청
-    Backend -> ShowtimesService: createShowtimes(createDto)
+Frontend -> Gateway: 상영시간 생성 요청
+    Gateway -> ShowtimesService: createShowtimes(createDto)
         ShowtimesService -> MoviesService: moviesExist(movieId)
         ShowtimesService <-- MoviesService: true
-    Backend <-- ShowtimesService: showtimes[]
-Frontend <-- Backend: Created(201)
+    Gateway <-- ShowtimesService: showtimes[]
+Frontend <-- Gateway: Created(201)
 
-Frontend -> Backend: 23시 이후에 상영하는 영화 목록 요청
-    Backend -> MoviesService: searchMovies()
+Frontend -> Gateway: 23시 이후에 상영하는 영화 목록 요청
+    Gateway -> MoviesService: searchMovies()
         MoviesService -> ShowtimesService: searchShowtimes()
         MoviesService <-- ShowtimesService: showtimes[]
-    Backend <-- MoviesService: movies[]
-Frontend <-- Backend: movies[]
+    Gateway <-- MoviesService: movies[]
+Frontend <-- Gateway: movies[]
 @enduml
 {% endplantuml %}
 
@@ -585,33 +585,33 @@ end note
 
 {% plantuml %}
 @startuml
-Frontend -> Backend: 영화 목록 요청\nGET /showtime-creation/movies
-    Backend -> ShowtimeCreationService: searchMovies()
+Frontend -> Gateway: 영화 목록 요청\nGET /showtime-creation/movies
+    Gateway -> ShowtimeCreationService: searchMovies()
         ShowtimeCreationService -> MoviesService: searchMovies()
         ShowtimeCreationService <-- MoviesService: movies[]
-    Backend <-- ShowtimeCreationService: movies[]
-Frontend <-- Backend: movies[]
+    Gateway <-- ShowtimeCreationService: movies[]
+Frontend <-- Gateway: movies[]
 
-Frontend -> Backend: 극장 목록 요청\nGET /showtime-creation/theaters
-    Backend -> ShowtimeCreationService: searchTheaters()
+Frontend -> Gateway: 극장 목록 요청\nGET /showtime-creation/theaters
+    Gateway -> ShowtimeCreationService: searchTheaters()
         ShowtimeCreationService -> TheatersService: searchTheaters()
         ShowtimeCreationService <-- TheatersService: theaters[]
-    Backend <-- ShowtimeCreationService: theaters[]
-Frontend <-- Backend: theaters[]
+    Gateway <-- ShowtimeCreationService: theaters[]
+Frontend <-- Gateway: theaters[]
 
-Frontend -> Backend: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
+Frontend -> Gateway: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
     note right
         SearchShowtimesDto {
             theaterIds,
         }
     end note
-    Backend -> ShowtimeCreationService: searchShowtimes(searchDto)
+    Gateway -> ShowtimeCreationService: searchShowtimes(searchDto)
         ShowtimeCreationService -> ShowtimesService: searchShowtimes(searchDto)
         ShowtimeCreationService <-- ShowtimesService: showtimes[]
-    Backend <-- ShowtimeCreationService: showtimes[]
-Frontend <-- Backend: showtimes[]
+    Gateway <-- ShowtimeCreationService: showtimes[]
+Frontend <-- Gateway: showtimes[]
 
-Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
+Frontend -> Gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
     note right
         CreateShowtimesDto {
             movieId,
@@ -620,7 +620,7 @@ Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtim
             durationMinutes
         }
     end note
-    Backend -> ShowtimeCreationService: createShowtimes(createDto)
+    Gateway -> ShowtimeCreationService: createShowtimes(createDto)
         ShowtimeCreationService -> MoviesService: moviesExist(movieId)
         ShowtimeCreationService <-- MoviesService: true
 
@@ -629,8 +629,8 @@ Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtim
 
         ShowtimeCreationService -> ShowtimesService: createShowtimes(createDto)
         ShowtimeCreationService <-- ShowtimesService: showtimes[]
-    Backend <-- ShowtimeCreationService: showtimes[]
-Frontend <-- Backend: Created(201)
+    Gateway <-- ShowtimeCreationService: showtimes[]
+Frontend <-- Gateway: Created(201)
 
 @enduml
 {% endplantuml %}
@@ -642,8 +642,8 @@ REST API와 서비스의 구조가 유사해지면서 구조 파악이 쉬워지
 
 ## 6. 결론
 
-이번 글에서는 `CreateShowtimes` 유스케이스에 대해 (1) 유스케이스 명세서를 작성하고, (2) 시퀀스 다이어그램으로 시각화한 뒤, (3) 서비스 설계를 위해 시퀀스를 확장했다.
+이번 글에서는 `상영시간 생성하기` 유스케이스에 대해 (1) 유스케이스 명세서를 작성하고, (2) 시퀀스 다이어그램으로 시각화한 뒤, (3) 서비스 설계를 위해 시퀀스를 확장했다.
 
 최상위 아키텍처로 MSA를 선택하고, 서비스 간 순환 참조 문제를 SoLA(Service-oriented Layered Architecture)로 해결함으로써 REST API와 서비스 계층이 자연스럽게 대응되는 효과를 확인했다.
 
-다음 글에서는 `CreateShowtimes`의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.
+다음 글에서는 `상영시간 생성하기`의 부족했던 설계를 마무리 보완하고 관련 테스트를 작성할 것이다.

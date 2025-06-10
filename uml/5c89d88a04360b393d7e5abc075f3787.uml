@@ -1,0 +1,19 @@
+@startuml
+
+@startuml
+Frontend -> Gateway: 상영시간 생성 요청
+    Gateway -> ShowtimesService: createShowtimes(createDto)
+        ShowtimesService -> MoviesService: moviesExist(movieId)
+        ShowtimesService <-- MoviesService: true
+    Gateway <-- ShowtimesService: showtimes[]
+Frontend <-- Gateway: Created(201)
+
+Frontend -> Gateway: 23시 이후에 상영하는 영화 목록 요청
+    Gateway -> MoviesService: searchMovies()
+        MoviesService -> ShowtimesService: searchShowtimes()
+        MoviesService <-- ShowtimesService: showtimes[]
+    Gateway <-- MoviesService: movies[]
+Frontend <-- Gateway: movies[]
+@enduml
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+
+@startuml
+title Bottom-Up 사고 흐름 예시
+|개발자|
+start
+:도메인 식별(영화·극장·티켓);
+fork
+  :티켓 기능 CRUD 구현;
+fork again
+  :극장 기능 CRUD 구현;
+fork again
+  :영화 기능 CRUD 구현;
+end fork
+:상영시간 생성 요구 등장;
+if (기존 API로 가능?) then (Yes)
+    :프런트에 기존 API 전달;
+else (No)
+    :API 수정·확장 후 전달;
+endif
+:API 문서 업데이트;
+stop
+@enduml
+
+@enduml

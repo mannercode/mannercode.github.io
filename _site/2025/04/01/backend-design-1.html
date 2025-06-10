@@ -10,15 +10,17 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다." />
 <meta property="og:description" content="소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다." />
+<link rel="canonical" href="http://localhost:4000/2025/04/01/backend-design-1.html" />
+<meta property="og:url" content="http://localhost:4000/2025/04/01/backend-design-1.html" />
 <meta property="og:site_name" content="Manner Code" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-04-01T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="백엔드 서비스 분석과 설계 (1)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"mannercode"},"dateModified":"2025-04-01T00:00:00+00:00","datePublished":"2025-04-01T00:00:00+00:00","description":"소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.","headline":"백엔드 서비스 분석과 설계 (1)","mainEntityOfPage":{"@type":"WebPage","@id":"/2025/04/01/backend-design-1.html"},"url":"/2025/04/01/backend-design-1.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"mannercode"},"dateModified":"2025-04-01T00:00:00+00:00","datePublished":"2025-04-01T00:00:00+00:00","description":"소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.","headline":"백엔드 서비스 분석과 설계 (1)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/04/01/backend-design-1.html"},"url":"http://localhost:4000/2025/04/01/backend-design-1.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Manner Code" />
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Manner Code" />
 </head>
 <body><header class="site-header">
 
@@ -185,7 +187,7 @@
 
 <p>개발자의 질문에 도메인 전문가는 맞다고 확인을 해준다. 그래서 우리는 아래와 같이 유스케이스를 정리할 수 있다.</p>
 
-<p><object data="/uml/0bafdd508509475b7f4af1df10470955.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/1a4c10af215d7027e423945e03acf6d7.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>우리는 도메인 전문가가 아니다. 그런데 어떻게 <code class="language-plaintext highlighter-rouge">상영 시간 선택하기</code>와 <code class="language-plaintext highlighter-rouge">좌석 선택하기</code>가 <code class="language-plaintext highlighter-rouge">영화 예매하기</code>의 한 과정이냐고 물어볼 수 있었을까?</p>
 
@@ -217,7 +219,7 @@
 
 <p>개인적으로 개발에서 manage라는 단어를 조심하는 편이다. manage는 표현이 너무 포괄적이라서 무슨 일을 하는지 모호하다. 여기서도 마찬가지인데 구체적으로 어떻게 관리한다는 것인지 잘 모르겠다. 도메인 전문가와 함께 좀 더 세분화 해보자.</p>
 
-<p><object data="/uml/664d095963cd1468fa8e9a4cc2d167a0.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/1af8a840be91adc5bb72fde5f2f63c95.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>실제 프로젝트라면 이것보다 더 많은 유스케이스가 있겠지만, 여기서는 단순화했다. 그럼에도 불구하고 중요한 개념들이 상당수 드러난다.</p>
 
@@ -227,7 +229,7 @@
 
 <p>customer와 administrator의 유스케이스를 합쳐보자.</p>
 
-<p><object data="/uml/6a10e3bb9dafeb0c7105ae212ede4d83.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/4a2ec1ab144bc0ebca66a5e6d73e7dd6.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>이렇게 전체 유스케이스를 놓고 보니 뭔가 허전하다. <code class="language-plaintext highlighter-rouge">AddTheaters</code>는 있는데 <code class="language-plaintext highlighter-rouge">SearchTheaters</code> 같은 건 보이지 않는다. <code class="language-plaintext highlighter-rouge">customers</code>도 마찬가지다. <code class="language-plaintext highlighter-rouge">RegisterCustomer</code>나 <code class="language-plaintext highlighter-rouge">LoginCustomer</code>도 필요하지 않을까?</p>
 
@@ -241,7 +243,7 @@
 
 <p>누락된 유스케이스를 모두 채워보자. 편의상 액터와 유스케이스 관계는 일부 생략한다.</p>
 
-<p><object data="/uml/4a96240a06085211b632889ad08f70c4.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/f1440e28dd2bbd5ddc8b13c6908d1385.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h3 id="54-유스케이스가-많다면">5.4. 유스케이스가 많다면</h3>
 

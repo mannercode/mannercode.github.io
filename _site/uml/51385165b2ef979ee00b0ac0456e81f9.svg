@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="478px" preserveAspectRatio="none" style="width:620px;height:478px;" version="1.1" viewBox="0 0 620 478" width="620px" zoomAndPan="magnify"><defs><filter height="300%" id="fdyhanenr5t51" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6c2d02fe013167922f007c9285828968]
+cluster mbs--><polygon fill="#FFFFFF" filter="url(#fdyhanenr5t51)" points="122,24.5,305,24.5,312,46.7969,450,46.7969,450,370.5,122,370.5,122,24.5" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="122" x2="312" y1="46.7969" y2="46.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="177" x="126" y="39.4951">Movie Booking System</text><!--MD5=[0c64180b40cb6a42c012370e26047e31]
+cluster tickets--><polygon fill="#FFFFFF" filter="url(#fdyhanenr5t51)" points="314,134.5,373,134.5,380,156.7969,426,156.7969,426,279.5,314,279.5,314,134.5" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="314" x2="380" y1="156.7969" y2="156.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="53" x="318" y="149.4951">tickets</text><!--MD5=[dffa5d117727925aa4668bf20905af82]
+cluster showtimes--><polygon fill="#FFFFFF" filter="url(#fdyhanenr5t51)" points="146,67.5,238,67.5,245,89.7969,280,89.7969,280,148.5,146,148.5,146,67.5" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="146" x2="245" y1="89.7969" y2="89.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="86" x="150" y="82.4951">showtimes</text><ellipse cx="369.7696" cy="184.5236" fill="#FFFF00" filter="url(#fdyhanenr5t51)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="343.7696" y="189.1721">티켓 구매하기</text><ellipse cx="369.7696" cy="248.5236" fill="#FEFECE" filter="url(#fdyhanenr5t51)" rx="39.7696" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="343.7696" y="253.1721">티켓 생성하기</text><ellipse cx="213.0833" cy="117.5236" fill="#FFFF00" filter="url(#fdyhanenr5t51)" rx="51.0833" ry="14.5236" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="68" x="179.0833" y="122.1721">상영시간 생성하기</text><!--MD5=[edc21d6fffa4cdd45942bad57ee878bf]
+entity theaters--><polygon fill="#FFFFFF" filter="url(#fdyhanenr5t51)" points="164.5,167,237.5,167,244.5,189.2969,261.5,189.2969,261.5,206.2969,164.5,206.2969,164.5,167" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="164.5" x2="244.5" y1="189.2969" y2="189.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="67" x="168.5" y="182.9951">theaters</text><!--MD5=[14607e4ba98818863e3e110b79e51248]
+entity movies--><polygon fill="#FFFFFF" filter="url(#fdyhanenr5t51)" points="170,241,232,241,239,263.2969,256,263.2969,256,280.2969,170,280.2969,170,241" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="170" x2="239" y1="263.2969" y2="263.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="56" x="174" y="256.9951">movies</text><!--MD5=[97f900b0b9d11f0285bfce3ade353ddf]
+entity customers--><polygon fill="#FFFFFF" filter="url(#fdyhanenr5t51)" points="156,315,246,315,253,337.2969,270,337.2969,270,354.2969,156,354.2969,156,315" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="156" x2="253" y1="337.2969" y2="337.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="84" x="160" y="330.9951">customers</text><!--MD5=[92848cbaf65985a669855153c5362c37]
+entity customer--><ellipse cx="370" cy="396.5" fill="#FEFECE" filter="url(#fdyhanenr5t51)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M370,404.5 L370,431.5 M357,412.5 L383,412.5 M370,431.5 L357,446.5 M370,431.5 L383,446.5 " fill="none" filter="url(#fdyhanenr5t51)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="337" y="464.9951">customer</text><!--MD5=[65a041cd1922b3dee6e64063a2213939]
+entity administrator--><ellipse cx="51" cy="86.5" fill="#FEFECE" filter="url(#fdyhanenr5t51)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M51,94.5 L51,121.5 M38,102.5 L64,102.5 M51,121.5 L38,136.5 M51,121.5 L64,136.5 " fill="none" filter="url(#fdyhanenr5t51)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="90" x="6" y="154.9951">administrator</text><!--MD5=[72a9586c6036bc828fb9ec987b717d65]
+entity PaymentGateway--><rect fill="#FEFECE" filter="url(#fdyhanenr5t51)" height="36.2969" style="stroke: #000000; stroke-width: 1.5;" width="139" x="470" y="166.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="119" x="480" y="189.4951">PaymentGateway</text><!--MD5=[64442fded180a1ec06a8f3436b32a6c2]
+link administrator to CreateShowtimes--><path d="M96.14,117.5 C114.82,117.5 136.79,117.5 156.55,117.5 " fill="none" id="administrator-&gt;CreateShowtimes" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="161.79,117.5,152.79,113.5,156.79,117.5,152.79,121.5,161.79,117.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0cb47f1d5621fdbc7137d15b7567cebb]
+link customer to PurchaseTickets--><path d="M346.39,386.94 C328.87,354.38 306.45,306.86 297,262 C292.75,241.83 291.34,230.99 306,216.5 C314.43,208.17 325.46,201.6 335.99,196.64 " fill="none" id="customer-&gt;PurchaseTickets" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="340.78,194.48,330.9313,194.5371,336.2228,196.5372,334.2228,201.8287,340.78,194.48" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[ab03bc895fc1d2fe1b22ae71ecaf8e3f]
+link PurchaseTickets to PaymentGateway--><path d="M410.27,184.5 C426.53,184.5 445.95,184.5 464.69,184.5 " fill="none" id="PurchaseTickets-&gt;PaymentGateway" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="469.96,184.5,460.96,180.5,464.96,184.5,460.96,188.5,469.96,184.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d27f787dbc340e83d2e320a4b7905228]
+link CreateShowtimes to GenerateTickets--><path d="M262.64,121.26 C272.08,124.06 281.15,128.51 288,135.5 C313.82,161.84 283.4,187.36 306,216.5 C313.11,225.66 323.55,232.42 333.91,237.3 " fill="none" id="CreateShowtimes-&gt;GenerateTickets" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="338.64,239.41,332.036,232.1033,334.0698,237.382,328.7911,239.4157,338.64,239.41" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[18966f9b1bd4f25e7c35d1ed3e9cc122]
+@startuml
+left to right direction
+actor customer
+actor administrator
+rectangle PaymentGateway
+
+package "Movie Booking System" as mbs {
+    package tickets {
+        usecase "티켓 구매하기" as PurchaseTickets #yellow
+        usecase "티켓 생성하기" as GenerateTickets
+    }
+
+    package showtimes {
+        usecase "상영시간 생성하기" as CreateShowtimes #yellow
+    }
+
+    package theaters {
+    }
+
+    package movies {
+    }
+
+    package customers {
+    }
+}
+
+administrator - -> CreateShowtimes
+customer -> PurchaseTickets
+PurchaseTickets ..> PaymentGateway
+CreateShowtimes ..> GenerateTickets
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.15+6-Debian-1deb12u1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: ko
+Country: KR
+--></g></svg>

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  백엔드 서비스 분석과 설계 (1)
+title: 백엔드 서비스 분석과 설계 (1)
 ---
 
 소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.
@@ -210,10 +210,10 @@ left to right direction
 actor customer
 
 package "Movie Booking System" as mbs {
-    usecase MovieDetails
-    usecase SearchMovies
-    usecase BuyTickets
-    usecase RefundTickets
+    usecase "영화 상세보기" as MovieDetails
+    usecase "영화 검색하기" as SearchMovies
+    usecase "티켓 구매하기" as PurchaseTickets
+    usecase "티켓 환불하기" as RefundTickets
 }
 
 customer --> mbs
@@ -269,25 +269,25 @@ rectangle PaymentGateway
 
 package "Movie Booking System" as mbs {
     package theaters {
-        usecase AddTheaters
+        usecase "극장 추가하기" as AddTheaters
     }
 
     package movies {
-        usecase AddMovies
+        usecase "영화 추가하기" as AddMovies
     }
 
     package customers {
-        usecase SearchCustomers
+        usecase "고객 검색하기" as SearchCustomers
     }
 
     package showtimes {
-        usecase CreateShowtimes
+        usecase "상영시간 생성하기" as CreateShowtimes
     }
 
     package tickets {
-        usecase PurchaseTickets
-        usecase RefundTickets
-        usecase GenerateTickets
+        usecase "티켓 구매하기" as PurchaseTickets
+        usecase "티켓 환불하기" as RefundTickets
+        usecase "티켓 생성하기" as GenerateTickets
     }
 
     PurchaseTickets --> PaymentGateway
@@ -316,27 +316,27 @@ rectangle PaymentGateway
 
 package "Movie Booking System" as mbs {
     package theaters {
-        usecase AddTheaters
+        usecase "극장 추가하기" as AddTheaters
     }
 
     package movies {
-        usecase AddMovies
-    usecase MovieDetails
-    usecase SearchMovies
+        usecase "영화 추가하기" as AddMovies
+        usecase "영화 상세보기" as MovieDetails
+        usecase "영화 검색하기" as SearchMovies
     }
 
     package customers {
-        usecase SearchCustomers
+        usecase "고객 검색하기" as SearchCustomers
     }
 
     package showtimes {
-        usecase CreateShowtimes
+        usecase "상영시간 생성하기" as CreateShowtimes
     }
 
     package tickets {
-        usecase PurchaseTickets
-        usecase RefundTickets
-        usecase GenerateTickets
+        usecase "티켓 구매하기" as PurchaseTickets
+        usecase "티켓 환불하기" as RefundTickets
+        usecase "티켓 생성하기" as GenerateTickets
     }
 }
 
@@ -378,33 +378,33 @@ rectangle PaymentGateway
 
 package "Movie Booking System" as mbs {
     package theaters {
-        usecase AddTheaters
-        usecase SearchTheaters
+        usecase "극장 추가하기" as AddTheaters
+        usecase "극장 검색하기" as SearchTheaters
     }
 
     package movies {
-        usecase AddMovies
-        usecase MovieDetails
-        usecase SearchMovies
+        usecase "영화 추가하기" as AddMovies
+        usecase "영화 상세보기" as MovieDetails
+        usecase "영화 검색하기" as SearchMovies
     }
 
     package customers {
-        usecase SearchCustomers
-        usecase RegisterCustomer
-        usecase LoginCustomer
+        usecase "고객 검색하기" as SearchCustomers
+        usecase "고객 등록하기" as RegisterCustomer
+        usecase "고객 로그인" as LoginCustomer
 
     }
 
     package showtimes {
-        usecase CreateShowtimes
-        usecase SearchShowtimes
+        usecase "상영시간 생성하기" as CreateShowtimes
+        usecase "상영시간 검색하기" as SearchShowtimes
     }
 
     package tickets {
-        usecase PurchaseTickets
-        usecase RefundTickets
-        usecase GenerateTickets
-        usecase SearchTickets
+        usecase "티켓 구매하기" as PurchaseTickets
+        usecase "티켓 환불하기" as RefundTickets
+        usecase "티켓 생성하기" as GenerateTickets
+        usecase "티켓 검색하기" as SearchTickets
     }
 }
 

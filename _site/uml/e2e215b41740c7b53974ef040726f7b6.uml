@@ -1,0 +1,21 @@
+@startuml
+
+@startditaa
+                 "한글.txt"          "%ED%95%9C%EA%B8%80.txt"
+                     |           +-----------------------+
+                     |           |  Save as received?    |
+                     |           |                       v
+                     |     +-----+----+            +-------------+
+                     |     |          |            |             |
+                     |     |          |            |  DataBase   |
+        URL encoding +---->|  SERVER  |            |             |
+ "%ED%95%9C%EA%B8%80.txt"  |          |            | o filename  |
+                           |          |            |          {s}|
+                           +-----+----+            +-------------+
+                                 |                       ^
+                                 |   Decode then save?   |
+                                 +-----------------------+
+                                         "한글.txt"
+@endditaa
+
+@enduml

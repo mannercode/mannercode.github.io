@@ -1,0 +1,39 @@
+@startuml
+
+@startuml
+left to right direction
+actor administrator
+rectangle PaymentGateway
+
+package "Movie Booking System" as mbs {
+    package theaters {
+        usecase "극장 추가하기" as AddTheaters
+    }
+
+    package movies {
+        usecase "영화 추가하기" as AddMovies
+    }
+
+    package customers {
+        usecase "고객 검색하기" as SearchCustomers
+    }
+
+    package showtimes {
+        usecase "상영시간 생성하기" as CreateShowtimes
+    }
+
+    package tickets {
+        usecase "티켓 구매하기" as PurchaseTickets
+        usecase "티켓 환불하기" as RefundTickets
+        usecase "티켓 생성하기" as GenerateTickets
+    }
+
+    PurchaseTickets --> PaymentGateway
+    RefundTickets --> PaymentGateway
+    CreateShowtimes ..> GenerateTickets
+}
+
+administrator --> mbs
+@enduml
+
+@enduml
