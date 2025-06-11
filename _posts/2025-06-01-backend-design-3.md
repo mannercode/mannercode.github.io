@@ -6,7 +6,6 @@ title: 백엔드 서비스 분석과 설계 (3)
 지난 시간에 REST API의 namespace와 SoLA 구조를 적용해서 `상영시간 생성하기` 시퀀스 다이어그램을 그렸다.
 
 이번 시간에는 부족했던 설계를 보완하고 테스트를 작성해 보자.
-하나씩 살펴보자.
 
 ## 1. `상영시간 생성 요청` 설계의 문제점
 
@@ -16,10 +15,10 @@ title: 백엔드 서비스 분석과 설계 (3)
 @startuml
 participant Frontend as frontend
 participant Gateway as gateway
-participant ShowtimeCreation as creation
-participant Movies as movies
-participant Theaters as theaters
-participant Showtimes as showtimes
+participant "ShowtimeCreation\nService" as creation
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
 
 frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
     gateway -> creation: createShowtimes(createDto)
@@ -56,7 +55,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 @startuml
 participant Frontend as frontend
 participant Gateway as gateway
-participant ShowtimeCreationService as creation
+participant "ShowtimeCreation\nService" as creation
 participant Queue as queue
 
 frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
@@ -79,8 +78,8 @@ queue -> creation: dequeue { createDto, transactionId }
     creation -> creation: <b>validateRequest(createDto)</b>
     creation -> creation: <b>createShowtimeBatch(createDto, transactionId)</b>
     creation -> creation: <b>createTicketBatch(showtimes, transactionId)</b>
-gateway <<- creation: ShowtimeBatchCreateStatus(complete)
-frontend <<- gateway: SSE(complete)
+gateway <<- creation: ShowtimeCreationStatus(Succeeded)
+frontend <<- gateway: SSE(Succeeded)
 @enduml
 {% endplantuml %}
 
@@ -124,34 +123,12 @@ Set<number> timeslots = [0930, 0940,0950,1200,1210,1220]
 
 그 후, 기존에 등록된 상영시간을 10단 단위로 쪼개서 timeslots에 등록된 값인지 비교하면 된다.
 
-#### 그 외, 알고리즘들
+### 3.2. 충돌 검사 수도코드
 
-혹시 아래처럼 시작과 끝을 비교해서 검사하는 게 더 빠르지 않냐고 생각할지도 모르겠다. 그러나 아래 코드는 시간 복잡도가 O(M * N)이 된다. 반면에 위의 timeslots 알고리즘은 M 부분을 Set으로 만들었기 때문에 시간 복잡도가 O(M + N)이 된다.
-
-```ts
-const showtimes = getShowtimes(theaterId)
-
-for (showtime of showtimes) {
-    for (startTime of startTimes) {
-        const endTime = startTime + durationMinutes
-
-        if (
-            (showtime.startTime <= startTime && startTime <= showtime.endTime) ||
-            (showtime.startTime <= endTime && endTime <= showtime.endTime)
-        ) {
-            // conflict
-        }
-    }
-}
-```
-
-그 외에, 이진 탐색 알고리즘을 응용하여 구현하는 방법도 있다. 이것은 timeslots 방식 보다 시간을 좀 더 단축시킬 수 있으나 차이가 크지 않고 구현 난이도가 증가하는 단점이 있어서 채택하지 않았다.
-
-### 3.2. 수도 코드와 다이어그램
-
-지금까지 설명한 알고리즘의 수도 코드다.
+지금까지 설명한 알고리즘의 수도코드다.
 
 ```ts
+// 타임슬롯 등록
 const timeslots = new Set<number>()
 
 for startTime of startTimes {
@@ -162,10 +139,14 @@ for startTime of startTimes {
     }
 }
 
+// 기존 상영시간 가져오기
 const showtimes = getShowtimes(theaterId)
 
+// 기존 상영시간이 타임슬롯과 충돌하는지 체크
 for (showtime in showtimes) {
-    for (timeslot = showtime.startTime; timeslot < showtime.endTime; timeslot += 10) {
+    const {startTime, endTime} = showtime
+
+    for (timeslot = startTime; timeslot < endTime; timeslot+=10) {
         if (timeslots.exists(timeslot)) {
             // conflict
         }
@@ -183,7 +164,9 @@ for (showtime in showtimes) {
 시간 복잡도 = O(M + N)
 ```
 
-위의 수도 코드를 UML로 그려보면 어떨까?
+### 3.3. 충돌 검사 다이어그램
+
+위의 수도코드를 UML로 그려보면 어떨까?
 
 {% plantuml %}
 @startuml
@@ -219,22 +202,20 @@ stop
 @enduml
 {% endplantuml %}
 
-누군가는 알고리즘은 복잡하기 때문에 이해하기 쉽게 그림으로 그리는 게 좋다고 생각할지 모르겠다. 그러나 코드에 익숙한 개발자는 역시 코드가 이해하기 쉬운 것 같다.
+알고리즘은 복잡하기 때문에 이해하기 쉽게 그림으로 그리는 게 좋다고 생각할지 모르겠다. 그러나 코드에 익숙한 개발자는 역시 코드가 이해하기 쉬운 것 같다.
 
 UML을 처음 접하면 모든 것을 다이어그램으로 표현하고 싶은 유혹에 빠지기 쉽다. 그러나 UML이 만능 표현법이 아님을 주의해야 한다.
 
-### 3.3.시퀀스 다이어그램으로 정리하기
+### 3.4.시퀀스 다이어그램으로 정리하기
 
-지금까지 수도 코드와 다이어그램으로 알고리즘을 표현했지만 알고리즘이 간단하기 때문에 설계자가 따로 필요할 것 같지는 않다.
-
-가장 현실적인 설계는 아래 시퀀스 다이어그램 정도일 것이다.
+지금까지 알고리즘이 간단함에도 불구하고 설명을 위해서 수도코드와 다이어그램으로 알고리즘을 표현해 봤다. 그러나 실제 프로젝트라면 보통은 아래 시퀀스 다이어그램 정도로 설계를 마무리할 것이다.
 
 {% plantuml %}
 @startuml
-participant ShowtimeCreation as creation
-participant Movies as movies
-participant Theaters as theaters
-participant Showtimes as showtimes
+participant "ShowtimeCreation\nService" as creation
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
 
 creation -> creation: validateRequest
 activate creation
@@ -249,27 +230,50 @@ deactivate creation
 
 findConflictingShowtimes() 함수에는 지금까지 설명한 충돌 검사 알고리즘을 구현하면 된다.
 
+### 3.5. 기타 충돌 검사 알고리즘들
+
+혹시 아래처럼 시작과 끝을 비교해서 검사하는 게 더 빠르지 않냐고 생각할지도 모르겠다. 그러나 아래 코드는 시간 복잡도가 O(M * N)이 된다. 반면에 위의 timeslots 알고리즘은 M 부분을 Set으로 만들었기 때문에 시간 복잡도가 O(M + N)이 된다.
+
+```ts
+const showtimes = getShowtimes(theaterId)
+
+for (showtime of showtimes) {
+    for (startTime of startTimes) {
+        const endTime = startTime + durationMinutes
+
+        if (
+            (showtime.startTime <= startTime && startTime <= showtime.endTime) ||
+            (showtime.startTime <= endTime && endTime <= showtime.endTime)
+        ) {
+            // conflict
+        }
+    }
+}
+```
+
+그 외에, 이진 탐색 알고리즘을 응용하여 구현하는 방법도 있다. 이것은 timeslots 방식 보다 시간을 좀 더 단축시킬 수 있으나 차이가 크지 않고 구현 난이도가 증가하는 단점이 있어서 채택하지 않았다.
+
 ## 4. createShowtimeBatch와 createTicketBatch 함수 설계
 
 createShowtimeBatch와 createTicketBatch 함수는 아래처럼 설계했다.
 
 {% plantuml %}
 @startuml
-participant ShowtimeCreation as creation
-participant Movies as movies
-participant Theaters as theaters
-participant Showtimes as showtimes
-participant Tickets as tickets
+participant "ShowtimeCreation\nService" as creation
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
+participant "Tickets\nService" as tickets
 
 creation -> creation: createShowtimeBatch(createDto, transactionId)
 activate creation
     loop theater in createDto.theaters
         loop startTime in createDto.startTimes
-            creation -> creation: buildCreateShowtimeDto({theaterId, movieId, startTime, duration})
+            creation -> creation: buildCreateShowtimeDto\n({theaterId, movieId, startTime, duration})
         end
     end
 
-    creation -> showtimes: createShowtimes(createShowtimeDtos, transactionId)
+    creation -> showtimes: createShowtimes\n(createShowtimeDtos, transactionId)
     creation <-- creation: showtimes
 deactivate creation
 
@@ -279,9 +283,9 @@ activate creation
         creation -> theaters: getTheater(showtime.theaterId)
         creation <-- theaters: theater
         loop seat in theater.seats
-            creation -> creation: createTicketCreateDto(seat, showtime.id)
+            creation -> creation: buildCreateTicketDto(seat, showtime.id)
         end
-        creation -> tickets: createTickets(ticketCreateDtos,transactionId)
+        creation -> tickets: createTickets(createTicketDtos,transactionId)
         creation <-- tickets: tickets
     end
 deactivate creation
@@ -289,7 +293,7 @@ deactivate creation
 @enduml
 {% endplantuml %}
 
-`상영시간 생성 요청`에서 주어진 값을 바탕으로 showtimes를 생성하고 showtimes를 바탕으로 다시 tickets를 생성한다.
+사용자가 입력한 값을 바탕으로 showtimes를 생성하고, 생성된 showtimes로 tickets를 생성한다.
 
 이 설계에서 마음에 걸리는 것은 showtime이나 ticket 생성이 중간에 실패하는 경우 어떻게 하면 되는지 언급이 없다는 것이다.
 
@@ -302,23 +306,14 @@ deactivate creation
 {% plantuml %}
 @startuml
 participant Gateway as gateway
-participant ShowtimeCreationService as creation
+participant "ShowtimeCreation\nService" as creation
 participant Queue as queue
-participant Movies as movies
-participant Theaters as theaters
-participant Showtimes as showtimes
-participant Tickets as tickets
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
+participant "Tickets\nService" as tickets
 
 gateway -> creation: requestShowtimeCreation(createDto)
-    note right
-    CreateShowtimeBatchDto {
-        "movieId": "movie#1",
-        "theaterIds": ["theater#1","theater#2"],
-        "durationMinutes": 90,
-        "startTimes": [202012120900, 202012121100]
-    }
-    end note
-
     creation -> creation: transactionId
     creation -> queue: enqueue { createDto, transactionId }
 gateway <-- creation: transactionId
@@ -337,11 +332,11 @@ queue -> creation: dequeue { createDto, transactionId }
     activate creation
         loop theater in createDto.theaters
             loop startTime in createDto.startTimes
-                creation -> creation: buildCreateShowtimeDto({theaterId, movieId, startTime, duration})
+                creation -> creation: buildCreateShowtimeDto\n({theaterId, movieId, startTime, duration})
             end
         end
 
-        creation -> showtimes: createShowtimes(createShowtimeDtos, transactionId)
+        creation -> showtimes: createShowtimes\n(createShowtimeDtos, transactionId)
         creation <-- creation: showtimes
     deactivate creation
 
@@ -358,12 +353,12 @@ queue -> creation: dequeue { createDto, transactionId }
         end
     deactivate creation
 
-gateway <<- creation: ShowtimeBatchCreateStatus(complete)
+gateway <<- creation: ShowtimeCreationStatus(Succeeded)
 
 @enduml
 {% endplantuml %}
 
-언뜻 봐도 다이어그램이 복잡한데 특히 `ShowtimeCreationService`에 많은 기능이 몰려있다.
+언뜻 봐도 다이어그램이 복잡한데, 특히 `ShowtimeCreationService`에 많은 기능이 몰려있다.
 
 1. queue 관리
 1. 상영시간 생성 요청 검사
@@ -372,14 +367,14 @@ gateway <<- creation: ShowtimeBatchCreateStatus(complete)
 
 그리고 이 다이어그램에 드러나지 않았지만 `searchMovies`, `searchTheaters`, `searchShowtimes` 함수도 `ShowtimeCreationService`에서 구현해야 한다.
 
-이 기능을 한 클래스에서 구현하면 클래스가 복잡하고 한 눈에 파악하기도 어려울 것이다.
+## 6. `ShowtimeCreationService` 리팩토링
 
-## 6. `ShowtimeCreationService` 분리
+`ShowtimeCreationService`가 하는 일이 많고 복잡해서 리팩토링이 필요해 보인다.
 
 여기서는 `ShowtimeCreationService`의 기능을 3개의 클래스로 분산시킬 것이다.
 
-1. queue를 관리하는 `ShowtimeCreationWorkerService`
-1. 상영시간 생성 요청 검사하는 `ShowtimeBatchValidatorService`
+1. 상영시간 생성 작업을 관리하는 `ShowtimeCreationWorkerService`
+1. 상영시간 생성 요청을 검사하는 `ShowtimeBatchValidatorService`
 1. 상영시간과 티켓을 생성하는 `ShowtimeBatchCreatorService`
 
 {% plantuml %}
@@ -389,7 +384,7 @@ class ShowtimeCreationService {
 }
 
 class ShowtimeCreationWorkerService {
-     enqueueJob(createDto, transactionId)
+     requestShowtimeCreation(createDto)
      processNextJob()
 }
 
@@ -416,39 +411,71 @@ ShowtimeCreationWorkerService --> ShowtimeBatchCreatorService : creator
 @startuml
 participant Frontend as frontend
 participant Gateway as gateway
-participant ShowtimeCreationService as creation
-participant Worker as worker
+participant "ShowtimeCreation\nService" as creation
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
+participant "ShowtimeCreationWorker\nService" as worker
+
+frontend -> gateway: 영화 목록 요청\nGET /showtime-creation/movies
+    gateway -> creation: searchMovies()
+        creation -> movies: searchMovies()
+    gateway <-- creation: movies[]
+frontend <-- gateway: movies[]
+
+frontend -> gateway: 극장 목록 요청\nGET /showtime-creation/theaters
+    gateway -> creation: searchTheaters()
+        creation -> theaters: searchTheaters()
+    gateway <-- creation: theaters[]
+frontend <-- gateway: theaters[]
+
+frontend -> gateway: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
+    note right
+        SearchShowtimesDto {
+            theaterIds,
+        }
+    end note
+    gateway -> creation: searchShowtimes(searchDto)
+        creation -> showtimes: searchShowtimes(searchDto)
+    gateway <-- creation: showtimes[]
+frontend <-- gateway: showtimes[]
 
 frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
-    gateway -> creation: requestShowtimeCreation(createDto)
-        note right
+    note right
         CreateShowtimeBatchDto {
             "movieId": "movie#1",
             "theaterIds": ["theater#1","theater#2"],
             "durationMinutes": 90,
             "startTimes": [202012120900, 202012121100]
         }
-        end note
-
-        creation -> creation: transactionId
-        creation -> worker: enqueueJob { createDto, transactionId }
+    end note
+    gateway -> creation: requestShowtimeCreation(createDto)
+        creation -> worker: requestShowtimeCreation(createDto)
+        creation <-- worker: transactionId
     gateway <-- creation: transactionId
 frontend <-- gateway: Accepted(202)
+@enduml
 {% endplantuml %}
 
 ### 6.2. `ShowtimeCreationWorkerService`
 
 {% plantuml %}
 @startuml
+participant "ShowtimeCreation\nService" as creation
+participant "ShowtimeCreationWorker\nService" as worker
 participant Queue as queue
-participant Worker as worker
-participant ShowtimeBatchValidatorService as validator
-participant ShowtimeBatchCreatorService as creator
+participant "ShowtimeBatchValidator\nService" as validator
+participant "ShowtimeBatchCreator\nService" as creator
 
-queue -> worker: dequeueJob { createDto, transactionId }
-    worker -> validator: validate(createDto)
-    worker -> creator: create(createDto, transactionId)
-    [<- worker  : ShowtimeBatchCreateStatus(succeeded)
+creation -> worker: requestShowtimeCreation(createDto)
+worker -> worker: createTransactionId
+worker -> queue: enqueueJob { createDto, transactionId }
+creation <-- worker: transactionId
+[-> worker:processNextJob()
+worker -> queue: dequeueJob { createDto, transactionId }
+worker -> validator: validate(createDto)
+worker -> creator: create(createDto, transactionId)
+[<<- worker  : ShowtimeBatchCreateStatus(succeeded)
 
 @enduml
 {% endplantuml %}
@@ -457,17 +484,17 @@ queue -> worker: dequeueJob { createDto, transactionId }
 
 {% plantuml %}
 @startuml
-participant Worker as worker
-participant ShowtimeBatchValidatorService as validator
-participant Movies as movies
-participant Theaters as theaters
-participant Showtimes as showtimes
+participant "ShowtimeCreationWorker\nService" as worker
+participant "ShowtimeBatchValidator\nService" as validator
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
 
 worker -> validator: validate
 validator -> movies: moviesExist(movieId)
 validator -> theaters: theatersExist(theaterIds)
 validator -> showtimes: getShowtimes(theaterIds)
-validator -> creation: findConflictingShowtimes()
+validator -> validator: findConflictingShowtimes()
 worker <-- validator: conflictingShowtimes
 @enduml
 {% endplantuml %}
@@ -476,23 +503,23 @@ worker <-- validator: conflictingShowtimes
 
 {% plantuml %}
 @startuml
-participant Worker as worker
-participant ShowtimeBatchCreatorService as creator
-participant Movies as movies
-participant Theaters as theaters
-participant Showtimes as showtimes
-participant Tickets as tickets
+participant "ShowtimeCreationWorker\nService" as worker
+participant "ShowtimeBatchCreator\nService" as creator
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
+participant "Tickets\nService" as tickets
 
 worker -> creator: create(createDto, transactionId)
 creator -> creator: createShowtimeBatch(createDto, transactionId)
 activate creator
     loop theater in createDto.theaters
         loop startTime in createDto.startTimes
-            creator -> creator: buildCreateShowtimeDto({theaterId, movieId, startTime, duration})
+            creator -> creator: buildCreateShowtimeDto\n({theaterId, movieId, startTime, duration})
         end
     end
 
-    creator -> showtimes: createShowtimes(createShowtimeDtos, transactionId)
+    creator -> showtimes: createShowtimes\n(createShowtimeDtos, transactionId)
     creator <-- creator: showtimes
 deactivate creator
 
@@ -502,9 +529,9 @@ activate creator
         creator -> theaters: getTheater(showtime.theaterId)
         creator <-- theaters: theater
         loop seat in theater.seats
-            creator -> creator: createTicketCreateDto(seat, showtime.id)
+            creator -> creator: buildCreateTicketDto(seat, showtime.id)
         end
-        creator -> tickets: createTickets(ticketCreateDtos,transactionId)
+        creator -> tickets: createTickets(createTicketDtos,transactionId)
         creator <-- tickets: tickets
     end
 deactivate creator
@@ -512,4 +539,19 @@ worker <- creator: { createdShowtimeCount, createdTicketCount }
 @enduml
 {% endplantuml %}
 
-## 7. 테스트 코드
+## 7. 클래스 다이어그램
+
+moviesservice 등 전체 클래스 메소드 정리
+
+## 8. Entities
+
+내가 처음 이 프로젝트를 진행했을 때 아직 엔티티의 속성이나 관계를 정의하기 전이었다.
+지금까지 설명했던 것처럼 티켓을 생성하는 프로세스에만 집중했을 뿐이다.
+
+누군가는 엔티티를 더 일찍 파악했어야 하는 게 아니냐고 생각할 수 있다. 1인 프로젝트라는 전제 하에 엔티티 정의는 뒤로 미뤄도 괜찮은 것 같다. 지금처럼 유스케이스를 파악하고 시퀀스 다이어그램을 그리면 엔티티 사이의 관계가 구체적으로 드러난다. 그 후에 정리해도 충분하다.
+
+여기서는 티켓을 생성할 때 showtime.id와 seat 정보를 같이 전달한다. 티켓 엔티티는 이 두 정보를 포함해야 하는 것이다.
+
+### 8.1 Seatmap은 value? entity?
+
+## 9. 테스트 코드 작성
