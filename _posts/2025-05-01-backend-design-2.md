@@ -585,33 +585,40 @@ end note
 
 {% plantuml %}
 @startuml
-Frontend -> Gateway: 영화 목록 요청\nGET /showtime-creation/movies
-    Gateway -> ShowtimeCreationService: searchMovies()
-        ShowtimeCreationService -> MoviesService: searchMovies()
-        ShowtimeCreationService <-- MoviesService: movies[]
-    Gateway <-- ShowtimeCreationService: movies[]
-Frontend <-- Gateway: movies[]
+participant Frontend as frontend
+participant Gateway as gateway
+participant "ShowtimeCreation\nService" as creation
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
 
-Frontend -> Gateway: 극장 목록 요청\nGET /showtime-creation/theaters
-    Gateway -> ShowtimeCreationService: searchTheaters()
-        ShowtimeCreationService -> TheatersService: searchTheaters()
-        ShowtimeCreationService <-- TheatersService: theaters[]
-    Gateway <-- ShowtimeCreationService: theaters[]
-Frontend <-- Gateway: theaters[]
+frontend -> gateway: 영화 목록 요청\nGET /showtime-creation/movies
+    gateway -> creation: searchMovies()
+        creation -> movies: searchMovies()
+        creation <-- movies: movies[]
+    gateway <-- creation: movies[]
+frontend <-- gateway: movies[]
 
-Frontend -> Gateway: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
+frontend -> gateway: 극장 목록 요청\nGET /showtime-creation/theaters
+    gateway -> creation: searchTheaters()
+        creation -> theaters: searchTheaters()
+        creation <-- theaters: theaters[]
+    gateway <-- creation: theaters[]
+frontend <-- gateway: theaters[]
+
+frontend -> gateway: 상영시간 목록 요청\nPOST /showtime-creation/showtimes/search
     note right
         SearchShowtimesDto {
             theaterIds,
         }
     end note
-    Gateway -> ShowtimeCreationService: searchShowtimes(searchDto)
-        ShowtimeCreationService -> ShowtimesService: searchShowtimes(searchDto)
-        ShowtimeCreationService <-- ShowtimesService: showtimes[]
-    Gateway <-- ShowtimeCreationService: showtimes[]
-Frontend <-- Gateway: showtimes[]
+    gateway -> creation: searchShowtimes(searchDto)
+        creation -> showtimes: searchShowtimes(searchDto)
+        creation <-- showtimes: showtimes[]
+    gateway <-- creation: showtimes[]
+frontend <-- gateway: showtimes[]
 
-Frontend -> Gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
+frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
     note right
         CreateShowtimesDto {
             movieId,
@@ -620,17 +627,17 @@ Frontend -> Gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtim
             durationMinutes
         }
     end note
-    Gateway -> ShowtimeCreationService: createShowtimes(createDto)
-        ShowtimeCreationService -> MoviesService: moviesExist(movieId)
-        ShowtimeCreationService <-- MoviesService: true
+    gateway -> creation: createShowtimes(createDto)
+        creation -> movies: moviesExist(movieId)
+        creation <-- movies: true
 
-        ShowtimeCreationService -> TheatersService: theatersExist(theaterIds)
-        ShowtimeCreationService <-- TheatersService: true
+        creation -> theaters: theatersExist(theaterIds)
+        creation <-- theaters: true
 
-        ShowtimeCreationService -> ShowtimesService: createShowtimes(createDto)
-        ShowtimeCreationService <-- ShowtimesService: showtimes[]
-    Gateway <-- ShowtimeCreationService: showtimes[]
-Frontend <-- Gateway: Created(201)
+        creation -> showtimes: createShowtimes(createDto)
+        creation <-- showtimes: showtimes[]
+    gateway <-- creation: showtimes[]
+frontend <-- gateway: Created(201)
 
 @enduml
 {% endplantuml %}
