@@ -261,11 +261,9 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p><object data="/uml/a30b400a80219002711c7231bd6d9e08.svg" type="image/svg+xml" class="plantuml"></object></p>
 
-<p>사용자가 입력한 값을 바탕으로 showtimes를 생성하고, 생성된 showtimes로 tickets를 생성한다.</p>
+<p>사용자가 입력한 값을 바탕으로 <code class="language-plaintext highlighter-rouge">showtimes</code>를 생성하고, 생성된 <code class="language-plaintext highlighter-rouge">showtimes</code>로 <code class="language-plaintext highlighter-rouge">tickets</code>를 생성한다.</p>
 
-<p>이 설계에서 마음에 걸리는 것은 showtime이나 ticket 생성이 중간에 실패하는 경우 어떻게 하면 되는지 언급이 없다는 것이다.</p>
-
-<p>이것은 Saga 패턴으로 해결할 수 있는데 추후 다른 글에서 다시 다루도록 하겠다.</p>
+<p>이 설계에는 <code class="language-plaintext highlighter-rouge">Showtime</code>이나 <code class="language-plaintext highlighter-rouge">Ticket</code> 생성이 중간에 실패하는 경우 어떻게 하면 되는지 언급이 없다. 이것은 <code class="language-plaintext highlighter-rouge">Saga</code> 패턴으로 해결할 수 있는데 추후 다른 글에서 다시 다루도록 하겠다.</p>
 
 <h2 id="6-전체-시퀀스-다이어그램">6. 전체 시퀀스 다이어그램</h2>
 
@@ -322,6 +320,8 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p><object data="/uml/e80fffe3cb8596bfb6c7015a0d60255e.svg" type="image/svg+xml" class="plantuml"></object></p>
 
+<p><code class="language-plaintext highlighter-rouge">ShowtimeCreationWorkerService</code>은 <code class="language-plaintext highlighter-rouge">transactionId</code>를 생성하고 반환한다. 그리고 <code class="language-plaintext highlighter-rouge">Queue</code>에 쌓인 작업을 하나씩 실행하게 된다.</p>
+
 <p><code class="language-plaintext highlighter-rouge">ShowtimeCreationStatus.Waiting</code>나 <code class="language-plaintext highlighter-rouge">ShowtimeCreationStatus.Processing</code>는 화살표가 검은점에 연결된다. 이것은 이벤트를 발생시킨다는 의미다.</p>
 
 <p>반대로 <code class="language-plaintext highlighter-rouge">processNextJob()</code>은 어딘가에서 이벤트를 수신한다는 의미다.</p>
@@ -362,7 +362,12 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <h2 id="9-결론">9. 결론</h2>
 
-<p>이번 시간에는 <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code>를 설계하고 리팩토링 했다. 그 과정에서 몇 가지 네이밍 규칙을 정했다.</p>
+<p>이번 시간에는 <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code>를 설계하고 리팩토링 했다. 그 과정에서 몇 가지 네이밍 규칙도 정했다.</p>
+
+<p>엔티티도 정의했는데 <code class="language-plaintext highlighter-rouge">Theater</code> 엔티티의 <code class="language-plaintext highlighter-rouge">seatmap</code> 속성은 티켓 생성을 위한 템플릿 같은 용도이기 때문에 값 객체로 정의했다.</p>
+
+<p>이런 부분은 아직 AI에게 힘든 일이다. <code class="language-plaintext highlighter-rouge">ChatGPT-O3</code>와 <code class="language-plaintext highlighter-rouge">Gemini 2.5Pro</code>에 MSA를 반영한 엔티티 설계를 요청하면 <code class="language-plaintext highlighter-rouge">Seat</code>를 엔티티로 설계했다.
+그러나 <code class="language-plaintext highlighter-rouge">Seat</code>를 엔티티로 하면 DB에 많은 부담이 생겨서 프로젝트 후반에 성능 문제를 발견하게 될지도 모른다.</p>
 
 <p>다음 시간에는 <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code>의 테스트에 대해서 이야기 하겠다.</p>
 
