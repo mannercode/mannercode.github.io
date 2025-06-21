@@ -1,0 +1,46 @@
+@startuml
+
+@startuml
+participant "ShowtimeCreation\nService" as creation
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
+participant "Tickets\nService" as tickets
+
+creation -> creation: bulkCreateShowtimes(createDto, transactionId)
+    note right
+        BulkCreateShowtimesDto {
+            "movieId": "movie#1",
+            "theaterIds": ["theater#1","theater#2"],
+            "durationInSeconds": 90,
+            "startTimes": [202012120900, 202012121100]
+        }
+    end note
+
+activate creation
+    loop theaterId in createDto.theaterIds
+        loop startTime in createDto.startTimes
+            creation -> creation: buildCreateShowtimeDto\n({theaterId, movieId, startTime, duration})
+        end
+    end
+
+    creation -> showtimes: createShowtimes\n(createShowtimeDtos, transactionId)
+    creation <-- creation: showtimes
+deactivate creation
+
+creation -> creation: bulkCreateTickets(showtimes, transactionId)
+activate creation
+    loop showtime in showtimes
+        creation -> theaters: getTheater(showtime.theaterId)
+        creation <-- theaters: theater
+        loop seat in theater.seats
+            creation -> creation: buildCreateTicketDto(seat, showtime.id)
+        end
+        creation -> tickets: createTickets(createTicketDtos,transactionId)
+        creation <-- tickets: tickets
+    end
+deactivate creation
+
+@enduml
+
+@enduml

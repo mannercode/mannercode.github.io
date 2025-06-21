@@ -1,0 +1,56 @@
+@startuml
+
+@startuml
+participant Gateway as gateway
+participant "ShowtimeCreation\nService" as creation
+Queue Queue as queue
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
+participant "Tickets\nService" as tickets
+
+gateway -> creation: requestShowtimeCreation(createDto)
+    creation -> creation: transactionId
+    creation -> queue: enqueue { createDto, transactionId }
+gateway <-- creation: transactionId
+...
+queue -> creation: dequeue { createDto, transactionId }
+    creation -> creation: validateRequest
+    activate creation
+    creation -> movies: moviesExist(movieId)
+    creation -> theaters: theatersExist(theaterIds)
+    creation -> showtimes: getShowtimes(theaterIds)
+    creation -> creation: findConflictingShowtimes()
+    creation --> creation: conflictingShowtimes
+    deactivate creation
+
+    creation -> creation: bulkCreateShowtimes(createDto, transactionId)
+    activate creation
+        loop theaterId in createDto.theaterIds
+            loop startTime in createDto.startTimes
+                creation -> creation: buildCreateShowtimeDto\n({theaterId, movieId, startTime, duration})
+            end
+        end
+
+        creation -> showtimes: createShowtimes\n(createShowtimeDtos, transactionId)
+        creation <-- creation: showtimes
+    deactivate creation
+
+    creation -> creation: bulkCreateTickets(showtimes, transactionId)
+    activate creation
+        loop showtime in showtimes
+            creation -> theaters: getTheater(showtime.theaterId)
+            creation <-- theaters: theater
+            loop seat in theater.seats
+                creation -> creation: createTicketCreateDto(seat, showtime.id)
+            end
+            creation -> tickets: createTickets(ticketCreateDtos,transactionId)
+            creation <-- tickets: tickets
+        end
+    deactivate creation
+
+gateway <<- creation: ShowtimeCreationStatus(Succeeded)
+
+@enduml
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+
+@startuml
+participant "ShowtimeCreationWorker\nService" as worker
+participant "ShowtimeBulkValidator\nService" as validator
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
+
+worker -> validator: validate(createDto)
+validator -> movies: moviesExist(createDto.movieId)
+validator -> theaters: theatersExist(createDto.theaterIds)
+validator -> showtimes: getShowtimes(createDto.theaterIds)
+validator -> validator: findConflictingShowtimes()
+note right
+1. 생성하려는 상영시간을 10분 단위의 timeslots(Set)으로 등록한다.
+2. 기존에 존재하는 showtimes의 `startTime`과 `endTime`이
+   timeslots에 존재하는지 확인한다.
+end note
+worker <-- validator: conflictingShowtimes
+@enduml
+
+@enduml

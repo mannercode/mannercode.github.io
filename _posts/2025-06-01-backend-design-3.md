@@ -5,7 +5,7 @@ title: 백엔드 서비스 분석과 설계 (3)
 
 지난 시간에 REST API의 namespace와 SoLA 구조를 적용해서 `상영시간 생성하기` 시퀀스 다이어그램을 그렸다.
 
-이번 시간에는 부족했던 설계를 보완하고 테스트를 작성해 보자.
+이번 시간에는 미흡했던 설계를 보완해 보자.
 
 ## 1. `상영시간 생성 요청` 설계의 문제점
 
@@ -71,7 +71,7 @@ class Movie {
     genres: MovieGenre[] {Action, Horror, ... }
     releaseDate: Date
     plot: string
-    durationSeconds: number
+    durationInSeconds: number
     director: string
     rating: MovieRating { PG13, R, NC17 }
     imageIds: ObjectId[]
@@ -80,7 +80,7 @@ class Movie {
 class Theater {
     id: ObjectId
     name: string
-    latlong: LatLong
+    latLong: latLong
     seatmap: Seatmap
 }
 note left of Theater::seatmap
@@ -109,7 +109,7 @@ class Ticket {
     movieId: ObjectId
     theaterId: ObjectId
     status: TicketStatus { Available, Sold}
-    seat: Seat { block: string, row: string, seatnum: number }
+    seat: Seat { block: string, row: string, seatNumber: number }
 }
 
 Ticket "*" --> "1" Showtime
@@ -128,7 +128,7 @@ Showtime "*" --> "1" Theater
 
 ### 2.2 `Theater` 엔티티
 
-`latlong` 속성은 극장의 Latitude와 Longitude다. 속성의 이름으로 coordinate나 location을 검토했으나 타입을 명확하게 나타내는 방향으로 정했다.
+`latLong` 속성은 극장의 Latitude와 Longitude다. 속성의 이름으로 coordinate나 location을 검토했으나 타입을 명확하게 나타내는 방향으로 정했다.
 
 `seatmap`은 `Block`과 `Row`로 구성된 극장의 좌석 집합이다. 주석으로 언급한 `Seatmap`의 형태를 보면 `blocks`나 `rows`에 `id`가 존재하지 않는다. `seats`도 단순히 O나 X로 좌석이 존재하는지 표현하고 있다.
 
@@ -176,8 +176,8 @@ frontend <-- gateway: Accepted(202)
 ...
 queue -> creation: dequeue { createDto, transactionId }
     creation -> creation: <b>validateRequest(createDto)</b>
-    creation -> creation: <b>createShowtimeBatch(createDto, transactionId)</b>
-    creation -> creation: <b>createTicketBatch(showtimes, transactionId)</b>
+    creation -> creation: <b>bulkCreateShowtimes(createDto, transactionId)</b>
+    creation -> creation: <b>bulkCreateTickets(showtimes, transactionId)</b>
 @enduml
 {% endplantuml %}
 
@@ -188,8 +188,8 @@ queue -> creation: dequeue { createDto, transactionId }
 `ShowtimeCreationService`가 `dequeue`로 작업을 받으면 아래 함수를 차례로 실행한다.
 
 1. validateRequest
-1. createShowtimeBatch
-1. createTicketBatch
+1. bulkCreateShowtimes
+1. bulkCreateTickets
 
 하나씩 살펴보자.
 
@@ -205,15 +205,15 @@ queue -> creation: dequeue { createDto, transactionId }
 예를 들면, 아래와 같이 요청이 오면
 
 ```ts
-CreateShowtimeBatchDto {
+BulkCreateShowtimesDto {
     "movieId": "movie#1",
     "theaterIds": ["theater#1","theater#2"],
-    "durationMinutes": 30,
+    "durationInSeconds": 30,
     "startTimes": [0930, 1200]
 }
 ```
 
-`startTimes`와 `durationMinutes`으로 timeslots을 생성하면 아래와 같다.
+`startTimes`와 `durationInSeconds`으로 timeslots을 생성하면 아래와 같다.
 
 ```ts
 Set<number> timeslots = [0930,0940,0950,1200,1210,1220]
@@ -236,7 +236,7 @@ const showtimes = [{id:1, startTime:1100, endTime:1230 }]
 const timeslots = new Set<number>()
 
 for startTime of startTimes {
-    const endTime = startTime + durationMinutes
+    const endTime = startTime + durationInSeconds
 
     for(timeslot = startTime; timeslot <= endTime; timeslot+=10) {
         timeslots.set(timeslot)
@@ -280,7 +280,7 @@ start
 
 ' 1차 루프 – 시작 시간별로 timeslot 채우기
 while (startTime in startTimes?) is (있음)
-  :endTime = startTime + durationMinutes;
+  :endTime = startTime + durationInSeconds;
   :timeslot = startTime;
   while (timeslot <= endTime?) is (예)
     :timeslots.add(timeslot);
@@ -310,9 +310,9 @@ stop
 
 UML을 처음 접하면 모든 것을 다이어그램으로 표현하고 싶은 유혹에 빠지기 쉽다. 그러나 UML이 만능 표현법이 아님을 주의해야 한다.
 
-### 4.4.시퀀스 다이어그램으로 정리하기
+### 4.4.현실적인 validateRequest 함수 설계
 
-지금까지 알고리즘이 간단함에도 불구하고 설명을 위해서 수도코드와 다이어그램으로 알고리즘을 표현해 봤다. 그러나 실제 프로젝트라면 보통은 아래 시퀀스 다이어그램 정도로 설계를 마무리할 것이다.
+지금까지 알고리즘이 간단함에도 불구하고 설명을 위해서 수도코드와 액티비티 다이어그램으로 알고리즘을 표현해 봤다. 그러나 실제 프로젝트라면 보통은 아래 시퀀스 다이어그램 정도로 설계를 마무리할 것이다.
 
 {% plantuml %}
 @startuml
@@ -334,6 +334,14 @@ deactivate creation
 
 findConflictingShowtimes() 함수에는 지금까지 설명한 충돌 검사 알고리즘을 구현하면 된다.
 
+설계는 얼마나 자세히 해야하는 걸까?
+
+물론 상황에 따라 다르다. 설계자와 구현자가 다르고 구현자의 실력이 부족하면 설계를 자세히 해야 한다. 구현자가 알고리즘을 고안하고 구현할 수 있다면 설계자가 굳이 수고할 필요는 없다.
+
+한 가지 확실한 것은 설계를 하는 것은 그것이 효율적이기 때문이어야 한다. 설계를 하고 구현을 하는 것이 효율적이기 때문에 설계를 해야 하는 것이다. 만약 설계 없이 구현하는 것이 더 효율적이라면 설계를 하지 않아야 한다.
+
+여기서 효율적이라는 것도 애매한 표현이긴 한데 안정성과 개발 비용 등을 종합적으로 고려해야 한다. 대체로 프로젝트가 장기화될수록 설계의 효율성이 올라간다고 생각한다.
+
 ### 4.5. 기타 충돌 검사 알고리즘들
 
 혹시 아래처럼 시작과 끝을 비교해서 검사하는 게 더 빠르지 않냐고 생각할지도 모르겠다. 그러나 아래 코드는 시간 복잡도가 O(M * N)이 된다. 반면에 위의 timeslots 알고리즘은 M 부분을 Set으로 만들었기 때문에 시간 복잡도가 O(M + N)이 된다.
@@ -343,7 +351,7 @@ const showtimes = getShowtimes(theaterId)
 
 for (showtime of showtimes) {
     for (startTime of createDto.startTimes) {
-        const endTime = startTime + durationMinutes
+        const endTime = startTime + durationInSeconds
 
         if (
             (showtime.startTime <= startTime && startTime <= showtime.endTime) ||
@@ -357,9 +365,9 @@ for (showtime of showtimes) {
 
 그 외에, 이진 탐색 알고리즘을 응용하여 구현하는 방법도 있다. 이것은 timeslots 방식 보다 시간을 좀 더 단축시킬 수 있으나 차이가 크지 않고 구현 난이도가 증가하는 단점이 있어서 채택하지 않았다.
 
-## 5. createShowtimeBatch와 createTicketBatch 함수 설계
+## 5. bulkCreateShowtimes와 bulkCreateTickets 함수 설계
 
-createShowtimeBatch와 createTicketBatch 함수는 아래처럼 설계했다.
+bulkCreateShowtimes와 bulkCreateTickets 함수는 아래처럼 설계했다.
 
 {% plantuml %}
 @startuml
@@ -369,9 +377,18 @@ participant "Theaters\nService" as theaters
 participant "Showtimes\nService" as showtimes
 participant "Tickets\nService" as tickets
 
-creation -> creation: createShowtimeBatch(createDto, transactionId)
+creation -> creation: bulkCreateShowtimes(createDto, transactionId)
+    note right
+        BulkCreateShowtimesDto {
+            "movieId": "movie#1",
+            "theaterIds": ["theater#1","theater#2"],
+            "durationInSeconds": 90,
+            "startTimes": [202012120900, 202012121100]
+        }
+    end note
+
 activate creation
-    loop theater in createDto.theaters
+    loop theaterId in createDto.theaterIds
         loop startTime in createDto.startTimes
             creation -> creation: buildCreateShowtimeDto\n({theaterId, movieId, startTime, duration})
         end
@@ -381,7 +398,7 @@ activate creation
     creation <-- creation: showtimes
 deactivate creation
 
-creation -> creation: createTicketBatch(showtimes, transactionId)
+creation -> creation: bulkCreateTickets(showtimes, transactionId)
 activate creation
     loop showtime in showtimes
         creation -> theaters: getTheater(showtime.theaterId)
@@ -432,9 +449,9 @@ queue -> creation: dequeue { createDto, transactionId }
     creation --> creation: conflictingShowtimes
     deactivate creation
 
-    creation -> creation: createShowtimeBatch(createDto, transactionId)
+    creation -> creation: bulkCreateShowtimes(createDto, transactionId)
     activate creation
-        loop theater in createDto.theaters
+        loop theaterId in createDto.theaterIds
             loop startTime in createDto.startTimes
                 creation -> creation: buildCreateShowtimeDto\n({theaterId, movieId, startTime, duration})
             end
@@ -444,7 +461,7 @@ queue -> creation: dequeue { createDto, transactionId }
         creation <-- creation: showtimes
     deactivate creation
 
-    creation -> creation: createTicketBatch(showtimes, transactionId)
+    creation -> creation: bulkCreateTickets(showtimes, transactionId)
     activate creation
         loop showtime in showtimes
             creation -> theaters: getTheater(showtime.theaterId)
@@ -478,8 +495,8 @@ gateway <<- creation: ShowtimeCreationStatus(Succeeded)
 여기서는 `ShowtimeCreationService`의 기능을 3개의 클래스로 분산시킬 것이다.
 
 1. 상영시간 생성 작업을 관리하는 `ShowtimeCreationWorkerService`
-1. 상영시간 생성 요청을 검사하는 `ShowtimeBatchValidatorService`
-1. 상영시간과 티켓을 생성하는 `ShowtimeBatchCreatorService`
+1. 상영시간 생성 요청을 검사하는 `ShowtimeBulkValidatorService`
+1. 상영시간과 티켓을 생성하는 `ShowtimeBulkCreatorService`
 
 {% plantuml %}
 @startuml
@@ -492,17 +509,17 @@ class ShowtimeCreationWorkerService {
      processNextJob()
 }
 
-class ShowtimeBatchValidatorService {
+class ShowtimeBulkValidatorService {
      validate(createDto)
 }
 
-class ShowtimeBatchCreatorService {
+class ShowtimeBulkCreatorService {
      create(createDto, transactionId)
 }
 
 ShowtimeCreationService --> ShowtimeCreationWorkerService : worker
-ShowtimeCreationWorkerService --> ShowtimeBatchValidatorService : validator
-ShowtimeCreationWorkerService --> ShowtimeBatchCreatorService : creator
+ShowtimeCreationWorkerService --> ShowtimeBulkValidatorService : validator
+ShowtimeCreationWorkerService --> ShowtimeBulkCreatorService : creator
 
 @enduml
 {% endplantuml %}
@@ -536,21 +553,21 @@ frontend -> gateway: 상영시간 목록 요청\nPOST /showtime-creation/showtim
         }
     end note
     gateway -> creation: searchShowtimes(searchDto.theaterIds)
-        creation -> showtimes: searchShowtimes({ theaterIds, endTimeRange: { start: now }})
+        creation -> showtimes: searchShowtimes\n({ theaterIds, endTimeRange: { start: now }})
 
 frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
     note right
-        CreateShowtimeBatchDto {
+        BulkCreateShowtimesDto {
             "movieId": "movie#1",
             "theaterIds": ["theater#1","theater#2"],
-            "durationMinutes": 90,
+            "durationInSeconds": 90,
             "startTimes": [202012120900, 202012121100]
         }
     end note
     gateway -> creation: requestShowtimeCreation(createDto)
         creation -> worker: requestShowtimeCreation(createDto)
         creation <-- worker: transactionId
-    gateway <-- creation: transactionId
+    gateway <-- creation: RequestShowtimeCreationResponse\n{ transactionId }
 frontend <-- gateway: Accepted(202)
 
 frontend ->> gateway: 상영시간 생성 모니터링\nSSE /showtime-creation/event-stream
@@ -559,8 +576,19 @@ frontend <<- gateway: { Succeeded, transactionId }
 @enduml
 {% endplantuml %}
 
-1. 네이밍 - SearchShowtimesDto, CreateShowtimeBatchDto. 특별히 언급하지 않는 한. 동사로 시작하면 Request다. 명사로 시작하면 Response다.
-1. 이벤트 모니터링 - 화살표가 비동기로 표시된 걸 주의해라.
+대부분의 기능이 `ShowtimeCreationWorkerService` 등 다른 클래스로 분산되면서, `ShowtimeCreationService`는 오케스트레이터 역할(데이터 변환·비동기 흐름 제어·결과 매핑)에 충실하도록 개선됐다.
+
+#### 네이밍
+
+`SearchShowtimesDto`처럼 요청에 사용하는 DTO(Data Transfer Object)는 함수명을 그대로 사용하고 뒤에 `Dto`를 붙인다. `SearchShowtimesRequest`와 `SearchShowtimesResponse`라는 이름을 선호하는 프로젝트도 있겠지만 이런 명명법은 유연하지 않은 것 같다.
+
+`requestShowtimeCreation` 함수는 `BulkCreateShowtimesDto`을 받는다. `SearchShowtimesDto`처럼 `RequestShowtimeCreationDto`가 아닌 이유는 뭘까?
+
+`requestShowtimeCreation` 함수는 요청을 전달하는 역할만 한다. 실제 요청을 처리하는 함수는 `bulkCreateShowtimes`이기 때문이다.
+
+`requestShowtimeCreation` 함수의 응답은 `RequestShowtimeCreationResponse` DTO다. 조회 요청인 경우에는 해당 데이터를 반환하기 때문에 따로 응답 DTO를 정의할 필요가 없다. 그래서 `RequestShowtimeCreationResponse`처럼 실제로 응답 DTO를 정의해야 하는 경우가 생각보다 많지 않다.
+
+이것이 `SearchShowtimesRequest`와 `SearchShowtimesResponse`처럼 무조건 함수명에 맞춰서 DTO의 이름을 정하지 않는 이유다.
 
 ### 7.2. `ShowtimeCreationWorkerService`
 
@@ -569,8 +597,8 @@ frontend <<- gateway: { Succeeded, transactionId }
 participant "ShowtimeCreation\nService" as creation
 participant "ShowtimeCreationWorker\nService" as worker
 Queue Queue as queue
-participant "ShowtimeBatchValidator\nService" as validator
-participant "ShowtimeBatchCreator\nService" as creator
+participant "ShowtimeBulkValidator\nService" as validator
+participant "ShowtimeBulkCreator\nService" as creator
 
 creation -> worker: requestShowtimeCreation(createDto)
 worker -> worker: createTransactionId
@@ -587,12 +615,16 @@ worker -> creator: create(createDto, transactionId)
 @enduml
 {% endplantuml %}
 
-### 7.3. `ShowtimeBatchValidatorService`
+`ShowtimeCreationStatus.Waiting`나 `ShowtimeCreationStatus.Processing`는 화살표가 검은점에 연결된다. 이것은 이벤트를 발생시킨다는 의미다.
+
+반대로 `processNextJob()`은 어딘가에서 이벤트를 수신한다는 의미다.
+
+### 7.3. `ShowtimeBulkValidatorService`
 
 {% plantuml %}
 @startuml
 participant "ShowtimeCreationWorker\nService" as worker
-participant "ShowtimeBatchValidator\nService" as validator
+participant "ShowtimeBulkValidator\nService" as validator
 participant "Movies\nService" as movies
 participant "Theaters\nService" as theaters
 participant "Showtimes\nService" as showtimes
@@ -602,25 +634,62 @@ validator -> movies: moviesExist(createDto.movieId)
 validator -> theaters: theatersExist(createDto.theaterIds)
 validator -> showtimes: getShowtimes(createDto.theaterIds)
 validator -> validator: findConflictingShowtimes()
+note right
+1. 생성하려는 상영시간을 10분 단위의 timeslots(Set)으로 등록한다.
+2. 기존에 존재하는 showtimes의 `startTime`과 `endTime`이
+   timeslots에 존재하는지 확인한다.
+end note
 worker <-- validator: conflictingShowtimes
 @enduml
 {% endplantuml %}
 
-### 7.4. `ShowtimeBatchCreatorService`
+`ShowtimeBulkValidatorService`는 하는 일이 간단한데 뒤에 Service라는 이름이 붙는다. 언제 Service가 붙어야 할까?
+
+이 프로젝트에서는 정해진 요청을 처리하기 위해 다른 서비스를 호출해서 필요한 작업을 스스로 하면 Service라고 명명한다.
+
+그런데 만약 아래처럼 필요한 데이터를 호출자에게 전달받아서 작업 후 결과를 반환하는 역할이라면, `Service`를 붙이지 않고 단순히 `ShowtimeBulkValidator`라고 한다.
 
 {% plantuml %}
 @startuml
 participant "ShowtimeCreationWorker\nService" as worker
-participant "ShowtimeBatchCreator\nService" as creator
+participant "ShowtimeBulkValidator" as validator
+participant "Movies\nService" as movies
+participant "Theaters\nService" as theaters
+participant "Showtimes\nService" as showtimes
+
+worker -> movies: moviesExist(createDto.movieId)
+worker -> theaters: theatersExist(createDto.theaterIds)
+worker -> showtimes: getShowtimes(createDto.theaterIds)
+worker -> validator ** : validate(showtimes)
+validator -> validator: findConflictingShowtimes()
+worker <-- validator: conflictingShowtimes
+@enduml
+{% endplantuml %}
+
+### 7.4. `ShowtimeBulkCreatorService`
+
+{% plantuml %}
+@startuml
+participant "ShowtimeCreationWorker\nService" as worker
+participant "ShowtimeBulkCreator\nService" as creator
 participant "Movies\nService" as movies
 participant "Theaters\nService" as theaters
 participant "Showtimes\nService" as showtimes
 participant "Tickets\nService" as tickets
 
 worker -> creator: create(createDto, transactionId)
-creator -> creator: createShowtimeBatch(createDto, transactionId)
+    note right
+        BulkCreateShowtimesDto {
+            "movieId": "movie#1",
+            "theaterIds": ["theater#1","theater#2"],
+            "durationInSeconds": 90,
+            "startTimes": [202012120900, 202012121100]
+        }
+    end note
+
+creator -> creator: bulkCreateShowtimes(createDto, transactionId)
 activate creator
-    loop theater in createDto.theaters
+    loop theaterId in createDto.theaterIds
         loop startTime in createDto.startTimes
             creator -> creator: buildCreateShowtimeDto\n({theaterId, movieId, startTime, duration})
         end
@@ -630,7 +699,7 @@ activate creator
     creator <-- creator: showtimes
 deactivate creator
 
-creator -> creator: createTicketBatch(showtimes, transactionId)
+creator -> creator: bulkCreateTickets(showtimes, transactionId)
 activate creator
     loop showtime in showtimes
         creator -> theaters: getTheater(showtime.theaterId)
@@ -646,8 +715,87 @@ worker <- creator: { createdShowtimeCount, createdTicketCount }
 @enduml
 {% endplantuml %}
 
-## 8. 클래스 다이어그램
+`createShowtimes`나 `createTickets`를 호출할 때 `transactionId`를 넘기고 있다.
 
-moviesservice 등 전체 클래스 메소드 정리
+`transactionId`로 작업을 추적하고 취소하기 위해서 `Showtime`과 `Ticket` 엔티티에 `transactionId` 속성을 추가해야 한다.
 
-## 9. 테스트 코드 작성
+{% plantuml %}
+@startuml
+class Showtime {
+    ...
+    transactionId: ObjectId
+}
+
+class Ticket {
+    ...
+    transactionId: ObjectId
+}
+Ticket "*" --> "1" Showtime
+@enduml
+{% endplantuml %}
+
+`transactionId`을 이용한 `Saga` 패턴은 차후에 다루도록 하겠다.
+
+## 8. 전체 서비스 요약
+
+{% plantuml %}
+@startuml
+package "Application Services" {
+    class ShowtimeCreationService{
+        searchMovies()
+        searchTheaters()
+        requestShowtimeCreation(createDto)
+    }
+}
+
+package "Core Services" {
+    class MoviesService{
+        searchMovies()
+        moviesExist(movieId)
+    }
+
+    class TheatersService{
+        searchTheaters()
+        theatersExist(theaterIds)
+    }
+
+    class ShowtimesService{
+        searchShowtimes()
+        getShowtimes(theaterIds)
+        createShowtimes(createDtos, transactionId)
+    }
+
+    class TicketsService{
+        createTickets(createDtos,transactionId)
+    }
+}
+
+ShowtimeCreationService --> MoviesService
+ShowtimeCreationService --> TheatersService
+ShowtimeCreationService --> ShowtimesService
+ShowtimeCreationService --> TicketsService
+
+@enduml
+{% endplantuml %}
+
+지금까지 설계를 바탕으로 서비스를 정리했다. 각각의 서비스가 노출해야 하는 기능은 위와 같다.
+
+이제 프로그래머가 각 서비스를 구현하면 된다. `MoviesService`의 경우 아래처럼 몇 개의 클래스를 만들게 될 것이다.
+
+{% plantuml %}
+@startuml
+package movies {
+    [MoviesController]
+    [MoviesService]
+    [MoviesRepository]
+}
+[MoviesController] --> [MoviesService]
+[MoviesService] --> [MoviesRepository]
+@enduml
+{% endplantuml %}
+
+## 9. 결론
+
+이번 시간에는 `ShowtimeCreationService`를 설계하고 리팩토링 했다. 그 과정에서 몇 가지 네이밍 규칙을 정했다.
+
+다음 시간에는 `ShowtimeCreationService`의 테스트에 대해서 이야기 하겠다.

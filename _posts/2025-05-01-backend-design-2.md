@@ -266,7 +266,7 @@ Admin -> Frontend: 상영시간 생성 요청
             movieId,
             theaterIds,
             startTimes,
-            durationMinutes
+            durationInSeconds
         }
         end note
     Frontend <-- Backend: Created(201)
@@ -398,7 +398,7 @@ Admin -> Frontend: 상영시간 생성 요청
                 movieId,
                 theaterIds,
                 startTimes,
-                durationMinutes
+                durationInSeconds
             }
         end note
     Frontend <-- Backend: Created(201)
@@ -469,7 +469,7 @@ Frontend -> Gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtim
             movieId,
             theaterIds,
             startTimes,
-            durationMinutes
+            durationInSeconds
         }
     end note
     Gateway -> ShowtimesService: createShowtimes(createDto)
@@ -624,7 +624,7 @@ frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtim
             movieId,
             theaterIds,
             startTimes,
-            durationMinutes
+            durationInSeconds
         }
     end note
     gateway -> creation: createShowtimes(createDto)
