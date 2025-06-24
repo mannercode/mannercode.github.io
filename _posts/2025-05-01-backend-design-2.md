@@ -38,7 +38,6 @@ administrator --> CreateShowtimes
 customer -> PurchaseTickets
 PurchaseTickets ..> PaymentGateway
 CreateShowtimes ..> GenerateTickets
-
 @enduml
 {% endplantuml %}
 

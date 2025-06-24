@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-21T20:32:52+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-24T22:21:48+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">백엔드 서비스 분석과 설계 (3)</title><link href="/2025/06/01/backend-design-3.html" rel="alternate" type="text/html" title="백엔드 서비스 분석과 설계 (3)" /><published>2025-06-01T00:00:00+00:00</published><updated>2025-06-01T00:00:00+00:00</updated><id>/2025/06/01/backend-design-3</id><content type="html" xml:base="/2025/06/01/backend-design-3.html"><![CDATA[<p>지난 시간에 REST API의 namespace와 SoLA 구조를 적용해서 <code class="language-plaintext highlighter-rouge">상영시간 생성하기</code> 시퀀스 다이어그램을 그렸다.</p>
 
 <p>이번 시간에는 미흡했던 설계를 보완해 보자.</p>
@@ -29,7 +29,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p><code class="language-plaintext highlighter-rouge">상영시간 생성 요청</code>은 <code class="language-plaintext highlighter-rouge">Showtime</code>과 <code class="language-plaintext highlighter-rouge">Ticket</code> 엔티티를 생성한다. 따라서 <code class="language-plaintext highlighter-rouge">상영시간 생성 요청</code>을 설계하려면 <code class="language-plaintext highlighter-rouge">Showtime</code>과 <code class="language-plaintext highlighter-rouge">Ticket</code> 엔티티를 먼저 정의해야 한다.</p>
 
-<p><object data="/uml/48af025afe30edf8a89ae7f64e2d8f25.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/ea91c0c1021b4c1137158a200821a168.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h3 id="21-movie-엔티티">2.1 <code class="language-plaintext highlighter-rouge">Movie</code> 엔티티</h3>
 
@@ -67,7 +67,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p><code class="language-plaintext highlighter-rouge">seat</code>는 <code class="language-plaintext highlighter-rouge">Theater</code> 엔티티에서 설명했듯이 좌석ID를 참조하지 않고, <code class="language-plaintext highlighter-rouge">Block</code>·<code class="language-plaintext highlighter-rouge">Row</code>·<code class="language-plaintext highlighter-rouge">Number</code>로 구성된 좌석 위치를 <code class="language-plaintext highlighter-rouge">값 객체(Value Object)</code>로 저장한다.</p>
 
-<h2 id="3-큐-기반-비동기-처리-설계">3. 큐 기반 비동기 처리 설계</h2>
+<h2 id="3-queue-기반-비동기-처리-설계">3. Queue 기반 비동기 처리 설계</h2>
 
 <p><code class="language-plaintext highlighter-rouge">상영시간 생성 요청</code> 작업이 오래 걸리는 문제와 동시성 문제는 큐를 도입해서 해결할 수 있다.</p>
 
@@ -325,7 +325,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p>이번 시간에는 여러 유스케이스 중에서 절차가 복잡해 보이는 두 유스케이스인 <code class="language-plaintext highlighter-rouge">상영시간 생성하기</code>와 <code class="language-plaintext highlighter-rouge">티켓 구매하기</code>에 대해서 좀 더 분석해 보도록 하겠다.</p>
 
-<p><object data="/uml/51385165b2ef979ee00b0ac0456e81f9.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/3b9b28e7d226dc9dd28488e9f683d4c7.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h2 id="1-어떤-유스케이스를-먼저-분석할까">1. 어떤 유스케이스를 먼저 분석할까?</h2>
 

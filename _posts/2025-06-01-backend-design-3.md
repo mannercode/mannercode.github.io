@@ -80,7 +80,7 @@ class Movie {
 class Theater {
     id: ObjectId
     name: string
-    latLong: latLong
+    latLong: LatLong
     seatmap: Seatmap
 }
 note left of Theater::seatmap
@@ -97,17 +97,17 @@ end note
 
 class Showtime {
     id: ObjectId
-    movieId: ObjectId
-    theaterId: ObjectId
     startTime: Date
     endTime: Date
+    theaterId: ObjectId
+    movieId: ObjectId
 }
 
 class Ticket {
     id: ObjectId
     showtimeId: ObjectId
-    movieId: ObjectId
     theaterId: ObjectId
+    movieId: ObjectId
     status: TicketStatus { Available, Sold}
     seat: Seat { block: string, row: string, seatNumber: number }
 }
@@ -156,7 +156,7 @@ Showtime "*" --> "1" Theater
 
 `seat`는 `Theater` 엔티티에서 설명했듯이 좌석ID를 참조하지 않고, `Block`·`Row`·`Number`로 구성된 좌석 위치를 `값 객체(Value Object)`로 저장한다.
 
-## 3. 큐 기반 비동기 처리 설계
+## 3. Queue 기반 비동기 처리 설계
 
 `상영시간 생성 요청` 작업이 오래 걸리는 문제와 동시성 문제는 큐를 도입해서 해결할 수 있다.
 
