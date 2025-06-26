@@ -274,11 +274,9 @@ for (showtime in showtimes) {
 
 {% plantuml %}
 @startuml
-' 액티비티 다이어그램
 start
 :timeslots = new Set;
 
-' 1차 루프 – 시작 시간별로 timeslot 채우기
 while (startTime in startTimes?) is (있음)
   :endTime = startTime + durationInMinutes;
   :timeslot = startTime;
@@ -288,10 +286,8 @@ while (startTime in startTimes?) is (있음)
   endwhile (아님)
 endwhile (없음)
 
-' 상영 시간 조회
 :getShowtimes(theaterId);
 
-' 2차 루프 – 기존 상영 시간과 충돌 여부 검사
 while (showtime in showtimes?) is (있음)
   :timeslot = showtime.startTime;
   while (timeslot < showtime.endTime?) is (예)
@@ -784,13 +780,19 @@ ShowtimeCreationService --> TicketsService
 
 {% plantuml %}
 @startuml
+left to right direction
+
 package movies {
-    [MoviesController]
-    [MoviesService]
-    [MoviesRepository]
+    class MoviesController{
+        searchMovies()
+        moviesExist(movieId)
+    }
+    class MoviesService
+    class MoviesRepository
 }
-[MoviesController] --> [MoviesService]
-[MoviesService] --> [MoviesRepository]
+
+MoviesController --> MoviesService
+MoviesService --> MoviesRepository
 @enduml
 {% endplantuml %}
 

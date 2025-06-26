@@ -1,0 +1,19 @@
+@startuml
+
+@startuml
+left to right direction
+
+package movies {
+    class MoviesController{
+        searchMovies()
+        moviesExist(movieId)
+    }
+    class MoviesService
+    class MoviesRepository
+}
+
+MoviesController --> MoviesService
+MoviesService --> MoviesRepository
+@enduml
+
+@enduml

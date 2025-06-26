@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-26T01:39:17+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-26T18:49:27+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">백엔드 서비스 분석과 설계 (3)</title><link href="/2025/06/01/backend-design-3.html" rel="alternate" type="text/html" title="백엔드 서비스 분석과 설계 (3)" /><published>2025-06-01T00:00:00+00:00</published><updated>2025-06-01T00:00:00+00:00</updated><id>/2025/06/01/backend-design-3</id><content type="html" xml:base="/2025/06/01/backend-design-3.html"><![CDATA[<p>지난 시간에 REST API의 namespace와 SoLA 구조를 적용해서 <code class="language-plaintext highlighter-rouge">상영시간 생성하기</code> 시퀀스 다이어그램을 그렸다.</p>
 
 <p>이번 시간에는 미흡했던 설계를 보완해 보자.</p>
@@ -163,7 +163,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p>위의 수도코드를 UML로 그려보면 어떨까?</p>
 
-<p><object data="/uml/f703a3a934803b018a52e10481ab543e.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/272a71dd5a82cdb9843d98d09860d99e.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>알고리즘은 복잡하기 때문에 이해하기 쉽게 그림으로 그리는 게 좋다고 생각할지 모르겠다. 그러나 코드에 익숙한 개발자는 역시 코드가 이해하기 쉬운 것 같다.</p>
 
@@ -310,7 +310,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p>이제 프로그래머가 각 서비스를 구현하면 된다. <code class="language-plaintext highlighter-rouge">MoviesService</code>의 경우 아래처럼 몇 개의 클래스를 만들게 될 것이다.</p>
 
-<p><object data="/uml/a00a12150ecc8d9ceb5160d99d521186.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/80837766331dfce32a26c67de4143b6d.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h2 id="9-결론">9. 결론</h2>
 
