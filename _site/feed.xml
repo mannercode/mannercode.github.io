@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-24T22:21:48+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-26T01:39:17+00:00</updated><id>/feed.xml</id><title type="html">Manner Code</title><subtitle>Refactoring, Design Patterns, OOP, TDD, DDD, and Software Architecture.
 </subtitle><author><name>mannercode</name><email>mannercode@gmail.com</email></author><entry><title type="html">백엔드 서비스 분석과 설계 (3)</title><link href="/2025/06/01/backend-design-3.html" rel="alternate" type="text/html" title="백엔드 서비스 분석과 설계 (3)" /><published>2025-06-01T00:00:00+00:00</published><updated>2025-06-01T00:00:00+00:00</updated><id>/2025/06/01/backend-design-3</id><content type="html" xml:base="/2025/06/01/backend-design-3.html"><![CDATA[<p>지난 시간에 REST API의 namespace와 SoLA 구조를 적용해서 <code class="language-plaintext highlighter-rouge">상영시간 생성하기</code> 시퀀스 다이어그램을 그렸다.</p>
 
 <p>이번 시간에는 미흡했던 설계를 보완해 보자.</p>
@@ -103,12 +103,12 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 <div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">BulkCreateShowtimesDto</span> <span class="p">{</span>
     <span class="dl">"</span><span class="s2">movieId</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">movie#1</span><span class="dl">"</span><span class="p">,</span>
     <span class="dl">"</span><span class="s2">theaterIds</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">theater#1</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">theater#2</span><span class="dl">"</span><span class="p">],</span>
-    <span class="dl">"</span><span class="s2">durationInSeconds</span><span class="dl">"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">durationInMinutes</span><span class="dl">"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
     <span class="dl">"</span><span class="s2">startTimes</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="mi">0930</span><span class="p">,</span> <span class="mi">1200</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">startTimes</code>와 <code class="language-plaintext highlighter-rouge">durationInSeconds</code>으로 timeslots을 생성하면 아래와 같다.</p>
+<p><code class="language-plaintext highlighter-rouge">startTimes</code>와 <code class="language-plaintext highlighter-rouge">durationInMinutes</code>으로 timeslots을 생성하면 아래와 같다.</p>
 
 <div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">Set</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="nx">timeslots</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0930</span><span class="p">,</span><span class="mi">0940</span><span class="p">,</span><span class="mi">0950</span><span class="p">,</span><span class="mi">1200</span><span class="p">,</span><span class="mi">1210</span><span class="p">,</span><span class="mi">1220</span><span class="p">]</span>
 </code></pre></div></div>
@@ -128,7 +128,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 <span class="kd">const</span> <span class="nx">timeslots</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Set</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="nx">startTime</span> <span class="k">of</span> <span class="nx">startTimes</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">endTime</span> <span class="o">=</span> <span class="nx">startTime</span> <span class="o">+</span> <span class="nx">durationInSeconds</span>
+    <span class="kd">const</span> <span class="nx">endTime</span> <span class="o">=</span> <span class="nx">startTime</span> <span class="o">+</span> <span class="nx">durationInMinutes</span>
 
     <span class="k">for</span><span class="p">(</span><span class="nx">timeslot</span> <span class="o">=</span> <span class="nx">startTime</span><span class="p">;</span> <span class="nx">timeslot</span> <span class="o">&lt;=</span> <span class="nx">endTime</span><span class="p">;</span> <span class="nx">timeslot</span><span class="o">+=</span><span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">timeslots</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="nx">timeslot</span><span class="p">)</span>
@@ -163,7 +163,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p>위의 수도코드를 UML로 그려보면 어떨까?</p>
 
-<p><object data="/uml/6ad996455b17587083976c62266506f4.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/f703a3a934803b018a52e10481ab543e.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>알고리즘은 복잡하기 때문에 이해하기 쉽게 그림으로 그리는 게 좋다고 생각할지 모르겠다. 그러나 코드에 익숙한 개발자는 역시 코드가 이해하기 쉬운 것 같다.</p>
 
@@ -193,7 +193,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <span class="k">for </span><span class="p">(</span><span class="nx">showtime</span> <span class="k">of</span> <span class="nx">showtimes</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">for </span><span class="p">(</span><span class="nx">startTime</span> <span class="k">of</span> <span class="nx">createDto</span><span class="p">.</span><span class="nx">startTimes</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">endTime</span> <span class="o">=</span> <span class="nx">startTime</span> <span class="o">+</span> <span class="nx">durationInSeconds</span>
+        <span class="kd">const</span> <span class="nx">endTime</span> <span class="o">=</span> <span class="nx">startTime</span> <span class="o">+</span> <span class="nx">durationInMinutes</span>
 
         <span class="k">if </span><span class="p">(</span>
             <span class="p">(</span><span class="nx">showtime</span><span class="p">.</span><span class="nx">startTime</span> <span class="o">&lt;=</span> <span class="nx">startTime</span> <span class="o">&amp;&amp;</span> <span class="nx">startTime</span> <span class="o">&lt;=</span> <span class="nx">showtime</span><span class="p">.</span><span class="nx">endTime</span><span class="p">)</span> <span class="o">||</span>
@@ -211,7 +211,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p>bulkCreateShowtimes와 bulkCreateTickets 함수는 아래처럼 설계했다.</p>
 
-<p><object data="/uml/a30b400a80219002711c7231bd6d9e08.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/9b899038efb09153082e64987ca20398.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>사용자가 입력한 값을 바탕으로 <code class="language-plaintext highlighter-rouge">showtimes</code>를 생성하고, 생성된 <code class="language-plaintext highlighter-rouge">showtimes</code>로 <code class="language-plaintext highlighter-rouge">tickets</code>를 생성한다.</p>
 
@@ -252,7 +252,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <h3 id="71-showtimecreationservice">7.1. <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code></h3>
 
-<p><object data="/uml/e91030b76d41ba32a283cf522cde5488.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/c9e925ec679f760ef5bfe0f27228a801.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p>대부분의 기능이 <code class="language-plaintext highlighter-rouge">ShowtimeCreationWorkerService</code> 등 다른 클래스로 분산되면서, <code class="language-plaintext highlighter-rouge">ShowtimeCreationService</code>는 오케스트레이터 역할(데이터 변환·비동기 흐름 제어·결과 매핑)에 충실하도록 개선됐다.</p>
 
@@ -292,7 +292,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <h3 id="74-showtimebulkcreatorservice">7.4. <code class="language-plaintext highlighter-rouge">ShowtimeBulkCreatorService</code></h3>
 
-<p><object data="/uml/eab783ae703e03446952079a1d792031.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/68cfd7eb3b6443965835eea1aa1140e0.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <p><code class="language-plaintext highlighter-rouge">createShowtimes</code>나 <code class="language-plaintext highlighter-rouge">createTickets</code>를 호출할 때 <code class="language-plaintext highlighter-rouge">transactionId</code>를 넘기고 있다.</p>
 

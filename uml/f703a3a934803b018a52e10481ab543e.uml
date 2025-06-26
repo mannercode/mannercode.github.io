@@ -7,7 +7,7 @@ start
 
 ' 1차 루프 – 시작 시간별로 timeslot 채우기
 while (startTime in startTimes?) is (있음)
-  :endTime = startTime + durationInSeconds;
+  :endTime = startTime + durationInMinutes;
   :timeslot = startTime;
   while (timeslot <= endTime?) is (예)
     :timeslots.add(timeslot);

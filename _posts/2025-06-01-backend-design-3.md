@@ -208,12 +208,12 @@ queue -> creation: dequeue { createDto, transactionId }
 BulkCreateShowtimesDto {
     "movieId": "movie#1",
     "theaterIds": ["theater#1","theater#2"],
-    "durationInSeconds": 30,
+    "durationInMinutes": 30,
     "startTimes": [0930, 1200]
 }
 ```
 
-`startTimes`와 `durationInSeconds`으로 timeslots을 생성하면 아래와 같다.
+`startTimes`와 `durationInMinutes`으로 timeslots을 생성하면 아래와 같다.
 
 ```ts
 Set<number> timeslots = [0930,0940,0950,1200,1210,1220]
@@ -236,7 +236,7 @@ const showtimes = [{id:1, startTime:1100, endTime:1230 }]
 const timeslots = new Set<number>()
 
 for startTime of startTimes {
-    const endTime = startTime + durationInSeconds
+    const endTime = startTime + durationInMinutes
 
     for(timeslot = startTime; timeslot <= endTime; timeslot+=10) {
         timeslots.set(timeslot)
@@ -280,7 +280,7 @@ start
 
 ' 1차 루프 – 시작 시간별로 timeslot 채우기
 while (startTime in startTimes?) is (있음)
-  :endTime = startTime + durationInSeconds;
+  :endTime = startTime + durationInMinutes;
   :timeslot = startTime;
   while (timeslot <= endTime?) is (예)
     :timeslots.add(timeslot);
@@ -351,7 +351,7 @@ const showtimes = getShowtimes(theaterId)
 
 for (showtime of showtimes) {
     for (startTime of createDto.startTimes) {
-        const endTime = startTime + durationInSeconds
+        const endTime = startTime + durationInMinutes
 
         if (
             (showtime.startTime <= startTime && startTime <= showtime.endTime) ||
@@ -382,7 +382,7 @@ creation -> creation: bulkCreateShowtimes(createDto, transactionId)
         BulkCreateShowtimesDto {
             "movieId": "movie#1",
             "theaterIds": ["theater#1","theater#2"],
-            "durationInSeconds": 90,
+            "durationInMinutes": 90,
             "startTimes": [202012120900, 202012121100]
         }
     end note
@@ -558,7 +558,7 @@ frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtim
         BulkCreateShowtimesDto {
             "movieId": "movie#1",
             "theaterIds": ["theater#1","theater#2"],
-            "durationInSeconds": 90,
+            "durationInMinutes": 90,
             "startTimes": [202012120900, 202012121100]
         }
     end note
@@ -682,7 +682,7 @@ worker -> creator: create(createDto, transactionId)
         BulkCreateShowtimesDto {
             "movieId": "movie#1",
             "theaterIds": ["theater#1","theater#2"],
-            "durationInSeconds": 90,
+            "durationInMinutes": 90,
             "startTimes": [202012120900, 202012121100]
         }
     end note

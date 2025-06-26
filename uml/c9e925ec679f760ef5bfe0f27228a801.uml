@@ -31,7 +31,7 @@ frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtim
         BulkCreateShowtimesDto {
             "movieId": "movie#1",
             "theaterIds": ["theater#1","theater#2"],
-            "durationInSeconds": 90,
+            "durationInMinutes": 90,
             "startTimes": [202012120900, 202012121100]
         }
     end note
