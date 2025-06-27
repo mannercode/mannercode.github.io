@@ -16,7 +16,7 @@ class Movie {
 class Theater {
     id: ObjectId
     name: string
-    latLong: LatLong
+    location: TheaterLocation
     seatmap: Seatmap
 }
 note left of Theater::seatmap

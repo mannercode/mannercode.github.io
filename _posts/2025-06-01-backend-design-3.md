@@ -80,7 +80,7 @@ class Movie {
 class Theater {
     id: ObjectId
     name: string
-    latLong: LatLong
+    location: TheaterLocation
     seatmap: Seatmap
 }
 note left of Theater::seatmap
@@ -128,7 +128,7 @@ Showtime "*" --> "1" Theater
 
 ### 2.2 `Theater` 엔티티
 
-`latLong` 속성은 극장의 Latitude와 Longitude다. 속성의 이름으로 coordinate나 location을 검토했으나 타입을 명확하게 나타내는 방향으로 정했다.
+`location` 속성은 극장의 Latitude와 Longitude다. `location`이라는 이름이 좌표를 나타내기에는 애매한 표현일 수 있는데 요구사항이 확장되면 `location`에 Address나 다른 다양한 위치 정보가 추가될 수 있다.
 
 `seatmap`은 `Block`과 `Row`로 구성된 극장의 좌석 집합이다. 주석으로 언급한 `Seatmap`의 형태를 보면 `blocks`나 `rows`에 `id`가 존재하지 않는다. `seats`도 단순히 O나 X로 좌석이 존재하는지 표현하고 있다.
 

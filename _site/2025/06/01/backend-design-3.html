@@ -77,7 +77,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <p><code class="language-plaintext highlighter-rouge">상영시간 생성 요청</code>은 <code class="language-plaintext highlighter-rouge">Showtime</code>과 <code class="language-plaintext highlighter-rouge">Ticket</code> 엔티티를 생성한다. 따라서 <code class="language-plaintext highlighter-rouge">상영시간 생성 요청</code>을 설계하려면 <code class="language-plaintext highlighter-rouge">Showtime</code>과 <code class="language-plaintext highlighter-rouge">Ticket</code> 엔티티를 먼저 정의해야 한다.</p>
 
-<p><object data="/uml/ea91c0c1021b4c1137158a200821a168.svg" type="image/svg+xml" class="plantuml"></object></p>
+<p><object data="/uml/17f3c0235cbba9679f98f3458f610b0e.svg" type="image/svg+xml" class="plantuml"></object></p>
 
 <h3 id="21-movie-엔티티">2.1 <code class="language-plaintext highlighter-rouge">Movie</code> 엔티티</h3>
 
@@ -87,7 +87,7 @@ tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 
 <h3 id="22-theater-엔티티">2.2 <code class="language-plaintext highlighter-rouge">Theater</code> 엔티티</h3>
 
-<p><code class="language-plaintext highlighter-rouge">latLong</code> 속성은 극장의 Latitude와 Longitude다. 속성의 이름으로 coordinate나 location을 검토했으나 타입을 명확하게 나타내는 방향으로 정했다.</p>
+<p><code class="language-plaintext highlighter-rouge">location</code> 속성은 극장의 Latitude와 Longitude다. <code class="language-plaintext highlighter-rouge">location</code>이라는 이름이 좌표를 나타내기에는 애매한 표현일 수 있는데 요구사항이 확장되면 <code class="language-plaintext highlighter-rouge">location</code>에 Address나 다른 다양한 위치 정보가 추가될 수 있다.</p>
 
 <p><code class="language-plaintext highlighter-rouge">seatmap</code>은 <code class="language-plaintext highlighter-rouge">Block</code>과 <code class="language-plaintext highlighter-rouge">Row</code>로 구성된 극장의 좌석 집합이다. 주석으로 언급한 <code class="language-plaintext highlighter-rouge">Seatmap</code>의 형태를 보면 <code class="language-plaintext highlighter-rouge">blocks</code>나 <code class="language-plaintext highlighter-rouge">rows</code>에 <code class="language-plaintext highlighter-rouge">id</code>가 존재하지 않는다. <code class="language-plaintext highlighter-rouge">seats</code>도 단순히 O나 X로 좌석이 존재하는지 표현하고 있다.</p>
 
