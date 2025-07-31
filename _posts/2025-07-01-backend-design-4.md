@@ -159,13 +159,19 @@ DDD에서는 `Movie` 객체에 비즈니스 로직을 구현하는 것을 권장
 
 이에 대한 자세한 설명은 다음 시간에 다루겠다.
 
-## 3. `MoviesService`의 구현
+## 3. `MoviesService` 구현하기
 
 `MoviesService`를 구현하기에 충분한 설계가 갖춰졌으니 본격적으로 구현을 시작해 보자.
 
-### 3.1. 전통적인 구현 방법
+설계에 의하면 `MoviesService`에 `searchMovies(query)`와 `moviesExist(movieIds)`함수만 존재한다. 모든 유스케이스를 검토하고 설계한 것이 아니기 때문에 상당수의 함수가 누락된 상태다.
 
-가장 먼저 `MoviesController`를 구현해야 한다. 그래야 실행을 하고 테스트를 해볼 수 있으니까 말이다.
+`MoviesService`는 기본적으로 `createMovie`와 `getMovie` 함수를 포함해야 한다.
+
+### 3.1. `createMovie` 구현
+
+가장 먼저 데이터를 생성하는 `createMovie` 기능을 구현해 보자.
+
+일단 사용자의 요청을 처리하는 `MoviesController`를 구현해야 한다. 그래야 실행을 하고 테스트를 해볼 수 있다.
 
 ```ts
 @Controller('movies')
@@ -177,23 +183,23 @@ class MoviesController {
 }
 ```
 
-이제 각자의 방법으로 실행을 하고 결과를 확인해 보자. 여기서는 curl을 사용한다.
+`createMovie()`는 단순히 더미 데이터를 반환하고 있는데, 지금은 `createMovie()`가 정상적으로 호출되는지만 검증하려는 것이다.
+
+여기서는 curl을 사용해서 결과를 확인한다.
 
 ```sh
-curl -X POST http://localhost:3000/movies \
+curl http://localhost:3000/movies \
     -H "Content-Type: application/json" \
     -d '{"name":"John","age":30}'
 ```
 
-curl을 실행하니 `MoviesController.createMovie()`에서 반환하는 값이 정상적으로 출력된다. 성공이다!
+curl을 실행하니 `createMovie()`에서 반환하는 값이 정상적으로 출력된다. 성공이다!
 
 ```sh
 { message: 'ok' }
 ```
 
-사실 `MoviesController.createMovie()`는 curl이 잘 동작하는지 테스트하기 위해서 더미 데이터를 반환하고 있다.
-
-실제로 구현은 아래와 같다.
+`createMovie()`가 정상적으로 호출되는 걸 확인했으니, 더미 데이터 대신 제대로 동작하도록 구현해 보자.
 
 ```ts
 @Controller('movies')
@@ -223,21 +229,140 @@ class MoviesRepository {
 
 ```
 
-curl에서 보낼 데이터도 정확하게 다시 만들어서 실행을 해보자.
+curl에서 보낼 데이터도 정확하게 다시 만들어 실행해 보자.
 
 ```sh
-curl -X POST http://localhost:3000/movies \
+curl http://localhost:3000/movies \
     -H "Content-Type: application/json" \
     -d '{"title":"movie title", "durationInSeconds": 720}'
 ```
 
-curl을 실행하니 생성된 Movie 엔티티를 정상적으로 반환하고 있다.
+curl을 실행하니, 생성된 Movie 엔티티를 정상적으로 반환한다.
 
 ```sh
 {"id": "1234", "title":"movie title", "durationInSeconds": 720}
 ```
 
-### 3.2. 테스트 자동화
+### 3.2. `getMovie` 구현
+
+`createMovie`를 만들어 봤기 때문에 `getMovie`는 좀 더 수월하게 만들 수 있다.
+
+```ts
+@Controller('movies')
+class MoviesController {
+    @Get(':movieId')
+    async getMovie(movieId: string) {
+        return this.service.getMovie(movieId)
+    }
+}
+
+class MoviesService {
+    getMovie(movieId: string) {
+        const movie = this.repository.getById(movieId)
+        return movie
+    }
+}
+
+class MoviesRepository {
+    getById(id: string) {
+        return this.model.findById(id)
+    }
+}
+```
+
+구현은 간단했지만, 테스트는 어떻게 진행해야 할까?
+
+`getMovie`를 테스트하려면 먼저 `movieId`가 필요하다. 따라서 `getMovie`를 호출하기 전에 `createMovie`로 영화를 생성해야 한다.
+
+```sh
+# Movie 생성
+curl http://localhost:3000/movies \
+    -H "Content-Type: application/json" \
+    -d '{"title":"movie title", "durationInSeconds": 720}'
+
+# Movie 생성 결과
+{"id": "1234", "title":"movie title", "durationInSeconds": 720}
+
+# Movie 조회
+curl http://localhost:3000/movies/1234
+
+# Movie 조회 결과
+{"id": "1234", "title":"movie title", "durationInSeconds": 720}
+```
+
+위와 같이 curl 명령을 실행하면, 방금 생성한 Movie 엔티티가 정상적으로 반환되는 것을 확인할 수 있다.
+
+하지만 이렇게 간단한 API조차 테스트 절차가 꽤 번거롭다.
+
+### 3.3. 자동화 테스트의 필요성
+
+우리는 마이크로서비스 구조로 개발하고 있다. 이것은 작은 서비스를 많이 만들어야 한다는 뜻이다.
+
+모놀리식 구조에서는 단일 서비스만 실행하면 되므로, curl로 수동 테스트를 하면서도 개발을 이어갈 수 있다. 그러나 마이크로서비스 환경이라면 그 많은 서비스들을 어떻게 다 실행할 수 있을까. 그리고 디버깅은 어떻게 할 수 있을까.
+
+또한 소프트웨어 개발은 지속적인 개선을 통해 발전한다. 한 번 만들고 끝나는 것이 아니라, 코드는 끊임없이 변경된다. 그런데 코드 변경을 올바르게 했다고 어떻게 확신할 수 있을까? 영향받는 모든 코드를 다시 테스트 해보는 방법 뿐이다. 테스트 케이스는 얼마나 많아야 할까? 빠진 것은 없을까?
+
+이러한 문제를 해결하려면 자동화된 테스트를 작성해야 한다.
+
+### 3.4. 자동화 테스트 작성
+
+앞서 수동으로 실행했던 `curl` 스크립트를 Jest 같은 테스트 프레임워크로 옮겨 보자.
+
+```ts
+describe('Movies', () => {
+    describe('createMovie', () => {
+        it('영화를 생성해야 한다', () => {
+            const { status, body } = httpClient
+                .post('http://localhost:3000/movies')
+                .body({ title: 'movie title', durationInSeconds: 720 })
+
+            expect(status).toEqual(201)
+            expect(body).toEqual({
+                id: expect.any(String),
+                title: 'movie title',
+                durationInSeconds: 720
+            })
+        })
+    })
+
+    describe('getMovie', () => {
+        let movie: MovieDto
+
+        beforeEach(() => {
+            const { body } = httpClient
+                .post('http://localhost:3000/movies')
+                .body({ title: 'movie title', durationInSeconds: 720 })
+
+            movie = body
+        })
+
+        it('영화 정보를 가져와야 한다', () => {
+            const { status, body } = httpClient
+                .get(`http://localhost:3000/movies/${movie.id}`)
+
+            expect(status).toEqual(200)
+            expect(body).toEqual(movie)
+        })
+    })
+})
+```
+
+이렇게 테스트 코드를 작성해 두면 언제든 간단히 테스트를 실행할 수 있다.
+어딘가의 코드를 변경해도 테스트만 돌리면 되니 안심할 수 있다.
+
+이처럼 장점이 큰데도 많은 개발자가 자동화 테스트를 작성하지 않는다. 가장 큰 이유는 **테스트 작성에 시간이 너무 많이 소요된다고 느끼기 때문**이다.
+
+실제로 프로젝트 초기에는 자동화 테스트를 작성하는 데 더 많은 시간이 들 수도 있다. 학습 비용이 존재하기 때문이다. 그러나 프로젝트가 진행될수록 **수동 테스트**에 훨씬 더 많은 시간이 소요된다.
+
+예전에 팀원이 "테스트 코드 작성에 어느 정도 시간을 써야 하나요?"라고 물은 적이 있다. 그때 내 대답은 "**수동 테스트에 드는 시간보다 더 오래 걸려서는 안 된다**"였다.
+
+우리가 설계와 테스트 자동화를 도입하는 이유는 **효율성** 때문이다. 만약 수동 테스트가 더 적은 시간을 소요한다면, 그 방법이 오히려 옳은 것이다.
+
+## 4. 테스트 자동화
+
+## 5. TDD
+
+극장도 이런 식으로
 
 테스트를 먼저 작성하는 방법 소개
 
@@ -275,3 +400,11 @@ CRUD의 단순 테스트다. 탑다운으로 일단 컨트롤러에 더미 데�
 ```
 
 프론트엔드에서 TDD로 어떤 이득이 있는가? 난 모르겠다.
+
+### 테스트는 얼마나 작성하나?
+
+켄트 백은 저서에서 대략 본문 만큼 테스트 코드를 작성하게 된다고 한다. 물론 상황 마다 다르다는 단서를 달았다.
+난 기본적으로 커버리지 100%를 달성할 수 있는 최소한의 코드를 작성한다. 거기에 우려되는 상황들을 테스트 케이스로 추가한다.
+예를 들어 티켓 선점 시 동시성 문제 같은 것 말이다.
+
+물론 모든 상황이 같을 수는 없다. 만약 로켓이나 핵무기와 관련된 코드라면 테스트 코드가 훨씬 더 많을 것이다.
