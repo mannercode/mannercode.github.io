@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 백엔드 서비스 분석과 설계 (5)
+title: 백엔드 서비스 분석과 설계 (4)
 ---
 
 ### 2.2 `MoviesService` 패키지의 구성
