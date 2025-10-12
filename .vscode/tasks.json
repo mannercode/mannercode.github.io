@@ -6,7 +6,7 @@
         {
             "label": "Run",
             "type": "shell",
-            "command": "bundle exec jekyll serve --livereload"
+            "command": "bundle exec jekyll serve --future --livereload"
         },
         {
             "label": "Build",
