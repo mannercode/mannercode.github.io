@@ -6,52 +6,39 @@ ENV LANG=C.UTF-8
 ARG DEV_TOOLS="git curl"
 ARG BUILD_DEPS="build-essential libffi-dev"
 ARG PLANTUML="openjdk-17-jre-headless graphviz fonts-noto-cjk"
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN set -eux; \
+  apt-get update; \
+  apt-get install -y --no-install-recommends \
     $DEV_TOOLS \
     $BUILD_DEPS \
-    $PLANTUML \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN curl -fsSL https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar \
-  -o /opt/plantuml.jar
-RUN cat >/usr/local/bin/plantuml <<'SH' \
- && chmod +x /usr/local/bin/plantuml
-#!/bin/sh
-exec java -Djava.awt.headless=true -jar /opt/plantuml.jar "$@"
-SH
+    $PLANTUML; \
+  curl -fsSL https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar \
+    -o /opt/plantuml.jar; \
+  printf '%s\n' \
+    '#!/bin/sh' \
+    'exec java -Djava.awt.headless=true -jar /opt/plantuml.jar "$@"' \
+    > /usr/local/bin/plantuml; \
+  chmod +x /usr/local/bin/plantuml; \
+  rm -rf /var/lib/apt/lists/*
 
 ARG BUNDLER_VERSION=2.5.6
 RUN gem install --no-document bundler -v ${BUNDLER_VERSION} \
- && gem install --no-document jekyll
+  && gem install --no-document jekyll
 
-# ---- non-root user ----
 ARG USERNAME=jekyll
 ARG UID=1000
 ARG GID=1000
-
-RUN groupadd -g ${GID} ${USERNAME} \
-  && useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME}
+RUN set -eux; \
+  groupadd -g ${GID} ${USERNAME}; \
+  useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME}; \
+  mkdir -p /usr/local/bundle /home/${USERNAME}/.bundle /work; \
+  chown -R ${UID}:${GID} /usr/local/bundle /home/${USERNAME}/.bundle /opt /work;
 
 ENV BUNDLE_PATH=/home/${USERNAME}/.bundle \
   BUNDLE_APP_CONFIG=/home/${USERNAME}/.bundle \
-  BUNDLE_BIN=/home/${USERNAME}/.bundle/bin
-ENV PATH="${BUNDLE_BIN}:${PATH}"
-
-# bundler/gem 경로가 런타임에 쓰기 필요하면 권한 조정
-# (공식 ruby는 /usr/local/bundle 를 bundler 기본 경로로 쓰는 경우가 많음)
-RUN mkdir -p /usr/local/bundle \
-  && mkdir -p /home/${USERNAME}/.bundle \
-  && chown -R ${UID}:${GID} /usr/local/bundle \
-  && chown -R ${UID}:${GID} /home/${USERNAME}/.bundle \
-  && chown -R ${UID}:${GID} /opt
-
-# root의 ~/.bashrc 대신, 새 유저 홈에 넣기
-RUN echo 'PS1="\[\033[32m\]\w\[\033[00m\] "' >> /home/${USERNAME}/.bashrc \
- && echo "alias ls='ls --color=auto'" >> /home/${USERNAME}/.bashrc \
- && echo "alias l='ls --color=auto -lA'" >> /home/${USERNAME}/.bashrc \
- && chown ${UID}:${GID} /home/${USERNAME}/.bashrc
+  BUNDLE_BIN=/home/${USERNAME}/.bundle/bin \
+  PATH="/home/${USERNAME}/.bundle/bin:${PATH}"
 
 WORKDIR /work
-RUN chown -R ${UID}:${GID} /work
 
 USER ${USERNAME}
