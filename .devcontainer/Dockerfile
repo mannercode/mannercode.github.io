@@ -3,9 +3,11 @@ FROM ruby:bookworm
 ENV LANG=C.UTF-8
 
 ARG DEV_TOOLS="git curl"
+ARG BUILD_DEPS="build-essential libffi-dev"
 ARG PLANTUML="openjdk-17-jre-headless graphviz fonts-noto-cjk"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     $DEV_TOOLS \
+    $BUILD_DEPS \
     $PLANTUML \
   && rm -rf /var/lib/apt/lists/*
 
@@ -17,7 +19,9 @@ RUN cat >/usr/local/bin/plantuml <<'SH' \
 exec java -Djava.awt.headless=true -jar /opt/plantuml.jar "$@"
 SH
 
-RUN gem install bundler jekyll
+ARG BUNDLER_VERSION=2.5.6
+RUN gem install --no-document bundler -v ${BUNDLER_VERSION} \
+ && gem install --no-document jekyll
 
 # ---- non-root user ----
 ARG USERNAME=jekyll

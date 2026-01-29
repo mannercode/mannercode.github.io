@@ -26,10 +26,13 @@ jobs:
                   push: never
                   runCmd: |
                       set -Eeuo pipefail
+
                       JEKYLL_ENV=production bundle exec jekyll build -t -V
+
             - name: Setup Pages
               id: pages
               uses: actions/configure-pages@v4
+
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
 
