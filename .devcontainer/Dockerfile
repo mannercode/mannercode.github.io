@@ -1,4 +1,4 @@
-FROM ruby:3.3-bookworm
+FROM ruby:4-bookworm
 ENV LANG=C.UTF-8
 
 ARG DEV_TOOLS="git curl"
@@ -19,9 +19,9 @@ RUN set -eux; \
   chmod +x /usr/local/bin/plantuml; \
   rm -rf /var/lib/apt/lists/*
 
-ARG BUNDLER_VERSION=2.5.6
+ARG BUNDLER_VERSION=4.0.4
 RUN gem install --no-document bundler -v ${BUNDLER_VERSION} \
-  && gem install --no-document jekyll
+  && gem install --no-document jekyll -v 4.4.1
 
 ARG USERNAME=jekyll
 ARG UID=1000

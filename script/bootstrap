@@ -2,5 +2,5 @@
 
 set -e
 
-gem install bundler
-bundle install
+gem install bundler -v 4.0.4
+BUNDLER_VERSION=4.0.4 bundle install

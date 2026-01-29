@@ -37,16 +37,18 @@
                 "files.watcherExclude": {
                     "**/.git/objects/**": true,
                     "**/.git/subtree-cache/**": true,
-                    "**/node_modules/**": true,
-                    "package-lock.json": true,
-                    "**/_output/**": true
+                    "**/uml/**": true,
+                    "**/_site/**": true
                 },
                 "search.exclude": {
                     "**/node_modules/**": true,
-                    "**/_output/**": true
+                    "**/uml/**": true,
+                    "**/_site/**": true
                 },
                 "files.exclude": {
-                    "**/node_modules/**": true
+                    "**/node_modules/**": true,
+                    "**/uml/**": true,
+                    "**/_site/**": true
                 },
                 "livePreview.portNumber": 3030,
                 "remote.downloadExtensionsLocally": true,
