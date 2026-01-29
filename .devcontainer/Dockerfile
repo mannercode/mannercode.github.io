@@ -1,5 +1,3 @@
-# ruby:bullseye를 사용하면 안 된다. ubuntu plantuml 패키지에서는 ditaa가 svg로 출력이 안 된다.
-# ruby:bookworm 태그는 최신 Ruby로 이동하므로 버전을 고정한다.
 FROM ruby:3.3-bookworm
 ENV LANG=C.UTF-8
 
