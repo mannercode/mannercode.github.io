@@ -2,28 +2,55 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.122.1/containers/docker-existing-dockerfile
 {
     "name": "${containerWorkspaceFolderBasename}",
-    "context": ".",
-    "dockerFile": "Dockerfile",
-        "mounts": [
-        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-    ],
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "."
+    },
     "runArgs": [
-        "--name",
-        "${containerWorkspaceFolderBasename}-vscode"
+        "--name=${localEnv:USER:unknown}-${localWorkspaceFolderBasename}"
     ],
-    "onCreateCommand": "docker tag $(docker images -q vsc-${containerWorkspaceFolderBasename}-*) vscode-${containerWorkspaceFolderBasename} && docker rmi $(docker images --filter=reference=vsc-${containerWorkspaceFolderBasename}-* --format {{.Repository}})",
-    "postCreateCommand": "bundle install",
+    "remoteUser": "jekyll",
+    "mounts": [
+        "source=${localEnv:HOME}/.codex,target=/home/jekyll/.codex,type=bind"
+    ],
+    "initializeCommand": {
+        "prepare-mounts": "mkdir -p ${localEnv:HOME}/.codex"
+    },
+    "postCreateCommand": {
+        "bundle": "bundle install"
+    },
+    "postStartCommand": {
+        "plantuml": "nohup bash -c 'java -jar /opt/plantuml.jar -picoweb:5020 >/tmp/plantuml.log &' >/dev/null"
+    },
+    "forwardPorts": [3030],
     "customizations": {
         "vscode": {
             "extensions": [
                 "ms-vscode.live-server",
                 "jebbs.plantuml",
-                "davidanson.vscode-markdownlint"
+                "davidanson.vscode-markdownlint",
+                "mkhl.shfmt",
+                "openai.chatgpt",
+                "esbenp.prettier-vscode"
             ],
             "settings": {
+                "files.watcherExclude": {
+                    "**/.git/objects/**": true,
+                    "**/.git/subtree-cache/**": true,
+                    "**/node_modules/**": true,
+                    "package-lock.json": true,
+                    "**/_output/**": true
+                },
+                "search.exclude": {
+                    "**/node_modules/**": true,
+                    "**/_output/**": true
+                },
+                "files.exclude": {
+                    "**/node_modules/**": true
+                },
                 "livePreview.portNumber": 3030,
                 "remote.downloadExtensionsLocally": true,
-                "plantuml.server": "https://www.plantuml.com/plantuml",
+                "plantuml.server": "http://localhost:5020/",
                 "plantuml.render": "PlantUMLServer"
             }
         }

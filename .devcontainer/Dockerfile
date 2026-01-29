@@ -1,35 +1,46 @@
 # ruby:bullseye를 사용하면 안 된다. ubuntu plantuml 패키지에서는 ditaa가 svg로 출력이 안 된다.
 FROM ruby:bookworm
+ENV LANG=C.UTF-8
 
-RUN apt-get update
-RUN apt-get install -y plantuml
+ARG DEV_TOOLS="git curl"
+ARG PLANTUML="openjdk-17-jre graphviz fonts-noto-cjk"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    $DEV_TOOLS \
+    $PLANTUML \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar \
+  -o /opt/plantuml.jar
+RUN cat >/usr/local/bin/plantuml <<'SH' \
+ && chmod +x /usr/local/bin/plantuml
+#!/bin/sh
+exec java -Djava.awt.headless=true -jar /opt/plantuml.jar "$@"
+SH
+
 RUN gem install bundler jekyll
 
-# bash
-RUN echo 'PS1="\[\033[32m\]\w\[\033[00m\] "' >> ~/.bashrc
-RUN echo "alias ls='ls --color=auto'" >> ~/.bashrc
-RUN echo "alias l='ls --color=auto -lA'" >> ~/.bashrc
+# ---- non-root user ----
+ARG USERNAME=jekyll
+ARG UID=1000
+ARG GID=1000
 
-# for Korean
-RUN apt-get install -y locales \
-    && sed -i '/ko_KR.UTF-8/s/^# //g' /etc/locale.gen \
-    && locale-gen ko_KR.UTF-8 \
-    && update-locale LANG=ko_KR.UTF-8
+RUN groupadd -g ${GID} ${USERNAME} \
+  && useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME}
 
-ENV LANG=ko_KR.UTF-8 \
-    LANGUAGE=ko_KR:ko \
-    LC_ALL=ko_KR.UTF-8
-# bash end
+# bundler/gem 경로가 런타임에 쓰기 필요하면 권한 조정
+# (공식 ruby는 /usr/local/bundle 를 bundler 기본 경로로 쓰는 경우가 많음)
+RUN mkdir -p /usr/local/bundle \
+  && chown -R ${UID}:${GID} /usr/local/bundle \
+  && chown -R ${UID}:${GID} /opt
 
-# docker
-# https://docs.docker.com/engine/install/debian/
-RUN apt-get install -y ca-certificates curl gnupg && \
-    install -m 0755 -d /etc/apt/keyrings && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
-    chmod a+r /etc/apt/keyrings/docker.gpg && \
-    echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-    tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    apt-get update && \
-    apt-get install -y docker-ce-cli
+# root의 ~/.bashrc 대신, 새 유저 홈에 넣기
+RUN echo 'PS1="\[\033[32m\]\w\[\033[00m\] "' >> /home/${USERNAME}/.bashrc \
+ && echo "alias ls='ls --color=auto'" >> /home/${USERNAME}/.bashrc \
+ && echo "alias l='ls --color=auto -lA'" >> /home/${USERNAME}/.bashrc \
+ && chown ${UID}:${GID} /home/${USERNAME}/.bashrc
+
+WORKDIR /work
+RUN chown -R ${UID}:${GID} /work
+
+USER ${USERNAME}
