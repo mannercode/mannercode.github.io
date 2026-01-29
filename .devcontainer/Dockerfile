@@ -32,10 +32,17 @@ ARG GID=1000
 RUN groupadd -g ${GID} ${USERNAME} \
   && useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME}
 
+ENV BUNDLE_PATH=/home/${USERNAME}/.bundle \
+  BUNDLE_APP_CONFIG=/home/${USERNAME}/.bundle \
+  BUNDLE_BIN=/home/${USERNAME}/.bundle/bin
+ENV PATH="${BUNDLE_BIN}:${PATH}"
+
 # bundler/gem 경로가 런타임에 쓰기 필요하면 권한 조정
 # (공식 ruby는 /usr/local/bundle 를 bundler 기본 경로로 쓰는 경우가 많음)
 RUN mkdir -p /usr/local/bundle \
+  && mkdir -p /home/${USERNAME}/.bundle \
   && chown -R ${UID}:${GID} /usr/local/bundle \
+  && chown -R ${UID}:${GID} /home/${USERNAME}/.bundle \
   && chown -R ${UID}:${GID} /opt
 
 # root의 ~/.bashrc 대신, 새 유저 홈에 넣기
