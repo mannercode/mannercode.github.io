@@ -3,8 +3,7 @@ FROM ruby:bookworm
 ENV LANG=C.UTF-8
 
 ARG DEV_TOOLS="git curl"
-ARG PLANTUML="openjdk-17-jre graphviz fonts-noto-cjk"
-
+ARG PLANTUML="openjdk-17-jre-headless graphviz fonts-noto-cjk"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     $DEV_TOOLS \
     $PLANTUML \
