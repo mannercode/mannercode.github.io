@@ -53,7 +53,10 @@
                 "livePreview.portNumber": 3030,
                 "remote.downloadExtensionsLocally": true,
                 "plantuml.server": "http://localhost:5020/",
-                "plantuml.render": "PlantUMLServer"
+                "plantuml.render": "PlantUMLServer",
+                "[markdown]": {
+                    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+                }
             }
         }
     }

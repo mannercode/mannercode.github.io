@@ -3,7 +3,7 @@ layout: post
 title: 백엔드 서비스 분석과 설계 (4)
 ---
 
-```plantuml
+{% plantuml %}
 @startuml
 skinparam componentStyle rectangle
 skinparam packageStyle rectangle
@@ -11,30 +11,30 @@ skinparam shadowing false
 top to bottom direction
 
 package "gateway" {
-  component "ShowtimeCreationController\n(POST /showtime-creation/showtimes)" as GController
+component "ShowtimeCreationController\n(POST /showtime-creation/showtimes)" as GController
 }
 
 package "applications" {
-  component "ShowtimeCreationService" as AService
-  component "ShowtimeCreationWorkerService" as AWorker
-  component "ValidatorService" as AValidator
-  component "CreatorService" as ACreator
+component "ShowtimeCreationService" as AService
+component "ShowtimeCreationWorkerService" as AWorker
+component "ValidatorService" as AValidator
+component "CreatorService" as ACreator
 
-  AService --> AWorker : <b><color:red>enqueueShowtimeCreationJob</color></b>
-  AWorker --> AValidator : <b><color:red>validate</color></b>
-  AWorker --> ACreator : <b><color:red>create</color></b>
+AService --> AWorker : <b><color:red>enqueueShowtimeCreationJob</color></b>
+AWorker --> AValidator : <b><color:red>validate</color></b>
+AWorker --> ACreator : <b><color:red>create</color></b>
 }
 
 package "cores" {
-  component "ShowtimesService" as CShowtimes
-  component "TicketsService" as CTickets
+component "ShowtimesService" as CShowtimes
+component "TicketsService" as CTickets
 }
 
 GController --> AService : <b><color:red>requestShowtimeCreation</color></b>
 ACreator --> CTickets : <b><color:red>createTickets</color></b>
 AValidator --> CShowtimes : <b><color:red>findConflicts</color></b>
 @enduml
-```
+{% endplantuml %}
 
 지난 시간에 `상영시간 생성하기`의 설계를 완료했다.
 
@@ -47,18 +47,18 @@ AValidator --> CShowtimes : <b><color:red>findConflicts</color></b>
 {% plantuml %}
 @startuml
 package "Application Services" {
-    class ShowtimeCreationService{
-        searchMovies()
-        searchTheaters()
-        requestShowtimeCreation(createDto)
-    }
+class ShowtimeCreationService{
+searchMovies()
+searchTheaters()
+requestShowtimeCreation(createDto)
+}
 }
 
 package "Core Services" {
-    class MoviesService{
-        searchMovies()
-        moviesExist(movieId)
-    }
+class MoviesService{
+searchMovies()
+moviesExist(movieId)
+}
 
     class TheatersService{
         searchTheaters()
@@ -74,6 +74,7 @@ package "Core Services" {
     class TicketsService{
         createTickets(createDtos,transactionId)
     }
+
 }
 
 ShowtimeCreationService --> MoviesService
@@ -88,29 +89,29 @@ ShowtimeCreationService --> TicketsService
 
 지금까지 설계에서 `Core Services`는 다른 서비스를 참조하지 않기 때문에 제일 먼저 구현하기 좋을 것 같다.
 
-그렇다면 4개의 서비스(`MoviesService`, `TheatersService`, `ShowtimesService`, `TicketsService`)  중에서 무엇부터 구현하면 좋을까?
+그렇다면 4개의 서비스(`MoviesService`, `TheatersService`, `ShowtimesService`, `TicketsService`) 중에서 무엇부터 구현하면 좋을까?
 
 {% plantuml %}
 @startuml
 class Movie {
-    id: ObjectId
+id: ObjectId
 }
 
 class Theater {
-    id: ObjectId
+id: ObjectId
 }
 
 class Showtime {
-    id: ObjectId
-    theaterId: ObjectId
-    movieId: ObjectId
+id: ObjectId
+theaterId: ObjectId
+movieId: ObjectId
 }
 
 class Ticket {
-    id: ObjectId
-    showtimeId: ObjectId
-    theaterId: ObjectId
-    movieId: ObjectId
+id: ObjectId
+showtimeId: ObjectId
+theaterId: ObjectId
+movieId: ObjectId
 }
 
 Ticket --> Showtime
@@ -148,16 +149,16 @@ Showtime --> Theater
 {% plantuml %}
 @startuml
 class MoviesController {
-    searchMovies(query)
-    moviesExist(movieIds)
+searchMovies(query)
+moviesExist(movieIds)
 }
 note right of MoviesController
 외부 호출 인터페이스- REST API 또는 RPC 엔드포인트
 end note
 
 class MoviesService {
-    searchMovies(query)
-    moviesExist(movieIds)
+searchMovies(query)
+moviesExist(movieIds)
 }
 note right of MoviesService
 애플리케이션 계층 – 트랜잭션·오케스트레이션 담당
@@ -170,16 +171,16 @@ note right of MoviesRepository
 end note
 
 class Movie {
-    id: ObjectId
-    ...
+id: ObjectId
+...
 }
 note right of Movie
 도메인 계층 – 도메인의 핵심 비즈니스 규칙 보유
 end note
 
 MoviesController --> MoviesService
-MoviesService    --> MoviesRepository
-MoviesService    --> Movie
+MoviesService --> MoviesRepository
+MoviesService --> Movie
 Movie <-- MoviesRepository
 @enduml
 {% endplantuml %}
@@ -207,11 +208,11 @@ DDD에서는 `Movie` 객체에 비즈니스 로직을 구현하는 것을 권장
 일단 사용자의 요청을 처리하는 `MoviesController`를 구현해야 한다. 그래야 실행을 하고 테스트를 해볼 수 있다.
 
 ```ts
-@Controller('movies')
+@Controller("movies")
 class MoviesController {
     @Post()
     createMovie(@Body() createDto: CreateMovieDto) {
-        return { message: 'ok' }
+        return { message: "ok" };
     }
 }
 ```
@@ -235,31 +236,30 @@ curl을 실행하니 `createMovie()`에서 반환하는 값이 정상적으로 �
 `createMovie()`가 정상적으로 호출되는 걸 확인했으니, 더미 데이터 대신 제대로 동작하도록 구현해 보자.
 
 ```ts
-@Controller('movies')
+@Controller("movies")
 class MoviesController {
     @Post()
     createMovie(@Body() createDto: CreateMovieDto) {
-        return this.service.createMovie(createDto)
+        return this.service.createMovie(createDto);
     }
 }
 
 class MoviesService {
     createMovie(createDto: CreateMovieDto) {
-        const movie = this.repository.createMovie(createDto)
-        return movie
+        const movie = this.repository.createMovie(createDto);
+        return movie;
     }
 }
 
 class MoviesRepository {
     createMovie(createDto: CreateMovieDto) {
-        const movie = this.newDocument()
-        movie.title = createDto.title
-        movie.durationInSeconds = createDto.durationInSeconds
+        const movie = this.newDocument();
+        movie.title = createDto.title;
+        movie.durationInSeconds = createDto.durationInSeconds;
 
-        return movie.save()
+        return movie.save();
     }
 }
-
 ```
 
 curl에서 보낼 데이터도 정확하게 다시 만들어 실행해 보자.
@@ -281,24 +281,24 @@ curl을 실행하니, 생성된 Movie 엔티티를 정상적으로 반환한다.
 `createMovie`를 만들어 봤기 때문에 `getMovie`는 좀 더 수월하게 만들 수 있다.
 
 ```ts
-@Controller('movies')
+@Controller("movies")
 class MoviesController {
-    @Get(':movieId')
+    @Get(":movieId")
     async getMovie(movieId: string) {
-        return this.service.getMovie(movieId)
+        return this.service.getMovie(movieId);
     }
 }
 
 class MoviesService {
     getMovie(movieId: string) {
-        const movie = this.repository.getById(movieId)
-        return movie
+        const movie = this.repository.getById(movieId);
+        return movie;
     }
 }
 
 class MoviesRepository {
     getById(id: string) {
-        return this.model.findById(id)
+        return this.model.findById(id);
     }
 }
 ```
@@ -342,42 +342,43 @@ curl http://localhost:3000/movies/1234
 앞서 수동으로 실행했던 `curl` 스크립트를 Jest 같은 테스트 프레임워크로 옮겨 보자.
 
 ```ts
-describe('Movies', () => {
-    describe('createMovie', () => {
-        it('영화를 생성해야 한다', () => {
+describe("Movies", () => {
+    describe("createMovie", () => {
+        it("영화를 생성해야 한다", () => {
             const { status, body } = httpClient
-                .post('http://localhost:3000/movies')
-                .body({ title: 'movie title', durationInSeconds: 720 })
+                .post("http://localhost:3000/movies")
+                .body({ title: "movie title", durationInSeconds: 720 });
 
-            expect(status).toEqual(201)
+            expect(status).toEqual(201);
             expect(body).toEqual({
                 id: expect.any(String),
-                title: 'movie title',
-                durationInSeconds: 720
-            })
-        })
-    })
+                title: "movie title",
+                durationInSeconds: 720,
+            });
+        });
+    });
 
-    describe('getMovie', () => {
-        let movie: MovieDto
+    describe("getMovie", () => {
+        let movie: MovieDto;
 
         beforeEach(() => {
             const { body } = httpClient
-                .post('http://localhost:3000/movies')
-                .body({ title: 'movie title', durationInSeconds: 720 })
+                .post("http://localhost:3000/movies")
+                .body({ title: "movie title", durationInSeconds: 720 });
 
-            movie = body
-        })
+            movie = body;
+        });
 
-        it('영화 정보를 가져와야 한다', () => {
-            const { status, body } = httpClient
-                .get(`http://localhost:3000/movies/${movie.id}`)
+        it("영화 정보를 가져와야 한다", () => {
+            const { status, body } = httpClient.get(
+                `http://localhost:3000/movies/${movie.id}`,
+            );
 
-            expect(status).toEqual(200)
-            expect(body).toEqual(movie)
-        })
-    })
-})
+            expect(status).toEqual(200);
+            expect(body).toEqual(movie);
+        });
+    });
+});
 ```
 
 이렇게 테스트 코드를 작성해 두면 언제든 간단히 테스트를 실행할 수 있다.

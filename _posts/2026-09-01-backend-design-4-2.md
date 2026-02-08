@@ -3,49 +3,6 @@ layout: post
 title: 백엔드 서비스 분석과 설계 (4)
 ---
 
-### 2.2 `MoviesService` 패키지의 구성
-
-레이어 아키텍쳐 이용해서 `MoviesService`를 설계하면 아래처럼 된다.
-
-{% plantuml %}
-@startuml
-class MoviesController {
-    searchMovies(query)
-    moviesExist(movieIds)
-}
-note right of MoviesController
-외부 호출 인터페이스- REST API 또는 RPC 엔드포인트
-end note
-
-class MoviesService {
-    searchMovies(query)
-    moviesExist(movieIds)
-}
-note right of MoviesService
-애플리케이션 계층 – 트랜잭션·오케스트레이션 담당
-end note
-
-class MoviesRepository {
-}
-note right of MoviesRepository
-인프라스트럭처 계층 – 데이터베이스 접근 및 CRUD 수행
-end note
-
-class Movie {
-    id: ObjectId
-    ...
-}
-note right of Movie
-도메인 계층 – 도메인의 핵심 비즈니스 규칙 보유
-end note
-
-MoviesController --> MoviesService
-MoviesService    --> MoviesRepository
-MoviesService    --> Movie
-Movie <-- MoviesRepository
-@enduml
-{% endplantuml %}
-
 그 현상은 **“Anemic Domain Model(빈약한 도메인 모델)”**이라고 부릅니다.
 도메인 객체에 규칙과 행위가 거의 없고, 서비스(또는 트랜잭션 스크립트) 쪽으로 비즈니스 로직이 몰려가면서 모델이 단순 데이터 구조만 남는 상태를 가리키는 DDD 관점의 안티패턴입니다.
 
