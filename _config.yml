@@ -26,6 +26,13 @@ plugins:
   - jekyll-seo-tag
   - jekyll-plantuml
 
+# Exclude local virtualenv and other dependency folders from build/watch.
+# This avoids Listen watcher conflicts (e.g., .venv/lib64 -> lib symlink).
+exclude:
+  - .venv/
+  - node_modules/
+  - vendor/
+
 # If you want to link only specific pages in your header, use this and add the path to the pages
 # in order as they should show up.
 header_pages:
