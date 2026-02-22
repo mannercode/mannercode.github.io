@@ -605,39 +605,6 @@ PurchaseTickets ..> PaymentGateway
 
 앞서 도메인 전문가가 정의했듯 이 세 컴포넌트의 관계는 매우 긴밀하다. 상영시간 생성과 티켓 생성은 사실상 하나의 유스케이스로 묶여 있고, 한쪽이 실패하면 다른 쪽도 영향을 받는 것이 자연스럽다.
 
-{% plantuml %}
-@startuml
-participant "ShowtimeCreationWorker\nService" as worker
-queue "Message Broker" as broker
-participant "ShowtimeBulkCreator\nService" as SCreator
-participant "TicketBulkCreator\nService" as TCreator
-
-database "Orchestration State\n(transactionId/status)" as state
-
-worker -> state: init(transactionId, status=STARTED)
-
-worker -> broker: publish ShowtimeCreateRequested\n(createDto, transactionId)
-worker -> state: update(transactionId, status=SHOWTIME_REQUESTED)
-
-SCreator -> broker: consume ShowtimeCreateRequested
-SCreator -> broker: publish ShowtimeCreated\n(showtimeIds, transactionId)
-SCreator -> state: update(transactionId, status=SHOWTIME_CREATED)
-
-worker -> broker: consume ShowtimeCreated
-worker -> state: update(transactionId, status=TICKET_REQUESTED)
-
-worker -> broker: publish TicketCreateRequested\n(showtimeIds, transactionId)
-
-TCreator -> broker: consume TicketCreateRequested
-TCreator -> broker: publish TicketCreated\n(ticketCount, transactionId)
-TCreator -> state: update(transactionId, status=DONE)
-
-worker -> broker: consume TicketCreated
-worker -> state: update(transactionId, status=COMPLETED)
-worker -> worker: return result\n(createdShowtimeCount, createdTicketCount)
-@enduml
-{% endplantuml %}
-
 이런 강결합 유스케이스를 억지로 이벤트로 분리해 장애 전파를 “회피”하려 하면, 이득은 크지 않고 시스템 복잡도만 증가한다.
 
 {% plantuml %}
