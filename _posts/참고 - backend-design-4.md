@@ -3,43 +3,6 @@ layout: post
 title: 백엔드 서비스 분석과 설계 (4)
 ---
 
-{% plantuml %}
-@startuml
-skinparam componentStyle rectangle
-skinparam packageStyle rectangle
-skinparam shadowing false
-top to bottom direction
-
-package "gateway" {
-component "ShowtimeCreationController\n(POST /showtime-creation/showtimes)" as GController
-}
-
-package "applications" {
-component "ShowtimeCreationService" as AService
-component "ShowtimeCreationWorkerService" as AWorker
-component "ValidatorService" as AValidator
-component "CreatorService" as ACreator
-
-AService --> AWorker : <b><color:red>enqueueShowtimeCreationJob</color></b>
-AWorker --> AValidator : <b><color:red>validate</color></b>
-AWorker --> ACreator : <b><color:red>create</color></b>
-}
-
-package "cores" {
-component "ShowtimesService" as CShowtimes
-component "TicketsService" as CTickets
-}
-
-GController --> AService : <b><color:red>requestShowtimeCreation</color></b>
-ACreator --> CTickets : <b><color:red>createTickets</color></b>
-AValidator --> CShowtimes : <b><color:red>findConflicts</color></b>
-@enduml
-{% endplantuml %}
-
-지난 시간에 `상영시간 생성하기`의 설계를 완료했다.
-
-이번 시간에는 이 설계를 바탕으로 구현을 해보자.
-
 ## 1. 설계에서 구현으로
 
 지난 시간에 설계한 서비스는 아래와 같다. 이 중에서 무엇부터 구현하면 좋을까?
@@ -400,7 +363,7 @@ describe("Movies", () => {
 
 테스트를 먼저 작성하는 방법 소개
 
-```
+```txt
 TDD가 설계를 유도하기도 한다는 양방향 관계를 짚어 주면 표현이 더 균형 잡힙니다.
 Repository는 이렇게 설계한다.
 ```
@@ -422,7 +385,7 @@ CRUD의 단순 테스트다. 탑다운으로 일단 컨트롤러에 더미 데�
 
 물론 예외가 있을 수 있다. 그러나 적어도 GUI를 대상으로 TDD를 하는 것은 정교한 노가다라고 부를 수 있다.
 
-```
+```txt
 프론트엔드에서도 TDD는 ‘가능’하기보다 ‘필요’해질 때가 많다. 인터페이스가 먼저 정의돼 있으면 테스트 대상이 명확해지고, 반대로 테스트 작성 과정을 통해 인터페이스가 더욱 정제되기도 한다.
 다만 GUI 컴포넌트는 궁극적으로 사람이 눈으로 확인해야 할 영역이므로, 테스트 코드만으로 모든 품질을 담보하기는 어렵다. 지나치게 세밀한 DOM 스냅샷이나 픽셀 단위 비교는 개발 속도를 오히려 늦추고, 유지보수 비용을 키울 위험이 있다.
 따라서 프론트엔드 테스트 전략은
@@ -442,3 +405,24 @@ CRUD의 단순 테스트다. 탑다운으로 일단 컨트롤러에 더미 데�
 예를 들어 티켓 선점 시 동시성 문제 같은 것 말이다.
 
 물론 모든 상황이 같을 수는 없다. 만약 로켓이나 핵무기와 관련된 코드라면 테스트 코드가 훨씬 더 많을 것이다.
+
+-----------------
+그 현상은 **“Anemic Domain Model(빈약한 도메인 모델)”**이라고 부릅니다.
+도메인 객체에 규칙과 행위가 거의 없고, 서비스(또는 트랜잭션 스크립트) 쪽으로 비즈니스 로직이 몰려가면서 모델이 단순 데이터 구조만 남는 상태를 가리키는 DDD 관점의 안티패턴입니다.
+
+```txt
+마틴 파울러가 **“Anemic Domain Model(ADM)”**을 처음 ‘안티패턴’으로 규정한 글(2003)에서 이미 이런 문장을 남겼습니다.
+
+“많은 기술(특히 J2EE Entity Bean 같은 원격/분산 환경)이 도메인 객체 안에 행위를 두지 못하게 강요하면서 ADM이 더 흔해지고 있다.”
+martinfowler.com
+즉 **네트워크 경계가 전제로 되는 현대적 아키텍처(SOA·REST API·메시징 파이프라인 등)**는
+“행위가 이동(serialize)하기 어렵다 → 객체는 DTO처럼 얇아진다 → 서비스 계층이나 트랜잭션 스크립트에 로직이 몰린다” 는 흐름을 ‘자연스레’ 만들 수 있다고 지적합니다. 위키피디아도 같은 대목을 인용하며, ADM이 서비스 지향 시스템에서 흔히 나타난다고 정리합니다.
+```
+
+내 생각에 ADM은 MSA에서 자연스럽다. 영화와 관련된 규칙을 Movie 엔티티나 Movie 서비스에 모두 몰아넣는게 좋은 구조일까? 규칙을 세분화 해서 각 서비스에서 처리하는 게 더 나은 구조일 것이다.
+
+클래스 수준에서 올바른 구조를 추구하지 말고 서비스 레벨에서 올바른 구조를 생각하는게 좋다.
+
+여기서는 최상위 아키텍처가 SoLA다. SoLA에서는 서비스를 하나의 클래스로 본다. 특별히 복잡한 도메인 규칙이 있다면 이 규칙을 담당하는 코어 서비스를 만들면 된다. 코어 서비스는 다른 서비스를 참조하지 않기 때문에 애플리케이션 서비스로 만들어야 할지도 모르겠다. 이건 특별한 도메인 규칙이 무엇인지에 따라 달라질 것 같다. 지금은 구체적인 예가 없기 때문에 확신할 수 없다.
+
+그래도 아마 코어 서비스로 만들고 이벤트 기반으로 의존 역전을 구현하지 않을까 싶다. 서비스가 수백~수천개가 되는 상황이라면 이렇게 복잡성을 관리해야 할 것이다. Layered Arch에서 도메인 레이어와 유사하게 말이다.
