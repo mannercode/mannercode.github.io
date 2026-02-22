@@ -31,7 +31,8 @@
                 "davidanson.vscode-markdownlint",
                 "mkhl.shfmt",
                 "openai.chatgpt",
-                "esbenp.prettier-vscode"
+                "esbenp.prettier-vscode",
+                "DavidAnson.vscode-markdownlint"
             ],
             "settings": {
                 "files.watcherExclude": {
