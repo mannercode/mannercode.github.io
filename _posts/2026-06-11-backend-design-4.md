@@ -684,7 +684,7 @@ readFileAsyncText("./example.txt", (text) => {
 
 지금까지 작성한 시퀀스 다이어그램은 서비스의 호출 흐름을 파악하기에는 좋지만 서비스 간의 관계를 파악하기에는 부족함이 있다.
 
-컴포넌트 다이어그램으로 의존관계를 표현해 보자.
+컴포넌트 다이어그램으로 의존관계와 호출 흐름을 표현해 보자.
 
 {% plantuml %}
 @startuml
@@ -707,7 +707,7 @@ component "CreatorService" as ACreator
 
 AService --> AWorker : <b><color:red> 3. enqueueShowtimeCreationJob</color></b>
 AWorker --> AValidator : <b><color:red> 4. validate</color></b>
-AWorker --> ACreator : <b><color:red> 6. create</color></b>
+AWorker --> ACreator : <b><color:red> 7. create</color></b>
 }
 
 package "cores" {
@@ -715,13 +715,207 @@ component "ShowtimesService" as CShowtimes
 component "TicketsService" as CTickets
 }
 
+database "ShowtimesDB" as SDB
+database "TicketsDB" as TDB
+
+note left of SDB
+  movieId
+  theaterId
+  startTime
+end note
+
+note right of TDB
+  showtimeId
+  seatNumber
+  status
+end note
+
 User --> GController : <b><color:red> 1. POST /showtime-creation/showtimes</color></b>
 GController --> AService : <b><color:red> 2. requestShowtimeCreation</color></b>
 AValidator --> CShowtimes : <b><color:red> 5. findConflicts</color></b>
-ACreator --> CShowtimes : <b><color:red> 7. createShowtimes</color></b>
-ACreator --> CTickets : <b><color:red> 8. createTickets</color></b>
+ACreator --> CShowtimes : <b><color:red> 8. createShowtimes</color></b>
+ACreator --> CTickets : <b><color:red> 10. createTickets</color></b>
+CShowtimes --> SDB : <b><color:red> 6. find</color></b>
+CShowtimes --> SDB : <b><color:red> 9. save</color></b>
+CTickets --> TDB : <b><color:red> 11. save</color></b>
 @enduml
 {% endplantuml %}
+
+크게 11개의 호출이 있다. 이 중에서 제일 먼저 구현해야 하는 것은 무엇일까?
+
+많은 개발자들이 처음 구현을 시작할 때 DB 테이블부터 생성하는 `bottom-up` 방식을 선호한다. `중고 자동차 거래 서비스`를 개발한다면 car 테이블에 몇 개의 필드를 정의하고 여기에 계속 살을 붙여가는 것이다. 개발자들이 이 방식을 선택한 여러 이유가 있겠지만 가장 큰 이유는 설계의 부재일 것이다.
+
+![car-trade](/assets/images/car-trade.png)
+
+설계의 어려움은 여러가지 있겠지만 기술적인 측면에서 가장 큰 어려움은 도메인 전문가의 머리속에 있을(도메인 전문가도 막연한 생각 뿐, 구체적인 생각은 없을 수도 있다.) 추상적인 생각을 구체화 하는 것이 어렵기 때문이다.
+그러니 가장 구체적인 혹은 형태가 명확한 테이블 생성을 기반으로 기능을 확장해 나가는 것이다.
+
+![car-bike](/assets/images/car-bike.png)
+
+이런 `bottom-up` 방식은 요구사항을 구현하는 것이 아니라, 구현에 요구사항을 맞추게 만든다. 무슨 말이냐 하면 도메인 전문가가 기능 요청을 해도 구현을 바꾸기 어렵다는 말로 요구사항을 변경하게 만들기 때문이다.
+
+`bottom-up` 방식은 실행과 검증도 어렵다. 테이블을 생성했다면 여기에 어떻게 데이터를 삽입하고 읽을 수 있을까? 코드를 구현하면 되는데 그러면 그 코드는 또 어떻게 실행할 수 있을까?
+이 문제를 해결하기 위해서 개발하는 동안 많은 임시적인 실행 코드를 만들고 삭제한다. 또 검증하기 위해서 정말 많은 실행을 하게 된다.
+
+{% plantuml %}
+@startuml
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+top to bottom direction
+
+component "???" as Runner
+
+note right of Runner
+  // 상위 객체를 구현하면 삭제하게 되는 임시 실행 코드
+  main()
+  {
+    const db = new MySQL("127.0.0.1:3389")
+    db.connect()
+    const service = new TicketsService(db)
+    const result = service.createTickets(dtos)
+
+    console.log(result)
+  }
+end note
+
+package "cores" {
+component "ShowtimesService" as CShowtimes
+component "TicketsService" as CTickets
+}
+
+database "ShowtimesDB" as SDB
+database "TicketsDB" as TDB
+
+Runner --> CShowtimes :  createShowtimes
+Runner --> CTickets :  createTickets
+CShowtimes --> SDB :  find/save
+CTickets --> TDB :  save
+@enduml
+{% endplantuml %}
+
+이런 단점들 때문에 `bottom-up` 방식을 추천하지 않는데, 다행히 우리는 지금까지 'top-down' 방식으로 요구사항을 분석하고 설계했다.
+
+{% plantuml %}
+@startuml
+left to right direction
+actor administrator
+actor customer
+
+rectangle "Use Cases" {
+    usecase "상영시간 생성하기" as UC1
+    usecase "티켓 예매하기" as UC2
+    usecase "티켓 구매하기" as UC3
+}
+
+rectangle "REST API" {
+    component "/showtime-creation/*" as API1
+    component "/booking/*" as API2
+    component "/purchases/*" as API3
+}
+
+rectangle "Application Services" {
+    component "ShowtimeCreationService" as SVC1
+    component "BookingService" as SVC2
+    component "PurchaseService" as SVC3
+}
+
+administrator --> UC1
+customer --> UC2
+customer --> UC3
+
+UC1 ..> API1
+UC2 ..> API2
+UC3 ..> API3
+
+API1 ..> SVC1
+API2 ..> SVC2
+API3 ..> SVC3
+@enduml
+{% endplantuml %}
+
+{% plantuml %}
+@startuml
+    Frontend -> Backend: 영화 목록 요청\nGET /showtime-creation/movies
+    Frontend <-- Backend: movies[]
+
+    Frontend -> Backend: 극장 목록 요청\nGET /showtime-creation/theaters
+    Frontend <-- Backend: theaters[]
+
+    Frontend -> Backend: 기존 상영 시간 조회\nPOST /showtime-creation/showtimes/search
+    Frontend <-- Backend: showtimes[]
+
+    Frontend -> Backend: 상영 시간 생성 요청\nPOST /showtime-creation/showtimes
+    Frontend <-- Backend: { sagaId }
+@enduml
+{% endplantuml %}
+
+도메인 전문가의 `상영시간 생성하기` 요구사항을 유스케이스 다이어그램으로 시작해서 유스케이스 명세서와 시퀀스 다이어그램으로 구체화 할 수 있었다. 결과물로 구체적인 REST API를 정의할 수 있었기 때문에 이제는 이것을 구현하기만 하면 된다. 구현 후 실행은 curl 같은 많은 방법들이 있으니 문제가 없다.
+
+무엇보다 좋은 것은 아래쪽 서비스로 구현이 진행돼도 실행 방법을 변경할 필요가 없다는 것이다. 인터페이스가 바뀌는 건 아니니까 말이다.
+
+{% plantuml %}
+@startuml
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+top to bottom direction
+
+component "curl" as User
+
+package "gateway" {
+component "ShowtimeCreationController" as GController
+}
+
+package "applications" {
+component "ShowtimeCreationService" as AService
+component "ShowtimeCreationWorkerService" as AWorker
+component "ValidatorService" as AValidator
+component "CreatorService" as ACreator
+
+AService --> AWorker
+AWorker --> AValidator
+AWorker --> ACreator
+}
+
+User --> GController : <b><color:red> POST /showtime-creation/showtimes</color></b>
+GController --> AService
+@enduml
+{% endplantuml %}
+
+물론 이 `top-down`도 단점은 있다. 실행을 하려면 의존하는 다른 객체가 있어야 한다.
+
+그러니까 실제 구현을 한다면 코드는 대략 이런 형태가 된다. ShowtimeCreationController의 createShowtimes는 ShowtimeCreationService 클래스를 참조하는데 이제 막 구현을 시작했기 때문에 ShowtimeCreationService가 있을리 없다.
+
+```ts
+@Route('showtime-creation')
+class ShowtimeCreationController{
+    private service:ShowtimeCreationService
+
+    @Post('showtimes')
+    func createShowtimes(request:Request){
+        return this.service.requestShowtimeCreation(request.body)
+    }
+}
+```
+
+다행히도 이런 문제는 쉽게 풀 수 있는데 ShowtimeCreationService를 빼고 그럴듯한 값을 반환하게 하면 된다. 올바른 동작은 아니더라도 실행은 가능하기 때문에 의존 서비스를 모두 구현해야 하는 문제를 해결할 수 있다. 일단 이렇게 실행이 되면 차분하게 ShowtimeCreationService를 구현하면 되는 것이다.
+
+```ts
+@Route('showtime-creation')
+class ShowtimeCreationController{
+    @Post('showtimes')
+    func createShowtimes(){
+        return { sagaId: 123 }
+    }
+}
+```
+
+ShowtimeCreationService를 구현할 때도 마찬가지다. 일단 간단한 값을 반환해서 실행은 되게 하고 요구사항에 맞춰서 하나씩 구현해 가면 된다.
+
+눈치챘을지 모르겠지만 지금까지 설명한 것이 TDD의 기본이다.
+
+---
 
 설계 단계에서는 `top-down` 접근이 효과적이었다. 그럼 구현도 같은 방식이 좋을까?
 
