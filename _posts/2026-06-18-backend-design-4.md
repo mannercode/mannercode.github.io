@@ -47,6 +47,7 @@ note left of SDB
   movieId
   theaterId
   startTime
+  duration
 end note
 
 note right of TDB
@@ -68,73 +69,240 @@ CTickets --> TDB : <b><color:red> 11. save</color></b>
 
 크게 11개의 호출이 있다. 이 중에서 제일 먼저 구현해야 하는 것은 무엇일까?
 
-많은 개발자들이 처음 구현을 시작할 때 DB 테이블부터 생성하는 `bottom-up` 방식을 선호한다. `중고차 거래 서비스`를 개발한다면 car 테이블에 몇 개의 필드를 정의하고 여기에 계속 살을 붙여가는 것이다. 개발자들이 이 방식을 선택한 여러 이유가 있겠지만 가장 큰 이유는 설계의 부재일 것이다.
+### bottom-up 구현
+
+많은 개발자들이 처음 구현을 시작할 때 DB 테이블부터 생성하는 `bottom-up` 방식을 선호한다. 위 다이어그램으로 예를 들면 `showtimes` 테이블에 movieId, theaterId, startTime, duration 필드를 정의하고 여기에 계속 살을 붙여가는 것이다.
+
+위 다이어그램의 일부만 뽑아서 간단히 구현해 보자.
+
+```ts
+// Step 1. DB에 가장 가까운 곳부터 시작한다.
+class ShowtimesService {
+    find(theaterId, startTime, duration) {
+        return this.db.showtimes.find({ theaterId, startTime, duration })
+    }
+    save(movieId, theaterId, startTime, duration) {
+        return this.db.showtimes.save({ movieId, theaterId, startTime, duration })
+    }
+}
+
+async function main() {
+    const db = new MySQL("127.0.0.1:3306")
+    await db.connect()
+    const showtimesService = new ShowtimesService(db)
+
+    const showtimes = await showtimesService.find(1, '2026-01-01 10:00', 120)
+    console.log('showtimes:', showtimes)
+
+    const saved = await showtimesService.save(1, 1, '2026-01-01 10:00', 120)
+    console.log('saved:', saved)
+}
+main()
+```
+
+```ts
+// Step 2. 한 단계 위 레이어로 올라간다.
+class ValidatorService {
+    validate(theaterId, startTime, duration) {
+        const conflicts = this.showtimesService.find(theaterId, startTime, duration)
+        if (conflicts.length > 0) throw new Error('conflict')
+    }
+}
+
+async function main() {
+    // ... Step 1 코드 ...
+
+    const validator = new ValidatorService(showtimesService)
+    await validator.validate(1, '2026-01-01 10:00', 120)
+    console.log('validation passed')
+}
+main()
+```
+
+```ts
+// Step 3. 또 한 단계 위로 올라간다.
+class CreatorService {
+    create(movieId, theaterId, startTime, duration) {
+        this.validator.validate(theaterId, startTime, duration)
+        this.showtimesService.save(movieId, theaterId, startTime, duration)
+    }
+}
+
+async function main() {
+    // ... Step 1~2 코드 ...
+
+    const creator = new CreatorService(validator, showtimesService)
+    await creator.create(1, 1, '2026-01-01 10:00', 120)
+    console.log('creation done')
+}
+main()
+```
+
+지금까지 작성한 전체 코드를 보자.
+
+```ts
+class ShowtimesService {
+    find(theaterId, startTime, duration) {
+        return this.db.showtimes.find({ theaterId, startTime, duration })
+    }
+    save(movieId, theaterId, startTime, duration) {
+        return this.db.showtimes.save({ movieId, theaterId, startTime, duration })
+    }
+}
+
+class ValidatorService {
+    validate(theaterId, startTime, duration) {
+        const conflicts = this.showtimesService.find(theaterId, startTime, duration)
+        if (conflicts.length > 0) throw new Error('conflict')
+    }
+}
+
+class CreatorService {
+    create(movieId, theaterId, startTime, duration) {
+        this.validator.validate(theaterId, startTime, duration)
+        this.showtimesService.save(movieId, theaterId, startTime, duration)
+    }
+}
+
+async function main() {
+    const db = new MySQL("127.0.0.1:3306")
+    await db.connect()
+    const showtimesService = new ShowtimesService(db)
+
+    // Step 1: ShowtimesService
+    const showtimes = await showtimesService.find(1, '2026-01-01 10:00', 120)
+    console.log('showtimes:', showtimes)
+
+    const saved = await showtimesService.save(1, 1, '2026-01-01 10:00', 120)
+    console.log('saved:', saved)
+
+    // Step 2: ValidatorService
+    const validator = new ValidatorService(showtimesService)
+    await validator.validate(1, '2026-01-01 10:00', 120)
+    console.log('validation passed')
+
+    // Step 3: CreatorService
+    const creator = new CreatorService(validator, showtimesService)
+    await creator.create(1, 1, '2026-01-01 10:00', 120)
+    console.log('creation done')
+}
+main()
+```
+
+함수를 하나 작성할 때마다 main()에 실행 코드가 추가돼서 길어졌다. 보통은 함수가 완성되면 이런 임시 코드는 삭제하겠지만 여기서는 굳이 남겨놨다.
+
+### 테스트 코드
+
+생각해보면 main()에 작성한 코드는 결국 "이 함수가 잘 동작하는지 확인하는 코드"다. 그렇다면 이걸 함수로 분리하면 어떨까?
+
+```ts
+async function test_ShowtimesService_find(showtimesService) {
+    const showtimes = await showtimesService.find(1, '2026-01-01 10:00', 120)
+    console.log('showtimes:', showtimes)
+}
+
+async function test_ShowtimesService_save(showtimesService) {
+    const saved = await showtimesService.save(1, 1, '2026-01-01 10:00', 120)
+    console.log('saved:', saved)
+}
+
+async function test_ValidatorService_validate(validator) {
+    await validator.validate(1, '2026-01-01 10:00', 120)
+    console.log('validation passed')
+}
+
+async function test_CreatorService_create(creator) {
+    await creator.create(1, 1, '2026-01-01 10:00', 120)
+    console.log('creation done')
+}
+
+async function main() {
+    const db = new MySQL("127.0.0.1:3306")
+    await db.connect()
+    const showtimesService = new ShowtimesService(db)
+    const validator = new ValidatorService(showtimesService)
+    const creator = new CreatorService(validator, showtimesService)
+
+    await test_ShowtimesService_find(showtimesService)
+    await test_ShowtimesService_save(showtimesService)
+    await test_ValidatorService_validate(validator)
+    await test_CreatorService_create(creator)
+}
+main()
+```
+
+main()에서 임시로 작성했던 코드가 그대로 테스트 코드가 된다. 이것을 Jest나 JUnit으로 잘 정리하면 훌륭한 유닛테스트가 될 것 같다.
+
+### 깨지기 쉬운 테스트
+
+모든 함수 마다 테스트가 있으니 함수들이 제대로 잘 동작할 거라는 안심이 든다.
+
+이렇게 안정된 상황에서 요구사항이 변경되어 `duration` 대신 `endTime`을 받도록 바뀌었다고 하자. 상위 인터페이스의 변경은 아래로 전파된다.
+
+```ts
+class CreatorService {
+    create(movieId, theaterId, startTime, endTime) {
+        this.validator.validate(theaterId, startTime, endTime)
+        this.showtimesService.save(movieId, theaterId, startTime, endTime)
+    }
+}
+
+class ValidatorService {
+    validate(theaterId, startTime, endTime) {
+        const conflicts = this.showtimesService.find(theaterId, startTime, endTime)
+        if (conflicts.length > 0) throw new Error('conflict')
+    }
+}
+
+class ShowtimesService {
+    find(theaterId, startTime, endTime) {
+        return this.db.showtimes.find({ theaterId, startTime, endTime })
+    }
+    save(movieId, theaterId, startTime, endTime) {
+        return this.db.showtimes.save({ movieId, theaterId, startTime, endTime })
+    }
+}
+```
+
+`duration`이 `endTime`으로 바뀌면서 4개 함수가 모두 수정됐다. 그러면 테스트 코드는?
+
+```ts
+// ❌ duration으로 조회했다
+async function test_ShowtimesService_find(showtimesService) {
+    const showtimes = await showtimesService.find(1, '2026-01-01 10:00', 120)
+}
+
+// ❌ duration으로 저장했다
+async function test_ShowtimesService_save(showtimesService) {
+    const saved = await showtimesService.save(1, 1, '2026-01-01 10:00', 120)
+}
+
+// ❌ duration으로 검증했다
+async function test_ValidatorService_validate(validator) {
+    await validator.validate(1, '2026-01-01 10:00', 120)
+}
+
+// ❌ duration으로 생성했다
+async function test_CreatorService_create(creator) {
+    await creator.create(1, 1, '2026-01-01 10:00', 120)
+}
+```
+
+모든 함수마다 테스트를 작성하면 상위 요구사항의 변경이 하위 함수의 인터페이스를 연쇄적으로 바꾸고, 그 결과 하위 테스트까지 모두 수정해야 한다. 설계를 잘 해서 인터페이스 변경을 최소화한다고 해도 리팩토링 과정에서 함수 변경을 피하기는 어렵다. 이것이 `깨지기 쉬운 테스트(Fragile Test)`다. 불필요한 테스트가 유지보수 비용을 뻥튀기하는 것이다. 이 경험이 몇 번 반복되면 테스트를 유지하는 비용이 테스트의 이점을 넘어서고 결국 테스트를 포기하게 된다. 많은 개발자들이 테스트 코드에 도전하고 좌절하는 지점이 바로 여기인 것 같다.
+
+흔히 unit test의 "unit"을 함수 단위로 해석한다. 그래서 함수를 작성하면 그 함수의 유닛 테스트를 작성해야 한다고 생각한다. 하지만 unit은 함수가 아니라 **하나의 동작(behavior)** 이다. "상영시간을 생성한다"가 하나의 unit이지, find, save, validate 각각이 unit이 아니다. bottom-up 개발에서 함수를 작성할 때마다 만든 임시 실행 코드를 테스트로 남기면 자연스럽게 이 함정에 빠지게 된다.
+
+실행과 검증도 어렵다. 테이블을 만들었으면 데이터를 넣고 읽어봐야 하는데, 그러려면 코드를 작성해야 하고, 그 코드를 실행하려면 또 임시 코드가 필요하다. 앞서 본 main() 함수가 바로 그 임시 코드다.
+
+이렇게 단점이 많은데도 왜 많은 개발자들이 bottom-up 방식을 선택할까? 가장 큰 이유는 설계의 부재일 것이다.
 
 ![car-trade](/assets/images/car-trade.png)
 
-설계의 어려움은 여러가지 있겠지만 기술적인 측면에서 가장 큰 어려움은 도메인 전문가의 머리속에 있을(도메인 전문가도 막연한 생각 뿐, 구체적인 생각은 없을 수도 있다.) 추상적인 생각을 구체화 하는 것이 어렵기 때문이다.
-그러니 가장 구체적인 혹은 형태가 명확한 테이블 생성을 기반으로 기능을 확장해 나가는 것이다.
+도메인 전문가의 머리속에 있는 추상적인 생각을 구체화하는 것은 어려운 일이다. 도메인 전문가 스스로도 막연한 생각만 있을 뿐, 구체적인 형태를 갖추지 못한 경우가 많다. "상영시간을 관리하고 싶다"는 있지만 "어떤 데이터가 필요하고, 어떤 흐름으로 동작해야 하는지"는 대화를 통해 끌어내야 한다. 이 과정이 어렵기 때문에 개발자는 자연스럽게 가장 구체적인 것, 즉 형태가 명확한 DB 테이블부터 만들고 거기에 기능을 붙여나가게 된다. 그 결과 요구사항을 구현하는 것이 아니라, 구현에 요구사항을 맞추게 된다.
 
-![car-bike](/assets/images/car-bike.png)
+### top-down 구현
 
-이런 `bottom-up` 방식은 개발자가 도메인 전문가의 요구사항을 파악하는 것이 아니라, 도메인 전문가가 구현 세부 사항을 파악하게 만든다. 다시 말해서 요구사항을 구현하는 것이 아니라, 구현에 요구사항을 맞추게 된다는 뜻이다.
-이런 상황에서 도메인 전문가는 구현 상황을 고려해서 스스로 요구사항을 조정하여 개발팀에 전달하고 개발팀이 기술적인 문제로 요구사항을 수용할 수 없다고 하면 다시 한 번 구현 세부 사항을 파악하고 수긍하거나 포기하게 된다.
-
-`bottom-up` 방식은 실행과 검증도 어렵다. 테이블을 생성했다면 여기에 어떻게 데이터를 삽입하고 읽을 수 있을까? 코드를 구현하면 되는데 그러면 그 코드는 또 어떻게 실행할 수 있을까?
-이 문제를 해결하기 위해서 개발하는 동안 많은 임시적인 실행 코드를 만들고 삭제한다. 또 검증하기 위해서 정말 많은 실행을 하게 된다.
-
-{% plantuml %}
-@startuml
-skinparam componentStyle rectangle
-skinparam packageStyle rectangle
-skinparam shadowing false
-top to bottom direction
-
-component "???" as RunnerC
-component "???" as RunnerV
-
-note left of RunnerV
-  // TicketsService를 실행하기 위한 임시 코드
-  main()
-  {
-    const db = new MySQL("127.0.0.1:3389")
-    db.connect()
-    const service = new TicketsService(db)
-    const result = service.createTickets(dtos)
-
-    console.log(result)
-  }
-end note
-
-note right of RunnerC
-  // ShowtimesService를 실행하기 위한 임시 코드
-  main()
-  {
-    const db = new MySQL("127.0.0.1:3389")
-    db.connect()
-    const service = new ShowtimesService(db)
-    const result = service.createShowtimes(dtos)
-
-    console.log(result)
-  }
-end note
-
-package "cores" {
-component "ShowtimesService" as CShowtimes
-component "TicketsService" as CTickets
-}
-
-database "ShowtimesDB" as SDB
-database "TicketsDB" as TDB
-
-RunnerC --> CShowtimes :  createShowtimes
-RunnerV --> CTickets :  createTickets
-CShowtimes --> SDB :  find/save
-CTickets --> TDB :  save
-@enduml
-{% endplantuml %}
-
-이런 단점들 때문에 `bottom-up` 방식을 추천하지 않는데, 다행히 우리는 지금까지 'top-down' 방식으로 요구사항을 분석하고 설계했다.
+다행히 우리는 지금까지 'top-down' 방식으로 요구사항을 분석하고 설계했다.
 
 {% plantuml %}
 @startuml
