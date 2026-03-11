@@ -597,141 +597,67 @@ describe('when an Error is thrown', () => {
 
 그런데 프론트에서도 자연스럽게 TDD가 될 수 있을까? 백엔드는 데이터 타입과 인터페이스가 명확하게 정의되기 때문에 TDD가 가능하다. `POST /showtimes` → `{ sagaId }` 같은 계약이 있으니 테스트를 먼저 작성할 수 있는 것이다.
 
-프론트에서 TDD를 한다고 하면 대체로 두 가지 중 하나다. 첫째, 상태 관리나 데이터 변환, 유효성 검사 같은 로직을 테스트하는 경우다. 이건 TDD가 가능하지만 사실상 프론트에 있는 백엔드적 코드의 TDD다. 둘째, "버튼을 클릭하면 모달이 열린다" 같은 컴포넌트 동작을 테스트하는 경우다. 가능은 하지만 구현하면서 눈으로 확인하는 게 더 빠른 경우가 대부분이다.
+프론트에서 TDD를 한다고 하면 상태 관리나 데이터 변환, 유효성 검사 같은 입출력이 명확한 로직 정도가 가능할 것이다. 그러나 효과는 백엔드와 비교해서 적다고 느껴진다.
+그 외, "버튼을 클릭하면 모달이 열린다" 같은 컴포넌트 동작을 테스트하는 경우에는 구현하면서 눈으로 확인하는 게 더 효율적인 경우가 대부분이다.
 
 결국 jest나 testing-library 같은 도구가 있으니까 써야 한다는 생각은 앞에서 말한 마검의 논리와 같다.
 
-그렇다고 프론트에서 테스트 코드를 아예 안 작성할 수는 없다. 그렇다면 어떤 방식이 유효할까?
+그러나 프론트에서도 테스트 코드는 필요하다. 어떻게 하면 좋을까?
 
-나는 React Native 프로젝트에서 jest의 스냅샷 기능으로 테스트 코드를 작성했다. 그러나 Chromatic이나 Percy 같은 더 발전된 visual regression 테스트가 있다고 한다. 이것은 실제 렌더링된 화면을 스크린샷으로 비교하는 방식이다. 프론트의 설계가 시각적 디자인이라면, 검증도 시각적으로 하는 것이 자연스럽다.
+바로 위에 '눈으로 확인하는 게 효율적'이라는 말에 힌트가 있다. 프론트의 설계가 시각적 디자인이라면, 검증도 시각적으로 하는 것이 자연스럽다. 나는 React Native 프로젝트에서 jest의 스냅샷 기능으로 테스트 코드를 작성했다. 렌더링 결과를 스냅샷으로 저장하고, 이후 변경이 생기면 이전 스냅샷과 비교해서 의도한 변경인지 확인하는 방식이다.
 
-다만, React의 경우 뷰와 모델을 명확하게 나눠야 하는데 뷰에 모델이 포함된 경우가 대부분이다. 이렇게 되면 정상/오류 등 다양한 흐름을 테스트 하기 어렵다.
+다만 스냅샷 테스트를 효과적으로 하려면 뷰와 모델을 분리해야 한다. React에서는 뷰에 상태와 로직이 함께 있는 경우가 대부분인데, 이렇게 되면 "에러 상태일 때 화면이 어떻게 보이는가" 같은 다양한 흐름을 테스트하기 어렵다.
 
 ```ts
-// screen.tsx
+// screen.tsx - 뷰만 담당한다. 로직은 useModel에 위임한다.
 export function SignupStep1(P: Props) {
     const M = useModel(P)
     const S = useStyles()
     const T = useTexts()
-    const Step = useStepStyles()
 
     return (
-        <View style={[Step.container]}>
-            <StatusBar style={'dark'} />
-            <SafeAreaView>
-                <View style={Step.headerBox}>
-                    <NavigationTitleBar onBackButton={M.goBack} title={T.title} />
-                    <View style={Step.stepBox}>
-                        <Text.Body1 style={Step.stepText} value={T.stepOf} />
-                        <View style={Step.stepBarBox}>
-                            <View style={Step.activeBar} />
-                            <View style={Step.deactiveBar} />
-                            <View style={Step.deactiveBar} />
-                            <View style={Step.deactiveBar} />
-                        </View>
-                    </View>
-                </View>
-            </SafeAreaView>
+        <View>
+            <NavigationTitleBar onBackButton={M.goBack} title={T.title} />
+            <EmailInput value={M.email} onChangeText={M.onEmailChanged} alerted={M.emailAlerted} />
+            <Button title={T.continue} onPress={M.doContinue} disabled={!M.canContinue} />
         </View>
     )
 }
 
-// model.tsx
+// model.tsx - 상태와 로직을 담당한다.
 export function useModel(P: Props) {
-    const { navigation } = P
-
-    const [email, setEmail] = React.useState(__DEV__ ? 'user@test.com' : '')
-    const [marketingAgreement, setMarketingAgreement] = React.useState(false)
-
-    // states
-    const emailRef = React.createRef<TextInput>()
-
+    const [email, setEmail] = React.useState('')
     const [policyAgreement, setPolicyAgreement] = React.useState(false)
-    const [emailDenied, setEmailDenied] = React.useState(false)
-    const [emailFocused, setEmailFocused] = React.useState(false)
 
-    const emailAlerted = !isValidEmail(email) && !emailFocused
-    const canContinue = policyAgreement && isValidEmail(email) && !emailDenied
+    const emailAlerted = !isValidEmail(email)
+    const canContinue = policyAgreement && isValidEmail(email)
 
-    // callbacks
-    const doContinue = async () => {
-        try {
-            navigation.navigate('SignupStep2', { email, marketingAgreement })
-        } catch (error) {
-            alert(error)
-        }
-    }
+    const doContinue = () => { P.navigation.navigate('SignupStep2', { email }) }
+    const goBack = () => { P.navigation.navigate('Intro') }
 
-    const showPolicy = () => {
-        alert('showPolicy')
-    }
-
-    const onEmailChanged = (text: string) => {
-        setEmailDenied(false)
-        setEmail(text)
-    }
-
-    // Login -> Signup의 경우도 있어서 navigation.goBack()을 하지 않음
-    const goBack = () => {
-        navigation.navigate('Intro')
-    }
-
-    React.useEffect(() => {
-        emailRef.current?.focus()
-    }, [])
-
-    return {
-        email,
-        setMarketingAgreement,
-        marketingAgreement,
-        emailAlerted,
-        canContinue,
-        doContinue,
-        showPolicy,
-        onEmailChanged,
-        setEmailFocused,
-        setPolicyAgreement,
-        policyAgreement,
-        emailRef,
-        goBack
-    }
+    return { email, emailAlerted, canContinue, doContinue, goBack, onEmailChanged: setEmail }
 }
+```
 
+뷰와 모델이 분리되어 있으면 모델을 mock해서 다양한 상태의 스냅샷을 테스트할 수 있다.
+
+```ts
 // __tests__
-jest.mock('../model', () => ({
-    useModel: () => mockModel
-}))
+jest.mock('../model', () => ({ useModel: () => mockModel }))
 
-describe('GoogleOtp screen', () => {
+describe('SignupStep1 screen', () => {
     function renderScreen(values: any) {
-        mockModel = {
-            isError: false,
-            ...values
-        }
-
-        const P = {
-            navigation: { addListener: () => {} }
-        } as unknown as Props
-
-        render(<SignupStep1 {...P} />)
+        mockModel = { isError: false, ...values }
+        render(<SignupStep1 {...mockProps} />)
     }
 
     test('default states', async () => {
         renderScreen({})
-
         expect(screen.toJSON()).toMatchSnapshot()
     })
 
-    test('all true states ', async () => {
-        const message = 'test message'
-
-        renderScreen({
-            isError: true
-        })
-
-        const displayed = existText(message)
-        expect(displayed).toBeTruthy()
-
+    test('error states', async () => {
+        renderScreen({ isError: true })
         expect(screen.toJSON()).toMatchSnapshot()
     })
 })
