@@ -22,10 +22,11 @@
         "bundle": "bundle install"
     },
     "postStartCommand": {
-        "plantuml": "nohup bash -c 'java -jar /opt/plantuml.jar -picoweb:5020 >/tmp/plantuml.log &' >/dev/null"
+        "plantuml": "nohup bash -c 'java -jar /opt/plantuml.jar -picoweb:5020 >/tmp/plantuml.log &' >/dev/null",
+        "run": "nohup bash -c 'bundle exec jekyll serve --future --livereload &' >/tmp/jekyll.log && echo '✅ Jekyll server started: http://localhost:4000'"
     },
     "forwardPorts": [
-        3030
+        4000
     ],
     "customizations": {
         "vscode": {
@@ -34,7 +35,6 @@
                 "davidanson.vscode-markdownlint",
                 "mkhl.shfmt",
                 "esbenp.prettier-vscode",
-                "DavidAnson.vscode-markdownlint",
                 "anthropic.claude-code"
             ],
             "settings": {
@@ -58,7 +58,16 @@
                 "plantuml.server": "http://localhost:5020/",
                 "plantuml.render": "PlantUMLServer",
                 "[markdown]": {
-                    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+                    "editor.defaultFormatter": "davidAnson.vscode-markdownlint"
+                },
+                "markdownlint.config": {
+                    "default": true,
+                    "MD032": false,
+                    "MD033": false,
+                    "MD036": false,
+                    "MD037": false,
+                    "MD045": false,
+                    "MD046": false
                 }
             }
         }

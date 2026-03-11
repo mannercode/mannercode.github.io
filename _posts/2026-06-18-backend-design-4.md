@@ -235,9 +235,9 @@ main()에서 임시로 작성했던 코드가 그대로 테스트 코드가 된�
 
 ### 깨지기 쉬운 테스트
 
-모든 함수 마다 테스트가 있으니 함수들이 제대로 잘 동작할 거라는 안심이 든다.
+모든 함수마다 테스트가 있으니 함수들이 제대로 잘 동작할 거라는 안심이 든다. 실제로 이 방식에는 장점이 있다. 테스트가 실패하면 어떤 함수에 문제가 있는지 즉시 알 수 있다. `test_ValidatorService_validate`가 실패하면 ValidatorService에 문제가 있다는 뜻이니까.
 
-이렇게 안정된 상황에서 요구사항이 변경되어 `duration` 대신 `endTime`을 받도록 바뀌었다고 하자. 상위 인터페이스의 변경은 아래로 전파된다.
+그런데 정말 그럴까? 요구사항이 변경되어 `duration` 대신 `endTime`을 받도록 바뀌었다고 하자. 상위 인터페이스의 변경은 아래로 전파된다.
 
 ```ts
 class CreatorService {
@@ -288,9 +288,23 @@ async function test_CreatorService_create(creator) {
 }
 ```
 
-모든 함수마다 테스트를 작성하면 상위 요구사항의 변경이 하위 함수의 인터페이스를 연쇄적으로 바꾸고, 그 결과 하위 테스트까지 모두 수정해야 한다. 설계를 잘 해서 인터페이스 변경을 최소화한다고 해도 리팩토링 과정에서 함수 변경을 피하기는 어렵다. 이것이 `깨지기 쉬운 테스트(Fragile Test)`다. 불필요한 테스트가 유지보수 비용을 뻥튀기하는 것이다. 이 경험이 몇 번 반복되면 테스트를 유지하는 비용이 테스트의 이점을 넘어서고 결국 테스트를 포기하게 된다. 많은 개발자들이 테스트 코드에 도전하고 좌절하는 지점이 바로 여기인 것 같다.
+4개의 테스트가 모두 실패한다. 그런데 실제로 버그가 있는 함수는 몇 개인가? 0개다. 코드는 정상적으로 수정됐고, 테스트만 옛날 인터페이스를 호출하고 있을 뿐이다. "테스트가 실패하면 문제를 즉시 찾을 수 있다"는 장점은 **코드에 버그가 있을 때**만 성립한다. 인터페이스가 변경됐을 때는 테스트 4개가 동시에 깨지면서 오히려 어디가 진짜 문제인지 알 수 없게 된다.
+
+이것이 `깨지기 쉬운 테스트(Fragile Test)`다. 설계를 잘 해서 인터페이스 변경을 최소화한다고 해도 리팩토링 과정에서 함수 변경을 피하기는 어렵다. 불필요한 테스트가 유지보수 비용을 뻥튀기하는 것이다. 이 경험이 몇 번 반복되면 테스트를 유지하는 비용이 테스트의 이점을 넘어서고 결국 테스트를 포기하게 된다. 많은 개발자들이 테스트 코드에 도전하고 좌절하는 지점이 바로 여기인 것 같다.
 
 흔히 unit test의 "unit"을 함수 단위로 해석한다. 그래서 함수를 작성하면 그 함수의 유닛 테스트를 작성해야 한다고 생각한다. 하지만 unit은 함수가 아니라 **하나의 동작(behavior)** 이다. "상영시간을 생성한다"가 하나의 unit이지, find, save, validate 각각이 unit이 아니다. bottom-up 개발에서 함수를 작성할 때마다 만든 임시 실행 코드를 테스트로 남기면 자연스럽게 이 함정에 빠지게 된다.
+
+만약 동작 단위로 테스트를 작성했다면 어떨까?
+
+```ts
+async function test_상영시간을_생성한다() {
+    const response = await request.post('/showtime-creation/showtimes')
+        .send({ movieId: 1, theaterId: 1, startTime: '2026-01-01 10:00', duration: 120 })
+    expect(response.body).toHaveProperty('sagaId')
+}
+```
+
+`duration`이 `endTime`으로 바뀌어도 수정할 테스트는 이 하나뿐이다. 그리고 이 테스트가 실패하면 "상영시간 생성 기능에 문제가 있다"는 것을 즉시 알 수 있다. 어떤 내부 함수에 문제가 있는지는 모르지만, 그건 디버깅의 영역이지 테스트의 책임이 아니다.
 
 실행과 검증도 어렵다. 테이블을 만들었으면 데이터를 넣고 읽어봐야 하는데, 그러려면 코드를 작성해야 하고, 그 코드를 실행하려면 또 임시 코드가 필요하다. 앞서 본 main() 함수가 바로 그 임시 코드다.
 
@@ -362,6 +376,7 @@ API3 ..> SVC3
 
 무엇보다 좋은 것은 아래쪽 서비스로 구현이 진행돼도 실행 방법을 변경할 필요가 없다는 것이다. 인터페이스가 바뀌는 건 아니니까 말이다.
 
+---------------
 {% plantuml %}
 @startuml
 skinparam componentStyle rectangle
@@ -391,56 +406,113 @@ GController --> AService
 @enduml
 {% endplantuml %}
 
-물론 이 `top-down`도 단점은 있다. 실행을 하려면 의존하는 다른 객체가 있어야 한다.
-
-그러니까 실제 구현을 한다면 코드는 대략 이런 형태가 된다. ShowtimeCreationController의 createShowtimes는 ShowtimeCreationService 클래스를 참조하는데 이제 막 구현을 시작했기 때문에 ShowtimeCreationService가 있을리 없다.
+bottom-up과 같은 예시로 구현해 보자.
 
 ```ts
+// Step 1. 가장 위에서 시작한다.
 @Route('showtime-creation')
-class ShowtimeCreationController{
-    private service:ShowtimeCreationService
-
+class ShowtimeCreationController {
     @Post('showtimes')
-    func createShowtimes(request:Request){
-        return this.service.requestShowtimeCreation(request.body)
-    }
-}
-```
-
-다행히도 이런 문제는 쉽게 풀 수 있는데 ShowtimeCreationService를 빼고 그럴듯한 값을 반환하게 하면 된다. 올바른 동작은 아니더라도 실행은 가능하기 때문에 의존 서비스를 모두 구현해야 하는 문제를 해결할 수 있다. 일단 이렇게 실행이 되면 차분하게 ShowtimeCreationService를 구현하면 되는 것이다.
-
-```ts
-@Route('showtime-creation')
-class ShowtimeCreationController{
-    @Post('showtimes')
-    func createShowtimes(){
+    createShowtimes() {
         return { sagaId: 123 }
     }
 }
 ```
 
-ShowtimeCreationService를 구현할 때도 마찬가지다. 일단 간단한 값을 반환해서 실행은 되게 하고 요구사항에 맞춰서 하나씩 구현해 가면 된다.
+아직 아무것도 구현하지 않았지만 실행은 된다.
 
-**(이하 실습)**
-1. curl로 실행하는 가장 간단한 프로젝트
-2. ShowtimeCreationService 추가
-3. curl 재실행
-4. GET /tickets 구현
-5. curl 실행
-6. shell 스크립트로 전체 실행
-7. jest로 전체 실행 실행
+```sh
+curl -X POST localhost:3000/showtime-creation/showtimes
+# { sagaId: 123 }
+```
 
----
+```ts
+// Step 2. 한 단계 아래로 내려간다.
+class CreatorService {
+    create(movieId, theaterId, startTime, duration) {
+        // TODO: validate + save
+        return { sagaId: 123 }
+    }
+}
+
+@Route('showtime-creation')
+class ShowtimeCreationController {
+    @Post('showtimes')
+    createShowtimes(body) {
+        return this.creator.create(body.movieId, body.theaterId, body.startTime, body.duration)
+    }
+}
+```
+
+CreatorService를 추가했지만 내부는 아직 stub이다. 실행은?
+
+```sh
+curl -X POST localhost:3000/showtime-creation/showtimes \
+  -d '{"movieId":1,"theaterId":1,"startTime":"2026-01-01 10:00","duration":120}'
+# { sagaId: 123 }
+```
+
+```ts
+// Step 3. 또 한 단계 아래로 내려간다.
+class ShowtimesService {
+    find(theaterId, startTime, duration) {
+        return this.db.showtimes.find({ theaterId, startTime, duration })
+    }
+    save(movieId, theaterId, startTime, duration) {
+        return this.db.showtimes.save({ movieId, theaterId, startTime, duration })
+    }
+}
+
+class ValidatorService {
+    validate(theaterId, startTime, duration) {
+        const conflicts = this.showtimesService.find(theaterId, startTime, duration)
+        if (conflicts.length > 0) throw new Error('conflict')
+    }
+}
+
+class CreatorService {
+    create(movieId, theaterId, startTime, duration) {
+        this.validator.validate(theaterId, startTime, duration)
+        this.showtimesService.save(movieId, theaterId, startTime, duration)
+        return { sagaId: 123 }
+    }
+}
+```
+
+모든 구현이 완료됐다. 실행은?
+
+```sh
+curl -X POST localhost:3000/showtime-creation/showtimes \
+  -d '{"movieId":1,"theaterId":1,"startTime":"2026-01-01 10:00","duration":120}'
+# { sagaId: 123 }
+```
+
+3단계에 걸쳐 구현이 진행됐지만 실행 방법은 처음부터 끝까지 같은 curl 명령이다.
+
+bottom-up에서는 임시 코드가 main()에 쌓였고, 그걸 테스트 코드로 남겼다. top-down에서는 임시 코드가 각 함수 안에 stub으로 들어가고, 하위 구현이 완성되면 자연스럽게 사라진다. Step 2에서 `return { sagaId: 123 }`이었던 CreatorService가 Step 3에서 실제 구현으로 교체된 것처럼 말이다.
+
+다만 오해하지 말아야 할 것은, top-down으로 개발한다고 자동으로 좋은 테스트가 되는 것은 아니라는 점이다. top-down으로 개발하더라도 각 Service마다 테스트를 작성하면 bottom-up과 똑같은 함정에 빠진다. 핵심은 개발 방향이 아니라 **무엇을 테스트 단위로 볼 것인가**다. top-down 방식이 유리한 이유는 처음부터 진입점(REST API)이 존재하기 때문에 동작 단위의 테스트를 자연스럽게 작성하게 된다는 것이다.
+
+--
 
 여기서 소개한 상영시간 생성 기능은 설계 과정이 길었다. 작은 규모의 프로젝트에 작은 팀이라면 이 정도 설계 과정은 드물 것이다.
 그렇다면 설계 없이 개발하는 프로젝트에서는 이런 방식의 개발을 할 수 없다는 것인가? 물론 아니다. 중요한 것은 설계가 우선되어야 하는 것이 아니라 top-down 방식이어야 한다는 것이다.
-설계가 없어도 rest api 부터 테스트 코드를 작성하고 구현해 나간다면 자연스럽게 tdd가 된다.
+설계가 없어도 REST API부터 테스트 코드를 작성하고 구현해 나간다면 자연스럽게 TDD가 된다.
 
 ## 테스트 자동화에 대한 오해
 
 ### 유닛 테스트 vs 통합 테스트
 
-이 과정에서 ShowtimeCreationService를 직접 호출해서 테스트 하지 않았다. 테스트에 대한 오해 중 하나가 모든 함수에 대해서 유닛 테스트를 작성해야 한다는 것이다.
+이 과정에서 ShowtimeCreationService를 직접 호출해서 테스트하지 않았다. `POST /showtime-creation/showtimes`를 호출하면 Controller → Service → Validator → ShowtimesService가 모두 실행된다. 이 하나의 테스트가 내부 함수들을 전부 검증하는 것이다.
+
+그렇다면 별도의 유닛 테스트는 언제 필요할까? 판단 기준은 간단하다.
+
+- 다른 함수를 호출할 뿐인 단순한 함수 → 상위 테스트에서 이미 검증된다. **별도 테스트 불필요.**
+- 자체적으로 복잡한 로직을 가진 함수 (알고리즘, 조건 분기가 많은 계산 등) → 상위 테스트만으로는 모든 경우를 다루기 어렵다. **유닛 테스트가 유리.**
+
+우리가 만든 ValidatorService를 보자. `find` 결과가 있으면 에러를 던지고, 없으면 통과한다. 이건 상위 테스트에서 "충돌이 있는 경우"와 "없는 경우"를 각각 한 번씩 호출하면 충분하다. 별도 유닛 테스트를 작성할 이유가 없다.
+
+테스트에 대한 오해 중 하나가 모든 함수에 대해서 유닛 테스트를 작성해야 한다는 것이다.
 
 특히 bottom-up 방식의 개발을 하면 이런 함정에 빠지기 쉽다.
 
@@ -492,9 +564,9 @@ CShowtimes --> SDB :  find/save
 
 그런데 이럴 시간이 있나? 시간이 있다고 해도 이게 의미가 있는가? 중복 테스트가 많고 이런 경우 테스트 코드의 종속성이 커져서 본문 코드를 조금만 바꿔도 다수의 테스트 코드를 변경해야 하는 경우가 생긴다. 몇 번 이 과정을 거치면 테스트를 버리게 된다. 아마 tdd를 시도했던 많은 개발자가 이 단계에서 좌절했으리라.
 
-그러나 테스트는 유닛테스트/통합테스트/e2e테스트를 명확하게 나눌 수 없다. 애자일과 폭포수 방법론이 그러하듯이 얼마나 유닛테스트에 가까운가. 또 얼마나 통합테스트에 가까운가로 표현하는 것이 옳을 것이다.
+그러나 테스트는 유닛테스트/통합테스트/e2e테스트를 명확하게 나눌 수 없다. 애자일과 폭포수 방법론이 그러하듯이 얼마나 유닛테스트에 가까운가, 또 얼마나 통합테스트에 가까운가로 표현하는 것이 옳을 것이다.
 
-알고리즘이 복잡한 함수라면 유닛 테스트가 유리하다. 코드가 간단하고 여러 모듈에 걸쳐서 동작하는 기능이라면 통합테스트가 유리하다.
+중요한 것은 테스트의 종류가 아니라 **비용 대비 효과**다. 알고리즘이 복잡한 함수라면 유닛 테스트가 유리하다. 입력과 출력이 명확하고 경우의 수가 많아서 상위 테스트만으로 모든 케이스를 다루기 어렵기 때문이다. 반대로 코드가 간단하고 여러 모듈에 걸쳐서 동작하는 기능이라면 통합테스트가 유리하다. 하나의 테스트로 여러 모듈을 한꺼번에 검증할 수 있기 때문이다.
 
 ```ts
 // 유닛 테스트가 유리한 함수의 예
