@@ -570,30 +570,30 @@ describe('MoviesService', () => {
 
 ### mock
 
-jest라는 강력한 테스트 도구는 성검이 아니라 마검이다. 잘 쓰면 약이지만 못 쓰면 독이 되는데 대체로 독이 된다.
-마검인 이유는 jest가 제공하는 다양한 기능을 모두 사용하려는 경향이 있기 때문이다.
+jest는 성검이 아니라 마검이다. jest가 제공하는 다양한 기능을 모두 사용하려는 경향이 있고, 테스트 관련 서적이나 글에서 다루는 온갖 기법을 그대로 적용하면서 오버엔지니어링이 되기 쉽다. 정확히는 성검으로 태어났으나 우리가 마검으로 바꾸는 것이다.
 
-또 테스트 자동화를 다룬 기술 서적이나 글에서 온갖 상황에 맞는 이야기를 하기 때문에 이걸 그대로 받아들여 적용하는 과정에서 오버엔지니어링이 되는 경향이 있다.
+특히 빠지기 쉬운 함정이 mock이다. jest에서 mock 기능을 제공하니까 적극적으로 사용해야 올바른 코드가 된다고 착각하기 쉽다. 그러나 mock은 공짜가 아니다. mock을 구현하고 유지하는 데 비용이 들고, mock으로 구현한 인터페이스가 바뀌면 해당 mock도 모두 변경해야 한다.
 
-그래서 정확히는 성검으로 태어났으나 우리가 마검으로 바꾼다고 할 수 있다.
-top-down 함정에 빠지기 쉬운 것 중에 하나는 mock이다. jest에서 mock을 기능을 제공하기 때문에 이것을 적극적으로 사용해야 올바른 코드가 된다고 착각하기 쉽다.
-mock은 공짜가 아니다. mock을 구현하고 유지하기 위해서 추가적인 비용이 들어간다. mock으로 구현한 인터페이스가 바뀐다면 해당 mock도 모두 변경해야 한다.
-
-mock은 언제 사용할까? 내가 생성하지 않은 객체를 조작해야 할 때다. 그것은 외부 라이브러리가 될 수도 있고 다른 팀의 모듈이 될 수도 있다.
+그렇다면 mock은 언제 사용할까? 내가 생성하지 않은 객체를 조작해야 할 때다. 외부 라이브러리가 될 수도 있고 다른 팀의 모듈이 될 수도 있다.
 
 ```ts
-// 여기에 mock의 위치를 나타내는 uml
-```
+// Redis는 외부에서 주입받는 객체다. ping이 실패하는 상황을 재현하기 위해 mock한다.
+describe('when an Error is thrown', () => {
+    beforeEach(() => {
+        jest.spyOn(redis, 'ping').mockRejectedValueOnce(new Error('error'))
+    })
 
-누군가는 mock을 적극적으로 사용해서 외부 변화로부터 테스트를 격리해야 한다고 주장할 수도 있다. 그러나 mock 자체도 유지보수 비용이 들기 때문에, 격리의 이점이 유지보수 비용을 넘는 경우에만 사용하는 것이 바람직하다.
+    it('returns a down status with the error message', async () => {
+        const healthStatus = await redisIndicator.isHealthy('key', redis)
 
-```ts
-// 여기에 nest-msa에서 mock의 사용 사례
+        expect(healthStatus).toEqual({ key: { reason: 'error', status: 'down' } })
+    })
+})
 ```
 
 ### 프론트에서 TDD
 
-종종 React나 iOS 같은 모바일 앱에서 TDD를 한다고 얘기를 듣는다. 지금까지 TDD를 한 번도 언급하지 않았지만 top-down 설계와 구현은 자연스럽게 TDD와 유사한 흐름이 된다.
+종종 React나 iOS 같은 프론트에서도 TDD를 한다는 얘기를 듣는다. 앞서 봤듯이 백엔드에서는 top-down 설계와 구현이 자연스럽게 TDD가 된다.
 
 그런데 프론트에서도 자연스럽게 TDD가 될 수 있을까? 백엔드는 데이터 타입과 인터페이스가 명확하게 정의되기 때문에 TDD가 가능하다. `POST /showtimes` → `{ sagaId }` 같은 계약이 있으니 테스트를 먼저 작성할 수 있는 것이다.
 
@@ -607,4 +607,132 @@ mock은 언제 사용할까? 내가 생성하지 않은 객체를 조작해야 �
 
 다만, React의 경우 뷰와 모델을 명확하게 나눠야 하는데 뷰에 모델이 포함된 경우가 대부분이다. 이렇게 되면 정상/오류 등 다양한 흐름을 테스트 하기 어렵다.
 
-**(react native에서 VMR 코드 리뷰)**
+```ts
+// screen.tsx
+export function SignupStep1(P: Props) {
+    const M = useModel(P)
+    const S = useStyles()
+    const T = useTexts()
+    const Step = useStepStyles()
+
+    return (
+        <View style={[Step.container]}>
+            <StatusBar style={'dark'} />
+            <SafeAreaView>
+                <View style={Step.headerBox}>
+                    <NavigationTitleBar onBackButton={M.goBack} title={T.title} />
+                    <View style={Step.stepBox}>
+                        <Text.Body1 style={Step.stepText} value={T.stepOf} />
+                        <View style={Step.stepBarBox}>
+                            <View style={Step.activeBar} />
+                            <View style={Step.deactiveBar} />
+                            <View style={Step.deactiveBar} />
+                            <View style={Step.deactiveBar} />
+                        </View>
+                    </View>
+                </View>
+            </SafeAreaView>
+        </View>
+    )
+}
+
+// model.tsx
+export function useModel(P: Props) {
+    const { navigation } = P
+
+    const [email, setEmail] = React.useState(__DEV__ ? 'user@test.com' : '')
+    const [marketingAgreement, setMarketingAgreement] = React.useState(false)
+
+    // states
+    const emailRef = React.createRef<TextInput>()
+
+    const [policyAgreement, setPolicyAgreement] = React.useState(false)
+    const [emailDenied, setEmailDenied] = React.useState(false)
+    const [emailFocused, setEmailFocused] = React.useState(false)
+
+    const emailAlerted = !isValidEmail(email) && !emailFocused
+    const canContinue = policyAgreement && isValidEmail(email) && !emailDenied
+
+    // callbacks
+    const doContinue = async () => {
+        try {
+            navigation.navigate('SignupStep2', { email, marketingAgreement })
+        } catch (error) {
+            alert(error)
+        }
+    }
+
+    const showPolicy = () => {
+        alert('showPolicy')
+    }
+
+    const onEmailChanged = (text: string) => {
+        setEmailDenied(false)
+        setEmail(text)
+    }
+
+    // Login -> Signup의 경우도 있어서 navigation.goBack()을 하지 않음
+    const goBack = () => {
+        navigation.navigate('Intro')
+    }
+
+    React.useEffect(() => {
+        emailRef.current?.focus()
+    }, [])
+
+    return {
+        email,
+        setMarketingAgreement,
+        marketingAgreement,
+        emailAlerted,
+        canContinue,
+        doContinue,
+        showPolicy,
+        onEmailChanged,
+        setEmailFocused,
+        setPolicyAgreement,
+        policyAgreement,
+        emailRef,
+        goBack
+    }
+}
+
+// __tests__
+jest.mock('../model', () => ({
+    useModel: () => mockModel
+}))
+
+describe('GoogleOtp screen', () => {
+    function renderScreen(values: any) {
+        mockModel = {
+            isError: false,
+            ...values
+        }
+
+        const P = {
+            navigation: { addListener: () => {} }
+        } as unknown as Props
+
+        render(<SignupStep1 {...P} />)
+    }
+
+    test('default states', async () => {
+        renderScreen({})
+
+        expect(screen.toJSON()).toMatchSnapshot()
+    })
+
+    test('all true states ', async () => {
+        const message = 'test message'
+
+        renderScreen({
+            isError: true
+        })
+
+        const displayed = existText(message)
+        expect(displayed).toBeTruthy()
+
+        expect(screen.toJSON()).toMatchSnapshot()
+    })
+})
+```
