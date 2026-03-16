@@ -23,10 +23,11 @@
     },
     "postStartCommand": {
         "plantuml": "nohup bash -c 'java -jar /opt/plantuml.jar -picoweb:5020 >/tmp/plantuml.log &' >/dev/null",
-        "run": "nohup bash -c 'bundle exec jekyll serve --future --livereload &' >/tmp/jekyll.log && echo '✅ Jekyll server started: http://localhost:4000'"
+        "run": "nohup bash -c 'bundle exec jekyll serve --future --port 4000 --livereload --livereload-port 4001 &' >/tmp/jekyll.log && echo '✅ Jekyll server started: http://localhost:4000'"
     },
     "forwardPorts": [
-        4000
+        4000,
+        4001
     ],
     "customizations": {
         "vscode": {
