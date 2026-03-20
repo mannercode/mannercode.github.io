@@ -78,16 +78,12 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 top to bottom direction
 
-package "applications" {
-component "CreatorService" as ACreator
-component "ValidatorService" as AValidator
+component "CreatorService\n--\ncreate(movieId, theaterId, startTime, duration)" as ACreator
+component "ValidatorService\n--\nvalidate(theaterId, startTime, duration)" as AValidator
 
 ACreator --> AValidator : validate
-}
 
-package "cores" {
-component "ShowtimesService" as CShowtimes
-}
+component "ShowtimesService\n--\nfind(theaterId, startTime, duration)\nsave(movieId, theaterId, startTime, duration)" as CShowtimes
 
 database "ShowtimesDB" as SDB
 
@@ -119,11 +115,11 @@ async function main() {
     await db.connect()
     const showtimesService = new ShowtimesService(db)
 
-    const showtimes = await showtimesService.find(1, '2026-01-01 10:00', 120)
-    console.log('showtimes:', showtimes)
-
     const saved = await showtimesService.save(1, 1, '2026-01-01 10:00', 120)
     console.log('saved:', saved)
+
+    const showtimes = await showtimesService.find(1, '2026-01-01 10:00', 120)
+    console.log('showtimes:', showtimes)
 }
 main()
 ```
@@ -271,6 +267,8 @@ main()에서 임시로 작성했던 코드가 그대로 테스트 코드가 된�
 
 모든 함수마다 테스트가 있으니 함수들이 제대로 잘 동작할 거라는 안심이 든다. 실제로 이 방식에는 장점이 있다. 테스트가 실패하면 어떤 함수에 문제가 있는지 즉시 알 수 있다. `test_ValidatorService_validate`가 실패하면 ValidatorService에 문제가 있다는 뜻이니까.
 
+테스트 코드의 길이는 어느 정도가 적당하냐고 물으면 꼭 정해진 건 없지만 보통 본문 코드 만큼이면 적절한 것 같다고 흔히 얘기하는데 마침 길이도 비슷해 보인다.
+
 좋은 유닛 테스트의 조건 중 하나가 "테스트가 실패하면 실패 지점을 바로 알 수 있어야 한다"는 것인데, 이 원칙에도 부합하는 것 같다.
 
 ### 1.2. bottom-up의 함정: 함수마다 작성한 테스트
@@ -344,15 +342,15 @@ async function test_CreatorService_create(creator) {
 
 실행과 검증도 어렵다. 테이블을 만들었으면 데이터를 넣고 읽어봐야 하는데, 그러려면 코드를 작성해야 하고, 그 코드를 실행하려면 또 임시 코드가 필요하다. 앞서 본 main() 함수가 바로 그 임시 코드다.
 
-이렇게 단점이 많은데도 왜 많은 개발자들이 bottom-up 방식을 선택할까? 가장 큰 이유는 설계의 부재일 것이다.
+### 1.3. top-down: REST API부터 시작해서 아래로 내려간다
+
+왜 많은 개발자들이 bottom-up 방식을 선택할까? 가장 큰 이유는 설계의 부재일 것이다.
 
 ![car-trade](/assets/images/car-trade.png)
 
 도메인 전문가의 머리속에 있는 추상적인 생각을 구체화하는 것은 어려운 일이다. 도메인 전문가 스스로도 막연한 생각만 있을 뿐, 구체적인 형태를 갖추지 못한 경우가 많다. "상영시간을 관리하고 싶다"는 있지만 "어떤 데이터가 필요하고, 어떤 흐름으로 동작해야 하는지"는 대화를 통해 끌어내야 한다.
 
 이 과정이 어렵기 때문에 개발자는 자연스럽게 가장 구체적인 것, 즉 형태가 명확한 DB 테이블부터 만들고 거기에 기능을 붙여나가게 된다. 그 결과 요구사항을 구현하는 것이 아니라, 구현에 요구사항을 맞추게 된다.
-
-### 1.3. top-down: REST API부터 시작해서 아래로 내려간다
 
 다행히 우리는 지금까지 'top-down' 방식으로 요구사항을 분석하고 설계했다.
 
