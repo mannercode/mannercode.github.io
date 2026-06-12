@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 백엔드 서비스 분석과 설계 (3)
+lang: ko
 ---
 
 지난 시간에 REST API의 namespace와 SoLA 구조를 적용해서 `상영시간 생성하기` 시퀀스 다이어그램을 그렸다.
@@ -44,14 +45,14 @@ frontend <-- gateway: Created(201)
 
 이 설계에서 가장 우려되는 점은 `상영시간 생성 요청`이 동기식이라는 것이다.
 
-하나의 영화에 대해서 4,000개의 극장에 상영 시간을 등록한다고 가정하자. 그러면 생성해야 하는 데이터는 다음과 같다.
+하나의 영화에 대해서 4,000개의 극장에 상영시간을 등록한다고 가정하자. 그러면 생성해야 하는 데이터는 다음과 같다.
 
 ```txt
 showtimes = 4,000 * 60(상영일) * 8(일일 상영 횟수) = 1,920,000 개
 tickets = showtimes 수 * 500(좌석 수) = 960,000,000 개
 ```
 
-즉, 한 번 영화를 등록할 때 마다 960,000,000 개의 티켓을 생성해야 한다. 이것은 시간이 오래 걸리는 작업이기 때문에 즉각 응답할 수 없다.
+즉, 한 번 영화를 등록할 때마다 960,000,000 개의 티켓을 생성해야 한다. 이것은 시간이 오래 걸리는 작업이기 때문에 즉각 응답할 수 없다.
 
 작업 시간이 오래 걸리기 때문에 동시성 문제도 커진다. 만약 관리자 두 명이 동시에 `상영시간 생성하기`를 하면 어떻게 될까? 충돌하는 상영시간이 생기고 결국 좌석이 중복 예약되는 최악의 상황이 될 것이다. `좌석 중복 예약` 문제는 최우선 요구사항으로 정의할 만큼 중요한 문제다.
 
@@ -120,13 +121,13 @@ Showtime "*" --> "1" Theater
 @enduml
 {% endplantuml %}
 
-### 2.1 `Movie` 엔티티
+### 2.1. `Movie` 엔티티
 
 `Movie` 엔티티의 속성은 대부분 도메인 전문가에게 들을 수 있다.
 
-`imageIds`는 영화와 관련된 이미지 파일의 ID다. 실제 프로젝트라면 포스터와 갤러리 등 다양한 종류의 이미지가 있겠지만 여기서는 단순화 했다.
+`imageIds`는 영화와 관련된 이미지 파일의 ID다. 실제 프로젝트라면 포스터와 갤러리 등 다양한 종류의 이미지가 있겠지만 여기서는 단순화했다.
 
-### 2.2 `Theater` 엔티티
+### 2.2. `Theater` 엔티티
 
 `location` 속성은 극장의 Latitude와 Longitude다. `location`이라는 이름이 좌표를 나타내기에는 애매한 표현일 수 있는데 요구사항이 확장되면 `location`에 Address나 다른 다양한 위치 정보가 추가될 수 있다.
 
@@ -138,17 +139,17 @@ Showtime "*" --> "1" Theater
 
 다시 말해 `seatmap`은 티켓을 생성하기 위해 필요할 뿐 그 자체가 관리 대상은 아니라는 뜻이다.
 
-만약, 각 좌석 마다 정비 이력을 남기는 등의 시설 관리 서비스라면 좌석에 ID를 부여했을 것이다. 그러나 지금은 티켓 생성을 위한 템플릿 같은 역할이기 때문에 `Value Object`로 취급하는 것이 옳은 선택이다.
+만약, 각 좌석마다 정비 이력을 남기는 등의 시설 관리 서비스라면 좌석에 ID를 부여했을 것이다. 그러나 지금은 티켓 생성을 위한 템플릿 같은 역할이기 때문에 `Value Object`로 취급하는 것이 옳은 선택이다.
 
 `seatmap`은 티켓 생성 외에도 프론트엔드에서 좌석도를 그리기 위해 사용된다. 지금의 `Seatmap` 구조는 이것이 반영된 것이다.
 
-### 2.3 `Showtime` 엔티티
+### 2.3. `Showtime` 엔티티
 
 `Showtime`은 언제(`startTime`, `endTime`), 어디서(`theaterId`), 무엇을(`movieId`) 상영하는지를 나타내는 상영 회차 엔티티다.
 
-### 2.4 `Ticket` 엔티티
+### 2.4. `Ticket` 엔티티
 
-`Ticket`는 `showtimeId`와 `movieId`·`theaterId`를 모두 갖고있다. 그런데 `movieId`와 `theaterId`는 `showtime`에 존재한다. 이렇게 중복되는 데이터를 가져도 괜찮은 걸까?
+`Ticket`은 `showtimeId`와 `movieId`·`theaterId`를 모두 갖고 있다. 그런데 `movieId`와 `theaterId`는 `showtime`에 존재한다. 이렇게 중복되는 데이터를 가져도 괜찮은 걸까?
 
 이 프로젝트는 MSA로 설계하는 중이다. MSA는 각 서비스가 DB를 공유하지 않는다. 따라서 `Ticket`에 `movieId`와 `theaterId`가 없다면 `Ticket`과 연결된 영화와 극장을 조회하기 위해서 `ShowtimesService`를 호출해야 한다. 이것은 너무 불편하고 비효율적이다.
 
@@ -181,7 +182,7 @@ queue -> creation: dequeue { createDto, transactionId }
 @enduml
 {% endplantuml %}
 
-관리자가 작업을 요청하면 `ShowtimeCreationService`은 작업을 `Queue`에 넣고 `transactionId`를 돌려준다. `transactionId`는 이후 작업을 추적하는데 사용된다.
+관리자가 작업을 요청하면 `ShowtimeCreationService`는 작업을 `Queue`에 넣고 `transactionId`를 돌려준다. `transactionId`는 이후 작업을 추적하는 데 사용된다.
 
 `Queue`는 입력된 작업을 순차적으로 내보내기 때문에 동시성 문제도 해결할 수 있다.
 
@@ -200,7 +201,7 @@ queue -> creation: dequeue { createDto, transactionId }
 상영시간을 생성하기 전에 기존 상영시간과 충돌하는지 검사해야 하는데 간단하게 Set을 이용하기로 한다.
 
 1. 생성하려는 상영시간을 10분 단위의 timeslots(Set)으로 등록한다.
-2. 기존에 존재하는 showtimes의 `startTime`과 `endTime`이 timeslots에 존재하는지 확인한다.
+2. 기존에 존재하는 showtimes의 `startTime`부터 `endTime`까지를 10분 단위 슬롯으로 쪼개어 각 슬롯이 timeslots에 존재하는지 확인한다.
 
 예를 들면, 아래와 같이 요청이 오면
 
@@ -213,19 +214,21 @@ BulkCreateShowtimesDto {
 }
 ```
 
+지난 글에서는 `durationInSeconds`였는데, 상영시간 입력은 분 단위가 자연스러워서 `durationInMinutes`로 변경했다.
+
 `startTimes`와 `durationInMinutes`으로 timeslots을 생성하면 아래와 같다.
 
-```ts
+```txt
 Set<number> timeslots = [0930,0940,0950,1200,1210,1220]
 ```
 
-그리고 기존에 등록된 상영 시간은 다음과 같다면,
+그리고 기존에 등록된 상영시간은 다음과 같다면,
 
 ```ts
 const showtimes = [{id:1, startTime:1100, endTime:1230 }]
 ```
 
-`1100,1110,1120,1130,1140,1150,1200,1210,1220,1230` 이렇게 상영시간을 10분 단위로 쪼개서 timeslots에 등록된 값인지 비교하는 것이다.
+`1100,1110,1120,1130,1140,1150,1200,1210,1220` 이렇게 상영시간을 10분 단위로 쪼개서 timeslots에 등록된 값인지 비교하는 것이다.
 
 ### 4.2. 충돌 검사 수도코드
 
@@ -236,10 +239,10 @@ const showtimes = [{id:1, startTime:1100, endTime:1230 }]
 const timeslots = new Set<number>()
 
 for startTime of startTimes {
-    const endTime = startTime + durationInMinutes
+    const endTime = addMinutes(startTime, durationInMinutes)
 
-    for(timeslot = startTime; timeslot <= endTime; timeslot+=10) {
-        timeslots.set(timeslot)
+    for(timeslot = startTime; timeslot < endTime; timeslot = addMinutes(timeslot, 10)) {
+        timeslots.add(timeslot)
     }
 }
 
@@ -247,11 +250,11 @@ for startTime of startTimes {
 const showtimes = getShowtimes(theaterId)
 
 // 기존 상영시간이 타임슬롯과 충돌하는지 체크
-for (showtime in showtimes) {
+for (showtime of showtimes) {
     const {startTime, endTime} = showtime
 
-    for (timeslot = startTime; timeslot < endTime; timeslot+=10) {
-        if (timeslots.exists(timeslot)) {
+    for (timeslot = startTime; timeslot < endTime; timeslot = addMinutes(timeslot, 10)) {
+        if (timeslots.contains(timeslot)) {
             // conflict
         }
     }
@@ -260,11 +263,11 @@ for (showtime in showtimes) {
 
 이 알고리즘은 얼핏 중첩 루프로 보이기 때문에 시간 복잡도가 O(M * N)처럼 보인다.
 
-그러나 중첩된 루프는 입력에 비례하는 것이 아니라 duration 만큼 반복되는 거의 고정된 값이다. 따라서 시간 복잡도는 O(M + N)이 된다.
+그러나 안쪽 루프의 반복 횟수는 입력 크기에 비례하지 않고 duration에 따라 정해지는 거의 고정된 값이다. 따라서 시간 복잡도는 O(M + N)이 된다.
 
 ```txt
-새로 추가할 상영 시간 수 = M
-기존 상영 시간 수 = N
+새로 추가할 상영시간 수 = M
+기존 상영시간 수 = N
 시간 복잡도 = O(M + N)
 ```
 
@@ -278,11 +281,11 @@ start
 :timeslots = new Set;
 
 while (startTime in startTimes?) is (있음)
-  :endTime = startTime + durationInMinutes;
+  :endTime = addMinutes(startTime, durationInMinutes);
   :timeslot = startTime;
-  while (timeslot <= endTime?) is (예)
+  while (timeslot < endTime?) is (예)
     :timeslots.add(timeslot);
-    :timeslot += 10;
+    :timeslot = addMinutes(timeslot, 10);
   endwhile (아님)
 endwhile (없음)
 
@@ -294,7 +297,7 @@ while (showtime in showtimes?) is (있음)
     if (timeslots.contains(timeslot)?) then (충돌)
       :// conflict 처리;
     endif
-    :timeslot += 10;
+    :timeslot = addMinutes(timeslot, 10);
   endwhile (아님)
 endwhile (없음)
 
@@ -306,7 +309,7 @@ stop
 
 UML을 처음 접하면 모든 것을 다이어그램으로 표현하고 싶은 유혹에 빠지기 쉽다. 그러나 UML이 만능 표현법이 아님을 주의해야 한다.
 
-### 4.4.현실적인 validateRequest 함수 설계
+### 4.4. 현실적인 validateRequest 함수 설계
 
 지금까지 알고리즘이 간단함에도 불구하고 설명을 위해서 수도코드와 액티비티 다이어그램으로 알고리즘을 표현해 봤다. 그러나 실제 프로젝트라면 보통은 아래 시퀀스 다이어그램 정도로 설계를 마무리할 것이다.
 
@@ -330,11 +333,11 @@ deactivate creation
 
 findConflictingShowtimes() 함수에는 지금까지 설명한 충돌 검사 알고리즘을 구현하면 된다.
 
-설계는 얼마나 자세히 해야하는 걸까?
+설계는 얼마나 자세히 해야 하는 걸까?
 
 물론 상황에 따라 다르다. 설계자와 구현자가 다르고 구현자의 실력이 부족하면 설계를 자세히 해야 한다. 구현자가 알고리즘을 고안하고 구현할 수 있다면 설계자가 굳이 수고할 필요는 없다.
 
-한 가지 확실한 것은 설계를 하는 것은 그것이 효율적이기 때문이어야 한다. 설계를 하고 구현을 하는 것이 효율적이기 때문에 설계를 해야 하는 것이다. 만약 설계 없이 구현하는 것이 더 효율적이라면 설계를 하지 않아야 한다.
+한 가지 확실한 것은, 설계를 하는 이유는 그것이 효율적이기 때문이어야 한다는 것이다. 설계를 하고 구현을 하는 것이 효율적이기 때문에 설계를 해야 하는 것이다. 만약 설계 없이 구현하는 것이 더 효율적이라면 설계를 하지 않아야 한다.
 
 여기서 효율적이라는 것도 애매한 표현이긴 한데 안정성과 개발 비용 등을 종합적으로 고려해야 한다. 대체로 프로젝트가 장기화될수록 설계의 효율성이 올라간다고 생각한다.
 
@@ -347,19 +350,16 @@ const showtimes = getShowtimes(theaterId)
 
 for (showtime of showtimes) {
     for (startTime of createDto.startTimes) {
-        const endTime = startTime + durationInMinutes
+        const endTime = addMinutes(startTime, durationInMinutes)
 
-        if (
-            (showtime.startTime <= startTime && startTime <= showtime.endTime) ||
-            (showtime.startTime <= endTime && endTime <= showtime.endTime)
-        ) {
+        if (startTime < showtime.endTime && showtime.startTime < endTime) {
             // conflict
         }
     }
 }
 ```
 
-그 외에, 이진 탐색 알고리즘을 응용하여 구현하는 방법도 있다. 이것은 timeslots 방식 보다 시간을 좀 더 단축시킬 수 있으나 차이가 크지 않고 구현 난이도가 증가하는 단점이 있어서 채택하지 않았다.
+그 외에, 이진 탐색 알고리즘을 응용하여 구현하는 방법도 있다. 이것은 timeslots 방식보다 시간을 좀 더 단축시킬 수 있으나 차이가 크지 않고 구현 난이도가 증가하는 단점이 있어서 채택하지 않았다.
 
 ## 5. bulkCreateShowtimes와 bulkCreateTickets 함수 설계
 
@@ -461,9 +461,9 @@ queue -> creation: dequeue { createDto, transactionId }
             creation -> theaters: getTheater(showtime.theaterId)
             creation <-- theaters: theater
             loop seat in theater.seats
-                creation -> creation: createTicketCreateDto(seat, showtime.id)
+                creation -> creation: buildCreateTicketDto(seat, showtime.id)
             end
-            creation -> tickets: createTickets(ticketCreateDtos,transactionId)
+            creation -> tickets: createTickets(createTicketDtos,transactionId)
             creation <-- tickets: tickets
         end
     deactivate creation
@@ -576,7 +576,7 @@ frontend <<- gateway: { Succeeded, transactionId }
 
 `SearchShowtimesDto`처럼 요청에 사용하는 DTO(Data Transfer Object)는 함수명을 그대로 사용하고 뒤에 `Dto`를 붙인다. `SearchShowtimesRequest`와 `SearchShowtimesResponse`라는 이름을 선호하는 프로젝트도 있겠지만 이런 명명법은 유연하지 않은 것 같다.
 
-`requestShowtimeCreation` 함수는 `BulkCreateShowtimesDto`을 받는다. `SearchShowtimesDto`처럼 `RequestShowtimeCreationDto`가 아닌 이유는 뭘까?
+`requestShowtimeCreation` 함수는 `BulkCreateShowtimesDto`를 받는다. `SearchShowtimesDto`처럼 `RequestShowtimeCreationDto`가 아닌 이유는 뭘까?
 
 `requestShowtimeCreation` 함수는 요청을 전달하는 역할만 한다. 실제 요청을 처리하는 함수는 `bulkCreateShowtimes`이기 때문이다.
 
@@ -609,9 +609,9 @@ worker -> creator: create(createDto, transactionId)
 @enduml
 {% endplantuml %}
 
-`ShowtimeCreationWorkerService`은 `transactionId`를 생성하고 반환한다. 그리고 `Queue`에 쌓인 작업을 하나씩 실행하게 된다.
+`ShowtimeCreationWorkerService`는 `transactionId`를 생성하고 반환한다. 그리고 `Queue`에 쌓인 작업을 하나씩 실행하게 된다.
 
-`ShowtimeCreationStatus.Waiting`나 `ShowtimeCreationStatus.Processing`는 화살표가 검은점에 연결된다. 이것은 이벤트를 발생시킨다는 의미다.
+`ShowtimeCreationStatus.Waiting`이나 `ShowtimeCreationStatus.Processing`은 화살표가 검은 점에 연결된다. 이것은 이벤트를 발생시킨다는 의미다.
 
 반대로 `processNextJob()`은 어딘가에서 이벤트를 수신한다는 의미다.
 
@@ -632,8 +632,8 @@ validator -> showtimes: getShowtimes(createDto.theaterIds)
 validator -> validator: findConflictingShowtimes()
 note right
 1. 생성하려는 상영시간을 10분 단위의 timeslots(Set)으로 등록한다.
-2. 기존에 존재하는 showtimes의 `startTime`과 `endTime`이
-   timeslots에 존재하는지 확인한다.
+2. 기존에 존재하는 showtimes의 `startTime`부터 `endTime`까지를
+   10분 단위 슬롯으로 쪼개어 각 슬롯이 timeslots에 존재하는지 확인한다.
 end note
 worker <-- validator: conflictingShowtimes
 @enduml
@@ -730,7 +730,7 @@ Ticket "*" --> "1" Showtime
 @enduml
 {% endplantuml %}
 
-`transactionId`을 이용한 `Saga` 패턴은 차후에 다루도록 하겠다.
+`transactionId`를 이용한 `Saga` 패턴은 차후에 다루도록 하겠다.
 
 ## 8. 전체 서비스 요약
 
@@ -740,6 +740,7 @@ package "Application Services" {
     class ShowtimeCreationService{
         searchMovies()
         searchTheaters()
+        searchShowtimes(searchDto)
         requestShowtimeCreation(createDto)
     }
 }
@@ -798,11 +799,15 @@ MoviesService --> MoviesRepository
 
 ## 9. 결론
 
-이번 시간에는 `ShowtimeCreationService`를 설계하고 리팩토링 했다. 그 과정에서 몇 가지 네이밍 규칙도 정했다.
+이번 시간에는 `ShowtimeCreationService`를 설계하고 리팩토링했다. 그 과정에서 몇 가지 네이밍 규칙도 정했다.
 
 엔티티도 정의했는데 `Theater` 엔티티의 `seatmap` 속성은 티켓 생성을 위한 템플릿 같은 용도이기 때문에 값 객체로 정의했다.
 
-이런 부분은 아직 AI에게 힘든 일이다. `ChatGPT-O3`와 `Gemini 2.5Pro`에 MSA를 반영한 엔티티 설계를 요청하면 `Seat`를 엔티티로 설계했다.
+이런 부분은 아직 AI에게 힘든 일이다. `ChatGPT o3`와 `Gemini 2.5 Pro`에 MSA를 반영한 엔티티 설계를 요청했더니 `Seat`를 엔티티로 설계했다.
 그러나 `Seat`를 엔티티로 하면 DB에 많은 부담이 생겨서 프로젝트 후반에 성능 문제를 발견하게 될지도 모른다.
 
-다음 시간에는 `ShowtimeCreationService`의 테스트에 대해서 이야기 하겠다.
+다음 시간에는 `ShowtimeCreationService`의 테스트에 대해서 이야기하겠다.
+
+---
+
+이전 글: [백엔드 서비스 분석과 설계 (2)]({% post_url 2025-05-01-backend-design-2 %})

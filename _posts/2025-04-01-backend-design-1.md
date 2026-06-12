@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 백엔드 서비스 분석과 설계 (1)
+lang: ko
 ---
 
 소프트웨어는 복잡하기 때문에 체계적인 설계를 바탕으로 구현하는 것이 중요하다. 그래서 새로운 프로젝트를 시작할 때마다 제대로 된 설계를 해보려고 노력한다. 하지만 막상 설계 문서를 작성하려 하면, 머릿속에 있는 생각을 구체적으로 표현하는 일이 생각보다 쉽지 않다.
@@ -38,12 +39,12 @@ title: 백엔드 서비스 분석과 설계 (1)
 ```txt
 최우선 요구사항
 
-1. 극장은 최소 4,000개 이상
+1. 극장은 4,000개 이상
 2. 좌석 중복 예약 방지 필수
 3. 기존 데이터 마이그레이션 필수
 ```
 
-대형 공연에 관한 내용은 문서에서 빠졌는데, 프로젝트 범위가 아니고 요구사항이 명확하지도 않기 때문이다. 언제 필요할지 모르겠지만 그 때 가서 다시 검토해야 하는 문제다.
+대형 공연에 관한 내용은 문서에서 빠졌는데, 프로젝트 범위가 아니고 요구사항이 명확하지도 않기 때문이다. 언제 필요할지 모르겠지만 그때 가서 다시 검토해야 하는 문제다.
 
 이렇게 도메인 전문가가 전해주는 정보를 개발자 입장에서 해석하고 정리하는 것으로 프로젝트를 시작할 수 있다.
 
@@ -156,11 +157,11 @@ mbs --> timezone
 
 이런 요소들은 도메인 전문가에게 직접 물어보지 않으면 놓치기 쉽다. 도메인 전문가는 이 부분을 너무 당연하게 여겨 설명을 생략할 수도 있기 때문이다.
 
-개발자에 따라서는 `Time Zone`을 유스케이스 다이어그램에 넣는 것을 부자연스럽게 느낄 수도 있다. UML을 어떻게 사용해야 한다고 엄격하게 규정할 필요는 없다. 개발하려는 시스템의 의존 관계를 표현하는데 있어서 모두가 이해하기 쉬운 방법이라면 얼마든지 허용 가능하다.
+개발자에 따라서는 `Time Zone`을 유스케이스 다이어그램에 넣는 것을 부자연스럽게 느낄 수도 있다. UML을 어떻게 사용해야 한다고 엄격하게 규정할 필요는 없다. 개발하려는 시스템의 의존 관계를 표현하는 데 있어서 모두가 이해하기 쉬운 방법이라면 얼마든지 허용 가능하다.
 
 > 추상적인 생각을 물리적인 형태로 표현하려면 충분히 유연한 도구여야 한다.
 
-아참, 위의 다이어그램은 사실 Context Diagram이다. 용어 자체에 집중하면 본질에 다소 소홀해지기 쉬운 것 같다. 그래서 이후 설명에서도 전문용어 사용을 최소화 하려고 한다.
+아참, 위의 다이어그램은 사실 Context Diagram이다. 용어 자체에 집중하면 본질에 다소 소홀해지기 쉬운 것 같다. 그래서 이후 설명에서도 전문용어 사용을 최소화하려고 한다.
 
 ## 5. 유스케이스
 
@@ -183,7 +184,7 @@ administrator --> mbs
 @enduml
 {% endplantuml %}
 
-여기서 드는 궁금증은 `customer`와 `administrator`가 `Movie Booking System`에서 무엇을 하는가이다. 결국 그것이 `Movie Booking System`이 제공해야 하는 기능일테니까 말이다.
+여기서 드는 궁금증은 `customer`와 `administrator`가 `Movie Booking System`에서 무엇을 하는가이다. 결국 그것이 `Movie Booking System`이 제공해야 하는 기능일 테니까 말이다.
 
 ### 5.1. customer의 유스케이스
 
@@ -228,19 +229,19 @@ customer --> mbs
 1. 화면에 뭐가 있어야 하죠?
 1. 영화가 선택되어 있어야 할 것 같은데 다른 사전 조건은 뭔가요?
 
-이렇게 각각의 케이스에 대해 사용자와 어떤 액션을 주고받는지를 정리하다 보면 자연스럽게 정리가 되는 것이다. 프로젝트 상황에 따라서 이 과정을 몇 번씩 반복할 수도 있지만 여유를 갖고 세심하게 분석할수록 설계와 구현 단계에서 시행착오를 줄일 수 있다.
+이렇게 각각의 케이스에 대해 사용자와 어떤 액션을 주고받는지 따져 보면 유스케이스가 자연스럽게 정리된다. 프로젝트 상황에 따라서 이 과정을 몇 번씩 반복할 수도 있지만 여유를 갖고 세심하게 분석할수록 설계와 구현 단계에서 시행착오를 줄일 수 있다.
 
 지금은 구두로 문답을 주고받았지만 다른 다이어그램을 사용해서 정리하는 방법도 있을 것이다. 상황에 맞게 도구를 사용하면 된다.
 
 ### 5.2. administrator의 유스케이스
 
-administrator는 무슨 일을 할까? 관리자니까 당연히 관리를 할 것이다. 무엇을 관리할까?
+`administrator`는 무슨 일을 할까? 관리자니까 당연히 관리를 할 것이다. 무엇을 관리할까?
 
 1. 영화 관리
 2. 극장 관리
 3. 고객 관리
 4. 티켓 관리
-5. 상영시간 관리
+5. 상영 시간 관리
 
 {% plantuml %}
 @startuml
@@ -259,13 +260,13 @@ administrator --> mbs
 @enduml
 {% endplantuml %}
 
-개인적으로 개발에서 manage라는 단어를 조심하는 편이다. manage는 표현이 너무 포괄적이라서 무슨 일을 하는지 모호하다. 여기서도 마찬가지인데 구체적으로 어떻게 관리한다는 것인지 잘 모르겠다. 도메인 전문가와 함께 좀 더 세분화 해보자.
+개인적으로 개발에서 manage라는 단어를 조심하는 편이다. manage는 표현이 너무 포괄적이라서 무슨 일을 하는지 모호하다. 여기서도 마찬가지인데 구체적으로 어떻게 관리한다는 것인지 잘 모르겠다. 도메인 전문가와 함께 좀 더 세분화해 보자.
 
 {% plantuml %}
 @startuml
 left to right direction
 actor administrator
-rectangle PaymentGateway
+rectangle "Payment Gateway" as PaymentGateway
 
 package "Movie Booking System" as mbs {
     package theaters {
@@ -281,7 +282,7 @@ package "Movie Booking System" as mbs {
     }
 
     package showtimes {
-        usecase "상영시간 생성하기" as CreateShowtimes
+        usecase "상영 시간 생성하기" as CreateShowtimes
     }
 
     package tickets {
@@ -290,8 +291,8 @@ package "Movie Booking System" as mbs {
         usecase "티켓 생성하기" as GenerateTickets
     }
 
-    PurchaseTickets --> PaymentGateway
-    RefundTickets --> PaymentGateway
+    PurchaseTickets ..> PaymentGateway
+    RefundTickets ..> PaymentGateway
     CreateShowtimes ..> GenerateTickets
 }
 
@@ -301,18 +302,18 @@ administrator --> mbs
 
 실제 프로젝트라면 이것보다 더 많은 유스케이스가 있겠지만, 여기서는 단순화했다. 그럼에도 불구하고 중요한 개념들이 상당수 드러난다.
 
-여기서 주목할 것은 상영 시간을 생성하면 티켓도 같이 생성해야 하는 것을 알 수 있다. 그리고 티켓을 구매하거나 환불할 때 `PaymentGateway`와 상호작용이 필요함을 언급했다.
+여기서 주목할 것은 상영 시간을 생성하면 티켓도 같이 생성해야 한다는 점이다. 그리고 티켓을 구매하거나 환불할 때 `Payment Gateway`와 상호작용이 필요함을 언급했다.
 
 ### 5.3. 전체 유스케이스
 
-customer와 administrator의 유스케이스를 합쳐보자.
+`customer`와 `administrator`의 유스케이스를 합쳐보자.
 
 {% plantuml %}
 @startuml
 left to right direction
 actor customer
 actor administrator
-rectangle PaymentGateway
+rectangle "Payment Gateway" as PaymentGateway
 
 package "Movie Booking System" as mbs {
     package theaters {
@@ -330,7 +331,7 @@ package "Movie Booking System" as mbs {
     }
 
     package showtimes {
-        usecase "상영시간 생성하기" as CreateShowtimes
+        usecase "상영 시간 생성하기" as CreateShowtimes
     }
 
     package tickets {
@@ -374,7 +375,7 @@ CreateShowtimes ..> GenerateTickets
 left to right direction
 actor customer
 actor administrator
-rectangle PaymentGateway
+rectangle "Payment Gateway" as PaymentGateway
 
 package "Movie Booking System" as mbs {
     package theaters {
@@ -396,8 +397,8 @@ package "Movie Booking System" as mbs {
     }
 
     package showtimes {
-        usecase "상영시간 생성하기" as CreateShowtimes
-        usecase "상영시간 검색하기" as SearchShowtimes
+        usecase "상영 시간 생성하기" as CreateShowtimes
+        usecase "상영 시간 검색하기" as SearchShowtimes
     }
 
     package tickets {
@@ -425,8 +426,8 @@ CreateShowtimes ..> GenerateTickets
 
 ### 5.4. 유스케이스가 많다면
 
-지금은 작은 프로젝트이기 때문에 괜찮지만 프로젝트가 크고 복잡하다면 도메인 전문가는 어디부터 설명을 해야할지 난감해 할 수도 있다.
-이럴 땐 액터가 충분했는지 다시 점검해보자. 초기에 `administrator`라고 했지만 역할에 따라 세분화 할 수 있을지도 모른다. 그리고 `Movie Booking System`을 사용하는 외부 서비스가 있을 지도 모른다.
+지금은 작은 프로젝트이기 때문에 괜찮지만 프로젝트가 크고 복잡하다면 도메인 전문가는 어디부터 설명을 해야 할지 난감해할 수도 있다.
+이럴 땐 액터가 충분했는지 다시 점검해보자. 초기에 `administrator`라고 했지만 역할에 따라 세분화할 수 있을지도 모른다. 그리고 `Movie Booking System`을 사용하는 외부 서비스가 있을지도 모른다.
 
 {% plantuml %}
 @startuml
@@ -435,6 +436,7 @@ actor customer
 actor "Call Center Agent" as admin1
 actor "Ticket Checker" as admin2
 actor "Movie Statistics Service" as service
+actor administrator as admin
 
 package "Movie Booking System" as mbs {
 usecase " "
@@ -449,7 +451,7 @@ admin ..> admin2
 @enduml
 {% endplantuml %}
 
-이렇게 액터를 세분화 한다면 도메인 전문가는 보다 체계적으로 정보를 알려줄 수 있을 것이다.
+이렇게 액터를 세분화한다면 도메인 전문가는 보다 체계적으로 정보를 알려줄 수 있을 것이다.
 
 물론, 이것은 복잡한 도메인을 분석하는 한 예일 뿐이다. 다른 좋은 방법이 얼마든지 있을 것이다.
 

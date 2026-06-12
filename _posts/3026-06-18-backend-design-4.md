@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 백엔드 서비스 분석과 설계 (4)
+lang: ko
 ---
 
 지금까지의 설계를 어떻게 구현할지 알아보자.
@@ -27,10 +28,10 @@ component "ShowtimeCreationController" as GController
 package "applications" {
 component "ShowtimeCreationService" as AService
 component "ShowtimeCreationWorkerService" as AWorker
-component "ValidatorService" as AValidator
-component "CreatorService" as ACreator
+component "ShowtimeBulkValidatorService" as AValidator
+component "ShowtimeBulkCreatorService" as ACreator
 
-AService --> AWorker : <b><color:red> 3. enqueueShowtimeCreationJob</color></b>
+AService --> AWorker : <b><color:red> 3. requestShowtimeCreation</color></b>
 AWorker --> AValidator : <b><color:red> 4. validate</color></b>
 AWorker --> ACreator : <b><color:red> 7. create</color></b>
 }
@@ -69,7 +70,7 @@ CTickets --> TDB : <b><color:red> 11. save</color></b>
 
 크게 11개의 호출이 있다. 이 중에서 제일 먼저 구현해야 하는 것은 무엇일까?
 
-편의를 위해 아래처럼 호출구조를 단순화 해서 설명하겠다.
+편의를 위해 아래처럼 호출구조를 단순화해서 설명하겠다.
 
 {% plantuml %}
 @startuml
@@ -100,12 +101,12 @@ CShowtimes --> SDB
 ```ts
 // Step 1. DB에 가장 가까운 곳부터 시작한다.
 class ShowtimesService {
-    constructor(db:MySQL){}
+    constructor(private db: MySQL) {}
 
-    find(theaterId, startTime, duration) {
+    find(theaterId: number, startTime: string, duration: number) {
         return this.db.find({ theaterId, startTime, duration })
     }
-    save(movieId, theaterId, startTime, duration) {
+    save(movieId: number, theaterId: number, startTime: string, duration: number) {
         return this.db.save({ movieId, theaterId, startTime, duration })
     }
 }
@@ -127,10 +128,10 @@ main()
 ```ts
 // Step 2. 한 단계 위 레이어로 올라간다.
 class ValidatorService {
-    constructor(showtimesService:ShowtimesService){}
+    constructor(private showtimesService: ShowtimesService) {}
 
-    validate(theaterId, startTime, duration) {
-        const conflicts = this.showtimesService.find(theaterId, startTime, duration)
+    async validate(theaterId: number, startTime: string, duration: number) {
+        const conflicts = await this.showtimesService.find(theaterId, startTime, duration)
         if (conflicts.length > 0) throw new Error('conflict')
     }
 }
@@ -139,20 +140,22 @@ async function main() {
     // ... Step 1 코드 ...
 
     const validatorService = new ValidatorService(showtimesService)
-    await validatorService.validate(1, '2026-01-01 10:00', 120)
+    await validatorService.validate(1, '2026-01-01 13:00', 120)
     console.log('validation passed')
 }
 main()
 ```
 
+> 시간이 겹치는 상영시간을 찾으려면 실제로는 구간 겹침 조건의 범위 검색이 필요하다. 여기서는 설명을 위해 `find`를 완전 일치 조회로 단순화했다.
+
 ```ts
 // Step 3. 또 한 단계 위로 올라간다.
 class CreatorService {
-    constructor(validatorService:ValidatorService, showtimesService:ShowtimesService){}
+    constructor(private validatorService: ValidatorService, private showtimesService: ShowtimesService) {}
 
-    create(movieId, theaterId, startTime, duration) {
-        this.validatorService.validate(theaterId, startTime, duration)
-        this.showtimesService.save(movieId, theaterId, startTime, duration)
+    async create(movieId: number, theaterId: number, startTime: string, duration: number) {
+        await this.validatorService.validate(theaterId, startTime, duration)
+        await this.showtimesService.save(movieId, theaterId, startTime, duration)
     }
 }
 
@@ -160,7 +163,7 @@ async function main() {
     // ... Step 1~2 코드 ...
 
     const creator = new CreatorService(validatorService, showtimesService)
-    await creator.create(1, 1, '2026-01-01 10:00', 120)
+    await creator.create(1, 1, '2026-01-01 15:00', 120)
     console.log('creation done')
 }
 main()
@@ -170,31 +173,31 @@ main()
 
 ```ts
 class ShowtimesService {
-    constructor(db:MySQL){}
+    constructor(private db: MySQL) {}
 
-    find(theaterId, startTime, duration) {
+    find(theaterId: number, startTime: string, duration: number) {
         return this.db.find({ theaterId, startTime, duration })
     }
-    save(movieId, theaterId, startTime, duration) {
+    save(movieId: number, theaterId: number, startTime: string, duration: number) {
         return this.db.save({ movieId, theaterId, startTime, duration })
     }
 }
 
 class ValidatorService {
-    constructor(showtimesService:ShowtimesService){}
+    constructor(private showtimesService: ShowtimesService) {}
 
-    validate(theaterId, startTime, duration) {
-        const conflicts = this.showtimesService.find(theaterId, startTime, duration)
+    async validate(theaterId: number, startTime: string, duration: number) {
+        const conflicts = await this.showtimesService.find(theaterId, startTime, duration)
         if (conflicts.length > 0) throw new Error('conflict')
     }
 }
 
 class CreatorService {
-    constructor(validatorService:ValidatorService, showtimesService:ShowtimesService){}
+    constructor(private validatorService: ValidatorService, private showtimesService: ShowtimesService) {}
 
-    create(movieId, theaterId, startTime, duration) {
-        this.validatorService.validate(theaterId, startTime, duration)
-        this.showtimesService.save(movieId, theaterId, startTime, duration)
+    async create(movieId: number, theaterId: number, startTime: string, duration: number) {
+        await this.validatorService.validate(theaterId, startTime, duration)
+        await this.showtimesService.save(movieId, theaterId, startTime, duration)
     }
 }
 
@@ -212,12 +215,12 @@ async function main() {
 
     // Step 2: ValidatorService
     const validatorService = new ValidatorService(showtimesService)
-    await validatorService.validate(1, '2026-01-01 10:00', 120)
+    await validatorService.validate(1, '2026-01-01 13:00', 120)
     console.log('validation passed')
 
     // Step 3: CreatorService
     const creator = new CreatorService(validatorService, showtimesService)
-    await creator.create(1, 1, '2026-01-01 10:00', 120)
+    await creator.create(1, 1, '2026-01-01 15:00', 120)
     console.log('creation done')
 }
 main()
@@ -228,23 +231,23 @@ main()
 생각해보면 main()에 작성한 코드는 결국 "이 함수가 잘 동작하는지 확인하는 코드"다. 그렇다면 이걸 함수로 분리하면 어떨까?
 
 ```ts
-async function test_ShowtimesService_find(showtimesService) {
+async function test_ShowtimesService_find(showtimesService: ShowtimesService) {
     const showtimes = await showtimesService.find(1, '2026-01-01 10:00', 120)
     console.log('showtimes:', showtimes)
 }
 
-async function test_ShowtimesService_save(showtimesService) {
+async function test_ShowtimesService_save(showtimesService: ShowtimesService) {
     const saved = await showtimesService.save(1, 1, '2026-01-01 10:00', 120)
     console.log('saved:', saved)
 }
 
-async function test_ValidatorService_validate(validatorService) {
-    await validatorService.validate(1, '2026-01-01 10:00', 120)
+async function test_ValidatorService_validate(validatorService: ValidatorService) {
+    await validatorService.validate(1, '2026-01-01 13:00', 120)
     console.log('validation passed')
 }
 
-async function test_CreatorService_create(creator) {
-    await creator.create(1, 1, '2026-01-01 10:00', 120)
+async function test_CreatorService_create(creator: CreatorService) {
+    await creator.create(1, 1, '2026-01-01 15:00', 120)
     console.log('creation done')
 }
 
@@ -263,44 +266,44 @@ async function main() {
 main()
 ```
 
-main()에서 임시로 작성했던 코드가 그대로 테스트 코드가 된다. 이것을 Jest나 JUnit으로 잘 정리하면 훌륭한 유닛테스트가 될 것 같다.
+main()에서 임시로 작성했던 코드가 그대로 테스트 코드가 된다. 이것을 Jest나 JUnit으로 잘 정리하면 훌륭한 유닛 테스트가 될 것 같다.
 
-모든 함수마다 테스트가 있으니 함수들이 제대로 잘 동작할 거라는 안심이 든다. 실제로 이 방식에는 장점이 있다. 테스트가 실패하면 어떤 함수에 문제가 있는지 즉시 알 수 있다. `test_ValidatorService_validate`가 실패하면 ValidatorService에 문제가 있다는 뜻이니까.
+함수마다 테스트가 있으니 제대로 동작할 거라고 안심하게 된다. 실제로 이 방식에는 장점이 있다. 테스트가 실패하면 어떤 함수에 문제가 있는지 즉시 알 수 있을 것처럼 보인다. `test_ValidatorService_validate`가 실패하면 ValidatorService에 문제가 있다는 뜻이니까.
 
-테스트 코드의 길이는 어느 정도가 적당하냐고 물으면 꼭 정해진 건 없지만 보통 본문 코드 만큼이면 적절한 것 같다고 흔히 얘기하는데 마침 길이도 비슷해 보인다.
+테스트 코드의 길이는 어느 정도가 적당하냐고 물으면 꼭 정해진 건 없지만 보통 본문 코드만큼이면 적절한 것 같다고 흔히 얘기하는데 마침 길이도 비슷해 보인다.
 
 좋은 유닛 테스트의 조건 중 하나가 "테스트가 실패하면 실패 지점을 바로 알 수 있어야 한다"는 것인데, 이 원칙에도 부합하는 것 같다.
 
 ### 1.2. bottom-up의 함정: 함수마다 작성한 테스트
 
-그러면 이번에는 요구사항이 변경되어 `duration` 대신 `endTime`을 받도록 바뀌었다고 하자. 상위 인터페이스의 변경은 아래로 전파된다.
+그러면 이번에는 요구사항이 변경되어 `duration` 대신 `endTime`을 받게 되었다고 하자. 상위 인터페이스의 변경은 아래로 전파된다.
 
 ```ts
 class CreatorService {
-    constructor(validatorService:ValidatorService, showtimesService:ShowtimesService){}
+    constructor(private validatorService: ValidatorService, private showtimesService: ShowtimesService) {}
 
-    create(movieId, theaterId, startTime, endTime) {
-        this.validatorService.validate(theaterId, startTime, endTime)
-        this.showtimesService.save(movieId, theaterId, startTime, endTime)
+    async create(movieId: number, theaterId: number, startTime: string, endTime: string) {
+        await this.validatorService.validate(theaterId, startTime, endTime)
+        await this.showtimesService.save(movieId, theaterId, startTime, endTime)
     }
 }
 
 class ValidatorService {
-    constructor(showtimesService:ShowtimesService){}
+    constructor(private showtimesService: ShowtimesService) {}
 
-    validate(theaterId, startTime, endTime) {
-        const conflicts = this.showtimesService.find(theaterId, startTime, endTime)
+    async validate(theaterId: number, startTime: string, endTime: string) {
+        const conflicts = await this.showtimesService.find(theaterId, startTime, endTime)
         if (conflicts.length > 0) throw new Error('conflict')
     }
 }
 
 class ShowtimesService {
-    constructor(db:MySQL){}
+    constructor(private db: MySQL) {}
 
-    find(theaterId, startTime, endTime) {
+    find(theaterId: number, startTime: string, endTime: string) {
         return this.db.find({ theaterId, startTime, endTime })
     }
-    save(movieId, theaterId, startTime, endTime) {
+    save(movieId: number, theaterId: number, startTime: string, endTime: string) {
         return this.db.save({ movieId, theaterId, startTime, endTime })
     }
 }
@@ -310,37 +313,37 @@ class ShowtimesService {
 
 ```ts
 // ❌ duration으로 조회했다
-async function test_ShowtimesService_find(showtimesService) {
+async function test_ShowtimesService_find(showtimesService: ShowtimesService) {
     const showtimes = await showtimesService.find(1, '2026-01-01 10:00', 120)
 }
 
 // ❌ duration으로 저장했다
-async function test_ShowtimesService_save(showtimesService) {
+async function test_ShowtimesService_save(showtimesService: ShowtimesService) {
     const saved = await showtimesService.save(1, 1, '2026-01-01 10:00', 120)
 }
 
 // ❌ duration으로 검증했다
-async function test_ValidatorService_validate(validatorService) {
-    await validatorService.validate(1, '2026-01-01 10:00', 120)
+async function test_ValidatorService_validate(validatorService: ValidatorService) {
+    await validatorService.validate(1, '2026-01-01 13:00', 120)
 }
 
 // ❌ duration으로 생성했다
-async function test_CreatorService_create(creator) {
-    await creator.create(1, 1, '2026-01-01 10:00', 120)
+async function test_CreatorService_create(creator: CreatorService) {
+    await creator.create(1, 1, '2026-01-01 15:00', 120)
 }
 ```
 
-4개의 테스트가 모두 실패한다. 코드는 정상적으로 수정됐지만 테스트만 옛날 인터페이스를 호출하고 있기 때문이다.
+4개의 테스트가 모두 컴파일 에러로 깨진다. 코드는 정상적으로 수정됐지만 테스트만 옛날 인터페이스를 호출하고 있기 때문이다.
 
 함수마다 테스트를 작성하면 하나의 요구사항 변경이 여러 함수의 인터페이스를 연쇄적으로 바꾸고, 그에 딸린 테스트까지 모두 수정해야 한다. 테스트가 기능을 검증하는 게 아니라 인터페이스 변경을 따라다니는 짐이 되는 것이다.
 
 이 경험이 몇 번 반복되면 테스트를 유지하는 비용이 테스트의 이점을 넘어서고 결국 테스트를 포기하게 된다.
 
-여기서 혼란에 빠지게 된다. "테스트가 실패하면 실패 지점을 바로 알 수 있어야 한다"고 했으니까 함수마다 테스트를 작성하는 게 옳은 것 같다. 그런데 이렇게 하면 작은 인터페이스 변화에도 많은 테스트가 깨진다. 그렇다고 유닛 테스트가 함수를 테스트하는 건데 이게 틀린 방법은 아닌 것 같다. 그렇다면 TDD 자체가 비현실적인 방법론이 아닌가?
+여기서 혼란에 빠지게 된다. "테스트가 실패하면 실패 지점을 바로 알 수 있어야 한다"고 했으니까 함수마다 테스트를 작성하는 게 옳은 것 같다. 그런데 이렇게 하면 작은 인터페이스 변화에도 많은 테스트가 깨진다. 그렇다고 해서 '유닛 테스트는 함수를 테스트하는 것'이라는 생각이 틀린 것 같지도 않다. 그렇다면 TDD 자체가 비현실적인 방법론이 아닌가?
 
-이 혼란의 원인은 unit test의 "unit"을 함수 단위로 해석하는 데 있다. unit은 함수가 아니라 **하나의 동작(behavior)** 이다. bottom-up 개발에서 함수를 작성할 때마다 만든 임시 실행 코드를 테스트로 남기면 자연스럽게 이 함정에 빠지게 된다. 이에 대해서는 뒤에서 더 자세히 다룬다.
+이 혼란의 원인은 unit test의 "unit"을 함수 단위로 해석하는 데 있다. unit은 함수가 아니라 **하나의 동작(behavior)**이다. bottom-up 개발에서 함수를 작성할 때마다 만든 임시 실행 코드를 테스트로 남기면 자연스럽게 이 함정에 빠지게 된다. 이에 대해서는 뒤에서 더 자세히 다룬다.
 
-실행과 검증도 어렵다. 테이블을 만들었으면 데이터를 넣고 읽어봐야 하는데, 그러려면 코드를 작성해야 하고, 그 코드를 실행하려면 또 임시 코드가 필요하다. 앞서 본 main() 함수가 바로 그 임시 코드다.
+bottom-up에는 또 다른 문제도 있다. 실행과 검증이 어렵다는 점이다. 테이블을 만들었으면 데이터를 넣고 읽어봐야 하는데, 그러려면 코드를 작성해야 하고, 그 코드를 실행하려면 또 임시 코드가 필요하다. 앞서 본 main() 함수가 바로 그 임시 코드다.
 
 ### 1.3. top-down: REST API부터 시작해서 아래로 내려간다
 
@@ -348,7 +351,7 @@ async function test_CreatorService_create(creator) {
 
 ![car-trade](/assets/images/car-trade.png)
 
-도메인 전문가의 머리속에 있는 추상적인 생각을 구체화하는 것은 어려운 일이다. 도메인 전문가 스스로도 막연한 생각만 있을 뿐, 구체적인 형태를 갖추지 못한 경우가 많다. "상영시간을 관리하고 싶다"는 있지만 "어떤 데이터가 필요하고, 어떤 흐름으로 동작해야 하는지"는 대화를 통해 끌어내야 한다.
+도메인 전문가의 머릿속에 있는 추상적인 생각을 구체화하는 것은 어려운 일이다. 도메인 전문가 스스로도 막연한 생각만 있을 뿐, 구체적인 형태를 갖추지 못한 경우가 많다. "상영시간을 관리하고 싶다"는 생각은 있지만 "어떤 데이터가 필요하고, 어떤 흐름으로 동작해야 하는지"는 대화를 통해 끌어내야 한다.
 
 이 과정이 어렵기 때문에 개발자는 자연스럽게 가장 구체적인 것, 즉 형태가 명확한 DB 테이블부터 만들고 거기에 기능을 붙여나가게 된다. 그 결과 요구사항을 구현하는 것이 아니라, 구현에 요구사항을 맞추게 된다.
 
@@ -362,20 +365,20 @@ actor customer
 
 rectangle "Use Cases" {
     usecase "상영시간 생성하기" as UC1
-    usecase "티켓 예매하기" as UC2
-    usecase "티켓 구매하기" as UC3
+    usecase "티켓 구매하기" as UC2
+    usecase "티켓 환불하기" as UC3
 }
 
 rectangle "REST API" {
     component "/showtime-creation/*" as API1
-    component "/booking/*" as API2
-    component "/purchases/*" as API3
+    component "/purchases/*" as API2
+    component "/refunds/*" as API3
 }
 
 rectangle "Application Services" {
     component "ShowtimeCreationService" as SVC1
-    component "BookingService" as SVC2
-    component "PurchaseService" as SVC3
+    component "PurchaseService" as SVC2
+    component "RefundService" as SVC3
 }
 
 administrator --> UC1
@@ -400,22 +403,22 @@ API3 ..> SVC3
     Frontend -> Backend: 극장 목록 요청\nGET /showtime-creation/theaters
     Frontend <-- Backend: theaters[]
 
-    Frontend -> Backend: 기존 상영 시간 조회\nPOST /showtime-creation/showtimes/search
+    Frontend -> Backend: 기존 상영시간 조회\nPOST /showtime-creation/showtimes/search
     Frontend <-- Backend: showtimes[]
 
-    Frontend -> Backend: 상영 시간 생성 요청\nPOST /showtime-creation/showtimes
+    Frontend -> Backend: 상영시간 생성 요청\nPOST /showtime-creation/showtimes
     Frontend <-- Backend: { sagaId }
 @enduml
 {% endplantuml %}
 
-도메인 전문가의 `상영시간 생성하기` 요구사항을 유스케이스 다이어그램으로 시작해서 유스케이스 명세서와 시퀀스 다이어그램으로 구체화 할 수 있었다. 결과물로 구체적인 REST API를 정의할 수 있었기 때문에 이제는 이것을 구현하기만 하면 된다. 구현 후 실행은 curl 같은 많은 방법들이 있으니 문제가 없다.
+도메인 전문가의 `상영시간 생성하기` 요구사항을 유스케이스 다이어그램으로 시작해서 유스케이스 명세서와 시퀀스 다이어그램으로 구체화할 수 있었다. 결과물로 구체적인 REST API를 정의할 수 있었기 때문에 이제는 이것을 구현하기만 하면 된다. 구현 후 실행은 curl 같은 많은 방법들이 있으니 문제가 없다.
 
 무엇보다 좋은 것은 아래쪽 서비스로 구현이 진행돼도 실행 방법을 변경할 필요가 없다는 것이다. 인터페이스가 바뀌는 건 아니니까 말이다.
 
 ```ts
 // Step 1. 가장 위에서 시작한다.
 class CreatorService {
-    create(movieId, theaterId, startTime, duration) {
+    async create(movieId: number, theaterId: number, startTime: string, duration: number) {
         // TODO: validate + save
         return { sagaId: 123 }
     }
@@ -423,6 +426,8 @@ class CreatorService {
 
 @Route('showtime-creation')
 class ShowtimeCreationController {
+    constructor(private creator: CreatorService) {}
+
     @Post('showtimes')
     createShowtimes(body) {
         return this.creator.create(body.movieId, body.theaterId, body.startTime, body.duration)
@@ -430,7 +435,7 @@ class ShowtimeCreationController {
 }
 ```
 
-CreatorService 내부는 아직 stub이지만 실행은 된다.
+CreatorService 내부는 아직 스텁이지만 실행은 된다.
 
 ```sh
 curl -X POST localhost:3000/showtime-creation/showtimes \
@@ -440,32 +445,32 @@ curl -X POST localhost:3000/showtime-creation/showtimes \
 ```ts
 // Step 2. 한 단계 아래로 내려간다.
 class ShowtimesService {
-    constructor(db:MySQL){}
+    constructor(private db: MySQL) {}
 
-    find(theaterId, startTime, duration) {
+    find(theaterId: number, startTime: string, duration: number) {
         return this.db.find({ theaterId, startTime, duration })
     }
-    save(movieId, theaterId, startTime, duration) {
+    save(movieId: number, theaterId: number, startTime: string, duration: number) {
         return this.db.save({ movieId, theaterId, startTime, duration })
     }
 }
 
 class ValidatorService {
-    constructor(showtimesService:ShowtimesService){}
+    constructor(private showtimesService: ShowtimesService) {}
 
-    validate(theaterId, startTime, duration) {
-        const conflicts = this.showtimesService.find(theaterId, startTime, duration)
+    async validate(theaterId: number, startTime: string, duration: number) {
+        const conflicts = await this.showtimesService.find(theaterId, startTime, duration)
         if (conflicts.length > 0) throw new Error('conflict')
     }
 }
 
 class CreatorService {
-    constructor(validatorService:ValidatorService, showtimesService:ShowtimesService){}
+    constructor(private validatorService: ValidatorService, private showtimesService: ShowtimesService) {}
 
-    create(movieId, theaterId, startTime, duration) {
-        this.validatorService.validate(theaterId, startTime, duration)
-        const showtime = this.showtimesService.save(movieId, theaterId, startTime, duration)
-        return showtime
+    async create(movieId: number, theaterId: number, startTime: string, duration: number) {
+        await this.validatorService.validate(theaterId, startTime, duration)
+        const showtime = await this.showtimesService.save(movieId, theaterId, startTime, duration)
+        return { sagaId: showtime.id }
     }
 }
 ```
@@ -525,8 +530,8 @@ TEST "Create a movie" \
    "plot": "movie plot for e2e flow",
    "durationInSeconds": 7200,
    "director": "e2e director",
-   "rating": "PG",
-   "assetIds": []
+   "rating": "PG13",
+   "imageIds": []
   }'
 
 MOVIE_ID=$(echo "${BODY}" | jq -r '.id')
@@ -543,7 +548,7 @@ TEST "Update movie by ID" \
   }'
 ```
 
-나는 이 스크립트에 주로 성공 흐름을 작성한다. 쉘스크립트는 동작하는 문서 수준으로 유지하고, 실패 흐름이나 다양한 조건 검증은 아래처럼 테스트 프레임워크를 사용하는 게 효율적이다.
+나는 이 스크립트에 주로 성공 흐름을 작성한다. 쉘 스크립트는 동작하는 문서 수준으로 유지하고, 실패 흐름이나 다양한 조건 검증은 아래처럼 테스트 프레임워크를 사용하는 게 효율적이다.
 
 ```ts
 describe('MoviesService', () => {
@@ -564,7 +569,7 @@ describe('MoviesService', () => {
                 .post('/movies')
                 .body(createDto)
                 .created({
-                    ...omit(createDto, ['assetIds']),
+                    ...omit(createDto, ['imageIds']),
                     id: expect.any(String),
                     imageUrls: []
                 })
@@ -589,7 +594,7 @@ describe('MoviesService', () => {
 })
 ```
 
-쉘스크립트는 e2e 테스트에도 유용하다. 백엔드 프로젝트와 관련 인프라를 컨테이너로 실행한 상태에서 스크립트를 돌리면, 프론트엔드나 외부 서비스에서 호출하는 것과 거의 동일한 방식으로 테스트할 수 있다.
+쉘 스크립트는 e2e 테스트에도 유용하다. 백엔드 프로젝트와 관련 인프라를 컨테이너로 실행한 상태에서 스크립트를 돌리면, 프론트엔드나 외부 서비스에서 호출하는 것과 거의 동일한 방식으로 테스트할 수 있다.
 
 <!-- TODO 여기에 github action에서 e2e 실행하는거 보여주자 -->
 
@@ -599,7 +604,7 @@ describe('MoviesService', () => {
 
 ### 2.3. 유닛 테스트는 언제 필요한가
 
-테스트를 유닛테스트/통합테스트로 구분하려는 시도를 자주 본다. 그러나 테스트는 이렇게 명확하게 나눌 수 없다. 애자일과 폭포수 방법론이 그러하듯이 얼마나 유닛테스트에 가까운가, 또 얼마나 통합테스트에 가까운가로 표현하는 것이 옳을 것이다.
+테스트를 유닛 테스트/통합 테스트로 구분하려는 시도를 자주 본다. 그러나 테스트는 이렇게 명확하게 나눌 수 없다. 애자일과 폭포수 방법론이 그러하듯이 얼마나 유닛 테스트에 가까운가, 또 얼마나 통합 테스트에 가까운가로 표현하는 것이 옳을 것이다.
 
 중요한 것은 테스트의 종류가 아니라 **비용 대비 효과**다. 그렇다면 별도의 유닛 테스트는 언제 필요할까?
 
@@ -608,13 +613,13 @@ describe('MoviesService', () => {
 
 우리가 만든 ValidatorService를 보자. `find` 결과가 있으면 에러를 던지고, 없으면 통과한다. 이건 상위 테스트에서 "충돌이 있는 경우"와 "없는 경우"를 각각 한 번씩 호출하면 충분하다. 별도 유닛 테스트를 작성할 이유가 없다.
 
-특히 우리가 선택한 레이어 아키텍처는 기능과 책임을 레이어별로 분리하는 만큼 각각의 객체 역할은 작고 분명하다. 이런 메소드까지 모두 유닛 테스트를 작성하는 것은 극히 비효율적이다.
+특히 우리가 선택한 레이어 아키텍처는 기능과 책임을 레이어별로 분리하는 만큼 각각의 객체 역할은 작고 분명하다. 이렇게 단순한 메서드까지 모두 유닛 테스트를 작성하는 것은 극히 비효율적이다.
 
 ### 2.4. mock은 내가 만들지 않은 객체에만 쓴다
 
-jest는 성검이 아니라 마검이다. jest가 제공하는 다양한 기능을 모두 사용하려는 경향이 있고, 테스트 관련 서적이나 글에서 다루는 온갖 기법을 그대로 적용하면서 오버엔지니어링이 되기 쉽다. 정확히는 성검으로 태어났으나 우리가 마검으로 바꾸는 것이다.
+Jest는 성검이 아니라 마검이다. Jest가 제공하는 다양한 기능을 모두 사용하려는 경향이 있고, 테스트 관련 서적이나 글에서 다루는 온갖 기법을 그대로 적용하면서 오버엔지니어링이 되기 쉽다. 정확히는 성검으로 태어났으나 우리가 마검으로 바꾸는 것이다.
 
-특히 빠지기 쉬운 함정이 mock이다. jest에서 mock 기능을 제공하니까 적극적으로 사용해야 올바른 코드가 된다고 착각하기 쉽다. 그러나 mock은 공짜가 아니다. mock을 구현하고 유지하는 데 비용이 들고, mock으로 구현한 인터페이스가 바뀌면 해당 mock도 모두 변경해야 한다.
+특히 빠지기 쉬운 함정이 mock이다. Jest에서 mock 기능을 제공하니까 적극적으로 사용해야 올바른 코드가 된다고 착각하기 쉽다. 그러나 mock은 공짜가 아니다. mock을 구현하고 유지하는 데 비용이 들고, mock으로 구현한 인터페이스가 바뀌면 해당 mock도 모두 변경해야 한다.
 
 그렇다면 mock은 언제 사용할까? 내가 생성하지 않은 객체를 조작해야 할 때다. 외부 라이브러리가 될 수도 있고 다른 팀의 모듈이 될 수도 있다.
 
@@ -633,19 +638,19 @@ describe('when an Error is thrown', () => {
 })
 ```
 
-### 2.5. 프론트는 스냅샷으로 시각적으로 검증한다
+### 2.5. 프론트엔드는 스냅샷으로 시각적으로 검증한다
 
-지금까지의 논의는 백엔드에 집중되어 있었다. 그렇다면 프론트에서는 어떻게 테스트해야 할까?
+지금까지의 논의는 백엔드에 집중되어 있었다. 그렇다면 프론트엔드에서는 어떻게 테스트해야 할까?
 
-백엔드는 `POST /showtimes` → `{ sagaId }` 같은 명확한 입출력 계약이 있기 때문에 top-down으로 테스트를 먼저 작성하는 것이 자연스럽다. 프론트에서도 상태 관리나 유효성 검사처럼 입출력이 명확한 로직은 테스트할 수 있지만, "버튼을 클릭하면 모달이 열린다" 같은 컴포넌트 동작은 구현하면서 눈으로 확인하는 게 더 효율적인 경우가 대부분이다.
+백엔드는 `POST /showtimes` → `{ sagaId }` 같은 명확한 입출력 계약이 있기 때문에 top-down으로 테스트를 먼저 작성하는 것이 자연스럽다. 프론트엔드에서도 상태 관리나 유효성 검사처럼 입출력이 명확한 로직은 테스트할 수 있지만, "버튼을 클릭하면 모달이 열린다" 같은 컴포넌트 동작은 구현하면서 눈으로 확인하는 게 더 효율적인 경우가 대부분이다.
 
-jest나 testing-library 같은 도구가 있으니까 써야 한다는 생각은 앞에서 말한 마검의 논리와 같다.
+Jest나 testing-library 같은 도구가 있으니까 써야 한다는 생각은 앞에서 말한 마검의 논리와 같다.
 
-그러나 프론트에서도 테스트 코드는 필요하다. 눈으로 확인하는 게 효율적이라면, 검증도 시각적으로 하는 것이 자연스럽다. 렌더링 결과를 스냅샷으로 저장하고, 이후 변경이 생기면 이전 스냅샷과 비교해서 의도한 변경인지 확인하는 방식이다.
+그러나 프론트엔드에서도 테스트 코드는 필요하다. 눈으로 확인하는 게 효율적이라면, 검증도 시각적으로 하는 것이 자연스럽다. 렌더링 결과를 스냅샷으로 저장하고, 이후 변경이 생기면 이전 스냅샷과 비교해서 의도한 변경인지 확인하는 방식이다.
 
 다만 스냅샷 테스트를 효과적으로 하려면 뷰와 모델을 분리해야 한다. 뷰에 상태와 로직이 함께 있으면 "에러 상태일 때 화면이 어떻게 보이는가" 같은 다양한 흐름을 테스트하기 어렵다.
 
-```ts
+```tsx
 // screen.tsx - 뷰만 담당한다. 로직은 useModel에 위임한다.
 export function SignupStep1(P: Props) {
     const M = useModel(P)
@@ -676,15 +681,18 @@ export function useModel(P: Props) {
 }
 ```
 
-뷰와 모델이 분리되어 있으면 모델을 mock해서 다양한 상태의 스냅샷을 테스트할 수 있다.
+뷰와 모델이 분리되어 있으면 모델을 mock해서 다양한 상태의 스냅샷을 테스트할 수 있다. 모델은 내가 만든 객체지만, 여기서 테스트 대상은 뷰 렌더링이고 모델은 그 경계 밖에 있으므로 mock해도 된다.
 
-```ts
+```tsx
 // __tests__
 jest.mock('../model', () => ({ useModel: () => mockModel }))
 
+let mockModel: any
+const mockProps = {} as any
+
 describe('SignupStep1 screen', () => {
     function renderScreen(values: any) {
-        mockModel = { isError: false, ...values }
+        mockModel = { emailAlerted: false, ...values }
         render(<SignupStep1 {...mockProps} />)
     }
 
@@ -694,7 +702,7 @@ describe('SignupStep1 screen', () => {
     })
 
     test('error states', async () => {
-        renderScreen({ isError: true })
+        renderScreen({ emailAlerted: true })
         expect(screen.toJSON()).toMatchSnapshot()
     })
 })
@@ -711,3 +719,7 @@ bottom-up은 가장 구체적인 것(DB)부터 시작하기 때문에 쉽게 착
 결국 이번 시리즈에서 반복적으로 말하고 싶었던 것은 하나다. 분석, 설계, 구현, 테스트는 별개의 활동이 아니라 하나의 흐름이라는 것이다. 도메인 전문가와의 대화가 유스케이스가 되고, 유스케이스가 시퀀스 다이어그램이 되고, 시퀀스 다이어그램이 REST API가 되고, REST API가 테스트 코드가 되고, 테스트 코드가 구현을 이끈다. 이 흐름이 자연스러우면 TDD는 별도의 방법론이 아니라 개발 과정 그 자체가 된다.
 
 > 소프트웨어 개발은 분석/설계/구현/검증이 물 흐르듯이 자연스럽게 흘러가야 한다.
+
+---
+
+이전 글: [백엔드 서비스 분석과 설계 (3.5)]({% post_url 3026-06-11-backend-design-3.5 %})

@@ -1,11 +1,14 @@
 ---
 layout: post
 title: 백엔드 서비스 분석과 설계 (3.5)
+lang: ko
 ---
 
 ## 0. 지금까지
 
-우리는 지금까지 유스케이스 다이어그램과 시퀀스 다이어그램을 이용해서 요구사항을 분석하고 설계를 해왔습니다.
+3편에서 다음 글은 테스트라고 예고했지만, 테스트(4편)로 넘어가기 전에 짚고 갈 내용이 있어 3.5편을 끼워 넣는다.
+
+우리는 지금까지 유스케이스 다이어그램과 시퀀스 다이어그램을 이용해서 요구사항을 분석하고 설계를 해왔다.
 
 처음엔 간단한 다이어그램으로 시작했다.
 
@@ -25,7 +28,7 @@ customer --> mbs
 @enduml
 {% endplantuml %}
 
-요구사항을 구체화 하면서 유스케이스가 점점 세분화 됐습니다.
+요구사항을 구체화하면서 유스케이스가 점점 세분화됐다.
 
 {% plantuml %}
 @startuml
@@ -81,7 +84,7 @@ CreateShowtimes ..> GenerateTickets
 @enduml
 {% endplantuml %}
 
-이 유스케이스 중 비교적 복잡해 보이는 `상영시간 생성` 케이스를 시퀀스 다이어그램으로 정리했다.
+이 유스케이스 중 비교적 복잡해 보이는 `상영시간 생성` 케이스(아래 노란색 표시)를 시퀀스 다이어그램으로 정리하기로 했다.
 
 {% plantuml %}
 @startuml
@@ -152,7 +155,7 @@ Admin -> Frontend: 상영시간 생성 요청
                 movieId,
                 theaterIds,
                 startTimes,
-                durationInSeconds
+                durationInMinutes
             }
         end note
     Frontend <-- Backend: Created(201)
@@ -204,7 +207,7 @@ frontend -> gateway: 상영시간 생성 요청\nPOST /showtime-creation/showtim
             movieId,
             theaterIds,
             startTimes,
-            durationInSeconds
+            durationInMinutes
         }
     end note
     gateway -> creation: createShowtimes(createDto)
@@ -222,7 +225,8 @@ frontend <-- gateway: Created(201)
 @enduml
 {% endplantuml %}
 
-결국 `상영시간 생성` 요구사항을 처리하는 ShowtimeCreationService가 지나치게 복잡해졌는데 ShowtimeCreationService에서 시작되는 메소드 호출이 얼마나 많은지 보면 복잡성을 가늠할 수 있다.
+결국 `상영시간 생성` 요구사항을 처리하는 ShowtimeCreationService가 지나치게 복잡해졌는데 ShowtimeCreationService에서 시작되는 메서드 호출이 얼마나 많은지 보면 복잡성을 가늠할 수 있다.
+참고로 3편에서 transactionId라고 부르던 작업 추적 식별자는 Saga 패턴 도입을 고려해 sagaId로 이름을 바꿨다.
 
 {% plantuml %}
 @startuml
@@ -258,7 +262,7 @@ queue -> creation: dequeue { createDto, sagaId }
         end
 
         creation -> showtimes: createShowtimes\n(createShowtimeDtos, sagaId)
-        creation <-- creation: showtimes
+        creation <-- showtimes: showtimes
     deactivate creation
 
     creation -> creation: bulkCreateTickets(showtimes, sagaId)
@@ -267,9 +271,9 @@ queue -> creation: dequeue { createDto, sagaId }
             creation -> theaters: getTheater(showtime.theaterId)
             creation <-- theaters: theater
             loop seat in theater.seats
-                creation -> creation: createTicketCreateDto(seat, showtime.id)
+                creation -> creation: buildCreateTicketDto(seat, showtime.id)
             end
-            creation -> tickets: createTickets(ticketCreateDtos,sagaId)
+            creation -> tickets: createTickets(createTicketDtos,sagaId)
             creation <-- tickets: tickets
         end
     deactivate creation
@@ -280,6 +284,7 @@ gateway <<- creation: ShowtimeCreationStatus(Succeeded)
 {% endplantuml %}
 
 그래서 ShowtimeCreationService의 중요 기능을 Worker, Creator, Validator로 분산했다.
+이하 본문에서는 ShowtimeCreationWorkerService를 Worker, ShowtimeBulkCreatorService를 ShowtimeCreator, TicketBulkCreatorService를 TicketCreator로 줄여 부른다.
 
 {% plantuml %}
 @startuml
@@ -368,7 +373,7 @@ participant "ShowtimeBulkValidator\nService" as validator
 participant "ShowtimeBulkCreator\nService" as creator
 
 creation -> worker: requestShowtimeCreation(createDto)
-worker -> worker: createsagaId
+worker -> worker: createSagaId
 worker -> queue: enqueueJob { createDto, sagaId }
 [o<- worker  : ShowtimeCreationStatus.Waiting
 creation <-- worker: sagaId
@@ -398,9 +403,10 @@ validator -> theaters: theatersExist(createDto.theaterIds)
 validator -> showtimes: getShowtimes(createDto.theaterIds)
 validator -> validator: findConflictingShowtimes()
 note right
-1. 생성하려는 상영시간을 10분 단위의 timeslots(Set)으로 등록한다.
-2. 기존에 존재하는 showtimes의 `startTime`과 `endTime`이
-   timeslots에 존재하는지 확인한다.
+기존에 존재하는 showtimes 중에서 생성하려는 상영시간과
+구간이 겹치는 것을 찾는다.
+(existing.startTime < new.endTime &&
+ new.startTime < existing.endTime)
 end note
 worker <-- validator: conflictingShowtimes
 @enduml
@@ -428,7 +434,7 @@ activate creator
     end
 
     creator -> showtimes: createShowtimes\n(createShowtimeDtos, sagaId)
-    creator <-- creator: showtimes
+    creator <-- showtimes: showtimes
 
     creator -> creator: bulkCreateTickets(showtimes, sagaId)
 
@@ -446,11 +452,11 @@ deactivate creator
 @enduml
 {% endplantuml %}
 
-여기까지 1,2,3편에서 다뤘던 내용이다.
+여기까지가 1, 2, 3편에서 다뤘던 내용이다.
 
 ## 그런데 말입니다
 
-여기서 ShowtimeCreator가 티켓까지 생성하는 것은 서비스 레벨의 단일 책임 원칙을 어기는 것이 아닌지 의아해 할지도 모르겠다.
+여기서 ShowtimeCreator가 티켓까지 생성하는 것이 서비스 레벨의 단일 책임 원칙을 어기는 것은 아닌지 의아해할지도 모르겠다.
 
 상영시간 생성과 티켓 생성은 실제로 긴밀한 관계를 갖고 있다. 이것은 유스케이스를 보면 알 수 있다.
 
@@ -488,9 +494,9 @@ PurchaseTickets ..> PaymentGateway
 @enduml
 {% endplantuml %}
 
-상영시간이 존재하면 티켓이 존재해야 하고 티켓이 존재한다는 것은 상영시간이 존재해야 한다.
-이렇게 개념적으로 강하게 결합된 도메인을 설계와 구현에 그대로 반영하는 것이 최우선적으로 지켜야 할 원칙이다.(본질기반해석이란 얘기다)
-OOP와 개발 방법론, 다양한 아키텍쳐의 원칙 같은 것은 그 다음 고려사항이다.
+상영시간이 존재하면 티켓이 존재해야 하고, 티켓이 존재한다는 것은 상영시간이 존재한다는 뜻이다.
+이렇게 개념적으로 강하게 결합된 도메인을 설계와 구현에 그대로 반영하는 것이 최우선적으로 지켜야 할 원칙이다([본질 기반 해석(EBI)]({% post_url 2024-05-04-ebi %})이란 얘기다).
+OOP와 개발 방법론, 다양한 아키텍처의 원칙 같은 것은 그 다음 고려사항이다.
 
 그럼에도 불구하고 개발자 본능을 거스를 수 없다면 리팩토링을 할 수 있다.
 
@@ -531,40 +537,17 @@ loop showtime in showtimes
     TCreator -> tickets: createTickets(createTicketDtos,sagaId)
     TCreator <-- tickets: tickets
 end
-worker <- TCreator: { createdShowtimeCount, createdTicketCount }
+worker <- TCreator: { createdTicketCount }
 @enduml
 {% endplantuml %}
 
-고쳐놓고 보니 이게 더 적절해 보인다. 그러나 작업시간을 간과하면 안 된다. 작업시간은 한정되어 있는 귀중한 자원이다. 이 소중한 자원을 지금 당장 ShowtimeCreator의 리팩토링에 사용하는 것이 효율적일까? 아니면 다른 서비스를 구현하는 것이 효율적일까? 이것은 프로젝트 상황 마다 다르기 때문에 적절하게 판단해야 한다. 그러나 지금까지 경험으로는 대체로 시간은 항상 부족했다. 그래서 실제 프로젝트에서 이 정도 수준의 리팩토링은 쉽지 않을 수 있다는 것을 고려해야 한다.
+고쳐놓고 보니 서비스 레벨의 단일 책임 원칙 관점에서는 이게 더 적절해 보인다. 분리 후에도 Worker가 두 Creator를 같은 유스케이스 안에서 동기적으로 묶고 있으니 본질 기반 해석을 위반한 것도 아니다. 그러나 작업시간을 간과하면 안 된다. 작업시간은 한정되어 있는 귀중한 자원이다. 이 소중한 자원을 지금 당장 ShowtimeCreator의 리팩토링에 사용하는 것이 효율적일까? 아니면 다른 서비스를 구현하는 것이 효율적일까? 이것은 프로젝트 상황마다 다르기 때문에 적절하게 판단해야 한다. 그러나 지금까지의 경험으로는 시간은 항상 부족했다. 그래서 실제 프로젝트에서 이 정도 수준의 리팩토링은 쉽지 않을 수 있다는 것을 고려해야 한다.
 
 그리고 시간이 허락해도 리팩토링은 여기까지만 해야 한다.
 
-지금 설계에서 Worker–ShowtimeCreator–TicketCreator 는 동기식 통신을 하고 있어서 TheatersService가 응답을 못하는 장애가 발생하면 Worker–ShowtimeCreator–TicketCreator가 모두 영향을 받게 된다.
+지금 설계에서 Worker–ShowtimeCreator–TicketCreator는 동기식 통신을 하고 있어서 TheatersService가 응답을 못하는 장애가 발생하면 Worker–ShowtimeCreator–TicketCreator가 모두 영향을 받게 된다.
 
 이렇게 서비스가 멈추는 상황은 일반적으로 피하고 싶을 것이다.
-
-{% plantuml %}
-@startuml
-skinparam componentStyle rectangle
-
-title MSA에서 가장 간단한 비동기 서비스 호출
-
-package "Service B" as SB {
-  component "onCommandEvent()" as B_cons
-}
-
-package "Service A" as A {
-  component "sendCommand()" as A_send
-  component "onResponseEvent()" as A_resp
-  database  "State DB" as A_db
-}
-
-A_send --> A_db : (1) PENDING
-A_send --> B_cons : (2) Request
-B_cons --> A_resp : (3) Response
-A_resp --> A_db : (4) DONE/FAIL + result
-@enduml
-{% endplantuml %}
 
 MSA에서는 이런 서비스 간 장애 전파를 줄이기 위해 메시지 브로커를 두고 이벤트 기반으로 통신(브로커 기반 비동기 메시징)하는 구조를 선택하기도 한다.
 하지만 지금의 Worker–ShowtimeCreator–TicketCreator 사이에 이 방식을 그대로 끼워 넣는 것은 적절하지 않다.
@@ -626,7 +609,7 @@ A_send <.. B_cons : (2) Response
 @enduml
 {% endplantuml %}
 
-동기식은 이렇게 간단하게 호출할 수 있지만 장애 전파를 막겠다고 비동기식 호출을 도입한다면
+동기식은 이렇게 간단하게 호출할 수 있지만 장애 전파를 막겠다고 비동기식 호출을 도입한다면 다음과 같이 복잡해진다.
 
 {% plantuml %}
 @startuml
@@ -654,26 +637,30 @@ A_resp --> A_db : (4) DONE/FAIL
 코드로 예를 들면 이렇다.
 
 ```ts
-const {readFileSync, readFileAsync} = require("fs")
+const {readFileSync, readFile} = require("fs")
 
-// readFileSync을 호출하면 syncText에 값이 할당된다.
+// readFileSync를 호출하면 syncText에 값이 할당된다.
 const syncText = readFileSync("./example.txt")
 // syncText를 가지고 편하게 다음 작업을 진행하면 된다.
 
 let asyncText = ''
 
-// readFileAsyncText()의 실행이 끝나도 asyncText에 값이 없다.
-readFileAsyncText("./example.txt", (text) => {
+// readFile()의 실행이 끝나도 asyncText에 값이 없다.
+readFile("./example.txt", "utf8", (err, text) => {
     asyncText=text
 })
 // asyncText에 값이 없는데 다음 작업을 어쩌지??
 // ...
 ```
 
-가장 간단한 호출임에도 이렇게 복잡해진다. TheatersService같은 코어 서비스가 멈추는 상황이면 다른 서비스도 크게 영향 받는 게 자연스럽다. 이 상황에서 할 수 있는 최선은 친절한 말투로 사용자에게 장애가 발생했다고 알리는 것 뿐이다.
+가장 간단한 호출임에도 이렇게 복잡해진다. TheatersService 같은 코어 서비스가 멈추는 상황이면 다른 서비스도 크게 영향 받는 게 자연스럽다. 이 상황에서 할 수 있는 최선은 친절한 말투로 사용자에게 장애가 발생했다고 알리는 것뿐이다.
 
-지금까지 진행한 설계는 1인 개발을 가정한 프로젝트 치고는 구체적인 편이다.
+지금까지 진행한 설계는 1인 개발을 가정한 프로젝트치고는 구체적인 편이다.
 설계를 얼마나 자세하게 해야 하는지는 프로젝트 상황에 따라 다르다.
 설계자와 구현자가 같거나 긴밀한 커뮤니케이션이 가능하다면 덜 구체적이어도 된다.
-또 구현자의 실력과 경험이 높으면 알아서 잘 할테니까 간단히 설계해도 충분하다.
+또 구현자의 실력과 경험이 높으면 알아서 잘할 테니까 간단히 설계해도 충분하다.
 그 외에도 많은 요소를 고려해서 가장 효율적인 타협점을 찾으면 된다.
+
+---
+
+이전 글: [백엔드 서비스 분석과 설계 (3)]({% post_url 2025-06-01-backend-design-3 %})
