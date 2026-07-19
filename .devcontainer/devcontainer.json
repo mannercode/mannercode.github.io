@@ -37,7 +37,7 @@
                 "davidanson.vscode-markdownlint",
                 "mkhl.shfmt",
                 "esbenp.prettier-vscode",
-                "anthropic.claude-code"
+                "openai.chatgpt"
             ],
             "settings": {
                 "files.watcherExclude": {
