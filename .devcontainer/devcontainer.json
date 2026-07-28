@@ -11,12 +11,11 @@
     ],
     "remoteUser": "jekyll",
     "mounts": [
-        "source=${localEnv:HOME}/.claude,target=/home/jekyll/.claude,type=bind",
-        "source=${localEnv:HOME}/.claude.json,target=/home/jekyll/.claude.json,type=bind"
+        "source=${localEnv:HOME}/.codex,target=/home/jekyll/.codex,type=bind",
+        "source=${localEnv:HOME}/.config,target=/home/jekyll/.config,type=bind"
     ],
     "initializeCommand": {
-        "prepare-mounts": "mkdir -p ${localEnv:HOME}/.claude",
-        "prepare-files": "touch ${localEnv:HOME}/.claude.json"
+        "prepare-mounts": "mkdir -p ${localEnv:HOME}/.codex ${localEnv:HOME}/.config"
     },
     "postCreateCommand": {
         "bundle": "bundle install"
