@@ -38,5 +38,3 @@ ENV BUNDLE_PATH=/home/${USERNAME}/.bundle \
   PATH="/home/${USERNAME}/.bundle/bin:${PATH}"
 
 WORKDIR /work
-
-USER ${USERNAME}

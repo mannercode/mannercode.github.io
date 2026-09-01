@@ -35,8 +35,7 @@
                 "jebbs.plantuml",
                 "davidanson.vscode-markdownlint",
                 "mkhl.shfmt",
-                "esbenp.prettier-vscode",
-                "openai.chatgpt"
+                "esbenp.prettier-vscode"
             ],
             "settings": {
                 "files.watcherExclude": {
@@ -60,15 +59,6 @@
                 "plantuml.render": "PlantUMLServer",
                 "[markdown]": {
                     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-                },
-                "markdownlint.config": {
-                    "default": true,
-                    "MD032": false,
-                    "MD033": false,
-                    "MD036": false,
-                    "MD037": false,
-                    "MD045": false,
-                    "MD046": false
                 }
             }
         }
