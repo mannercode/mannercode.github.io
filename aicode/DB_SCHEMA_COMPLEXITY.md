@@ -4,6 +4,7 @@
 > 목적: 내부 아키텍처 기록 + 유튜브 콘텐츠 제작 원고
 > 검증 범위: 운영 DB의 `information_schema`/PostgreSQL 카탈로그 읽기 전용 집계, Git 이력, ADR, 마이그레이션 문서
 > 주의: 고객 데이터, 파트너명, 이벤트명, UUID, 프로젝트 식별자, 인증정보는 본 문서에 기록하지 않는다.
+> 공개용 표기: 서비스·저장소명과 비공개 근거 문서의 경로는 일반화했다. 아래 경로는 익명화된 참고 표기이며 실제 저장소 주소가 아니다.
 
 ```md
 # DB 마이그레이션 플랜 — 멀티 단말(키오스크·POS·모바일앱) 대비
@@ -44,7 +45,7 @@
 | RLS 활성 테이블 | 143/145 | 거의 모든 테이블이 정책 관리 대상 |
 | 통계상 0행 추정 테이블 | 75 | 신규·예정·폐기 후보가 섞여 있으므로 바로 삭제할 수는 없음 |
 
-테이블 수만으로 나쁜 설계라고 판단할 수는 없다. TixPass가 티켓 판매뿐 아니라 CRM, 메시징, 도슨트, 외부 데이터, 멤버십, 정산까지 제공하기 때문이다. 문제는 같은 업무 개념을 여러 모델이 동시에 표현한다는 데 있다.
+테이블 수만으로 나쁜 설계라고 판단할 수는 없다. 이 서비스가 티켓 판매뿐 아니라 CRM, 메시징, 도슨트, 외부 데이터, 멤버십, 정산까지 제공하기 때문이다. 문제는 같은 업무 개념을 여러 모델이 동시에 표현한다는 데 있다.
 
 ### 1.2 6월 27일 baseline과 비교
 
@@ -333,8 +334,8 @@ POS는 한 번의 설계로 끝나지 않았다.
 
 | 경로 | 파일 수 | 성격 |
 |---|---:|---|
-| `tixpass-console/supabase/migrations` | 15 | 현재 네이티브 마이그레이션 |
-| `tixpass-api/supabase/migrations` | 6 | API·Edge Function 관련 신규 변경 |
+| `service-console/supabase/migrations` | 15 | 현재 네이티브 마이그레이션 |
+| `service-api/supabase/migrations` | 6 | API·Edge Function 관련 신규 변경 |
 | 루트 `migrations` | 9 | 수동 적용용 wrapped SQL |
 | `infra/supabase-migrations/applied` | 53 | 과거 수동 적용의 사후 기록 |
 
@@ -655,7 +656,7 @@ orders + cms_payments + external_orders
 | 문장 | 구분 | 근거 |
 |---|---|---|
 | 현재 `public` 테이블은 145개다 | 검증된 사실 | 2026-07-12 `information_schema.tables` |
-| 6월 27일 baseline은 schema-only dump다 | 검증된 사실 | ADR 0025 및 baseline 생성 커밋 |
+| 6월 27일 baseline은 schema-only dump다 | 검증된 사실 | 스테이징·운영 baseline ADR 및 baseline 생성 이력 |
 | `pos_sales`와 연결 티켓은 현재 0행이다 | 검증된 사실 | 운영 DB exact count |
 | `check_in_logs`와 `checkin_log`가 모두 존재하고 행이 있다 | 검증된 사실 | 운영 DB exact count |
 | 과도기 구조가 영구화됐다 | 분석적 결론 | Phase 7 미완료, 구·신 모델 동시 존재 |
@@ -665,22 +666,24 @@ orders + cms_payments + external_orders
 
 ## 11. 근거 문서와 코드
 
-- [멀티 단말 DB 마이그레이션 플랜](../../tixpass-console/docs/db-migration-plan.md)
-- [신규 디바이스 API와 레거시 관계](../api-specs/device-api.md)
-- [POS 앱 스택 전환 ADR](../../tixpass-console/docs/adr/0007-pos-app-stack-android-native.md)
-- [E2E 스테이징 및 운영 baseline ADR](../../tixpass-console/docs/adr/0025-e2e-staging-first.md)
-- [통합 결제원장 의도 문서](../../tixpass-console/docs/intent/payment-ledger.md)
-- [POS full-scope 스키마](../../migrations/pos-fullscope-WRAPPED.sql)
-- [운영 baseline](../../tixpass-console/supabase/migrations/20260627000000_baseline_prod_schema.sql)
-- [운영·스테이징 drift 검사](../../tixpass-console/.github/workflows/schema-drift-check.yml)
-- [영수증·결제 목록 서비스 구현](../../tixpass-api/src/device/device.service.ts)
+비공개 근거 문서의 역할과 익명화된 위치를 남긴 목록이다. 원래 저장소명과 문서 식별자는 생략했으며, 공개 파일로 연결되는 링크가 아니다.
+
+- 멀티 단말 DB 마이그레이션 플랜: `service-console/docs/db-migration-plan.md`
+- 신규 디바이스 API와 레거시 관계: `service-api/docs/device-api.md`
+- POS 앱 스택 전환 ADR: `service-console/docs/adr/pos-app-stack.md`
+- E2E 스테이징 및 운영 baseline ADR: `service-console/docs/adr/staging-baseline.md`
+- 통합 결제원장 의도 문서: `service-console/docs/intent/payment-ledger.md`
+- POS 전체 기능 스키마: `migrations/pos-schema.sql`
+- 운영 baseline: `service-console/supabase/migrations/<baseline>_schema.sql`
+- 운영·스테이징 drift 검사: `service-console/.github/workflows/schema-drift-check.yml`
+- 영수증·결제 목록 서비스 구현: `service-api/src/device/device.service.ts`
 
 ---
 
 ## 12. 제작 전 체크리스트
 
-- [ ] 영상 공개 범위를 내부 사례 공개형 / 익명화 사례형 중 하나로 결정
-- [ ] TixPass 이름과 정확한 DB 규모 공개 여부 승인
+- [ ] 영상·이미지에도 문서와 같은 익명화 기준 적용
+- [ ] 식별 정보의 잔존 여부와 정확한 DB 규모 공개 범위 확인
 - [ ] Supabase 개인 액세스 토큰 revoke 완료 확인
 - [ ] 영상 캡처에 인증정보·프로젝트 식별자·고객 데이터가 없는지 프레임 단위 검수
 - [ ] `split_payments` 계약 공백을 공개 사례로 사용할지 내부 이슈로만 둘지 결정
