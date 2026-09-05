@@ -1,0 +1,24 @@
+{
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/uml/**": true,
+        "**/_site/**": true
+    },
+    "search.exclude": {
+        "**/node_modules/**": true,
+        "**/uml/**": true,
+        "**/_site/**": true
+    },
+    "files.exclude": {
+        "**/node_modules/**": true,
+        "**/uml/**": true,
+        "**/_site/**": true
+    },
+    "remote.downloadExtensionsLocally": true,
+    "plantuml.server": "http://home:8080/",
+    "plantuml.render": "PlantUMLServer",
+    "[markdown]": {
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+    }
+}

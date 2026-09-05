@@ -37,31 +37,7 @@
                 "davidanson.vscode-markdownlint",
                 "mkhl.shfmt",
                 "esbenp.prettier-vscode"
-            ],
-            "settings": {
-                "files.watcherExclude": {
-                    "**/.git/objects/**": true,
-                    "**/.git/subtree-cache/**": true,
-                    "**/uml/**": true,
-                    "**/_site/**": true
-                },
-                "search.exclude": {
-                    "**/node_modules/**": true,
-                    "**/uml/**": true,
-                    "**/_site/**": true
-                },
-                "files.exclude": {
-                    "**/node_modules/**": true,
-                    "**/uml/**": true,
-                    "**/_site/**": true
-                },
-                "remote.downloadExtensionsLocally": true,
-                "plantuml.server": "http://localhost:5020/",
-                "plantuml.render": "PlantUMLServer",
-                "[markdown]": {
-                    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-                }
-            }
+            ]
         }
     }
 }
