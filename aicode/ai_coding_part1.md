@@ -91,37 +91,31 @@ AI에는 여전히 분명한 한계가 있다. 잘못된 전제를 바탕으로 
 
 기존 개발팀은 팀장 한 명과 팀원 두 명으로 구성돼 있었고, 그 인원으로 다음 제품을 동시에 개발하고 있었다.
 
-```plantuml
-@startuml
-left to right direction
-skinparam componentStyle rectangle
-skinparam shadowing false
-skinparam defaultTextAlignment center
+```mermaid
+flowchart LR
+    subgraph Devices["앱과 전용 단말"]
+        UserApps["사용자 앱 2개<br/>(iOS / Android 네이티브)"]
+        EntranceKiosk["입장 키오스크<br/>(iOS 네이티브)"]
+        Pos["POS<br/>(Android 네이티브)"]
+        TicketKiosk["발권 키오스크<br/>(Android 앱)"]
+    end
 
-package "앱과 전용 단말" {
-    component "사용자 앱 2개\n(iOS / Android 네이티브)" as UserApps
-    component "입장 키오스크\n(iOS 네이티브)" as EntranceKiosk
-    component "POS\n(Android 네이티브)" as Pos
-    component "발권 키오스크\n(Android 앱)" as TicketKiosk
-}
+    subgraph Servers["서버 애플리케이션"]
+        Backend["서비스 백엔드<br/>(Java)"]
+        TicketServer["발권 화면 서버<br/>(JSP)"]
+        Backoffice["백오피스<br/>(JSP)"]
+    end
 
-package "서버 애플리케이션" {
-    component "서비스 백엔드\n(Java)" as Backend
-    component "발권 화면 서버\n(JSP)" as TicketServer
-    component "백오피스\n(JSP)" as Backoffice
-}
+    Database[("공유 DB")]
 
-database "공유 DB" as Database
+    UserApps -->|REST API| Backend
+    EntranceKiosk -->|REST API| Backend
+    Pos -->|REST API| Backend
+    TicketKiosk -->|웹 화면 표시| TicketServer
 
-UserApps --> Backend : REST API
-EntranceKiosk --> Backend : REST API
-Pos --> Backend : REST API
-TicketKiosk --> TicketServer : 웹 화면 표시
-
-Backend --> Database
-TicketServer --> Database : 직접 접근
-Backoffice --> Database : 직접 접근
-@enduml
+    Backend --> Database
+    TicketServer -->|직접 접근| Database
+    Backoffice -->|직접 접근| Database
 ```
 
 제품마다 다른 기술을 사용한 것 자체가 문제는 아니었다. 문제는 세 명뿐인 팀이 이 모든 기술과 제품을 동시에 완성하고 곧 운영해야 한다는 점이었다. 사용자 앱의 같은 기능을 iOS와 Android에서 각각 구현해야 했고, 전용 단말도 두 플랫폼으로 나뉘어 있었다. 서비스 백엔드와 발권 화면 서버, 백오피스는 하나의 데이터베이스에 각각 직접 접근했다. 한 기능을 변경해도 여러 애플리케이션과 데이터 흐름을 함께 확인해야 했다.
@@ -448,7 +442,9 @@ AI 덕분에 나는 익숙하지 않은 기술로 만든 레거시를 수습하�
 
 겉으로 드러나는 모습은 달랐지만, 눈앞의 성공이 다음 결과까지 믿을 이유가 되는 점은 닮아 있었다. 그 사이에 구현된 기능과 실제로 검증된 기능의 차이가 쌓였다. 9월의 전체 검토는 그 차이가 시스템 곳곳에 남아 있다는 것을 보여줬다.
 
-다만 대표와의 관계를 AI로 얻은 성공 경험만으로 설명할 수는 없다. 나는 첫날부터 신뢰를 얻으려 했고, 레거시를 수습하고 4월의 별도 행사 준비에서 겪은 위기도 잘 넘겼다고 생각했다. 그럼에도 대표는 끝까지 나보다 AI를 신뢰했다.
+이 시리즈는 AI 코딩의 기술적인 측면과 개발 방법을 중심으로 다룬다. 그러나 실제로 프로젝트를 진행하며 가장 중요하고 필요했던 것은 인간관계였다. 기존 팀장과 대표 사이에서도, 대표와 나 사이에서도 상호 신뢰를 구축하는 데 실패했다. 각자가 자기 판단에 따라 진행한 작업이 하나의 프로젝트를 완성하는 방향으로 충분히 연결되지 못했다. 그런 개인플레이가 프로젝트 완성의 큰 장애물이 되었다.
+
+나는 첫날부터 신뢰를 얻으려 했고, 레거시를 수습하고 4월의 별도 행사 준비에서 겪은 위기도 잘 넘겼다고 생각했다. 그럼에도 대표는 끝까지 나보다 AI를 신뢰했다. 나 역시 서로의 판단을 함께 검토하고 작업을 연결할 수 있는 관계를 만드는 데 실패했다.
 
 돌이켜보면, 내가 겪은 대표는 유난히 사람에 대한 불신이 깊은 사람이었다. 이 사례에는 AI의 특성뿐 아니라 그런 개인적 성향과 우리 사이의 관계도 겹쳐 있다. 그런 점에서 다소 극단적인 사례라고 생각한다. 이를 비개발자가 AI로 개발할 때 보이는 일반적인 모습으로 받아들이지는 않았으면 한다.
 
