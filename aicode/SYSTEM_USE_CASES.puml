@@ -1,0 +1,80 @@
+@startuml SYSTEM_USE_CASES
+top to bottom direction
+
+title 전시 운영 시스템 유스케이스
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam ArrowColor #475569
+skinparam nodesep 30
+skinparam ranksep 45
+skinparam linetype ortho
+
+skinparam actor {
+    BackgroundColor #FFFFFF
+    BorderColor #64748B
+    FontColor #0F172A
+}
+skinparam usecase {
+    BackgroundColor #FFFFFF
+    BorderColor #7593FF
+    FontColor #0F172A
+}
+skinparam rectangle {
+    BackgroundColor #FFFFFF
+    BorderColor #0F172A
+    FontColor #0F172A
+}
+skinparam note {
+    BackgroundColor #FFFDE7
+    BorderColor #64748B
+    FontColor #0F172A
+}
+
+actor "관람객" as Visitor
+actor "현장 직원" as Staff
+actor "KOVAN" as Gateway
+actor "미술관 담당자" as Manager
+
+rectangle "전시 운영 시스템" as System {
+    usecase "QR 티켓으로 입장" as Enter
+    usecase "발권 키오스크에서\n관람권 발권" as KioskIssue
+    usecase "티켓·영수증\n재출력" as Reprint
+    usecase "POS에서\n관람권 발권" as PosIssue
+    usecase "KOVAN 카드 결제" as CardPayment
+    usecase "이벤트 생성" as CreateEvent
+    usecase "매출 조회" as Sales
+    usecase "발권·입장 통계 조회" as Statistics
+
+    note right of CreateEvent
+        운영 기간·시간과
+        권종·가격을 함께 설정
+    end note
+}
+
+Visitor -right-> Enter
+Visitor -right-> KioskIssue
+Staff -right-> Reprint
+Staff -right-> PosIssue
+Gateway -right-> CardPayment
+Manager -right-> CreateEvent
+Manager -right-> Sales
+Manager -right-> Statistics
+
+CardPayment .up.> KioskIssue : <<extend>>\n[유료권]
+CardPayment .up.> PosIssue : <<extend>>\n[유료권]
+
+' Hidden links keep the actors and use cases in reading order.
+Visitor -[hidden]-> Staff
+Staff -[hidden]-> Gateway
+Gateway -[hidden]-> Manager
+Enter -[hidden]-> Reprint
+Reprint -[hidden]-> CardPayment
+CardPayment -[hidden]-> CreateEvent
+CreateEvent -[hidden]-> Sales
+Sales -[hidden]-> Statistics
+KioskIssue -[hidden]-> PosIssue
+
+@enduml
