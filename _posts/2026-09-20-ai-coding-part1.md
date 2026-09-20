@@ -176,6 +176,13 @@ Backoffice --> Database : 직접 접근
 
 처음엔 디자이너가 만든 Figma 파일을 AI에게 주고 그대로 구현하게 했는데, 결과가 디자인과 일치하지도 않았고 제대로 동작하지도 않았다. 시안을 PDF나 SVG로 바꿔 전달해 봐도 결과는 크게 다르지 않았다.
 
+<figure>
+  <a href="{{ '/assets/ai-coding-part1/figma-user-app-design.png' | relative_url }}">
+    <img src="{{ '/assets/ai-coding-part1/figma-user-app-design.png' | relative_url }}" alt="Figma 캔버스에 배치된 사용자 앱 화면 시안" width="1780" height="1586" loading="lazy" style="width:100%;height:auto;">
+  </a>
+  <figcaption>사용자 앱의 Figma 시안. 이미지를 누르면 원본 크기로 볼 수 있다.</figcaption>
+</figure>
+
 게다가 시안 자체에도 고쳐야 할 부분이 많았다. 직접 수정하려 해도 Figma를 능숙하게 다루지 못해 쉽지 않았다. 그렇다고 Figma를 배울 시간은 없었다.
 
 한 시간 정도 이것저것 시도하다가 문득 생각이 바뀌었다. 백오피스가 그랬던 것처럼 앱에 필요한 기능을 설명해서 동작하는 초안을 만들게 하면 어떨까?
