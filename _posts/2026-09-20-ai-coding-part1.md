@@ -36,12 +36,12 @@ AI 코딩에 관한 이야기를 최근 8개월 동안의 프로젝트 경험으
 
 내가 보기에는 하긴 했지만 제대로 하지는 않은 상태였다. 완공을 앞두고도 천장에서 물이 새는 집 같았다.
 
-<img src="{{ '/aicode/images/nearly-finished-leaking-house.png' | relative_url }}" alt="완공을 앞뒀지만 천장에서 물이 새는 집" width="440" loading="lazy" style="max-width:100%;height:auto;">
+<img src="{{ '/assets/ai-coding-part1/nearly-finished-leaking-house.png' | relative_url }}" alt="완공을 앞뒀지만 천장에서 물이 새는 집" width="440" loading="lazy" style="max-width:100%;height:auto;">
 
 <figure>
   <video controls muted playsinline preload="none" width="960" height="540" style="width:100%;height:auto;aspect-ratio:16/9;background:#111;" aria-label="누수와 마감 하자를 모은 무음 영상" aria-describedby="leaking-house-caption">
-    <source src="{{ '/aicode/media/leaking-house-defects.mp4' | relative_url }}" type="video/mp4">
-    <a href="{{ '/aicode/media/leaking-house-defects.mp4' | relative_url }}">부실공사 영상 보기</a>
+    <source src="{{ '/assets/ai-coding-part1/leaking-house-defects.mp4' | relative_url }}" type="video/mp4">
+    <a href="{{ '/assets/ai-coding-part1/leaking-house-defects.mp4' | relative_url }}">부실공사 영상 보기</a>
   </video>
   <figcaption id="leaking-house-caption">누수와 마감 하자 장면만 모은 영상. 무음, 약 1분 7초. <a href="https://www.youtube.com/watch?v=_HjdVs9gjX4&amp;t=164s">원본 영상</a></figcaption>
 </figure>
@@ -213,7 +213,7 @@ Backoffice --> Database : 직접 접근
 요구사항과 작업 결과를 한곳에 모으려고 GitHub Projects를 사용해 보기도 했다. 대표가 할 일을 등록하고, 개발자는 해당 작업을 진행한 뒤 결과와 공유할 내용을 댓글로 남기도록 했다.
 
 <figure>
-  <a href="{{ '/aicode/ai코딩/IMG_6062.png' | relative_url }}"><img src="{{ '/aicode/ai코딩/IMG_6062.png' | relative_url }}" alt="요구사항을 Todo, In progress, Done으로 나눈 GitHub Projects 작업 보드" width="960" loading="lazy" style="max-width:100%;height:auto;"></a>
+  <a href="{{ '/assets/ai-coding-part1/github-projects.png' | relative_url }}"><img src="{{ '/assets/ai-coding-part1/github-projects.png' | relative_url }}" alt="요구사항을 Todo, In progress, Done으로 나눈 GitHub Projects 작업 보드" width="960" loading="lazy" style="max-width:100%;height:auto;"></a>
   <figcaption>요구사항과 작업 결과를 한곳에서 관리하려고 사용한 GitHub Projects.</figcaption>
 </figure>
 
@@ -382,7 +382,7 @@ DB를 얼마나 확장성 있게 설계해야 할지도 가늠하기 어려웠�
 > 경영 판단을 앞세워 현장의 기술적 우려를 밀어내고, 기술 경쟁력이 흔들리는 동안 엔지니어들마저 떠난다는 이야기는 흔히 들린다.
 
 <figure>
-  <a href="https://stibee.com/api/v1.0/emails/share/OfXIP-Gm1JSC7-0jDdf0nbQSQeFwMfU"><img src="{{ '/assets/images/ai-coding/donga-deepdive-excerpt.png' | relative_url }}" alt="동아일보 딥다이브의 질문: 반도체 엔지니어가 초등학생 수준으로 내부 보고서를 쓴다고?" width="630" height="52" loading="lazy" style="max-width:100%;height:auto;"></a>
+  <a href="https://stibee.com/api/v1.0/emails/share/OfXIP-Gm1JSC7-0jDdf0nbQSQeFwMfU"><img src="{{ '/assets/ai-coding-part1/donga-deepdive-excerpt.png' | relative_url }}" alt="동아일보 딥다이브의 질문: 반도체 엔지니어가 초등학생 수준으로 내부 보고서를 쓴다고?" width="630" height="52" loading="lazy" style="max-width:100%;height:auto;"></a>
   <figcaption><a href="https://stibee.com/api/v1.0/emails/share/OfXIP-Gm1JSC7-0jDdf0nbQSQeFwMfU">동아일보 딥다이브, 「20년 반도체맨이 말하는 삼성전자 위기론」</a> 중 발췌. 2024년 10월 18일.</figcaption>
 </figure>
 
@@ -408,8 +408,8 @@ DB를 얼마나 확장성 있게 설계해야 할지도 가늠하기 어려웠�
 
 <figure>
   <video controls playsinline preload="none" width="960" height="540" style="width:100%;height:auto;aspect-ratio:16/9;background:#111;" aria-label="하얀거탑: 수술은 여기서 내가 통제하겠네" aria-describedby="white-tower-caption">
-    <source src="{{ '/aicode/media/white-tower-control-line.mp4' | relative_url }}" type="video/mp4">
-    <a href="{{ '/aicode/media/white-tower-control-line.mp4' | relative_url }}">하얀거탑 발췌 영상 보기</a>
+    <source src="{{ '/assets/ai-coding-part1/white-tower-control-line.mp4' | relative_url }}" type="video/mp4">
+    <a href="{{ '/assets/ai-coding-part1/white-tower-control-line.mp4' | relative_url }}">하얀거탑 발췌 영상 보기</a>
   </video>
   <figcaption id="white-tower-caption">“수술은 여기서 내가 통제하겠네!” — 수술의 주도권에 개입하는 《하얀거탑》의 한 장면. 12초 발췌. <a href="https://www.youtube.com/watch?v=ke-jgZMIU6A&amp;t=170s">MBC 원본 영상</a></figcaption>
 </figure>

@@ -31,7 +31,7 @@ AI 코딩에 관한 이야기를 최근 8개월 동안의 프로젝트 경험으
 
 내가 보기에는 하긴 했지만 제대로 하지는 않은 상태였다. 완공을 앞두고도 천장에서 물이 새는 집 같았다.
 
-<img src="./images/nearly-finished-leaking-house.png" alt="완공을 앞뒀지만 천장에서 물이 새는 집" width="440">
+<img src="../assets/ai-coding-part1/nearly-finished-leaking-house.png" alt="완공을 앞뒀지만 천장에서 물이 새는 집" width="440">
 
 팀장 한 명과 팀원 두 명이 아래의 앱·서버 8개를 모두 개발하고 있었다.
 
@@ -190,7 +190,7 @@ flowchart LR
 
 요구사항과 작업 결과를 한곳에 모으려고 GitHub Projects를 사용해 보기도 했다. 대표가 할 일을 등록하고, 개발자는 해당 작업을 진행한 뒤 결과와 공유할 내용을 댓글로 남기도록 했다.
 
-<img src="./ai코딩/IMG_6062.png" alt="요구사항을 Todo, In progress, Done으로 나눈 GitHub Projects 작업 보드" width="960">
+<img src="../assets/ai-coding-part1/github-projects.png" alt="요구사항을 Todo, In progress, Done으로 나눈 GitHub Projects 작업 보드" width="960">
 
 하지만 이 방식대로 일한 것은 하루 정도였다. 대표는 이전처럼 여러 채널로 요구사항을 전달했고, 개발자들은 작업 항목에 결과를 남기지 않았다.
 
