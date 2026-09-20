@@ -48,6 +48,8 @@ AI 코딩에 관한 이야기를 최근 8개월 동안의 프로젝트 경험으
 
 팀장 한 명과 팀원 두 명이 아래의 앱·서버 8개를 모두 개발하고 있었다.
 
+<div style="max-width:100%;overflow-x:auto;" role="region" aria-label="기존 시스템 구성도" tabindex="0" markdown="1">
+
 {% plantuml %}
 @startuml
 left to right direction
@@ -81,6 +83,8 @@ TicketServer --> Database : 직접 접근
 Backoffice --> Database : 직접 접근
 @enduml
 {% endplantuml %}
+
+</div>
 
 처음 분석할 당시 레거시는 모노레포 구조가 아니었고, DB까지 포함해서 저장소만 9개였다.
 
