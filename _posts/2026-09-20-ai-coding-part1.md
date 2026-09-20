@@ -407,11 +407,11 @@ DB를 얼마나 확장성 있게 설계해야 할지도 가늠하기 어려웠�
 내가 별도로 개발하던 NestJS 백엔드(`marksman`)와 Flutter 앱(`pointman`)은 대표가 새로 가져온 시스템(`superman`) 때문에 모두 폐기했다. 이후 개발은 대표가 주도했다.
 
 <figure>
-  <video controls playsinline preload="none" width="960" height="540" style="width:100%;height:auto;aspect-ratio:16/9;background:#111;" aria-label="하얀거탑: 수술은 여기서 내가 통제하겠네" aria-describedby="white-tower-caption">
-    <source src="{{ '/assets/ai-coding-part1/white-tower-control-line.mp4' | relative_url }}" type="video/mp4">
-    <a href="{{ '/assets/ai-coding-part1/white-tower-control-line.mp4' | relative_url }}">하얀거탑 발췌 영상 보기</a>
+  <video controls playsinline preload="none" width="1232" height="736" style="width:100%;height:auto;aspect-ratio:1232/736;background:#111;" aria-label="하얀거탑 장면을 바탕으로 만든 영상: 수술은 여기서 내가 통제하겠네" aria-describedby="white-tower-caption">
+    <source src="{{ '/assets/ai-coding-part1/grok-video-58178a05-0934-4955-8c0e-e25f58ee072f.mp4' | relative_url }}" type="video/mp4">
+    <a href="{{ '/assets/ai-coding-part1/grok-video-58178a05-0934-4955-8c0e-e25f58ee072f.mp4' | relative_url }}">직접 만든 하얀거탑 영상 보기</a>
   </video>
-  <figcaption id="white-tower-caption">“수술은 여기서 내가 통제하겠네!” — 수술의 주도권에 개입하는 《하얀거탑》의 한 장면. 12초 발췌. <a href="https://www.youtube.com/watch?v=ke-jgZMIU6A&amp;t=170s">MBC 원본 영상</a></figcaption>
+  <figcaption id="white-tower-caption">“수술은 여기서 내가 통제하겠네!” — 《하얀거탑》 장면을 바탕으로 직접 만든 10초 영상. <a href="https://www.youtube.com/watch?v=ke-jgZMIU6A&amp;t=170s">참고한 MBC 원본 장면</a></figcaption>
 </figure>
 
 ### 5.4. 대표가 개발 일정을 결정하다
