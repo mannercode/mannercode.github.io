@@ -891,7 +891,7 @@ Next.js·Supabase 구성과 Next.js·MongoDB 구성의 비교. 코드 작성량,
 
 드라마 《하얀거탑》의 참관실 장면을 바탕으로 직접 만든 10초 영상. 오른쪽 위에 `mannercode`가 표시된 버전이며, 영상에 포함된 소리를 사용한다.
 
-자료: [직접 만든 영상](../attachments/grok-video-58178a05-0934-4955-8c0e-e25f58ee072f.mp4). 참고한 장면: [MBC 《하얀거탑》 공식 영상](https://www.youtube.com/watch?v=ke-jgZMIU6A&t=170s).
+자료: [직접 만든 영상](../attachments/white-tower-control-remake.mp4). 참고한 장면: [MBC 《하얀거탑》 공식 영상](https://www.youtube.com/watch?v=ke-jgZMIU6A&t=170s).
 
 **대사**
 

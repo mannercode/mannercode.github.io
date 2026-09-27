@@ -5,6 +5,6 @@
 | 위치 | 내용 |
 | --- | --- |
 | [원고와 집필 메모](./ai_coding_part2_notes.md) | 기술 사례의 원인·해결 방법, 개발자의 역할과 성장에 관한 메모 |
-| [책 표지](./attachments/scm544242603556.jpg) | 『마이크로소프트 매크로 어셈블러 바이블』. 2편과 보관한 경험담 초안에서 함께 사용 |
+| [책 표지](./attachments/microsoft-macro-assembler-bible-cover.jpg) | 『마이크로소프트 매크로 어셈블러 바이블』. 2편과 보관한 경험담 초안에서 함께 사용 |
 
 새 첨부물은 이 폴더의 `attachments/`에 둔다. 검토 보고서는 [공통 참고 자료](../references/README.md), 집필 기준과 전체 자료 위치는 [상위 README](../README.md)에서 확인한다.

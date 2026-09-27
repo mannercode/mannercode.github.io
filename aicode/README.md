@@ -35,11 +35,12 @@ aicode/
 | [집필·편집 지침](./derived/WRITING_GUIDE.md) | 기존 README의 문체·용어·사실 확인 기준과 자료별 설명 |
 | [이전 초안](./archive/) | 경험담 원문, 통합 초안, 기존 원칙 초안 |
 
-블로그 발행본은 [_posts/2026-09-20-ai-coding-part1.md](../_posts/2026-09-20-ai-coding-part1.md)에 있다. 원고를 수정할 때는 [집필·편집 지침](./derived/WRITING_GUIDE.md)을 함께 확인하고, 발행본에도 반영한다.
+블로그 발행본은 [_posts/2026-09-20-ai-coding-part1.md](../_posts/2026-09-20-ai-coding-part1.md)에 있다. 원고를 수정할 때는 [집필·편집 지침](./derived/WRITING_GUIDE.md)을 함께 확인한다. 편집 중에는 원고만 수정하고, 블로그 발행본은 저자가 반영을 요청할 때 변경 사항을 한 번에 모아 갱신한다.
 
 ## 자료를 추가할 때
 
 - 각 편의 원고는 해당 `part1/`, `part2/`에, 이미지·영상은 그 안의 `attachments/`에 둔다. 원고와 블로그에서 같은 파일을 참조한다.
+- 첨부파일 이름은 내용과 용도를 나타내는 영문 소문자와 하이픈으로 짓는다. 예: `white-tower-control-remake.mp4`, `microsoft-macro-assembler-bible-cover.jpg`.
 - 특정 편에서 파생된 영상 구성안은 해당 편의 `presentation/`에 두고, 같은 편의 첨부물을 참조한다.
 - 근거로 읽는 문서, 참고용 캡처, 사용하지 않은 이미지·영상 후보는 `references/`에 둔다.
 - 두 편에 걸친 집필 메모·편집 지침과 별도 후속 글은 `derived/`에, 이전 초안 원문은 `archive/`에 둔다.
