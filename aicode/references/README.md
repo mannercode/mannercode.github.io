@@ -1,6 +1,6 @@
 # 참고 자료
 
-원고의 근거로 읽는 보고서와 사례 연구, 참고용 이미지·영상 원본을 모았다. 본문용 첨부물은 [1편](../part1/attachments/README.md)과 [2편](../part2/README.md)의 각 폴더에, 이 자료들을 정제한 집필 메모는 [derived/materials/](../derived/materials/)에 있다.
+원고의 근거로 읽는 보고서와 사례 연구, 참고용 이미지·영상 원본을 모았다. 1편 본문용 첨부물은 [assets/aicode/part1/](../../assets/aicode/part1/README.md)에, 2편 첨부물은 [part2/](../part2/README.md)에 있다. 이 자료들을 정제한 집필 메모는 [derived/materials/](../derived/materials/)에 둔다.
 
 ## 검토 보고서와 사례 연구
 
@@ -32,4 +32,4 @@
 | [external-channel-integration.png](./images/external-channel-integration.png) | 외부 판매 채널 연동의 구현 상태를 확인한 대화. 2026-08-26 19:04:50 |
 | [영상 원본·후보 자료](./videos/README.md) | 《하얀거탑》 전체 클립과 대사 발췌, 편집 영상의 출처 |
 
-본문의 GitHub Projects 이미지는 [저자가 편집한 첨부물](../part1/attachments/github-projects.png)을 사용한다.
+본문의 GitHub Projects 이미지는 [저자가 편집한 첨부물](../../assets/aicode/part1/github-projects.png)을 사용한다.

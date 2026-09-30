@@ -3,14 +3,14 @@ layout: post
 title: "AI 코딩 이해하기: AI가 바꾼 개발 환경"
 lang: ko
 description: 레거시 수습부터 AI와 함께한 1인 개발, 비개발자 대표의 개발 주도까지. 8개월의 경험에서 돌아본 검증과 협업, 개발자의 역할.
-modified_date: 2026-09-27
+modified_date: 2026-09-30
 ---
 
 ## 들어가며
 
 AI 코딩에 관한 이야기를 8개월 동안의 프로젝트 경험으로 시작하려 한다. 레거시를 수습하고, AI 코딩으로 혼자 여러 애플리케이션을 개발하고, 나중에는 대표가 AI로 개발을 주도하는 프로젝트에서 일했다. 그 과정에서 업무를 나누는 방식과 의사결정 과정, 개발자인 내 역할도 여러 번 바뀌었다. 누가 구현하고, 누가 결정하며, 누가 결과를 검증하는지도 함께 달라졌다.
 
-AI의 변화가 워낙 빠르니 덧붙이자면, 당시 사용하던 모델은 Opus 4.5부터 5.0까지였다.
+AI의 변화가 워낙 빠르니 덧붙이자면, 당시 사용하던 모델은 Opus 4.6부터 5.0까지였다.
 
 이 글에서는 코딩 방식을 다음과 같이 구분한다.
 
@@ -41,8 +41,8 @@ AI의 변화가 워낙 빠르니 덧붙이자면, 당시 사용하던 모델은 
 
 <figure>
   <video controls muted playsinline preload="none" width="960" height="540" style="width:100%;height:auto;aspect-ratio:16/9;background:#111;" aria-label="누수와 마감 하자를 모은 무음 영상" aria-describedby="leaking-house-caption">
-    <source src="{{ '/aicode/part1/attachments/leaking-house-defects.mp4' | relative_url }}" type="video/mp4">
-    <a href="{{ '/aicode/part1/attachments/leaking-house-defects.mp4' | relative_url }}">부실공사 영상 보기</a>
+    <source src="{{ '/assets/aicode/part1/leaking-house-defects.mp4' | relative_url }}" type="video/mp4">
+    <a href="{{ '/assets/aicode/part1/leaking-house-defects.mp4' | relative_url }}">부실공사 영상 보기</a>
   </video>
   <figcaption id="leaking-house-caption">누수와 마감 하자 장면만 모은 영상. 무음, 약 1분 7초. <a href="https://www.youtube.com/watch?v=_HjdVs9gjX4&amp;t=164s">원본 영상</a></figcaption>
 </figure>
@@ -133,7 +133,7 @@ Backoffice --> Database : 직접 접근
 
 대표에게 꼭 필요한 기능을 물으면 당장 필요한 기능과 언젠가 필요할 기능이 뒤섞여 나왔다. 예를 들어 개인 간 티켓 거래는 필수 기능이라고 했지만, 8개월 뒤인 집필 시점에는 찾아볼 수 없다.
 
-시간은 한정돼 있었다. 당시에는 Opus 4.5가 막 나온 참이었고, 그전까지 나는 AI에게 코딩을 주도적으로 맡기기 어렵다고 생각했다. 필수라고 정의한 기능들을 쳐내고 쳐내서 요구사항을 줄였지만, 그래도 4주 안에 겨우 구현할 수 있으리라고 봤다.
+시간은 한정돼 있었다. 당시에는 Opus 4.6이 막 나온 참이었고, 그전까지 나는 AI에게 코딩을 주도적으로 맡기기 어렵다고 생각했다. 필수라고 정의한 기능들을 쳐내고 쳐내서 요구사항을 줄였지만, 그래도 4주 안에 겨우 구현할 수 있으리라고 봤다.
 
 ### 2.2. 백오피스를 다시 만들다
 
@@ -172,8 +172,8 @@ Backoffice --> Database : 직접 접근
 처음엔 디자이너가 만든 Figma 파일을 AI에게 주고 그대로 구현하게 했는데, 결과가 디자인과 일치하지도 않았고 제대로 동작하지도 않았다. 시안을 PDF나 SVG로 바꿔 전달해 봐도 결과는 크게 다르지 않았다.
 
 <figure>
-  <a href="{{ '/aicode/part1/attachments/figma-user-app-design.png' | relative_url }}">
-    <img src="{{ '/aicode/part1/attachments/figma-user-app-design.png' | relative_url }}" alt="Figma 캔버스에 배치된 사용자 앱 화면 시안" width="480" loading="lazy" style="max-width:100%;height:auto;">
+  <a href="{{ '/assets/aicode/part1/figma-user-app-design.png' | relative_url }}">
+    <img src="{{ '/assets/aicode/part1/figma-user-app-design.png' | relative_url }}" alt="Figma 캔버스에 배치된 사용자 앱 화면 시안" width="480" loading="lazy" style="max-width:100%;height:auto;">
   </a>
   <figcaption>사용자 앱의 Figma 시안. 이미지를 누르면 원본 크기로 볼 수 있다.</figcaption>
 </figure>
@@ -215,7 +215,7 @@ Backoffice --> Database : 직접 접근
 요구사항과 작업 결과를 한곳에 모으려고 GitHub Projects를 사용해 보기도 했다. 대표가 할 일을 등록하고, 개발자는 해당 작업을 진행한 뒤 결과와 공유할 내용을 댓글로 남기도록 했다.
 
 <figure>
-  <a href="{{ '/aicode/part1/attachments/github-projects.png' | relative_url }}"><img src="{{ '/aicode/part1/attachments/github-projects.png' | relative_url }}" alt="요구사항을 Todo, In progress, Done으로 나눈 GitHub Projects 작업 보드" width="480" loading="lazy" style="max-width:100%;height:auto;"></a>
+  <a href="{{ '/assets/aicode/part1/github-projects.png' | relative_url }}"><img src="{{ '/assets/aicode/part1/github-projects.png' | relative_url }}" alt="요구사항을 Todo, In progress, Done으로 나눈 GitHub Projects 작업 보드" width="480" loading="lazy" style="max-width:100%;height:auto;"></a>
   <figcaption>요구사항과 작업 결과를 한곳에서 관리하려고 사용한 GitHub Projects.</figcaption>
 </figure>
 
@@ -364,7 +364,7 @@ DB를 얼마나 확장성 있게 설계해야 할지도 가늠하기 어려웠�
 > 삼성전자에서도 비슷한 의사결정 구조를 비판하는 목소리가 있었다. [2024년 10월 동아일보 딥다이브 인터뷰](https://stibee.com/api/v1.0/emails/share/OfXIP-Gm1JSC7-0jDdf0nbQSQeFwMfU)에서 반도체 부문의 한 엔지니어는 당시 정현호 사업지원TF장에게 올리는 보고서를 ‘초등학생도 알아들을 수 있게’ 써야 했다고 말했다. 그는 기술적 이해가 부족한 경영진이 결정을 내리고, 보고가 올라가는 동안 현장에서 제기한 위험이 축소되는 구조를 비판했다.
 
 <figure>
-  <a href="https://stibee.com/api/v1.0/emails/share/OfXIP-Gm1JSC7-0jDdf0nbQSQeFwMfU"><img src="{{ '/aicode/part1/attachments/samsung-engineer-interview-excerpt.png' | relative_url }}" alt="동아일보 딥다이브의 질문: 반도체 엔지니어가 초등학생 수준으로 내부 보고서를 쓴다고?" width="630" height="52" loading="lazy" style="max-width:100%;height:auto;"></a>
+  <a href="https://stibee.com/api/v1.0/emails/share/OfXIP-Gm1JSC7-0jDdf0nbQSQeFwMfU"><img src="{{ '/assets/aicode/part1/samsung-engineer-interview-excerpt.png' | relative_url }}" alt="동아일보 딥다이브의 질문: 반도체 엔지니어가 초등학생 수준으로 내부 보고서를 쓴다고?" width="630" height="52" loading="lazy" style="max-width:100%;height:auto;"></a>
   <figcaption><a href="https://stibee.com/api/v1.0/emails/share/OfXIP-Gm1JSC7-0jDdf0nbQSQeFwMfU">동아일보 딥다이브, 「20년 반도체맨이 말하는 삼성전자 위기론」</a> 중 발췌. 2024년 10월 18일.</figcaption>
 </figure>
 
@@ -386,8 +386,8 @@ DB를 얼마나 확장성 있게 설계해야 할지도 가늠하기 어려웠�
 
 <figure>
   <video controls playsinline preload="none" width="1232" height="736" style="width:100%;height:auto;aspect-ratio:1232/736;background:#111;" aria-label="하얀거탑 장면을 바탕으로 만든 영상: 수술은 여기서 내가 통제하겠네" aria-describedby="white-tower-caption">
-    <source src="{{ '/aicode/part1/attachments/white-tower-control-remake.mp4' | relative_url }}" type="video/mp4">
-    <a href="{{ '/aicode/part1/attachments/white-tower-control-remake.mp4' | relative_url }}">직접 만든 하얀거탑 영상 보기</a>
+    <source src="{{ '/assets/aicode/part1/white-tower-control-remake.mp4' | relative_url }}" type="video/mp4">
+    <a href="{{ '/assets/aicode/part1/white-tower-control-remake.mp4' | relative_url }}">직접 만든 하얀거탑 영상 보기</a>
   </video>
   <figcaption id="white-tower-caption">“수술은 여기서 내가 통제하겠네!” — 《하얀거탑》 장면을 바탕으로 직접 만든 10초 영상. <a href="https://www.youtube.com/watch?v=ke-jgZMIU6A&amp;t=170s">참고한 MBC 원본 장면</a></figcaption>
 </figure>

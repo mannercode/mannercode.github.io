@@ -2,7 +2,7 @@
 
 초안을 합치면서 사실이 달라지거나 주장의 범위가 넓어지는 부분을 모았다. 아래 항목은 집필하면서 보완할 메모이며, 기존 기록만으로 결말이나 원인을 새로 확정하지 않았다.
 
-참고 원문: [경험담](../../archive/ai_coding.md), [통합 초안](../../archive/ai_coding_rewrite.md), [기존 원칙 초안](../../archive/README_original.md). 현재 작업본은 [1편 원고](../../part1/ai_coding_part1.md)와 [2편 메모](../../part2/ai_coding_part2_notes.md)다.
+참고 원문: [경험담](../../archive/ai_coding.md), [통합 초안](../../archive/ai_coding_rewrite.md), [기존 원칙 초안](../../archive/README_original.md). 현재 작업본은 [1편 원고](../../../_posts/2026-09-20-ai-coding-part1.md)와 [2편 메모](../../part2/ai_coding_part2_notes.md)다.
 
 <a id="part1-revision-pending"></a>
 
