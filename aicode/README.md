@@ -5,7 +5,7 @@
 | 메인 문서 | 용도 |
 | --- | --- |
 | [2026-09-20-ai-coding-part1.md](../_posts/2026-09-20-ai-coding-part1.md) | 1편 정본·블로그 원고 |
-| [ai_coding_part2_notes.md](./part2/ai_coding_part2_notes.md) | 2편 원고와 집필 메모 |
+| [ai_coding_part2_notes.md](./part2/ai_coding_part2_notes.md) | 2편 작업 원고. 집필·확인 메모는 [별도 자료](./derived/materials/03_pending.md#part2-draft-2026-10-26)에 정리 |
 
 ## 폴더 구조
 
