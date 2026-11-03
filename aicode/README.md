@@ -5,7 +5,9 @@
 | 메인 문서 | 용도 |
 | --- | --- |
 | [2026-09-20-ai-coding-part1.md](../_posts/2026-09-20-ai-coding-part1.md) | 1편 정본·블로그 원고 |
-| [ai_coding_part2.md](./ai_coding_part2.md) | 2편 작업 원고. 집필·확인 메모는 [별도 자료](./derived/materials/03_pending.md#part2-draft-2026-10-26)에 정리 |
+| [part2.md](./part2.md) | 저자가 처음부터 다시 작성하는 2편 원고. 최근 검토는 [별도 자료](./derived/materials/03_pending.md#part2-introduction-review-2026-10-28)에 정리 |
+
+2편의 집필과 검토는 `part2.md`를 기준으로 한다. [이전 초안](./ai_coding_part2.md)과 [목차 구성안](./ai_coding_part2_outline.md)은 참고 자료로 유지하며, 저자가 새 원고에 정리한 내용과 최신 설명을 우선한다.
 
 ## 폴더 구조
 
@@ -14,7 +16,9 @@ assets/aicode/part1/   # 1편 블로그 본문 이미지·영상과 출처 안�
 
 aicode/
 ├── README.md
-├── ai_coding_part2.md  # 2편 작업 원고
+├── part2.md  # 저자가 다시 작성하는 2편 원고
+├── ai_coding_part2.md  # 이전 2편 초안
+├── ai_coding_part2_outline.md  # 이전 목차 구성안
 ├── part1/
 │   ├── attachments/   # 발표용·후보 이미지와 동영상
 │   ├── presentation/  # 1편 영상 구성안
@@ -43,7 +47,7 @@ aicode/
 
 ## 자료를 추가할 때
 
-- 1편 원고는 `_posts/2026-09-20-ai-coding-part1.md`에서, 본문 이미지·영상은 `assets/aicode/part1/`에서 관리한다. 2편 원고는 `aicode/ai_coding_part2.md`에, 첨부물은 `part2/attachments/`에 둔다.
+- 1편 원고는 `_posts/2026-09-20-ai-coding-part1.md`에서, 본문 이미지·영상은 `assets/aicode/part1/`에서 관리한다. 2편 원고는 `aicode/part2.md`에, 첨부물은 `part2/attachments/`에 둔다.
 - 첨부파일 이름은 내용과 용도를 나타내는 영문 소문자와 하이픈으로 짓는다. 예: `white-tower-control-remake.mp4`, `microsoft-macro-assembler-bible-cover.jpg`.
 - 특정 편에서 파생된 영상 구성안과 발표 자료는 해당 편의 `presentation/` 또는 `seminar/`에 둔다. 1편 본문과 함께 쓰는 이미지·영상은 `assets/aicode/part1/`의 파일을 참조하고, 발표 전용 첨부물과 후보 자료는 `part1/attachments/`에서 관리한다.
 - 근거로 읽는 문서, 참고용 캡처, 사용하지 않은 이미지·영상 후보는 `references/`에 둔다.
