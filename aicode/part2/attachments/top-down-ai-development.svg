@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="928" viewBox="0 0 1200 928" role="img" aria-labelledby="title description">
+  <title id="title">설계 단계에서 반복하는 경우와 구현한 결과를 보며 반복하는 경우</title>
+  <desc id="description">첫 번째 흐름에서는 업무 분석을 바탕으로 설계안을 작성하고, 개발자가 API와 업무 규칙, 검증 기준을 검토하며 설계 수정을 반복한다. 그 뒤 AI에게 구현과 검증을 맡긴다. 두 번째 흐름에서는 기능을 요청하고 AI에게 설계부터 구현과 검증까지 맡긴다. 개발자는 구현 결과를 확인한 뒤 수정 지시를 내려 설계와 코드, 테스트를 함께 고치는 과정을 반복한다. 두 흐름의 차이는 구현에 앞서 설계를 검토하는지, 구현된 결과를 보고 검토하는지에 있다.</desc>
+  <defs>
+    <style>
+      text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+      .heading { font-size: 32px; font-weight: 750; fill: #1e3344; }
+      .card-title { font-size: 25px; font-weight: 700; fill: #203748; }
+      .body { font-size: 22px; fill: #435b6b; }
+      .small { font-size: 21px; fill: #526877; }
+      .flow { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#536f7f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="teal-arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#337d70" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="amber-arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#ad7035" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="928" fill="#ffffff"/>
+
+  <text x="40" y="58" class="heading" id="first-heading">설계를 검토·수정한 뒤, 구현을 맡긴다</text>
+  <rect x="40" y="86" width="1120" height="358" rx="18" fill="#f3f8f7" stroke="#d6e4e1"/>
+
+  <rect x="64" y="126" width="260" height="150" rx="12" fill="#e2f0eb" stroke="#83ada0" stroke-width="2"/>
+  <text x="194" y="167" text-anchor="middle" class="card-title">설계안 작성</text>
+  <text x="194" y="211" text-anchor="middle" class="body">개발자 · AI</text>
+  <text x="194" y="248" text-anchor="middle" class="small">업무 분석을 바탕으로</text>
+
+  <path d="M338 201 H372" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="386" y="126" width="260" height="150" rx="12" fill="#ffffff" stroke="#b1cbc2"/>
+  <text x="516" y="167" text-anchor="middle" class="card-title">개발자 설계 검토</text>
+  <text x="516" y="211" text-anchor="middle" class="body">API · 업무 규칙</text>
+  <text x="516" y="248" text-anchor="middle" class="body">검증 기준</text>
+
+  <path d="M660 201 H694" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="708" y="126" width="248" height="150" rx="12" fill="#edf0fa" stroke="#b4bddb" stroke-width="2"/>
+  <text x="832" y="183" text-anchor="middle" class="card-title">AI 구현·검증</text>
+  <text x="832" y="229" text-anchor="middle" class="small">검토한 설계에 따라</text>
+
+  <path d="M970 201 H1004" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="1018" y="126" width="118" height="150" rx="12" fill="#ffffff" stroke="#bdcec7"/>
+  <text x="1077" y="188" text-anchor="middle" class="card-title">원하는</text>
+  <text x="1077" y="225" text-anchor="middle" class="card-title">결과물</text>
+
+  <path d="M516 289 V335 H194 V289" class="flow" stroke="#337d70" marker-end="url(#teal-arrow)"/>
+  <text x="355" y="378" text-anchor="middle" font-size="25" font-weight="700" fill="#286e62">설계만 검토·수정</text>
+  <text x="355" y="416" text-anchor="middle" class="small">구현 전에 작업 목표를 구체화한다</text>
+
+  <text x="40" y="503" class="heading">구현한 결과를 보며 반복해서 고친다</text>
+  <rect x="40" y="532" width="1120" height="366" rx="18" fill="#faf8f4" stroke="#e5dfd4"/>
+
+  <rect x="64" y="572" width="260" height="150" rx="12" fill="#fff9ef" stroke="#d5b384" stroke-width="2"/>
+  <text x="194" y="614" text-anchor="middle" class="card-title">기능 요청</text>
+  <text x="194" y="658" text-anchor="middle" class="small">“주문 취소 기능을</text>
+  <text x="194" y="695" text-anchor="middle" class="small">구현해 줘”</text>
+
+  <path d="M338 647 H372" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="386" y="572" width="260" height="150" rx="12" fill="#edf0fa" stroke="#b4bddb" stroke-width="2"/>
+  <text x="516" y="614" text-anchor="middle" class="card-title">AI 설계·구현·검증</text>
+  <text x="516" y="658" text-anchor="middle" class="body">설계부터 코드까지</text>
+  <text x="516" y="695" text-anchor="middle" class="body">한 번에 진행</text>
+
+  <path d="M660 647 H694" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="708" y="572" width="248" height="150" rx="12" fill="#ffffff" stroke="#d6c5ad"/>
+  <text x="832" y="630" text-anchor="middle" class="card-title">개발자 결과 검토</text>
+  <text x="832" y="676" text-anchor="middle" class="small">원하는 동작과 비교</text>
+
+  <path d="M970 647 H1004" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="1018" y="572" width="118" height="150" rx="12" fill="#ffffff" stroke="#bdcec7"/>
+  <text x="1077" y="634" text-anchor="middle" class="card-title">원하는</text>
+  <text x="1077" y="671" text-anchor="middle" class="card-title">결과물</text>
+
+  <path d="M832 735 V785 H516 V735" class="flow" stroke="#ad7035" marker-end="url(#amber-arrow)"/>
+  <text x="674" y="826" text-anchor="middle" font-size="25" font-weight="700" fill="#8d5928">설계와 코드를 함께 수정</text>
+  <text x="674" y="864" text-anchor="middle" class="small">결과 확인 · 수정 · 재검증 반복</text>
+</svg>

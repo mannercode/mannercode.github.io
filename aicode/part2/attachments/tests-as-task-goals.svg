@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="title description">
+  <title id="title">설계와 테스트를 검토하고, 구현과 검증을 맡긴다</title>
+  <desc id="description">설계, 테스트 작성, AI가 구현, AI가 검증의 네 단계가 순서대로 이어진다. 개발자 검토 범위는 설계부터 테스트 작성까지다. 검토한 설계와 테스트로 작업 목표와 검증 기준을 정한 뒤, 구현과 검증을 AI에게 맡긴다. AI는 테스트에 실패하면 구현을 수정하고 다시 검증한다.</desc>
+  <defs>
+    <style>
+      text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+      .heading { font-size: 32px; font-weight: 750; fill: #1e3344; }
+      .group-title { font-size: 27px; font-weight: 700; }
+      .card-title { font-size: 26px; font-weight: 700; fill: #203748; }
+      .body { font-size: 21px; fill: #435b6b; }
+      .label { font-size: 23px; font-weight: 600; }
+      .flow { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#536f7f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="amber-arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#ad7035" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="470" fill="#ffffff"/>
+  <text x="40" y="58" class="heading">설계와 테스트를 검토하고, 구현과 검증을 맡긴다</text>
+
+  <rect x="40" y="96" width="520" height="342" rx="18" fill="#f3f8f7" stroke="#d6e4e1"/>
+  <text x="300" y="143" text-anchor="middle" class="group-title" fill="#286e62">개발자 검토</text>
+
+  <rect x="640" y="96" width="520" height="342" rx="18" fill="#f5f6fb" stroke="#dce0ed"/>
+  <text x="900" y="143" text-anchor="middle" class="group-title" fill="#4d5d89">AI에게 작업 할당</text>
+
+  <rect x="64" y="190" width="204" height="140" rx="12" fill="#ffffff" stroke="#b1cbc2" stroke-width="2"/>
+  <text x="166" y="248" text-anchor="middle" class="card-title">설계</text>
+  <text x="166" y="292" text-anchor="middle" class="body">동작과 인터페이스</text>
+
+  <path d="M282 260 H318" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="332" y="190" width="204" height="140" rx="12" fill="#e2f0eb" stroke="#83ada0" stroke-width="2"/>
+  <text x="434" y="248" text-anchor="middle" class="card-title">테스트 작성</text>
+  <text x="434" y="292" text-anchor="middle" class="body">조건과 기대 결과</text>
+
+  <text x="300" y="407" text-anchor="middle" class="label" fill="#286e62">작업 목표와 검증 기준 확정</text>
+
+  <path d="M550 260 H650" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="664" y="190" width="204" height="140" rx="12" fill="#edf0fa" stroke="#b4bddb" stroke-width="2"/>
+  <text x="766" y="248" text-anchor="middle" class="card-title">AI가 구현</text>
+  <text x="766" y="292" text-anchor="middle" class="body">테스트에 맞춰 구현</text>
+
+  <path d="M882 260 H918" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+
+  <rect x="932" y="190" width="204" height="140" rx="12" fill="#edf0fa" stroke="#b4bddb" stroke-width="2"/>
+  <text x="1034" y="248" text-anchor="middle" class="card-title">AI가 검증</text>
+  <text x="1034" y="292" text-anchor="middle" class="body">테스트 실행</text>
+
+  <path d="M1034 344 V368 H766 V344" class="flow" stroke="#ad7035" marker-end="url(#amber-arrow)"/>
+  <text x="900" y="407" text-anchor="middle" class="label" fill="#8d5928">실패하면 수정·재검증</text>
+</svg>
