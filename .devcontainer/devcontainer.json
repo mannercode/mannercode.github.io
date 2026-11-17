@@ -10,6 +10,9 @@
         "--name=${localEnv:USER:unknown}-${localWorkspaceFolderBasename}"
     ],
     "remoteUser": "jekyll",
+    "containerEnv": {
+        "JEKYLL_BUILD_ONLY": "${localEnv:CI:false}"
+    },
     "mounts": [
         "source=${localEnv:HOME}/.codex,target=/home/jekyll/.codex,type=bind",
         "source=${localEnv:HOME}/.config,target=/home/jekyll/.config,type=bind"
@@ -22,8 +25,8 @@
     },
     "postStartCommand": {
         "plantuml": "nohup bash -c 'java -jar /opt/plantuml.jar -picoweb:5020 >/tmp/plantuml.log &' >/dev/null",
-        "run": "nohup bash -c 'bundle exec jekyll serve --future --port 4000 --livereload --livereload-port 4001 >/tmp/jekyll.log &' >/dev/null",
-        "echo": "echo '✅ Jekyll server started: http://localhost:4000'"
+        "run": "if [ \"$JEKYLL_BUILD_ONLY\" != true ]; then nohup bash -c 'bundle exec jekyll serve --future --port 4000 --livereload --livereload-port 4001 >/tmp/jekyll.log &' >/dev/null; fi",
+        "echo": "if [ \"$JEKYLL_BUILD_ONLY\" != true ]; then echo '✅ Jekyll server started: http://localhost:4000'; fi"
     },
     "forwardPorts": [
         4000,

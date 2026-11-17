@@ -419,21 +419,7 @@ Its defining feature is that small services work together to provide the system'
 
 In this respect, a microservice resembles a class in object-oriented programming.
 
-{% plantuml %}
-@startditaa
-+----------------------+        +----------------------+
-|         Class        |<------>|    Microservice      |
-+----------------------+        +----------------------+
-|                      |        |                      |
-| - Property           |<------>| - Database           |
-|                      |        |                      |
-+----------------------+        +----------------------+
-|                      |        | + API                |
-| + Method()           |<------>|   + GET /resource    |
-|                      |        |   + POST /resource   |
-+----------------------+        +----------------------+
-@endditaa
-{% endplantuml %}
+![Class properties and methods correspond to a microservice’s database and API]({{ "/assets/diagrams/class-and-microservice.png" | relative_url }})
 
 MSA therefore shares some conceptual characteristics with object-oriented design.
 
