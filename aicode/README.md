@@ -7,6 +7,8 @@
 | [2026-09-20-ai-coding-part1.md](../_posts/2026-09-20-ai-coding-part1.md) | 1편 정본·블로그 원고 |
 | [2026-11-18-ai-coding-part2.md](../_posts/2026-11-18-ai-coding-part2.md) | 2편 정본·블로그 원고. 1편의 경험을 바탕으로 정리한 생각과 개발 전략 |
 
+영어판은 [1편](../_posts/2026-09-20-ai-coding-part1-en.md)과 [2편](../_posts/2026-11-18-ai-coding-part2-en.md)에서 관리한다. 한국어 정본의 의미와 사례를 유지하며, 원문을 수정할 때는 해당 영어판도 함께 확인한다.
+
 2편의 집필과 검토는 `_posts/2026-11-18-ai-coding-part2.md`를 기준으로 한다. [이전 초안](./ai_coding_part2.md)과 [목차 구성안](./ai_coding_part2_outline.md)은 참고 자료로 유지하며, 저자가 새 원고에 정리한 내용과 최신 설명을 우선한다.
 
 ## 폴더 구조

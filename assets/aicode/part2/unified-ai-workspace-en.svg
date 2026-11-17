@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="840" viewBox="0 0 1200 840" role="img" aria-labelledby="title description">
+  <title id="title">Separate and unified workspaces compared</title>
+  <desc id="description">In the actual project, separate AI agents handled the Android app on a development PC and the backend on a remote server, exchanging requests and results through a task board. In the proposed improvement below, one AI agent modifies and verifies both in a unified workspace.</desc>
+  <defs>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; }
+      .heading { font-size: 32px; font-weight: 750; fill: #1e3344; }
+      .label { font-size: 26px; font-weight: 700; fill: #203748; }
+      .small { font-size: 23px; fill: #526877; }
+      .flow { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .boundary { stroke-width: 2; stroke-dasharray: 8 7; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#536f7f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="teal-arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#337d70" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="840" fill="#ffffff"/>
+
+  <text x="40" y="58" class="heading">Separate workspaces</text>
+  <rect x="40" y="86" width="1120" height="304" rx="18" fill="#faf8f4" stroke="#e5dfd4"/>
+
+  <rect x="64" y="110" width="300" height="256" rx="12" fill="#ffffff" stroke="#c8b694" class="boundary"/>
+  <text x="214" y="150" text-anchor="middle" class="small">Development PC</text>
+  <text x="214" y="194" text-anchor="middle" class="label">Android app</text>
+  <path d="M214 236 V210" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+  <rect x="90" y="250" width="248" height="76" rx="12" fill="#edf0fa" stroke="#b4bddb" stroke-width="2"/>
+  <text x="214" y="297" text-anchor="middle" class="label">App agent</text>
+
+  <text x="600" y="218" text-anchor="middle" class="small">Share requests and results</text>
+  <rect x="484" y="250" width="232" height="76" rx="12" fill="#fff9ef" stroke="#d5b384" stroke-width="2"/>
+  <text x="600" y="297" text-anchor="middle" class="label">Task board</text>
+
+  <rect x="836" y="110" width="300" height="256" rx="12" fill="#ffffff" stroke="#c8b694" class="boundary"/>
+  <text x="986" y="150" text-anchor="middle" class="small">Remote server</text>
+  <text x="986" y="194" text-anchor="middle" class="label">Backend</text>
+  <path d="M986 236 V210" class="flow" stroke="#536f7f" marker-end="url(#arrow)"/>
+  <rect x="862" y="250" width="248" height="76" rx="12" fill="#edf0fa" stroke="#b4bddb" stroke-width="2"/>
+  <text x="986" y="297" text-anchor="middle" class="label">Backend agent</text>
+  <path d="M350 288 H472" class="flow" stroke="#536f7f" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <path d="M728 288 H850" class="flow" stroke="#536f7f" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+
+  <text x="40" y="458" class="heading">Unified workspace</text>
+  <text x="380" y="458" class="small">Proposed improvement</text>
+  <rect x="40" y="486" width="1120" height="326" rx="18" fill="#f3f8f7" stroke="#d6e4e1"/>
+  <rect x="64" y="510" width="1072" height="278" rx="12" fill="#ffffff" stroke="#83ada0" class="boundary"/>
+
+  <rect x="476" y="534" width="248" height="76" rx="12" fill="#edf0fa" stroke="#b4bddb" stroke-width="2"/>
+  <text x="600" y="581" text-anchor="middle" class="label">One AI agent</text>
+  <path d="M600 622 V646 H278 V662" class="flow" stroke="#337d70" marker-end="url(#teal-arrow)"/>
+  <path d="M600 646 H922 V662" class="flow" stroke="#337d70" marker-end="url(#teal-arrow)"/>
+
+  <rect x="104" y="676" width="348" height="68" rx="12" fill="#e2f0eb" stroke="#b1cbc2"/>
+  <text x="278" y="719" text-anchor="middle" class="label">Android app</text>
+  <rect x="748" y="676" width="348" height="68" rx="12" fill="#e2f0eb" stroke="#b1cbc2"/>
+  <text x="922" y="719" text-anchor="middle" class="label">Backend</text>
+  <text x="600" y="719" text-anchor="middle" font-size="25" font-weight="700" fill="#286e62">Edit and verify together</text>
+</svg>

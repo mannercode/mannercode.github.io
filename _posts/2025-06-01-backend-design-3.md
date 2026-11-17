@@ -2,6 +2,7 @@
 layout: post
 title: 백엔드 서비스 분석과 설계 (3)
 lang: ko
+translation_key: backend-design-3
 ---
 
 지난 시간에 REST API의 namespace와 SoLA 구조를 적용해서 `상영시간 생성하기` 시퀀스 다이어그램을 그렸다.

@@ -6,5 +6,6 @@
 | --- | --- | --- |
 | [house-blueprint-ai-delegation.png](./house-blueprint-ai-delegation.png) | 1.2 하향식 개발에 익숙하지 않다 | AI 이미지 생성 도구로 만든 비유 그림. [제작 프롬프트](../../../aicode/part2/README.md#주택-설계도-비교-그림) |
 | [unified-ai-workspace.svg](./unified-ai-workspace.svg) | 2.5 개발 환경 — 저장소와 작업 공간 | 앱과 백엔드의 작업 공간을 분리한 사례와, 한 에이전트가 함께 다루도록 통합하는 개선안의 비교 도식 |
+| [unified-ai-workspace-en.svg](./unified-ai-workspace-en.svg) | 영어판 2.5 The Development Environment — Repositories and Workspaces | 같은 도식의 영어 번역본 |
 
 2.2 작업 관리의 GitHub Projects 캡처는 1편과 같은 [github-projects.png](../part1/github-projects.png)를 참조한다.

@@ -1,0 +1,20 @@
+{%- if page.translation_key -%}
+  {%- assign translations = site.posts | where: "translation_key", page.translation_key | sort: "lang" | reverse -%}
+  {%- if translations.size > 1 -%}
+    <nav class="post-languages" aria-label="{% if page.lang == 'ko' %}글 언어{% else %}Article language{% endif %}">
+      {%- for translation in translations -%}
+        {%- if translation.lang == "ko" -%}
+          {%- assign language_name = "한국어" -%}
+        {%- else -%}
+          {%- assign language_name = "English" -%}
+        {%- endif -%}
+        {%- if translation.url == page.url -%}
+          <span lang="{{ translation.lang }}" aria-current="page">{{ language_name }}</span>
+        {%- else -%}
+          <a href="{{ translation.url | relative_url }}" lang="{{ translation.lang }}" hreflang="{{ translation.lang }}">{{ language_name }}</a>
+        {%- endif -%}
+        {%- unless forloop.last %} · {% endunless -%}
+      {%- endfor -%}
+    </nav>
+  {%- endif -%}
+{%- endif -%}

@@ -2,6 +2,7 @@
 layout: post
 title: "소프트웨어 개발의 이념 전쟁: 개발자는 왜 그런가요?"
 lang: ko
+translation_key: principled-pragmatic
 ---
 
 ![](/assets/images/principle-pragmatic.webp)

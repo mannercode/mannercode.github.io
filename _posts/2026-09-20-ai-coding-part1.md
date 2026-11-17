@@ -4,6 +4,7 @@ title: "AI 코딩 이해하기 (1): AI가 바꾼 개발 환경"
 lang: ko
 description: 레거시 수습부터 AI와 함께한 1인 개발, 비개발자 대표의 개발 주도까지. 8개월의 경험에서 돌아본 검증과 협업, 개발자의 역할.
 modified_date: 2026-11-18
+translation_key: ai-coding-part1
 ---
 
 ## 들어가며

@@ -1,13 +1,16 @@
 ---
 layout: post
 title: "The Ideological Wars of Software Development: Why Do Developers Act This Way?"
+lang: en
+modified_date: 2026-11-18
+translation_key: principled-pragmatic
 ---
 
 ![](/assets/images/principle-pragmatic.webp)
 
-In the past, just as communism and capitalism were irreconcilable ideologies during the Cold War, there are two contrasting ideologies in the field of software development: `principle-focused` and `pragmatic`. Software development is an extremely complex process, and these two ideologies approach problems in fundamentally different ways. Consequently, principle-focused and pragmatic mindsets can significantly affect the success or failure of software projects.
+Like communism and capitalism during the Cold War, two opposing ideologies exist in software development: a principle-focused approach and a pragmatic approach. Software development is a complex process, and these ideologies approach its problems differently. Both can have a major influence on whether a project succeeds or fails.
 
-`Principle-focused developers` believe that development should be grounded in systematic theories of software engineering. They place a strong emphasis on maintainability and argue for meticulous coding from a long-term perspective. `Pragmatic developers`, on the other hand, focus on solving problems as simply and quickly as possible. Because software is inherently complex, they believe that no matter how carefully you code, it won’t make much difference. Thus, it’s more efficient to react immediately whenever problems arise rather than investing a lot of time upfront.
+Principle-focused developers believe that development should be grounded in systematic software engineering theory. They emphasize maintainability and argue for writing code carefully with the long term in mind. Pragmatic developers focus on solving problems as simply and quickly as possible. They believe software is so complex that careful coding makes little difference, and that responding to problems as they arise is more efficient than investing substantial time upfront.
 
 Most developers fall somewhere between extreme principle-focused and extreme pragmatic mindsets, but this article focuses on these two extremes. We’ll examine their opposing views and approaches, as well as the conflicts that can arise when they collaborate.
 
@@ -27,7 +30,7 @@ When problems occur, the principle-focused developer tries to figure out the roo
 
 Because principle-focused developers have a strong desire to grow, they get anxious if the company’s work doesn’t help them learn. This can include maintaining tech-debt-ridden code or even doing new development with outdated or rarely-used technologies.
 
-In such situations, a pragmatic team lead is prone to maintaining the status quo and will likely avoid large-scale refactoring or adopting cutting-edge technologies. Any suggestions from the principle-focused team member will probably be rejected. Just as the first button on a shirt must be correctly fastened, a junior developer’s initial project experience can heavily influence their development trajectory. If it doesn’t feel right, leaving the team might be better in the long run.
+In such situations, a pragmatic team lead tends to preserve the status quo, avoiding large-scale refactoring or adopting new technologies. They are unlikely to accept alternatives proposed by a principle-focused team member. A developer’s early projects can strongly shape their growth. If the work is a poor fit, leaving the team can be a reasonable choice.
 
 However, if the team lead is principle-focused, then waiting might be a good strategy. If the current project is riddled with technical issues, there may eventually be a chance to rebuild it. At that point, the principle-focused team member’s prior maintenance experience provides them with a strong understanding of the domain and requirements—ideal for focusing on technology. Of course, the principle-focused developer must be fully prepared to handle such a major undertaking when the opportunity arises.
 
@@ -39,7 +42,7 @@ Here’s what I’d say to a principle-focused team member:
 
 You sell your time and expertise in exchange for money. You can’t always do just what you want at a company.
 
-> I once moved around between several companies and encountered a few team leads who did respect my ideas, but on two occasions, I ran into extremely pragmatic leads. These pragmatic leads didn’t seem to like having a young, confident team member brimming with enthusiasm. I still believe I tried to respect them as much as possible. When I was in conflict with the team lead, I often asked my colleagues whether I had done something wrong. They would mostly respond, “It’s just that you two don’t get along.”
+> I changed jobs frequently and worked with many team leads. Some respected my views, but two were extremely pragmatic. They seemed uncomfortable with a young team member’s confidence and enthusiasm, and sometimes openly tried to hold me back. Even so, I believe I treated them with as much respect as I could. During these conflicts, I repeatedly asked colleagues whether I had done something wrong. Most said that we simply did not get along.
 >
 > In retrospect, maybe the pragmatic lead felt uneasy because they feared their own skills were lagging. I, as a principle-focused team member, was openly discussing design patterns and refactoring, which might have worsened their insecurities. To the pragmatic team lead, a confident and somewhat oblivious junior could easily appear irritating.
 
@@ -51,13 +54,15 @@ If a principle-focused developer’s passion continues, they often become a prin
 
 ### 2.1. Over-Engineering
 
-Principle-focused leads can be excessively obsessed with “future-proofing.” This tendency manifests as excessive abstraction and unnecessary application of design patterns—classic forms of over-engineering. Ironically, that can make the code more complex and reduce development efficiency. The very principle of “maintainability” ends up harming maintainability, a tragic outcome indeed.
+Principle-focused leads tend to become overly concerned with preparing for the future. This can lead to over-engineering through excessive abstraction and unnecessary design patterns, making code more complex and development less efficient. An approach intended to improve maintainability ends up undermining it.
 
 Over-engineering can frustrate managers because they see the lead working hard on complex design tasks without delivering much visible progress, raising concerns about the schedule. Early in the project, there might be enough leeway to wait and see. But once the manager reaches their limit, they’ll intervene more aggressively.
 
 Additionally, a principle-focused lead who’s deeply invested in future-proofing may have a weaker grasp of the big picture. What happens if a major change in requirements arises mid-project, or a significant technical issue surfaces—something they failed to anticipate while spending so much time on design and research?
 
-The principle-focused lead may see this as someone else’s responsibility—outside the development team’s control—and argue that these changes are an “act of God,” making it logical to extend the deadline or scale back features. But from the manager’s perspective, the question remains: “Why did we spend so much time on design if we can’t adapt quickly to changes?” They might conclude that a pragmatic approach is more helpful in delivering immediate results. Feeling misunderstood, the principle-focused lead grows frustrated because their efforts toward high-quality code seem undervalued.
+The principle-focused lead may consider these problems outside the development team’s control and therefore not their responsibility. They may regard them as impossible to prepare for and see extending the schedule or reducing scope as the reasonable response. But if the lead cannot respond to such changes, the manager will struggle to understand why so much time was spent on design.
+
+From the manager’s perspective, a pragmatic lead’s approach may at least offer better immediate productivity, whatever its implications for maintenance. The principle-focused lead cannot accept that assessment and feels frustrated that their efforts to improve quality are being dismissed.
 
 > Part of this is my own story. Whenever I started a new project, I’d set a technical challenge for myself—applying TDD or DDD, for example. How long and how extensively I pursued these experiments depended on the manager’s feedback. Usually, if more than a month passed without much visible product progress, I’d get warned that development was behind schedule.
 
@@ -111,7 +116,7 @@ Pragmatic team members come in various forms:
     - Such developers are often driven not by pure love of software craftsmanship but by job-focused enthusiasm. Their interest in development might be mainly because they need it for their career. For example, they study design patterns or algorithms primarily because those come up in interviews. They rarely delve deeply into such topics unless it’s necessary.
 3. Lacking passion for the job itself.
     - They may be a principle-focused developer who lost motivation due to disillusionment with the company’s direction, or they simply might not care about their work at all.
-    - If they’re simply doing the bare minimum, conflict with the team lead might be minor. However, the problem is that as they lose motivation, they take less responsibility. For instance, they may make changes without thorough testing, or only carry out tasks exactly as assigned without any proactive problem-solving. Over time, this hurts collaboration and morale.
+    - Low enthusiasm need not cause much conflict if they still do their work properly. The problem arises when they begin neglecting their responsibilities. For example, after changing code, they may merely build it and report completion without testing it. Or they may wait passively for instructions instead of identifying work themselves, increasing the lead’s management workload. Repeated behavior like this also damages working relationships.
 
 In general, pragmatic team members find it difficult to grow as developers. They often remain in a company for a long time and become mid-level managers. But without a distinctive advantage, staying in that role indefinitely can be hard. Having seen many regret stepping into management, I urge them to think carefully about the path they truly want.
 
@@ -137,11 +142,11 @@ So, from a pragmatic lead’s perspective, principle-focused developers are simp
 
 Pragmatic leads generally care less about technology and more about analyzing requirements and managing schedules—naturally shifting into a managerial role.
 
-I rarely see pragmatic team leads actively conduct code reviews or provide strong technical guidance. Usually, they assign tasks at the module level and check the final output. If a difficult technical issue arises that a team member can’t solve, the lead might step in. But as the team grows, the lead moves closer to a pure management position.
+I have never seen a pragmatic team lead provide active technical leadership through practices such as code review. Usually, they assign work at the module level and check the results. They may step in to solve a technical problem that a team member cannot resolve, but as the team grows, they seem to move gradually toward a management role.
 
 Another reason pragmatic leads transition fully into management is that development becomes repetitive—without ongoing learning of new technologies or methodologies, every project feels the same. Tired of such repetition, they often prefer management to continuing as a developer.
 
-From my experience, pragmatic leads can yield good results in short-term (under 1 year) SI-type projects. But when a project stretches beyond a year, maintaining quality becomes harder and higher-level managers start to notice issues.
+In my experience, pragmatic leads can deliver good results on projects lasting less than a year, such as systems integration contracts. When a project continues for more than a year, maintaining quality becomes harder, and managers begin to notice the problems.
 
 When a pragmatic lead develops an in-house product, they might repeatedly opt to rebuild from scratch rather than continuously improve code. After it grows to a certain level of complexity, they abandon it and start fresh, repeating this cycle every 1–3 years or so.
 
@@ -160,6 +165,7 @@ Sometimes you’ll face elusive bugs requiring extensive research and trial and 
 A micromanager is a leader who intervenes excessively in how team members carry out their work.
 
 They typically come in two categories:
+
 1. A manager who claims to be—or once was—a developer.
 2. Someone without real development experience but who believes they know enough.
 
@@ -181,19 +187,21 @@ A micromanager doesn’t do the coding themselves, so it’s easy for them to pi
 
 Managers and team leads have distinct roles. A lead shouldn’t become a pure manager, but equally a manager shouldn’t act like the team lead. When a manager tries to play team lead, the lead can’t exercise their full expertise, and the manager also fails to focus on their own management duties.
 
-Often, managers claim they lead development because of necessity, but in reality, it can be more of a personal preference. If they were prudent, they’d either replace the team lead or adjust the team’s responsibilities.
+In my experience, managers often lead development because they want to, rather than because it is unavoidable. Put simply, leading development becomes something of a hobby for them. A wiser manager would replace the team lead or adjust the team’s responsibilities.
 
 There’s a saying:
 
-**疑人不用 用人不疑(If you doubt a person, do not hire them; if you hire them, do not doubt them).**
+**“Do not employ someone you distrust; once you employ them, do not distrust them.”**
 
-> At a company providing specific data services, the CEO was extremely sharp, and the development team lead was a well-respected developer with both passion and skill.
+This saying, *疑人不用 用人不疑*, comes from the Chinese historical work *History of Song*.
+
+> I once worked at a company that provided an information service. Its development team had about eight people. The CEO was sharp, and the team lead was a respected developer with both passion and skill.
 >
 > At first, the CEO was heavily involved in the development process, but it was a startup environment where, even if service outages occurred, they were generally understanding.
 >
 > A few years later, I revisited and found things had changed dramatically. The original developers were sitting in a separate space with vague tasks, while important work was handled by a new development team under the direct oversight of the CEO. When I asked why, I was told the CEO repeatedly criticized the quality of the old group’s output and eventually decided to lead a new team personally.
 >
-> This led to another big round of failures. In such a scenario, the CEO should have hired developers who matched his standards rather than trying to manage every detail himself.
+> All the CEO gained by leading development was another costly round of trial and error. Here, too, the CEO should have hired a developer capable of meeting his standards.
 
 ## 6. Conflict Between a Principle-Focused Lead and a Pragmatic Lead
 
@@ -221,7 +229,7 @@ The pragmatic lead thinks the principle-focused lead unnecessarily complicates t
 - The principle-focused lead introduces technologies they themselves haven’t fully mastered, making the system overly complex.
 - They fixate on personal growth, neglecting project deadlines or success.
 - The two may have agreed on an API, yet the principle-focused lead keeps requesting small changes. Their obsession with details slows progress.
-- Refactoring or rewriting from scratch doesn’t guarantee real improvement; it just threatens schedules.
+- Refactoring or rewriting from scratch does not seem likely to improve things, and there is no guarantee that it will.
 
 ### 6.3. The Micromanager as Mediator
 
@@ -231,7 +239,7 @@ They aim to be fair and objective, but in reality, the principle-focused lead st
 
 By contrast, the pragmatic lead can simply ask, “But why do we need to change it?”—an easy position to defend. Even a knowledgeable principle-focused lead struggles with repeated “Why?” questions, especially since they must also persuade a micromanager who might lack technical depth. It becomes a 2-on-1 situation.
 
-Even if the principle-focused lead has some theoretical background, it might not carry much weight when explaining to a micromanager who only has a vague sense of feasibility. Ultimately, the micromanager’s goal of making a purely logical judgment often gives way to recommending a compromise that accounts for both parties’ feelings.
+If the principle-focused lead does not fully understand the theory themselves, their explanation is unlikely to persuade the micromanager. The manager can only sense vaguely that it sounds plausible. A logical judgment becomes difficult, and the manager usually proposes a compromise that takes both sides’ feelings into account.
 
 Over time, the micromanager may side more with the pragmatic lead. The pragmatic approach is easier to understand and delivers quick, visible outcomes.
 
@@ -241,9 +249,9 @@ Or the micromanager might drop mediation, instructing both leads to “work it o
 
 Ultimately, the situation of two leads butting heads often stems from the micromanager themselves. Perhaps the manager holds final decision-making authority, imagining they can moderate the two leads while also wanting to retain control of development.
 
-A truly senior tech lead with vast experience could mediate effectively, but that would require the senior tech lead to oversee the project and lead the team leads. Usually, there isn’t a more seasoned, higher-level tech lead the team leads can trust.
+A senior technical leader with substantially greater experience and ability is needed to mediate. More precisely, that person needs to lead the development leads. The leads are left to negotiate with each other because no such person is in place. The difficulty is finding someone whose experience and ability both leads will accept.
 
-When no senior tech lead exists, having the manager personally mediate is difficult. Favoring one side alienates the other. In the long run, it’s best to assign clear authority and responsibility to one lead, accepting the associated risks. If it’s a short-term external contract project, a pragmatic lead might be best. If it’s a long-term internal product needing continuous improvement, a principle-focused lead might be more appropriate. Hiring developers thoughtlessly can create “technical debt” in the team itself, making it unmanageable over time.
+Without a senior technical leader, managers struggle to mediate, while siding with one lead risks alienating the other. In the long run, they should accept the possible costs and give one lead clear authority and responsibility according to the project’s needs. A pragmatic lead should lead a short-term client project; a principle-focused lead should lead an in-house product that needs continuous improvement.
 
 > I worked at a company headquartered in Europe, developing a large online service. Multiple development teams all contributed to the same product, alongside a dedicated QA team. Notably, there was an Architecture (Architect) team, including a chief architect at the top.
 >
