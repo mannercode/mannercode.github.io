@@ -1,20 +1,21 @@
 # AI 코딩 2편
 
-2편 작업 원고는 상위 폴더의 `aicode/part2.md`에 작성하고, 이 폴더에서는 첨부물을 관리한다. 원고 제목은 「AI 코딩의 어려움과 개발 전략」이다.
+2편 정본은 `_posts/2026-11-18-ai-coding-part2.md`에서 작성·수정한다. 게시글 제목은 「AI 코딩 이해하기 (2): 어려움과 개발 전략」이다. 본문 이미지는 `assets/aicode/part2/`에 두고, 이 폴더에서는 후보 첨부물과 제작 기록을 관리한다.
 
 | 위치 | 내용 |
 | --- | --- |
-| [2편 작업 원고](../part2.md) | AI 코딩의 어려움, 개발 전략과 개발자의 학습·성장을 다루는 원고 |
+| [2편 정본](../../_posts/2026-11-18-ai-coding-part2.md) | AI 코딩의 어려움, 개발 전략과 개발자의 학습·성장을 다루는 게시글 |
 | [집필·확인 메모](../derived/materials/03_pending.md#part2-draft-2026-10-26) | 초안의 편집 방향, 대조한 자료와 남은 사실 확인 항목 |
 | [책 표지](./attachments/microsoft-macro-assembler-bible-cover.jpg) | 『마이크로소프트 매크로 어셈블러 바이블』. 2편과 보관한 경험담 초안에서 함께 사용 |
 | [설계 검토와 구현 흐름](./attachments/top-down-ai-development.svg) | 설계를 검토한 뒤 구현을 맡기는 흐름과 구현 결과를 보고 반복 수정하는 흐름의 비교 |
-| [주택 설계도 비유](./attachments/house-blueprint-ai-delegation.png) | 설계도를 전달한 경우와 막연한 요청으로 엉뚱한 집이 만들어진 경우의 비교 |
+| [주택 설계도 비유](../../assets/aicode/part2/house-blueprint-ai-delegation.png) | 설계도를 전달한 경우와 막연한 요청으로 엉뚱한 집이 만들어진 경우의 비교 |
+| [통합된 작업 공간](../../assets/aicode/part2/unified-ai-workspace.svg) | 앱과 백엔드를 별도 에이전트가 맡는 방식과 한 에이전트가 함께 다루는 개선안의 비교 |
 
-새 첨부물은 이 폴더의 `attachments/`에 둔다. 검토 보고서는 [공통 참고 자료](../references/README.md), 집필 기준과 전체 자료 위치는 [상위 README](../README.md)에서 확인한다.
+본문에 쓰는 첨부물은 `assets/aicode/part2/`에, 후보 첨부물은 이 폴더의 `attachments/`에 둔다. 검토 보고서는 [공통 참고 자료](../references/README.md), 집필 기준과 전체 자료 위치는 [상위 README](../README.md)에서 확인한다.
 
 ## 주택 설계도 비교 그림
 
-[house-blueprint-ai-delegation.png](./attachments/house-blueprint-ai-delegation.png)는 1.1에 추가한 비유 그림이다. 주택 설계도를 전달해 그에 맞는 집이 완성된 경우와, “집 지어 줘”라는 요청에 AI가 기묘한 집을 짓고 “이렇게요?”라고 묻는 경우를 비교한다. 각 장면에 집을 하나씩 배치하고, 큰 제목 없이 대화로 차이를 보여준다. 실제 프로젝트 사례를 재현한 그림은 아니다. 기존 SVG는 유지하고 PNG를 추가했다.
+[house-blueprint-ai-delegation.png](../../assets/aicode/part2/house-blueprint-ai-delegation.png)는 1.2에 추가한 비유 그림이다. 주택 설계도를 전달해 그에 맞는 집이 완성된 경우와, “집 지어 줘”라는 요청에 AI가 기묘한 집을 짓고 “이렇게요?”라고 묻는 경우를 비교한다. 각 장면에 집을 하나씩 배치하고, 큰 제목 없이 대화로 차이를 보여준다. 실제 프로젝트 사례를 재현한 그림은 아니다. 기존 SVG는 유지하고 PNG를 추가했다.
 
 내장 이미지 생성 도구로 제작했다. 최종 파일은 1536 × 1024 PNG다.
 
