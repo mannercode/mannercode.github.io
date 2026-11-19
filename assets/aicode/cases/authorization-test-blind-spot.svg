@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="830" viewBox="0 0 1000 830" role="img" aria-labelledby="title description">
+  <title id="title">권한 검사를 껐는데도 통과한 테스트</title>
+  <desc id="description">매출 조회는 접근 권한이 있는 사람에게만 허용되어야 한다. 실제 프로젝트의 임시 복사본에서 권한 검사 코드를 껐으므로, 이 동작을 검증하는 테스트는 실패해야 한다. 하지만 기존 테스트는 소스코드에 함수 이름과 순서가 남아 있는지만 확인했다. 주석에도 이름이 남아 있어 관련 테스트 21개가 모두 통과했다.</desc>
+  <defs>
+    <style>
+      text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; fill: #203748; }
+      .heading { font-size: 34px; font-weight: 750; }
+      .label { font-size: 28px; font-weight: 700; }
+      .body { font-size: 26px; }
+      .muted { fill: #526877; }
+      .arrow { fill: none; stroke: #536f7f; stroke-width: 3; stroke-linecap: round; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#536f7f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="830" fill="#ffffff"/>
+
+  <text x="40" y="60" class="heading">권한 검사를 껐는데도 통과한 테스트</text>
+  <text x="40" y="103" class="body muted">매출 정보는 접근 권한이 있는 사람만 볼 수 있어야 한다</text>
+
+  <rect x="40" y="140" width="920" height="96" rx="16" fill="#faf8f4" stroke="#e5dfd4" stroke-width="2"/>
+  <text x="72" y="180" class="label">실험: 임시 복사본에서 권한 검사 코드를 껐다</text>
+  <text x="72" y="217" class="body muted">이 결함을 잡는 테스트라면 실패해야 한다</text>
+
+  <rect x="40" y="270" width="440" height="290" rx="16" fill="#f3f6fa" stroke="#ced9e4" stroke-width="2"/>
+  <text x="72" y="318" class="label">확인해야 할 동작</text>
+  <text x="72" y="370" class="body">권한 없는 사람의</text>
+  <text x="72" y="407" class="body">매출 조회 요청을</text>
+  <text x="72" y="444" class="body">실제로 차단하는가?</text>
+  <rect x="64" y="480" width="392" height="56" rx="10" fill="#f8e9e5"/>
+  <text x="260" y="517" text-anchor="middle" class="body" style="fill: #9b5145; font-weight: 700">검사를 끄면 실패해야 함</text>
+
+  <rect x="520" y="270" width="440" height="290" rx="16" fill="#faf8f4" stroke="#e5dfd4" stroke-width="2"/>
+  <text x="552" y="318" class="label">기존 테스트가 확인한 것</text>
+  <text x="552" y="370" class="body">권한 검사 함수의</text>
+  <text x="552" y="407" class="body">이름과 순서가</text>
+  <text x="552" y="444" class="body">소스코드에 남아 있는가?</text>
+  <rect x="544" y="480" width="392" height="56" rx="10" fill="#e2f0eb"/>
+  <text x="740" y="517" text-anchor="middle" class="body" style="fill: #286e62; font-weight: 700">주석에 남아 있어 통과</text>
+
+  <path d="M740 574 V608" class="arrow"/>
+
+  <rect x="40" y="624" width="920" height="126" rx="16" fill="#f3f8f7" stroke="#bfd6ce" stroke-width="2"/>
+  <text x="72" y="675" class="heading" style="fill: #286e62">관련 테스트 21개 모두 통과</text>
+  <text x="72" y="721" class="body" style="fill: #9b5145">권한 검사가 빠진 결함을 발견하지 못했다</text>
+
+  <text x="40" y="797" class="body">함수 이름의 존재만으로 실제 동작을 검증할 수는 없다.</text>
+</svg>

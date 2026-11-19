@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="830" viewBox="0 0 1000 830" role="img" aria-labelledby="title description">
+  <title id="title">Tests passed with authorization disabled</title>
+  <desc id="description">Only users with permission should be able to view sales information. Authorization was disabled in a temporary copy of an actual project, so a test of this behavior should fail. Instead, the existing tests only checked that the function name and its order remained in the source. The name remained in a comment, so all 21 related tests passed.</desc>
+  <defs>
+    <style>
+      text { font-family: "Apple SD Gothic Neo", "Noto Sans", Arial, sans-serif; fill: #203748; }
+      .heading { font-size: 34px; font-weight: 750; }
+      .label { font-size: 28px; font-weight: 700; }
+      .body { font-size: 26px; }
+      .muted { fill: #526877; }
+      .arrow { fill: none; stroke: #536f7f; stroke-width: 3; stroke-linecap: round; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M2 2 L9 6 L2 10" fill="none" stroke="#536f7f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="830" fill="#ffffff"/>
+
+  <text x="40" y="60" class="heading">Tests passed with authorization disabled</text>
+  <text x="40" y="103" class="body muted">Only users with permission should be able to view sales</text>
+
+  <rect x="40" y="140" width="920" height="96" rx="16" fill="#faf8f4" stroke="#e5dfd4" stroke-width="2"/>
+  <text x="72" y="180" class="label">Experiment: disable authorization in a temporary copy</text>
+  <text x="72" y="217" class="body muted">A test that catches this defect should fail</text>
+
+  <rect x="40" y="270" width="440" height="290" rx="16" fill="#f3f6fa" stroke="#ced9e4" stroke-width="2"/>
+  <text x="72" y="318" class="label">Needed check</text>
+  <text x="72" y="370" class="body">Is a sales request from</text>
+  <text x="72" y="407" class="body">an unauthorized user</text>
+  <text x="72" y="444" class="body">actually blocked?</text>
+  <rect x="64" y="480" width="392" height="56" rx="10" fill="#f8e9e5"/>
+  <text x="260" y="517" text-anchor="middle" class="body" style="fill: #9b5145; font-weight: 700">Should fail</text>
+
+  <rect x="520" y="270" width="440" height="290" rx="16" fill="#faf8f4" stroke="#e5dfd4" stroke-width="2"/>
+  <text x="552" y="318" class="label">Existing test</text>
+  <text x="552" y="370" class="body">Are the function name</text>
+  <text x="552" y="407" class="body">and its order still present</text>
+  <text x="552" y="444" class="body">in the source code?</text>
+  <rect x="544" y="480" width="392" height="56" rx="10" fill="#e2f0eb"/>
+  <text x="740" y="517" text-anchor="middle" class="body" style="fill: #286e62; font-weight: 700">Name still present: pass</text>
+
+  <path d="M740 574 V608" class="arrow"/>
+
+  <rect x="40" y="624" width="920" height="126" rx="16" fill="#f3f8f7" stroke="#bfd6ce" stroke-width="2"/>
+  <text x="72" y="675" class="heading" style="fill: #286e62">All 21 related tests passed</text>
+  <text x="72" y="721" class="body" style="fill: #9b5145">The missing authorization check went undetected</text>
+
+  <text x="40" y="797" class="body">Finding a function name does not verify its behavior.</text>
+</svg>

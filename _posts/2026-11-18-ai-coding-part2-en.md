@@ -341,8 +341,6 @@ As AI coding becomes widespread, anyone can develop software to some extent. A d
 
 Will developers disappear?
 
-AI's progress is remarkable. Some claim AGI has already been achieved; others say it is close. But can AI sustain its current pace? That remains to be seen. I find it difficult to conclude from today's achievements alone that AI will surpass human thinking across the board.
-
 With further progress, the profession of software developer may eventually disappear. But I suspect that if AI can fully replace developers, few other occupations will remain either. If you enjoy development, there is reason to keep going.
 
 Are junior developers no longer needed?
